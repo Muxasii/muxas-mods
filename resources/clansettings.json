@@ -25,6 +25,21 @@
             "Automatically save every five moons.",
             false
         ],
+        "bird_gen_clan": [
+            "Generate bird cats",
+            "This will override the game settings.",
+            true
+        ],
+        "earth_gen_clan": [
+            "Generate earth cats",
+            "This will override the game settings.",
+            true
+        ],
+        "bat_gen_clan": [
+            "Generate bat cats",
+            "This will override the game settings.",
+            true
+        ],
         "disasters": [
             "Allow mass extinction events",
             "This may result in up to 1/3rd of your Clan dying in one moon.",
