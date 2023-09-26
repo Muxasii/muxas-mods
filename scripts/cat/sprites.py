@@ -65,8 +65,8 @@ class Sprites():
                    spritesheet,
                    pos,
                    name,
-                   sprites_x=3,
-                   sprites_y=7):  # pos = ex. (2, 3), no single pixels
+                   sprites_x=6,
+                   sprites_y=15):  # pos = ex. (2, 3), no single pixels
         """
         Divide sprites on a sprite-sheet into groups of sprites that are easily accessible.
 
@@ -116,8 +116,10 @@ class Sprites():
         # if anyone changes lineart for whatever reason update this
         if isinstance(self.size, int):
             pass
-        elif width / 3 == height / 7:
-            self.size = width / 3
+        elif width / 6 == height / 15:
+            self.size = width / 6
+            print(f"{width} x {height}")
+            print(f"{self.size}")
         else:
             self.size = 50 # default, what base clangen uses
             print(f"lineart.png is not 3x7, falling back to {self.size}")
@@ -141,13 +143,16 @@ class Sprites():
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
 
-        # Line art
-        self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('shadersnewwhite', (0, 0), 'shaders')
-        self.make_group('lightingnew', (0, 0), 'lighting')
 
+        self.make_group('lineart', (0, 0), 'lines')
         self.make_group('lineartdead', (0, 0), 'lineartdead')
         self.make_group('lineartdf', (0, 0), 'lineartdf')
+
+        # Shaders
+        self.make_group('shadersnewwhite', (0, 0), 'shaders')
+
+        #lighting
+        self.make_group('lightingnew', (0, 0), 'lighting')
 
         # Fading Fog
         for i in range(0, 3):
