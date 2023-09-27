@@ -352,15 +352,15 @@ class Pelt():
             if self.cat_sprites['adolescent'] not in [7, 8, 9]:
                 self.cat_sprites['adolescent'] = random.randint(7, 9)
             if self.length == 'long':
-                if self.cat_sprites['adult'] not in [19, 20, 21]:
+                if self.cat_sprites['adult'] not in [18, 19, 20]:
                     if self.cat_sprites['adult'] == 0:
-                        self.cat_sprites['adult'] = 19
+                        self.cat_sprites['adult'] = 18
                     elif self.cat_sprites['adult'] == 1:
+                        self.cat_sprites['adult'] = 19
+                    elif self.cat_sprites['adult'] == 3:
                         self.cat_sprites['adult'] = 20
-                    elif self.cat_sprites['adult'] == 2:
-                        self.cat_sprites['adult'] = 21
                     else:
-                        self.cat_sprites['adult'] = random.randint(19, 21)
+                        self.cat_sprites['adult'] = random.randint(18, 20)
                     self.cat_sprites['young adult'] = self.cat_sprites['adult']
                     self.cat_sprites['senior adult'] = self.cat_sprites['adult']
                     self.cat_sprites['para_adult'] = 32
