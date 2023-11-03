@@ -1,21 +1,10 @@
-# clangen
+# Muxa's Winged Cats
 
-### [Discord Server](https://discord.gg/rnFQqyPZ7K) || [Itch.io Page](https://sablesteel.itch.io/clan-gen-fan-edit)
-
-Fan-edit of the warrior cat clangen game
+Mod of ClanGen
 
 Original creator: just-some-cat.tumblr.com
 
 Fan-edit creator: SableSteel, and many others
-
-## Downloads
-Note: These are developer builds and are not guaranteed to work!
-We do not give support to developer builds!
-- [Windows 10+](https://nightly.link/ClanGenOfficial/clangen/workflows/build/development/Clangen_Win64_Windows10%2B.zip)
-- [macOS](https://nightly.link/ClanGenOfficial/clangen/workflows/build/development/Clangen_macOS64.dmg.zip)
-- [Linux](https://nightly.link/ClanGenOfficial/clangen/workflows/build/development/Clangen_Linux64_glibc2.35%2B.tar.xz.zip)
-
-Alternatively, you can see [All Supported Systems](https://nightly.link/ClanGenOfficial/clangen/workflows/build/development)
 
 ## Running from source
 ### Requirements
@@ -31,4 +20,5 @@ Run `pip install -r requirements.txt` to install dependencies.
 Run `python3 main.py`. If python3 does not exist try running `python main.py` instead.
 
 ### Bug Reporting
-If you're a Beta Tester, please report bugs using the appropriate discord channels. Otherwise, if you enounter any bugs, we encourage reporting [using this form.](https://docs.google.com/forms/d/e/1FAIpQLSfl-H-HjSTfZ51DCtIHj8uGKtWF-3uysSaP8R6KMTLp7nzmMw/viewform)
+Please report any bugs in the forum post [in the ClanGen Discord, here](https://discord.com/channels/1003759225522110524/1117124733083857068). There is no Discord server for this mod as of right now, may make one by popular demand or if the forum post becomes too full.
+Note that not all bugs may be related to this mod. This is running off of dev (as latest of dev as possible as well) so there will be dev bugs in this mod that are completely unrelated to the mod additions.

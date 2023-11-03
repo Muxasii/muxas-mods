@@ -1204,34 +1204,83 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
         dead = cat.dead
     
     # setting the cat_sprite (bc this makes things much easier)
-    if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
-        if age in ['kitten', 'adolescent']:
-            cat_sprite = str(19)
-        else:
-            cat_sprite = str(18)
-    elif cat.pelt.paralyzed and age != 'newborn':
-        if age in ['kitten', 'adolescent']:
-            cat_sprite = str(17)
-        else:
-            if cat.pelt.length == 'long':
-                cat_sprite = str(16)
+    if cat.species == "bird cat":
+        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
+            if age is 'kitten':
+                cat_sprite = str(38)
+            elif age is 'adolescent':
+                cat_sprite = str(37)
             else:
-                cat_sprite = str(15)
-    else:
-        if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
-            age = 'senior'
-        
-        if game.config['fun']['all_cats_are_newborn']:
-            cat_sprite = str(cat.pelt.cat_sprites['newborn'])
+                cat_sprite = str(39)
+        elif cat.pelt.paralyzed and age != 'newborn':
+            if age in ['kitten', 'adolescent']:
+                cat_sprite = str(32)
+            else:
+                if cat.pelt.length == 'long':
+                    cat_sprite = str(31)
+                else:
+                    cat_sprite = str(30)
         else:
-            cat_sprite = str(cat.pelt.cat_sprites[age])
+            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
+                age = 'senior'
+            
+            if game.config['fun']['all_cats_are_newborn']:
+                cat_sprite = str(47)
+            else:
+                cat_sprite = str(cat.pelt.cat_sprites[age])
+
+    if cat.species == "earth cat":
+        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
+            if age in ['kitten', 'adolescent']:
+                cat_sprite = str(40)
+            else:
+                cat_sprite = str(39)
+        elif cat.pelt.paralyzed and age != 'newborn':
+            if age in ['kitten', 'adolescent']:
+                cat_sprite = str(35)
+            else:
+                if cat.pelt.length == 'long':
+                    cat_sprite = str(34)
+                else:
+                    cat_sprite = str(33)
+        else:
+            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
+                age = 'senior'
+            
+            if game.config['fun']['all_cats_are_newborn']:
+                cat_sprite = str(41)
+            else:
+                cat_sprite = str(cat.pelt.cat_sprites[age])
+
+    if cat.species == "bat cat":
+        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
+            if age in ['kitten', 'adolescent']:
+                cat_sprite = str(85)
+            else:
+                cat_sprite = str(84)
+        elif cat.pelt.paralyzed and age != 'newborn':
+            if age in ['kitten', 'adolescent']:
+                cat_sprite = str(80)
+            else:
+                if cat.pelt.length == 'long':
+                    cat_sprite = str(79)
+                else:
+                    cat_sprite = str(78)
+        else:
+            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
+                age = 'senior'
+            
+            if game.config['fun']['all_cats_are_newborn']:
+                cat_sprite = str(86)
+            else:
+                cat_sprite = str(cat.pelt.cat_sprites[age])
 
     new_sprite = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
 
     # generating the sprite
     try:
         if cat.pelt.name not in ['Tortie', 'Calico']:
-            new_sprite.blit(sprites.sprites[cat.pelt.get_sprites_name() + cat.pelt.colour + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites[cat.pelt.get_sprites_name() + cat.pelt.colour + cat_sprite], (0, 0))
         else:
             # Base Coat
             new_sprite.blit(
@@ -1247,7 +1296,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             patches = sprites.sprites[
                 tortie_pattern + cat.pelt.tortiecolour + cat_sprite].copy()
             patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0, 0),
-                         special_flags=pygame.BLEND_RGBA_MULT)
+                            special_flags=pygame.BLEND_RGBA_MULT)
 
             # Add patches onto cat.
             new_sprite.blit(patches, (0, 0))

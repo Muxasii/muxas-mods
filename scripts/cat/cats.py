@@ -115,6 +115,7 @@ class Cat():
                  gender=None,
                  status="newborn",
                  backstory="clanborn",
+                 species=None,
                  parent1=None,
                  parent2=None,
                  suffix=None,
@@ -139,6 +140,7 @@ class Cat():
             self.adoptive_parents = []
             self.mate = []
             self.status = status
+            self.species = species
             self.pronouns = [self.default_pronouns[0].copy()]
             self.moons = moons
             self.dead_for = 0
@@ -175,6 +177,7 @@ class Cat():
         self.status = status
         self.backstory = backstory
         self.age = None
+        self.species = species
         self.skills = CatSkills(skill_dict=skill_dict)
         self.personality = Personality(trait="troublesome", lawful=0, aggress=0,
                                        stable=0, social=0)
@@ -269,6 +272,10 @@ class Cat():
                 self.age = choice(['young adult', 'adult', 'adult', 'senior adult'])
             self.moons = randint(self.age_moons[self.age][0], self.age_moons[self.age][1])
 
+        # a bird? a plane? no it's the species
+        if self.species is None:
+            self.species = Pelt.init_species(self, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
+
         # backstory
         if self.backstory is None:
             self.backstory = 'clanborn'
@@ -308,7 +315,7 @@ class Cat():
                 self.pronouns = [self.default_pronouns[2].copy()]"""
 
             # APPEARANCE
-            self.pelt = Pelt.generate_new_pelt(self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
+            self.pelt = Pelt.generate_new_pelt(self.species, self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
             
             #Personality
             self.personality = Personality(kit_trait=self.is_baby())
@@ -2840,6 +2847,7 @@ class Cat():
                 "ID": self.ID,
                 "name_prefix": self.name.prefix,
                 "name_suffix": self.name.suffix,
+                "species": self.species,
                 "status": self.status,
                 "moons": self.moons,
                 "dead_for": self.dead_for,
@@ -2856,6 +2864,7 @@ class Cat():
                 "name_suffix": self.name.suffix,
                 "specsuffix_hidden": self.name.specsuffix_hidden,
                 "gender": self.gender,
+                "species": self.species,
                 "gender_align": self.genderalign,
                 #"pronouns": self.pronouns,
                 "birth_cooldown": self.birth_cooldown,
