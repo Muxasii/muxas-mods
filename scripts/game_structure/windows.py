@@ -920,15 +920,15 @@ class ChangelogPopup(UIWindow):
             manager=MANAGER)
 
         dynamic_changelog = False
-        if get_version_info().is_dev and get_version_info().is_source_build and get_version_info().git_installed:
+        if get_version_info().is_dev() and get_version_info().is_source_build and get_version_info().git_installed:
             file_cont = subprocess.check_output(
                 ["git", "log", r"--pretty=format:%H|||%cd|||%b|||%s", "-15", "--no-decorate", "--merges", "--grep=Merge pull request", "--date=short"]).decode("utf-8")
             dynamic_changelog = True
         else:
             with open("changelog.txt", "r") as read_file:
                 file_cont = read_file.read()
-        
-        if get_version_info().is_dev and not get_version_info().is_source_build:
+
+        if get_version_info().is_dev() and not get_version_info().is_source_build:
             dynamic_changelog = True
 
         if dynamic_changelog:
@@ -943,7 +943,7 @@ class ChangelogPopup(UIWindow):
                     
                     # For some reason, multi-line links on pygame_gui's text boxes don't work very well. 
                     # So, to work around that, just add a little "link" at the end
-                    info[2] += f" <a href='https://github.com/Thlumyn/clangen/pull/{pr_number.group(1)}'>(link)</a>"
+                    info[2] += f" <a href='https://github.com/ClanGenOfficial/clangen/pull/{pr_number.group(1)}'>(link)</a>"
                 
                 # Format: DATE- \n PR Title (link)
                 file_cont += f"<b>{info[1]}</b>\n- {info[2]}\n"
@@ -1262,7 +1262,7 @@ class EventLoading(UIWindow):
     @staticmethod
     def load_images():
         frames = []
-        for i in range(1, 9):
+        for i in range(0, 16):
             frames.append(pygame.image.load(
                 f"resources/images/loading_animate/timeskip/{i}.png"))
 
@@ -1281,7 +1281,7 @@ class EventLoading(UIWindow):
 
             self.animated_image.set_image(self.frames[i])
 
-            time.sleep(0.3)
+            time.sleep(0.125)
 
     def kill(self):
         self.end_animation = True
@@ -1321,7 +1321,7 @@ class ChangeCatToggles(UIWindow):
                                                     object_id="#text_box_30_horizleft_pad_0_8",
                                                     container=self)
         
-        self.text_4 = pygame_gui.elements.UITextBox("Limit romantic interations and mate changes",
+        self.text_4 = pygame_gui.elements.UITextBox("Limit romantic interactions and mate changes",
                                                     scale(pygame.Rect(110, 210, -1, 50)), 
                                                     object_id="#text_box_30_horizleft_pad_0_8",
                                                     container=self)
