@@ -440,7 +440,7 @@ class Cat():
             self.thought = 'Is surprised to find themselves walking the stars of Silverpelt'
 
         # Clear Relationships. 
-        self.relationships = {}
+        # self.relationships = {}
 
         for app in self.apprentice.copy():
             fetched_cat = Cat.fetch_cat(app)

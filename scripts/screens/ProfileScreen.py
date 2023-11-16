@@ -1753,7 +1753,7 @@ class ProfileScreen(Screens):
             pass
         elif self.open_tab == 'relations':
             if self.the_cat.dead:
-                self.see_relationships_button.disable()
+                self.see_relationships_button.enable()
                 self.change_adoptive_parent_button.disable()
             else:
                 self.see_relationships_button.enable()
