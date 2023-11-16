@@ -1,3 +1,5 @@
+## this is separate from the winged cats mod - allows you to view relationships of dead cats :)
+
 # clangen
 
 ### [Discord Server](https://discord.gg/rnFQqyPZ7K) || [Itch.io Page](https://sablesteel.itch.io/clan-gen-fan-edit)
