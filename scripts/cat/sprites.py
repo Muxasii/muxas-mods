@@ -188,7 +188,7 @@ class Sprites():
         for a, i in enumerate(['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR',
             'BUSTER', 'SMOKEY', 'HAWKBLAZE', 'CAKE', 'ROSINA', 'PRINCESS']):
             self.make_group('whitepatches', (a, 8), f'white{i}')
-        for a, i in enumerate(['LOCKET']):
+        for a, i in enumerate(['LOCKET', 'WISP']):
             self.make_group('whitepatches', (a, 9), 'white' + i)
 
         # single (solid)
