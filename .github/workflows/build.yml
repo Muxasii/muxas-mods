@@ -56,11 +56,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz -C dist Clangen
+        run: tar -caf WingedGen_Linux64_glibc2.31+.tar.xz -C dist Clangen
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz
-          path: Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz
+          name: WingedGen_Linux64_glibc2.31+.tar.xz
+          path: WingedGen_Linux64_glibc2.31+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -71,7 +71,7 @@ jobs:
       - name: Upload artifact to API
         if: ${{ env.update_api_push_token != '' }}
         run: |
-          gpg --output Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz.sig --detach-sig -a Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz
+          gpg --output WingedGen_Linux64_glibc2.31+.tar.xz.sig --detach-sig -a WingedGen_Linux64_glibc2.31+.tar.xz
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -81,8 +81,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz.sig' \
+            -F 'fileBundle=@WingedGen_Linux64_glibc2.31+.tar.xz' \
+            -F 'fileBundle=@WingedGen_Linux64_glibc2.31+.tar.xz.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -90,12 +90,12 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
-        run: butler push Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz sablesteel/clan-gen-fan-edit:linux64_glibc_231 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_Linux64_glibc2.31+.tar.xz sablesteel/clan-gen-fan-edit:linux64_glibc_231 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_Linux64_glibc2.31+.tar.xz
+          files: WingedGen_Linux64_glibc2.31+.tar.xz
 
   build_ubuntu_22_04:
     runs-on: ubuntu-22.04
@@ -150,11 +150,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz -C dist Clangen
+        run: tar -caf WingedGen_Linux64_glibc2.35+.tar.xz -C dist Clangen
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz
-          path: Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz
+          name: WingedGen_Linux64_glibc2.35+.tar.xz
+          path: WingedGen_Linux64_glibc2.35+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -165,7 +165,7 @@ jobs:
       - name: Upload artifact to API
         if: ${{ env.update_api_push_token != '' }}
         run: |
-          gpg --output Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz.sig --detach-sig -a Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz
+          gpg --output WingedGen_Linux64_glibc2.35+.tar.xz.sig --detach-sig -a WingedGen_Linux64_glibc2.35+.tar.xz
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -175,8 +175,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz.sig' \
+            -F 'fileBundle=@WingedGen_Linux64_glibc2.35+.tar.xz' \
+            -F 'fileBundle=@WingedGen_Linux64_glibc2.35+.tar.xz.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -184,12 +184,12 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
-        run: butler push Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz sablesteel/clan-gen-fan-edit:linux64_glibc_235 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_Linux64_glibc2.35+.tar.xz sablesteel/clan-gen-fan-edit:linux64_glibc_235 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_Linux64_glibc2.35+.tar.xz
+          files: WingedGen_Linux64_glibc2.35+.tar.xz
 
   build_win32:
     runs-on: windows-2019
@@ -267,11 +267,11 @@ jobs:
       - name: Create archive (.zip)
         run: |
           cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Muxas_Winged_Cats_Win32.zip -C dist Clangen .itch.toml
+          tar.exe -a -c -f WingedGen_Win32.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_Win32
-          path: Muxas_Winged_Cats_Win32.zip
+          name: WingedGen_Win32
+          path: WingedGen_Win32.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -283,7 +283,7 @@ jobs:
         if: ${{ env.update_api_push_token != '' }}
         shell: bash
         run: |
-          gpg --output Muxas_Winged_Cats_Win32.zip.sig --detach-sig -a Muxas_Winged_Cats_Win32.zip
+          gpg --output WingedGen_Win32.zip.sig --detach-sig -a WingedGen_Win32.zip
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -293,8 +293,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win32.zip;type=application/zip' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win32.zip.sig' \
+            -F 'fileBundle=@WingedGen_Win32.zip;type=application/zip' \
+            -F 'fileBundle=@WingedGen_Win32.zip.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -302,12 +302,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-        run: butler push Muxas_Winged_Cats_Win32.zip sablesteel/clan-gen-fan-edit:win32 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_Win32.zip sablesteel/clan-gen-fan-edit:win32 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_Win32.zip
+          files: WingedGen_Win32.zip
 
   build_win64:
     runs-on: windows-latest
@@ -391,11 +391,11 @@ jobs:
       - name: Create archive (.zip)
         run: |
           cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Muxas_Winged_Cats_Win64.zip -C dist Clangen .itch.toml
+          tar.exe -a -c -f WingedGen_Win64.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_Win64
-          path: Muxas_Winged_Cats_Win64.zip
+          name: WingedGen_Win64
+          path: WingedGen_Win64.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -407,7 +407,7 @@ jobs:
         if: ${{ env.update_api_push_token != '' }}
         shell: bash
         run: |
-          gpg --output Muxas_Winged_Cats_Win64.zip.sig --detach-sig -a Muxas_Winged_Cats_Win64.zip
+          gpg --output WingedGen_Win64.zip.sig --detach-sig -a WingedGen_Win64.zip
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -417,8 +417,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win64.zip;type=application/zip' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win64.zip.sig' \
+            -F 'fileBundle=@WingedGen_Win64.zip;type=application/zip' \
+            -F 'fileBundle=@WingedGen_Win64.zip.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -426,12 +426,12 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
-        run: butler push Muxas_Winged_Cats_Win64.zip sablesteel/clan-gen-fan-edit:win64 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_Win64.zip sablesteel/clan-gen-fan-edit:win64 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_Win64.zip
+          files: WingedGen_Win64.zip
 
   build_win64_py311:
     runs-on: windows-latest
@@ -515,11 +515,11 @@ jobs:
       - name: Create archive (.zip)
         run: |
           cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Muxas_Winged_Cats_Win64_Windows10+.zip -C dist Clangen .itch.toml
+          tar.exe -a -c -f WingedGen_Win64_Windows10+.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_Win64_Windows10+
-          path: Muxas_Winged_Cats_Win64_Windows10+.zip
+          name: WingedGen_Win64_Windows10+
+          path: WingedGen_Win64_Windows10+.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -531,7 +531,7 @@ jobs:
         if: ${{ env.update_api_push_token != '' }}
         shell: bash
         run: |
-          gpg --output Muxas_Winged_Cats_Win64_Windows10+.zip.sig --detach-sig -a Muxas_Winged_Cats_Win64_Windows10+.zip
+          gpg --output WingedGen_Win64_Windows10+.zip.sig --detach-sig -a WingedGen_Win64_Windows10+.zip
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -541,8 +541,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win64_Windows10+.zip;type=application/zip' \
-            -F 'fileBundle=@Muxas_Winged_Cats_Win64_Windows10+.zip.sig' \
+            -F 'fileBundle=@WingedGen_Win64_Windows10+.zip;type=application/zip' \
+            -F 'fileBundle=@WingedGen_Win64_Windows10+.zip.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -550,12 +550,12 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
-        run: butler push Muxas_Winged_Cats_Win64_Windows10+.zip sablesteel/clan-gen-fan-edit:win64_10 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_Win64_Windows10+.zip sablesteel/clan-gen-fan-edit:win64_10 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_Win64_Windows10+.zip
+          files: WingedGen_Win64_Windows10+.zip
 
   build_macos64:
     # For commits to the original mac build action see:
@@ -627,11 +627,11 @@ jobs:
       - name: Install appdmg
         run: "npm install -g appdmg"
       - name: Generate .dmg
-        run: "appdmg appdmg.json Muxas_Winged_Cats_macOS64.dmg"
+        run: "appdmg appdmg.json WingedGen_macOS64.dmg"
       - uses: actions/upload-artifact@v3
         with:
-          name: Muxas_Winged_Cats_macOS64.dmg
-          path: Muxas_Winged_Cats_macOS64.dmg
+          name: WingedGen_macOS64.dmg
+          path: WingedGen_macOS64.dmg
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -642,8 +642,8 @@ jobs:
       - name: Upload artifact to API
         if: ${{ env.update_api_push_token != '' }}
         run: |
-          zip Muxas_Winged_Cats_macOS64.dmg.zip ./Muxas_Winged_Cats_macOS64.dmg
-          gpg --output Muxas_Winged_Cats_macOS64.dmg.zip.sig --detach-sig -a Muxas_Winged_Cats_macOS64.dmg.zip
+          zip WingedGen_macOS64.dmg.zip ./WingedGen_macOS64.dmg
+          gpg --output WingedGen_macOS64.dmg.zip.sig --detach-sig -a WingedGen_macOS64.dmg.zip
           curl -X 'POST' \
             'https://clangen.io/api/v1/Update/Channels/${{ env.RELEASE_CHANNEL }}/Releases/${{ env.VERSION_NUMBER }}/Appoint' \
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
@@ -653,8 +653,8 @@ jobs:
             -H 'X-API-Key: ${{ secrets.UPDATE_API_DEPLOY_KEY }}' \
             -H 'accept: */*' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'fileBundle=@Muxas_Winged_Cats_macOS64.dmg.zip;type=application/zip' \
-            -F 'fileBundle=@Muxas_Winged_Cats_macOS64.dmg.zip.sig' \
+            -F 'fileBundle=@WingedGen_macOS64.dmg.zip;type=application/zip' \
+            -F 'fileBundle=@WingedGen_macOS64.dmg.zip.sig' \
             --http1.1
       - name: Set up butler
         uses: jdno/setup-butler@v1
@@ -662,12 +662,12 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: startsWith(github.ref, 'refs/tags/') && env.BUTLER_API_KEY != ''
-        run: butler push Muxas_Winged_Cats_macOS64.dmg sablesteel/clan-gen-fan-edit:osx64 --userversion "${{ env.VERSION_NUMBER }}"
+        run: butler push WingedGen_macOS64.dmg sablesteel/clan-gen-fan-edit:osx64 --userversion "${{ env.VERSION_NUMBER }}"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Muxas_Winged_Cats_macOS64.dmg
+          files: WingedGen_macOS64.dmg
 
   confirm_release_ubuntu_22_04:
     runs-on: ubuntu-22.04
