@@ -1,3 +1,4 @@
+## this is separate from the winged cats mod
 # clangen
 
 ### [Discord Server](https://discord.gg/rnFQqyPZ7K) || [Itch.io Page](https://sablesteel.itch.io/clan-gen-fan-edit)
