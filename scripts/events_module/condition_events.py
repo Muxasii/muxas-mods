@@ -169,7 +169,6 @@ class Condition_Events():
             text = event_string
         else:
             # EVENTS
-
             if not triggered and \
                     cat.personality.trait in ["adventurous",
                                             "bold",
@@ -266,10 +265,26 @@ class Condition_Events():
 
         if text is not None:
             types = ["health"]
-            if cat.dead or triggered:
+            if cat.dead:
                 types.append("birth_death")
             if has_other_clan:
                 types.append("other_clans")
+            # Add event text to the relationship log if two cats are involved
+            if other_cat:
+                pos_rel_event = ["romantic", "platonic", "neg_dislike", "respect", "comfort", "neg_jealousy", "trust"]
+                neg_rel_event = ["neg_romantic", "neg_platonic", "dislike", "neg_respect", "neg_comfort", "jealousy", "neg_trust"]
+                effect = ""
+                if any(tag in injury_event.tags for tag in pos_rel_event):
+                    effect = " (positive effect)"
+                elif any(tag in injury_event.tags for tag in neg_rel_event):
+                    effect = " (negative effect)"
+
+                log_text = text + effect
+
+                if cat.moons == 1:
+                    cat.relationships[other_cat.ID].log.append(log_text + f" - {cat.name} was {cat.moons} moon old")
+                else:
+                    cat.relationships[other_cat.ID].log.append(log_text + f" - {cat.name} was {cat.moons} moons old")
             game.cur_events_list.append(Single_Event(text, types, involved_cats))
 
         return triggered
@@ -369,7 +384,7 @@ class Condition_Events():
         scarless_conditions = [
             "weak leg", "paralyzed", "raspy lungs", "wasting disease", "blind", "failing eyesight", "one bad eye",
             "partial hearing loss", "deaf", "constant joint pain", "constantly dizzy", "recurring shock",
-            "lasting grief"
+            "lasting grief", "persistent headaches"
         ]
 
         got_condition = False
@@ -394,6 +409,8 @@ class Condition_Events():
                 except KeyError:
                     print(f"WARNING: {injury_name} couldn't be found in injury dict! no permanent condition was given")
                     return perm_condition
+            else:
+                print(f"WARNING: {scar} for {injury_name} is either None or is not in scar_to_condition dict.")
 
         elif condition is not None:
             perm_condition = condition

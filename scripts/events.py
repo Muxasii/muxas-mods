@@ -56,6 +56,7 @@ class Events:
         """
         game.cur_events_list = []
         game.herb_events_list = []
+        game.freshkill_events_list = []
         game.mediated = []
         game.switches['saved_clan'] = False
         self.new_cat_invited = False
@@ -83,33 +84,22 @@ class Events:
 
         if game.clan.game_mode in ['expanded', 'cruel season'
                                    ] and game.clan.freshkill_pile:
-            needed_amount = game.clan.freshkill_pile.amount_food_needed()
-            if FRESHKILL_ACTIVE:
-                print(f" -- FRESHKILL: prey amount before feeding {game.clan.freshkill_pile.total_amount}") # pylint: disable=line-too-long
-                print(f" -- FRESHKILL: Clan needs {needed_amount} prey")
             # feed the cats and update the nutrient status
             relevant_cats = list(
-                filter(
-                    lambda _cat: _cat.is_alive() and not _cat.exiled and
+                filter(lambda _cat: _cat.is_alive() and not _cat.exiled and
                                  not _cat.outside, Cat.all_cats.values()))
-            game.clan.freshkill_pile.time_skip(relevant_cats)
-            self.get_moon_freshkill()
+            game.clan.freshkill_pile.time_skip(relevant_cats, game.freshkill_event_list)
             # handle freshkill pile events, after feeding
             # first 5 moons there will not be any freshkill pile event
             if game.clan.age >= 5:
-                Freshkill_Events.handle_amount_freshkill_pile(
-                    game.clan.freshkill_pile, relevant_cats)
-            # make a notification if the Clan has not enough prey
-            if not game.clan.freshkill_pile.clan_has_enough_food(
-            ) and FRESHKILL_EVENT_ACTIVE:
-                game.cur_events_list.insert(
-                    0,
-                    Single_Event(
-                        f"{game.clan.name}Clan doesn't have enough prey for next moon!"
-                    ))
-            if FRESHKILL_ACTIVE:
-                print(f" -- FRESHKILL: prey amount after feeding {game.clan.freshkill_pile.total_amount}")
-        
+                Freshkill_Events.handle_amount_freshkill_pile(game.clan.freshkill_pile, relevant_cats)
+            self.get_moon_freshkill()
+			# make a notification if the Clan has not enough prey
+            if FRESHKILL_EVENT_ACTIVE and not game.clan.freshkill_pile.clan_has_enough_food():
+                event_string = f"{game.clan.name}Clan doesn't have enough prey for next moon!"
+                game.cur_events_list.insert(0, Single_Event(event_string))
+                game.freshkill_event_list.append(event_string)
+
         rejoin_upperbound = game.config["lost_cat"]["rejoin_chance"]
         if random.randint(1, rejoin_upperbound) == 1:
             self.handle_lost_cats_return()
@@ -298,17 +288,14 @@ class Events:
 
         prey_amount = 0
         for cat in healthy_hunter:
-            lower_value = game.config["freshkill"]["auto_warrior_prey"][0]
-            upper_value = game.config["freshkill"]["auto_warrior_prey"][1]
+            lower_value = game.prey_config["auto_warrior_prey"][0]
+            upper_value = game.prey_config["auto_warrior_prey"][1]
             if cat.status == "apprentice":
-                lower_value = game.config["freshkill"]["auto_apprentice_prey"][
-                    0]
-                upper_value = game.config["freshkill"]["auto_apprentice_prey"][
-                    1]
+                lower_value = game.prey_config["auto_apprentice_prey"][0]
+                upper_value = game.prey_config["auto_apprentice_prey"][1]
 
             prey_amount += random.randint(lower_value, upper_value)
-        if FRESHKILL_ACTIVE:
-            print(f" -- FRESHKILL: added {prey_amount} monthly prey")
+        game.freshkill_event_list.append(f"The clan managed to catch {prey_amount} pieces of prey in this moon.")
         game.clan.freshkill_pile.add_freshkill(prey_amount)
 
     def herb_gather(self):
@@ -1706,20 +1693,23 @@ class Events:
         ''' Handles murder '''
         relationships = cat.relationships.values()
         targets = []
+
+        if cat.age in ["kitten", "newborn"]:
+            return
         
-        # if this cat is unstable and aggressive, we lower the random murder chance. 
+        # if this cat is unstable and aggressive, we lower the random murder chance
         random_murder_chance = int(game.config["death_related"]["base_random_murder_chance"])
         random_murder_chance -= 0.5 * ((cat.personality.aggression) + (16 - cat.personality.stability))
 
-        # Check to see if random murder is triggered. If so, we allow targets to be anyone they have even the smallest amount 
-        # of dislike for. 
+        # Check to see if random murder is triggered. If so, we allow targets to be anyone they have even the smallest amount
+        # of dislike for
         if random.getrandbits(max(1, int(random_murder_chance))) == 1:
             targets = [i for i in relationships if i.dislike > 1 and not Cat.fetch_cat(i.cat_to).dead and not Cat.fetch_cat(i.cat_to).outside]
             if not targets:
                 return
             
             chosen_target = random.choice(targets)
-            print("Random Murder!", str(cat.name),  str(Cat.fetch_cat(chosen_target.cat_to).name))
+            #print("Random Murder!", str(cat.name),  str(Cat.fetch_cat(chosen_target.cat_to).name))
             
             # If at war, grab enemy clans
             enemy_clan = None
@@ -1732,37 +1722,61 @@ class Events:
             
             Death_Events.handle_deaths(Cat.fetch_cat(chosen_target.cat_to), cat, game.clan.war.get("at_war", False),
                                             enemy_clan, alive_kits=get_alive_kits(Cat), murder=True)
-            
+
             return
-            
-   
-        # If random murder is not triggered, targets can only be those they have high dislike for. 
+
+        # will this cat actually murder? this takes into account stability and lawfulness
+        murder_capable = 7
+        if cat.personality.stability < 6:
+            murder_capable -= 3
+        if cat.personality.lawfulness < 6:
+            murder_capable -= 2
+        if cat.personality.aggression > 10:
+            murder_capable -= 1
+        elif cat.personality.aggression > 12:
+            murder_capable -= 3
+
+        murder_capable = max(1, murder_capable)
+
+        if random.getrandbits(murder_capable) != 1:
+            #print(f'{cat.name} is currently not capable of murder')
+            return
+
+        #print("Murder Capable: " + str(murder_capable))
+        #print(f'{cat.name} is feeling murderous')
+        # If random murder is not triggered, targets can only be those they have some dislike for
         hate_relation = [i for i in relationships if
-                        i.dislike > 50 and not Cat.fetch_cat(i.cat_to).dead and not Cat.fetch_cat(i.cat_to).outside]
+                        i.dislike > 15 and not Cat.fetch_cat(i.cat_to).dead and not Cat.fetch_cat(i.cat_to).outside]
         targets.extend(hate_relation)
         resent_relation = [i for i in relationships if
-                        i.jealousy > 50 and not Cat.fetch_cat(i.cat_to).dead and not Cat.fetch_cat(i.cat_to).outside]
+                        i.jealousy > 15 and not Cat.fetch_cat(i.cat_to).dead and not Cat.fetch_cat(i.cat_to).outside]
         targets.extend(resent_relation)
 
         # if we have some, then we need to decide if this cat will kill
         if targets:
             chosen_target = random.choice(targets)
-            
             #print(cat.name, 'TARGET CHOSEN', Cat.fetch_cat(chosen_target.cat_to).name)
 
             kill_chance = game.config["death_related"]["base_murder_kill_chance"]
-            
-            # chance to murder grows with the dislike and jealousy value
-            kill_chance -= chosen_target.dislike
-            #print('DISLIKE MODIFIER', kill_chance)
-            kill_chance -= chosen_target.jealousy
-            #print('JEALOUS MODIFIER', kill_chance)
 
-            facet_modifiers = cat.personality.aggression + \
-                (16 - cat.personality.stability) + (16 - cat.personality.lawfulness)
-            
-            kill_chance = kill_chance - facet_modifiers
-            kill_chance = max(15, kill_chance)
+            relation_modifier = int(0.5 * int(chosen_target.dislike + chosen_target.jealousy)) - \
+            int(0.5 * int(chosen_target.platonic_like + chosen_target.trust + chosen_target.comfortable))
+            #print("Relation Modifier: ", relation_modifier)
+            kill_chance -= relation_modifier
+
+            if len(chosen_target.log) > 0 and "(high negative effect)" in chosen_target.log[-1]:
+                kill_chance -= 50
+                #print(str(chosen_target.log[-1]))
+
+            if len(chosen_target.log) > 0 and "(medium negative effect)" in chosen_target.log[-1]:
+                kill_chance -= 20
+                #print(str(chosen_target.log[-1]))
+
+            # little easter egg just for fun
+            if cat.personality.trait == "ambitious" and Cat.fetch_cat(chosen_target.cat_to).status == 'leader':
+                kill_chance -= 10
+
+            kill_chance = max(1, int(kill_chance))
              
             #print("Final kill chance: " + str(kill_chance))
             
