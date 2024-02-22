@@ -89,6 +89,7 @@ def json_load():
                 eye_colour2=cat["eye_colour2"] if "eye_colour2" in cat else None,
                 paralyzed=cat["paralyzed"],
                 species=cat["species"],
+                newborn_sprite=cat["sprite_newborn"] if "sprite_newborn" in cat else 0,
                 kitten_sprite=cat["sprite_kitten"] if "sprite_kitten" in cat else cat["spirit_kitten"],
                 adol_sprite=cat["sprite_adolescent"] if "sprite_adolescent" in cat else cat["spirit_adolescent"],
                 adult_sprite=cat["sprite_adult"] if "sprite_adult" in cat else cat["spirit_adult"],
@@ -110,9 +111,13 @@ def json_load():
                 opacity=cat["opacity"] if "opacity" in cat else 100
             )
             
+            if "newborn_sprite" in cat:
+                newborn_sprite = cat["newborn_sprite"]
+
             # Runs a bunch of apperence-related convertion of old stuff. 
             new_cat.pelt.check_and_convert(convert)
             
+
              # converting old specialty saves into new scar parameter
             if "specialty" in cat or "specialty2" in cat:
                 if cat["specialty"] is not None:

@@ -158,6 +158,7 @@ class Pelt():
                  skin:str="BLACK",
                  species:str=None,
                  white_patches_tint:str="none",
+                 newborn_sprite:int=None,
                  kitten_sprite:int=None,
                  adol_sprite:int=None,
                  adult_sprite:int=None,
@@ -185,6 +186,7 @@ class Pelt():
         self.species = species
         self.white_patches_tint = white_patches_tint
         self.cat_sprites =  {
+            "newborn": newborn_sprite if newborn_sprite is not None else 0,
             "kitten": kitten_sprite if kitten_sprite is not None else 0,
             "adolescent": adol_sprite if adol_sprite is not None else 0,
             "young adult": adult_sprite if adult_sprite is not None else 0,
@@ -349,6 +351,8 @@ class Pelt():
             self.eye_colour = "BLUE"
 
         if self.species == "bird cat":
+            if self.cat_sprites['newborn'] is not 47:
+                self.cat_sprites['newborn'] = 47
             if self.cat_sprites['kitten'] not in [0, 1, 2]:
                 self.cat_sprites['kitten'] = random.randint(0, 2)
             if self.cat_sprites['adolescent'] not in [7, 8, 9]:
@@ -376,6 +380,8 @@ class Pelt():
                 self.cat_sprites['senior'] = random.randint(25, 27)
 
         if self.species == "bat cat":
+            if self.cat_sprites['newborn'] is not 86:
+                self.cat_sprites['newborn'] = 86
             if self.cat_sprites['kitten'] not in [48, 49, 50]:
                 self.cat_sprites['kitten'] = random.randint(48, 50)
             if self.cat_sprites['adolescent'] not in [54, 55, 56]:
@@ -403,6 +409,8 @@ class Pelt():
                 self.cat_sprites['senior'] = random.randint(72, 74)
         
         if self.species == "earth cat":
+            if self.cat_sprites['newborn'] is not 41:
+                self.cat_sprites['newborn'] = 41
             if self.cat_sprites['kitten'] not in [3, 4, 5]:
                 self.cat_sprites['kitten'] = random.randint(3, 5)
             if self.cat_sprites['adolescent'] not in [10, 11, 12]:
@@ -1270,3 +1278,4 @@ class Pelt():
     
     def get_sprites_name(self):
         return Pelt.sprites_names[self.name]
+    
