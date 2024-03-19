@@ -4,6 +4,7 @@ Mod of ClanGen
 Track progress here: https://trello.com/b/8CHJ9Lyw/muxas-winged-cats
 
 Original creator: just-some-cat.tumblr.com
+
 Fan-edit creator: SableSteel, and many others
 
 ## Running from source
