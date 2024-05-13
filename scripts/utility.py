@@ -1202,106 +1202,886 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
         dead = False
     else:
         dead = cat.dead
-    
+        
     # setting the cat_sprite (bc this makes things much easier)
-    if cat.species == "bird cat":
-        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
-            if age is 'kitten':
-                cat_sprite = str(38)
-            elif age is 'adolescent':
-                cat_sprite = str(37)
-            else:
-                cat_sprite = str(39)
-        elif cat.pelt.paralyzed and age != 'newborn':
-            if age in ['kitten', 'adolescent']:
-                cat_sprite = str(32)
-            else:
-                if cat.pelt.length == 'long':
-                    cat_sprite = str(31)
-                else:
-                    cat_sprite = str(30)
+    if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
+        if age in ['kitten']:
+            cat_sprite = str(21)
+        elif age in ['adolescent']:
+            cat_sprite = str(19)
         else:
-            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
-                age = 'senior'
-            
-            if game.config['fun']['all_cats_are_newborn']:
-                cat_sprite = str(47)
-            else:
-                cat_sprite = str(cat.pelt.cat_sprites[age])
-
-    if cat.species == "earth cat":
-        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
-            if age in ['kitten', 'adolescent']:
-                cat_sprite = str(40)
-            else:
-                cat_sprite = str(39)
-        elif cat.pelt.paralyzed and age != 'newborn':
-            if age in ['kitten', 'adolescent']:
-                cat_sprite = str(35)
-            else:
-                if cat.pelt.length == 'long':
-                    cat_sprite = str(34)
-                else:
-                    cat_sprite = str(33)
+            cat_sprite = str(18)
+    elif cat.pelt.paralyzed and age != 'newborn':
+        if age in ['kitten', 'adolescent']:
+            cat_sprite = str(17)
         else:
-            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
-                age = 'senior'
-            
-            if game.config['fun']['all_cats_are_newborn']:
-                cat_sprite = str(41)
+            if cat.pelt.length == 'long':
+                cat_sprite = str(16)
             else:
-                cat_sprite = str(cat.pelt.cat_sprites[age])
-
-    if cat.species == "bat cat":
-        if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
-            if age in ['kitten', 'adolescent']:
-                cat_sprite = str(85)
-            else:
-                cat_sprite = str(84)
-        elif cat.pelt.paralyzed and age != 'newborn':
-            if age in ['kitten', 'adolescent']:
-                cat_sprite = str(80)
-            else:
-                if cat.pelt.length == 'long':
-                    cat_sprite = str(79)
-                else:
-                    cat_sprite = str(78)
+                cat_sprite = str(15)
+    else:
+        if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
+            age = 'senior'
+        
+        if game.config['fun']['all_cats_are_newborn']:
+            cat_sprite = str(cat.pelt.cat_sprites['newborn'])
         else:
-            if age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
-                age = 'senior'
-            
-            if game.config['fun']['all_cats_are_newborn']:
-                cat_sprite = str(86)
-            else:
-                cat_sprite = str(cat.pelt.cat_sprites[age])
+            cat_sprite = str(cat.pelt.cat_sprites[age])
 
     new_sprite = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
 
+    # draw base
+    new_sprite.blit(sprites.sprites['base' + cat_sprite], (0, 0))
+
     # generating the sprite
     try:
+        # copying kori's awoogen thanks kori (I would've done this route anyway)
+        # base, underfur, overfur, markings fade, markings, marking inside
+        # i cried typing all of this out lol help me
+        color_dict = {
+            "solid": {
+                "WHITE": [
+                    '#EFFAFC',
+                    '#F6FBF9',
+                    '#EEF9FC',
+                    '#A7B9BF',
+                    '#C6D6DB',
+                    '#D0DEE1'],
+                "PALEGREY": [
+                    '#C6D7D3',
+                    '#D7E0D1',
+                    '#C2D5D3',
+                    '#788B8B',
+                    '#8FA6A6',
+                    '#A2B1B0'],
+                "SILVER": [
+                    '#B6C8CA',
+                    '#CAD6C7',
+                    '#9FB8BD',
+                    '#2C383F',
+                    '#4C626D',
+                    '#859A9D'],
+                "GREY": [
+                    '#92A1A1',
+                    '#AFB8AE',
+                    '#92A1A1',
+                    '#3F514F',
+                    '#637674',
+                    '#B1AEB0'],
+                "DARKGREY": [
+                    '#697879',
+                    '#8F978F',
+                    '#5B6C6F',
+                    '#0B1110',
+                    '#223734',
+                    '#39484B'],
+                "GHOST": [
+                    '#3C404C',
+                    '#3A3F4B',
+                    '#4D5056',
+                    '#5D6B6F',
+                    '#515E64',
+                    '#4D4E59'],
+                "BLACK": [
+                    '#353A42',
+                    '#46494E',
+                    '#31383F',
+                    '#0A0D15',
+                    '#141720',
+                    '#202427'],
+                "CREAM": [
+                    '#F4DAB5',
+                    '#F4E8CB',
+                    '#F3D7B4',
+                    '#D4A57D',
+                    '#E9B68B',
+                    '#F5CE9A'],
+                "PALEGINGER": [
+                    '#E7C498',
+                    '#E7C69A',
+                    '#E5BD92',
+                    '#C68B5B',
+                    '#DA9C68',
+                    '#E8B479'],
+                "GOLDEN": [
+                    '#EECB84',
+                    '#ECD69F',
+                    '#E5B374',
+                    '#775441',
+                    '#CB906F',
+                    '#D9A859'],
+                "GINGER": [
+                    '#F2AE71',
+                    '#F4C391',
+                    '#F0AC73',
+                    '#AC5A2C',
+                    '#DB7338',
+                    '#DB9355'],
+                "DARKGINGER": [
+                    '#D2713D',
+                    '#E0A67A',
+                    '#D1703C',
+                    '#6F2E18',
+                    '#A34323',
+                    '#BC5D2A'],
+                "SIENNA": [
+                    '#AA583E',
+                    '#B36F50',
+                    '#A9563D',
+                    '#502A2D',
+                    '#87413C',
+                    '#BA6D4C'],
+                "LIGHTBROWN": [
+                    '#DAC7A4',
+                    '#E6D7B6',
+                    '#CEC6B8',
+                    '#6F5D46',
+                    '#BCA07B',
+                    '#C2AF8C'],
+                "LILAC": [
+                    '#B49890',
+                    '#D0BBAC',
+                    '#A6A4A5',
+                    '#655252',
+                    '#8B696B',
+                    '#AD898A'],
+                "BROWN": [
+                    '#A4856C',
+                    '#BEAA8D',
+                    '#93887E',
+                    '#2D221D',
+                    '#674F43',
+                    '#957961'],
+                "GOLDEN-BROWN": [
+                    '#A86D59',
+                    '#D2A686',
+                    '#836B5B',
+                    '#432E2C',
+                    '#7B5248',
+                    '#A86F59'],
+                "DARKBROWN": [
+                    '#754E3C',
+                    '#B09479',
+                    '#6C625D',
+                    '#130B0A',
+                    '#3B2420',
+                    '#5F483C'],
+                "CHOCOLATE": [
+                    '#704642',
+                    '#855953',
+                    '#484145',
+                    '#1E1719',
+                    '#5A3134',
+                    '#705153'],
+                "LAVENDER": [
+                    '#C0B8C8',
+                    '#F7F6FA',
+                    '#B2AAB7',
+                    '#92848E',
+                    '#ADA1B2',
+                    '#CDBFC6'],
+                "ASH": [
+                    '#272120',
+                    '#6C5240',
+                    '#090707',
+                    '#030202',
+                    '#231A19',
+                    '#3D312E'],
+                "PALECREAM": [
+                    '#FFFBF0',
+                    '#FFFFFF',
+                    '#FFEED8',
+                    '#F7D1B5',
+                    '#FFF5E6',
+                    '#FFFCF3']
+            },
+            
+            "special": {
+                "SINGLESTRIPE": {
+                    "WHITE": [
+                        '#EFFAFC',
+                        '#F6FBF9',
+                        '#EEF9FC',
+                        '#A7B9BF',
+                        '#C6D6DB',
+                        '#D0DEE1'],
+                    "PALEGREY": [
+                        '#C6D7D3',
+                        '#D7E0D1',
+                        '#C2D5D3',
+                        '#788B8B',
+                        '#8FA6A6',
+                        '#A2B1B0'],
+                    "SILVER": [
+                        '#B6C8CA',
+                        '#CAD6C7',
+                        '#9FB8BD',
+                        '#2C383F',
+                        '#4C626D',
+                        '#859A9D'],
+                    "GREY": [
+                        '#92A1A1',
+                        '#AFB8AE',
+                        '#92A1A1',
+                        '#3F514F',
+                        '#637674',
+                        '#B1AEB0'],
+                    "DARKGREY": [
+                        '#697879',
+                        '#8F978F',
+                        '#5B6C6F',
+                        '#0B1110',
+                        '#223734',
+                        '#39484B'],
+                    "GHOST": [
+                        '#3C404C',
+                        '#3A3F4B',
+                        '#4D5056',
+                        '#5D6B6F',
+                        '#515E64',
+                        '#4D4E59'],
+                    "BLACK": [
+                        '#353A42',
+                        '#46494E',
+                        '#31383F',
+                        '#0A0D15',
+                        '#141720',
+                        '#202427'],
+                    "CREAM": [
+                        '#F4DAB5',
+                        '#F4E8CB',
+                        '#F3D7B4',
+                        '#D4A57D',
+                        '#E9B68B',
+                        '#F5CE9A'],
+                    "PALEGINGER": [
+                        '#E7C498',
+                        '#E7C69A',
+                        '#E5BD92',
+                        '#C68B5B',
+                        '#DA9C68',
+                        '#E8B479'],
+                    "GOLDEN": [
+                        '#EECB84',
+                        '#ECD69F',
+                        '#E5B374',
+                        '#775441',
+                        '#CB906F',
+                        '#D9A859'],
+                    "GINGER": [
+                        '#F2AE71',
+                        '#F4C391',
+                        '#F0AC73',
+                        '#AC5A2C',
+                        '#DB7338',
+                        '#DB9355'],
+                    "DARKGINGER": [
+                        '#D2713D',
+                        '#E0A67A',
+                        '#D1703C',
+                        '#6F2E18',
+                        '#A34323',
+                        '#BC5D2A'],
+                    "SIENNA": [
+                        '#AA583E',
+                        '#B36F50',
+                        '#A9563D',
+                        '#502A2D',
+                        '#87413C',
+                        '#BA6D4C'],
+                    "LIGHTBROWN": [
+                        '#DAC7A4',
+                        '#E6D7B6',
+                        '#CEC6B8',
+                        '#6F5D46',
+                        '#BCA07B',
+                        '#C2AF8C'],
+                    "LILAC": [
+                        '#B49890',
+                        '#D0BBAC',
+                        '#A6A4A5',
+                        '#655252',
+                        '#8B696B',
+                        '#AD898A'],
+                    "BROWN": [
+                        '#A4856C',
+                        '#BEAA8D',
+                        '#93887E',
+                        '#2D221D',
+                        '#674F43',
+                        '#957961'],
+                    "GOLDEN-BROWN": [
+                        '#A86D59',
+                        '#D2A686',
+                        '#836B5B',
+                        '#432E2C',
+                        '#7B5248',
+                        '#A86F59'],
+                    "DARKBROWN": [
+                        '#754E3C',
+                        '#B09479',
+                        '#6C625D',
+                        '#130B0A',
+                        '#3B2420',
+                        '#5F483C'],
+                    "CHOCOLATE": [
+                        '#704642',
+                        '#855953',
+                        '#484145',
+                        '#1E1719',
+                        '#5A3134',
+                        '#705153'],
+                    "LAVENDER": [
+                        '#C0B8C8',
+                        '#F7F6FA',
+                        '#B2AAB7',
+                        '#92848E',
+                        '#ADA1B2',
+                        '#CDBFC6'],
+                    "ASH": [
+                        '#272120',
+                        '#6C5240',
+                        '#090707',
+                        '#030202',
+                        '#231A19',
+                        '#3D312E'],
+                    "PALECREAM": [
+                        '#FFFBF0',
+                        '#FFFFFF',
+                        '#FFEED8',
+                        '#F7D1B5',
+                        '#FFF5E6',
+                        '#FFFCF3']
+                }
+            },
+            
+            "bengal": {
+                "WHITE": [
+                    '#EFFAFC',
+                    '#F6FBF9',
+                    '#EEF9FC',
+                    '#A7B9BF',
+                    '#C6D6DB',
+                    '#D0DEE1'],
+                "PALEGREY": [
+                    '#C6D7D3',
+                    '#D7E0D1',
+                    '#C2D5D3',
+                    '#788B8B',
+                    '#8FA6A6',
+                    '#A2B1B0'],
+                "SILVER": [
+                    '#B6C8CA',
+                    '#CAD6C7',
+                    '#9FB8BD',
+                    '#2C383F',
+                    '#4C626D',
+                    '#859A9D'],
+                "GREY": [
+                    '#92A1A1',
+                    '#AFB8AE',
+                    '#92A1A1',
+                    '#3F514F',
+                    '#637674',
+                    '#B1AEB0'],
+                "DARKGREY": [
+                    '#697879',
+                    '#8F978F',
+                    '#5B6C6F',
+                    '#0B1110',
+                    '#223734',
+                    '#39484B'],
+                "GHOST": [
+                    '#3C404C',
+                    '#3A3F4B',
+                    '#4D5056',
+                    '#5D6B6F',
+                    '#515E64',
+                    '#4D4E59'],
+                "BLACK": [
+                    '#353A42',
+                    '#46494E',
+                    '#31383F',
+                    '#0A0D15',
+                    '#141720',
+                    '#202427'],
+                "CREAM": [
+                    '#F4DAB5',
+                    '#F4E8CB',
+                    '#F3D7B4',
+                    '#D4A57D',
+                    '#E9B68B',
+                    '#F5CE9A'],
+                "PALEGINGER": [
+                    '#E7C498',
+                    '#E7C69A',
+                    '#E5BD92',
+                    '#C68B5B',
+                    '#DA9C68',
+                    '#E8B479'],
+                "GOLDEN": [
+                    '#EECB84',
+                    '#ECD69F',
+                    '#E5B374',
+                    '#775441',
+                    '#CB906F',
+                    '#D9A859'],
+                "GINGER": [
+                    '#F2AE71',
+                    '#F4C391',
+                    '#F0AC73',
+                    '#AC5A2C',
+                    '#DB7338',
+                    '#DB9355'],
+                "DARKGINGER": [
+                    '#D2713D',
+                    '#E0A67A',
+                    '#D1703C',
+                    '#6F2E18',
+                    '#A34323',
+                    '#BC5D2A'],
+                "SIENNA": [
+                    '#AA583E',
+                    '#B36F50',
+                    '#A9563D',
+                    '#502A2D',
+                    '#87413C',
+                    '#BA6D4C'],
+                "LIGHTBROWN": [
+                    '#DAC7A4',
+                    '#E6D7B6',
+                    '#CEC6B8',
+                    '#6F5D46',
+                    '#BCA07B',
+                    '#C2AF8C'],
+                "LILAC": [
+                    '#B49890',
+                    '#D0BBAC',
+                    '#A6A4A5',
+                    '#655252',
+                    '#8B696B',
+                    '#AD898A'],
+                "BROWN": [
+                    '#A4856C',
+                    '#BEAA8D',
+                    '#93887E',
+                    '#2D221D',
+                    '#674F43',
+                    '#957961'],
+                "GOLDEN-BROWN": [
+                    '#A86D59',
+                    '#D2A686',
+                    '#836B5B',
+                    '#432E2C',
+                    '#7B5248',
+                    '#A86F59'],
+                "DARKBROWN": [
+                    '#754E3C',
+                    '#B09479',
+                    '#6C625D',
+                    '#130B0A',
+                    '#3B2420',
+                    '#5F483C'],
+                "CHOCOLATE": [
+                    '#704642',
+                    '#855953',
+                    '#484145',
+                    '#1E1719',
+                    '#5A3134',
+                    '#705153'],
+                "LAVENDER": [
+                    '#C0B8C8',
+                    '#F7F6FA',
+                    '#B2AAB7',
+                    '#92848E',
+                    '#ADA1B2',
+                    '#CDBFC6'],
+                "ASH": [
+                    '#272120',
+                    '#6C5240',
+                    '#090707',
+                    '#030202',
+                    '#231A19',
+                    '#3D312E'],
+                "PALECREAM": [
+                    '#FFFBF0',
+                    '#FFFFFF',
+                    '#FFEED8',
+                    '#F7D1B5',
+                    '#FFF5E6',
+                    '#FFFCF3']
+            }
+        }
+        # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
+        # why am I explaining... who knows
+        color_type_dict = {
+            "special": ["singlestripe"],
+            "bengal": ["bengal", "marbled"]
+        }
+
+        # waeh
+        skin_dict = {
+            "BLACK": "#5E504B",
+            "RED": "#BE4E32",
+            "PINK": "#FABFB7",
+            "DARKBROWN": "#5A4235",
+            "BROWN": "#816559",
+            "LIGHTBROWN": "#977A67",
+            "DARK": "#24211E",
+            "DARKGREY": "#4F4A48",
+            "GREY": "#736B64",
+            "DARKSALMON": "#A55C43",
+            "SALMON": "#D29777",
+            "PEACH": "#F9C0A2",
+            "DARKMARBLED": "#2A1F1D",
+            "MARBLED": "#CC9587",
+            "LIGHTMARBLED": "#433130",
+            "DARKBLUE": "#3B474C",
+            "BLUE": "#4E5B61",
+            "LIGHTBLUE": "#5B666B",
+        }
+
+        wing_scars = []
+
+        # Get colors - makes things easier for later lol
         if cat.pelt.name not in ['Tortie', 'Calico']:
-                new_sprite.blit(sprites.sprites[cat.pelt.get_sprites_name() + cat.pelt.colour + cat_sprite], (0, 0))
-        else:
-            # Base Coat
-            new_sprite.blit(
-                sprites.sprites[cat.pelt.tortiebase + cat.pelt.colour + cat_sprite],
-                (0, 0))
-
-            # Create the patch image
-            if cat.pelt.tortiepattern == "Single":
-                tortie_pattern = "SingleColour"
+            # Get dict
+            if cat.pelt.name in color_type_dict['special']:
+                color_type = "special"
+            elif cat.pelt.name in color_type_dict['bengal']:
+                color_type = "bengal"
             else:
-                tortie_pattern = cat.pelt.tortiepattern
+                color_type = 0
 
-            patches = sprites.sprites[
-                tortie_pattern + cat.pelt.tortiecolour + cat_sprite].copy()
-            patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0, 0),
-                            special_flags=pygame.BLEND_RGBA_MULT)
+            cat_marking = cat.pelt.name.upper()
+            if color_type == "special":
 
-            # Add patches onto cat.
+                base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
+            elif color_type == 0:
+                base_pelt = color_dict['solid'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict['solid'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict['solid'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict['solid'][f'{cat.pelt.colour}'][5]
+            else:
+                base_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][5]
+        else:
+            cat_marking = cat.pelt.tortiebase.upper()
+            # Get dict
+            if cat.pelt.tortiebase in color_type_dict['special']:
+                color_type = "special"
+            elif cat.pelt.tortiebase in color_type_dict['bengal']:
+                color_type = "bengal"
+            else:
+                color_type = 0
+
+            # Get dict of tortie
+            if cat.pelt.tortiecolour in color_type_dict['special']:
+                tortie_color_type = "special"
+            elif cat.pelt.tortiecolour in color_type_dict['bengal']:
+                tortie_color_type = "bengal"
+            else:
+                tortie_color_type = 0
+            
+            if color_type == "special":
+
+                base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
+            elif color_type == 0:
+                base_pelt = color_dict['solid'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict['solid'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict['solid'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict['solid'][f'{cat.pelt.colour}'][5]
+            else:
+                base_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][0]
+                base_underfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][1]
+                base_overfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][2]
+                marking_base = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][3]
+                marking_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][4]
+                marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][5]
+
+            if tortie_color_type == "special":
+                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][5]
+            elif tortie_color_type == 0:
+                tortie_base_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict['solid'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict['solid'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict['solid'][f'{cat.pelt.tortiecolour}'][5]
+            else:
+                tortie_base_pelt = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.tortiecolour}'][5]
+
+
+        # draw pelt
+        base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        base_tint.fill(base_pelt)
+
+        new_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+        # draw overlays
+        underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        underfur_tint.fill(base_underfur_pelt)
+
+        overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        overfur_tint.fill(base_overfur_pelt)
+
+        if cat_marking in ['BENGAL', 'MARBLED']:
+            underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            underfur.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            new_sprite.blit(underfur, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+        elif cat_marking in ['SINGLESTRIPE']:
+            underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
+            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            new_sprite.blit(underfur, (0, 0))
+        else:
+            underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
+            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            new_sprite.blit(underfur, (0, 0))
+            
+
+        if cat_marking in ['BENGAL', 'MARBLED']:
+            overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
+            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            overfur.blit(sprites.sprites['overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        elif cat_marking in ['SINGLESTRIPE']:
+            overfur = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
+            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        else:
+            overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
+            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            overfur.blit(sprites.sprites['overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        new_sprite.blit(overfur, (0, 0))
+
+        # draw markings
+
+        if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+            markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            markings_tint.fill(marking_base)
+
+            mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            mark_fade_tint.fill(marking_fade)
+
+            markings = sprites.sprites['markings' + cat_marking + cat_sprite].copy().convert_alpha()
+            markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # uh...
+            if cat_marking in ['BENGAL', 'MARBLED']:
+                mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                mark_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                markings.blit(mark_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+            elif cat_marking in ['SINGLESTRIPE']:
+                mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
+                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                mark_fade.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                
+                markings.blit(mark_fade, (0, 0))
+            else:
+                mark_fade = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
+                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                mark_fade.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            mark_fade.blit(sprites.sprites['markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            markings.blit(mark_fade, (0, 0))
+
+            if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED']:
+                markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                markings_inside_tint.fill(marking_inside)
+
+                markings_inside = sprites.sprites['markinside' + cat_marking + cat_sprite].copy().convert_alpha()
+                markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # i am thirsty i should get water
+                if cat_marking in ['BENGAL', 'MARBLED']:
+                    mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                    mark_inside_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    markings_inside.blit(mark_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                    mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    markings_inside.blit(mark_inside_fade, (0, 0))
+                
+                markings_inside.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                markings.blit(markings_inside, (0, 0))
+        
+            # appear.
+            new_sprite.blit(markings, (0, 0))
+
+        # draw tortie
+        if cat.pelt.name in ['Tortie', 'Calico']:
+            patches = sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite].copy()
+
+            tortie_base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tortie_base_tint.fill(tortie_base_pelt)
+
+            # draw base
+            patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
+            
+            # draw overlays aa
+            tortie_underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tortie_underfur_tint.fill(tortie_base_underfur_pelt)
+
+            tortie_overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tortie_overfur_tint.fill(tortie_base_overfur_pelt)
+
+            if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                tortie_underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_underfur.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                patches.blit(tortie_underfur, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+            elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                tortie_underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
+                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                patches.blit(tortie_underfur, (0, 0))
+            else:
+                tortie_underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
+                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                patches.blit(tortie_underfur, (0, 0))
+                
+
+            if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                tortie_overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
+                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_overfur.blit(sprites.sprites['overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                tortie_overfur = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
+                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            else:
+                tortie_overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
+                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_overfur.blit(sprites.sprites['overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            patches.blit(tortie_overfur, (0, 0))
+
+            # draw markings
+
+            if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+                tortie_markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tortie_markings_tint.fill(tortie_marking_base)
+
+                tortie_mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tortie_mark_fade_tint.fill(tortie_marking_fade)
+
+                tortie_markings = sprites.sprites['markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # uh...
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    tortie_mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    tortie_mark_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    tortie_markings.blit(tortie_mark_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                    tortie_mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
+                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    tortie_mark_fade.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                    tortie_markings.blit(mark_fade, (0, 0))
+                else:
+                    tortie_mark_fade = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
+                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    tortie_mark_fade.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                tortie_mark_fade.blit(sprites.sprites['markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                tortie_markings.blit(tortie_mark_fade, (0, 0))
+
+                if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED']:
+                    tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tortie_markings_inside_tint.fill(tortie_marking_inside)
+
+                    tortie_markings_inside = sprites.sprites['markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                    tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    # i am thirsty i should get water
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                        tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                        tortie_mark_inside_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        tortie_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        tortie_markings_inside.blit(tortie_mark_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                        tortie_mark_inside_fade.blit(sprites.sprites['markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        tortie_markings_inside.blit(tortie_mark_inside_fade, (0, 0))
+                    
+                    tortie_markings_inside.blit(sprites.sprites['markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                    tortie_markings.blit(tortie_markings_inside, (0, 0))
+            
+                # appear.
+                patches.blit(tortie_markings, (0, 0))
+
+            # *microwave.sfx*
+            patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+
             new_sprite.blit(patches, (0, 0))
 
-        # TINTS
+        # TINT because tints still exist lol
         if cat.pelt.tint != "none" and cat.pelt.tint in sprites.cat_tints["tint_colours"]:
             # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
             # entire surface. To get around this, we first blit the tint onto a white background to dull it,
@@ -1378,6 +2158,311 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 new_sprite.blit(sprites.sprites['acc_wild' + cat.pelt.accessory + cat_sprite], (0, 0))
             elif cat.pelt.accessory in cat.pelt.collars:
                 new_sprite.blit(sprites.sprites['collars' + cat.pelt.accessory + cat_sprite], (0, 0))
+
+        # draw wings oh boy this will be fun :3c hahaaa
+
+        ########################################################################
+        #                                                                      #
+        # wing start lol lmao love this                                        #
+        #                                                                      #
+        ########################################################################
+
+        if cat.species != "earth cat":
+            
+            # draw base
+            wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0))
+
+            wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            if cat_marking in ['BENGAL', 'MARBLED']:
+                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                new_sprite.blit(underfur, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+            elif cat_marking in ['SINGLESTRIPE']:
+                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
+                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                wings.blit(w_underfur, (0, 0))
+            else:
+                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                wings.blit(w_underfur, (0, 0))
+                
+
+            if cat_marking in ['BENGAL', 'MARBLED']:
+                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
+                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            elif cat_marking in ['SINGLESTRIPE']:
+                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            else:
+                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
+                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            wings.blit(w_overfur, (0, 0))
+
+            # draw markings
+
+            if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+
+                w_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite].copy().convert_alpha()
+                w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # uh...
+                if cat_marking in ['BENGAL', 'MARBLED']:
+                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_markings.blit(w_mark_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+                elif cat_marking in ['SINGLESTRIPE']:
+                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                    w_markings.blit(w_mark_fade, (0, 0))
+                else:
+                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                w_markings.blit(w_mark_fade, (0, 0))
+
+                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+
+                    w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
+                    w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    # i am thirsty i should get water
+                    if cat_marking in ['BENGAL', 'MARBLED']:
+                        w_mark_inside_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                        w_mark_inside_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        w_mark_inside_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        w_markings_inside.blit(mark_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                        w_mark_inside_fade.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        markings_inside.blit(mark_inside_fade, (0, 0))
+                    
+                    w_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                    w_markings.blit(w_markings_inside, (0, 0))
+            
+                # appear.
+                wings.blit(w_markings, (0, 0))
+
+            # draw tortie
+            if cat.pelt.name in ['Tortie', 'Calico']:
+                w_patches = sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite].copy()
+
+                # draw base
+                w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
+
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_patches.blit(w_tortie_underfur, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
+                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_patches.blit(w_tortie_underfur, (0, 0))
+                else:
+                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_patches.blit(w_tortie_underfur, (0, 0))
+                    
+
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
+                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                else:
+                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
+                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                w_patches.blit(w_tortie_overfur, (0, 0))
+
+                # draw markings
+
+                if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+
+                    w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                    w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    # uh...
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        w_tortie_markings.blit(w_tortie_mark_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+                    elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                        
+                        w_tortie_markings.blit(tortie_mark_fade, (0, 0))
+                    else:
+                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    w_tortie_markings.blit(w_tortie_mark_fade, (0, 0))
+
+                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                        w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                        w_tortie_markings_inside_tint.fill(tortie_marking_inside)
+
+                        w_tortie_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                        w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        # i am thirsty i should get water
+                        if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                            w_tortie_mark_inside_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                            w_tortie_mark_inside_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            w_tortie_mark_inside_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                            w_tortie_markings_inside.blit(w_tortie_mark_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                            w_tortie_mark_inside_fade.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                            w_tortie_markings_inside.blit(w_tortie_mark_inside_fade, (0, 0))
+                        
+                        w_tortie_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                        w_tortie_markings.blit(tortie_markings_inside, (0, 0))
+                
+                    # appear.
+                    w_patches.blit(w_tortie_markings, (0, 0))
+
+                # *microwave.sfx*
+                w_patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                wings.blit(w_patches, (0, 0))
+
+            # TINT because tints still exist lol
+            if cat.pelt.tint != "none" and cat.pelt.tint in sprites.cat_tints["tint_colours"]:
+                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
+                wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # draw white patches
+            if cat.pelt.white_patches is not None:
+                white_patches = sprites.sprites['white' + cat.pelt.white_patches + cat_sprite].copy()
+
+                # Apply tint to white patches.
+                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
+                    white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                #wings.blit(white_patches, (0, 0))
+
+            # draw vit & points
+
+            if cat.pelt.points:
+                points = sprites.sprites['white' + cat.pelt.points + cat_sprite].copy()
+                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
+                    points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                wings.blit(points, (0, 0))
+
+            if cat.pelt.vitiligo:
+                wings.blit(sprites.sprites['white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
+
+            wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            # scars here whenever I do that...
+
+            # draw line art
+            if game.settings['shaders'] and not dead:
+                wings.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                wings.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+
+            if not dead:
+                wings.blit(sprites.sprites[f'{cat.species}' + 'lines' + cat_sprite], (0, 0))
+            elif cat.df:
+                wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdf' + cat_sprite], (0, 0))
+            elif dead:
+                wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdead' + cat_sprite], (0, 0))
+            # draw scars2
+            blendmode = pygame.BLEND_RGBA_MIN
+            # draw skin
+            if cat.species == "bat cat":
+                skin_color = skin_dict[f'{cat.pelt.skin}']
+                membrane = sprites.sprites['batskin' + cat_sprite]
+
+                membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                membrane_tint.fill(skin_color)
+                membrane.blit(membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                membrane_tint2.fill(base_underfur_pelt)
+
+                membrane.blit(membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                wings.blit(membrane, (0, 0))
+            
+            if not scars_hidden:
+                for scar in cat.pelt.scars:
+                    if scar in cat.pelt.scars2:
+                        wings.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+            
+            new_sprite.blit(wings, (0, 0))
+        
+        ########################################################################
+        #                                                                      #
+        #end wings because I will get confused as hell if I don't put this here#
+        #                                                                      #
+        ########################################################################
+
 
         # Apply fading fog
         if cat.pelt.opacity <= 97 and not cat.prevent_fading and game.clan.clan_settings["fading"] and dead:

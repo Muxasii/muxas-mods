@@ -32,17 +32,17 @@ class Pelt():
     pelt_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE'
+        'CHOCOLATE', 'ASH', 'LAVENDER', 'PEACH'
     ]
     pelt_c_no_white = [
-        'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
+        'SILVER', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE'
+        'CHOCOLATE', 'ASH', 'LAVENDER', 'PEACH'
     ]
     pelt_c_no_bw = [
         'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE'
+        'CHOCOLATE', 'PEACH', 'LAVENDER'
     ]
 
     tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'HALF',
@@ -102,11 +102,11 @@ class Pelt():
     single_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE'
+        'CHOCOLATE', 'LAVENDER', 'ASH', 'PEACH'
     ]
-    ginger_colours = ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
-    black_colours = ['GREY', 'DARKGREY', 'GHOST', 'BLACK']
-    white_colours = ['WHITE', 'PALEGREY', 'SILVER']
+    ginger_colours = ['PEACH', 'CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
+    black_colours = ['SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'ASH', 'LAVENDER']
+    white_colours = ['WHITE', 'PALEGREY']
     brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
     colour_categories = [ginger_colours, black_colours, white_colours, brown_colours]
     eye_sprites = [
@@ -194,6 +194,7 @@ class Pelt():
             "senior adult": adult_sprite if adult_sprite is not None else 0,
             "senior": senior_sprite if senior_sprite is not None else 0,
             "para_adult": para_adult_sprite if para_adult_sprite is not None else 0,
+            "sick_kitten": adult_sprite if adult_sprite is not None else 0,
             "sick adult": adult_sprite if adult_sprite is not None else 0,
             "sick_young": senior_sprite if senior_sprite is not None else 0,
             "newborn": para_adult_sprite if para_adult_sprite is not None else 0,
@@ -349,93 +350,35 @@ class Pelt():
             elif self.eye_colour == "BLUEGREEN":
                 self.eye_colour2 = "GREEN"
             self.eye_colour = "BLUE"
-
-        if self.species == "bird cat":
-            if self.cat_sprites['newborn'] is not 47:
-                self.cat_sprites['newborn'] = 47
-            if self.cat_sprites['kitten'] not in [0, 1, 2]:
-                self.cat_sprites['kitten'] = random.randint(0, 2)
-            if self.cat_sprites['adolescent'] not in [6, 7, 8]:
-                self.cat_sprites['adolescent'] = random.randint(6, 8)
-            if self.length == 'long':
-                if self.cat_sprites['adult'] not in [18, 19, 20]:
-                    if self.cat_sprites['adult'] == 0:
-                        self.cat_sprites['adult'] = 18
-                    elif self.cat_sprites['adult'] == 1:
-                        self.cat_sprites['adult'] = 19
-                    elif self.cat_sprites['adult'] == 3:
-                        self.cat_sprites['adult'] = 20
-                    else:
-                        self.cat_sprites['adult'] = random.randint(18, 20)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['para_adult'] = 31
-            else:
-                if self.cat_sprites['adult'] not in [12, 13, 14]:
-                    self.cat_sprites['adult'] = random.randint(12, 14)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                self.cat_sprites['para_adult'] = 30
-            if self.cat_sprites['senior'] not in [24, 25, 26]:
-                self.cat_sprites['senior'] = random.randint(24, 26)
-
-        if self.species == "bat cat":
-            if self.cat_sprites['newborn'] is not 86:
-                self.cat_sprites['newborn'] = 86
-            if self.cat_sprites['kitten'] not in [48, 49, 50]:
-                self.cat_sprites['kitten'] = random.randint(48, 50)
-            if self.cat_sprites['adolescent'] not in [54, 55, 56]:
-                self.cat_sprites['adolescent'] = random.randint(54, 56)
-            if self.length == 'long':
-                if self.cat_sprites['adult'] not in [66, 67, 68]:
-                    if self.cat_sprites['adult'] == 0:
-                        self.cat_sprites['adult'] = 66
-                    elif self.cat_sprites['adult'] == 1:
-                        self.cat_sprites['adult'] = 67
-                    elif self.cat_sprites['adult'] == 2:
-                        self.cat_sprites['adult'] = 68
-                    else:
-                        self.cat_sprites['adult'] = random.randint(66, 68)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['para_adult'] = 79
-            else:
-                if self.cat_sprites['adult'] not in [60, 61, 62]:
-                    self.cat_sprites['adult'] = random.randint(60, 62)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                self.cat_sprites['para_adult'] = 78
-            if self.cat_sprites['senior'] not in [72, 73, 74]:
-                self.cat_sprites['senior'] = random.randint(72, 74)
         
-        if self.species == "earth cat":
-            if self.cat_sprites['newborn'] is not 41:
-                self.cat_sprites['newborn'] = 41
-            if self.cat_sprites['kitten'] not in [3, 4, 5]:
-                self.cat_sprites['kitten'] = random.randint(3, 5)
-            if self.cat_sprites['adolescent'] not in [9, 10, 11]:
-                self.cat_sprites['adolescent'] = random.randint(9, 11)
-            if self.length == 'long':
-                if self.cat_sprites['adult'] not in [21, 22, 23]:
-                    if self.cat_sprites['adult'] == 0:
-                        self.cat_sprites['adult'] = 21
-                    elif self.cat_sprites['adult'] == 1:
-                        self.cat_sprites['adult'] = 22
-                    elif self.cat_sprites['adult'] == 2:
-                        self.cat_sprites['adult'] = 23
-                    else:
-                        self.cat_sprites['adult'] = random.randint(21, 23)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['para_adult'] = 34
-            else:
-                if self.cat_sprites['adult'] not in [15, 16, 17]:
-                    self.cat_sprites['adult'] = random.randint(15, 17)
-                    self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                    self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                self.cat_sprites['para_adult'] = 33
-            if self.cat_sprites['senior'] not in [27, 28, 29]:
-                self.cat_sprites['senior'] = random.randint(27, 29)
+        # convert back to old stuff with base clangen :P
+        if self.cat_sprites['newborn'] is not 20:
+            self.cat_sprites['newborn'] = 20
+        if self.cat_sprites['kitten'] not in [0, 1, 2]:
+            self.cat_sprites['kitten'] = random.randint(0, 2)
+        if self.cat_sprites['adolescent'] not in [3, 4, 5]:
+            self.cat_sprites['adolescent'] = random.randint(3, 5)
+        if self.length == 'long':
+            if self.cat_sprites['adult'] not in [9, 10, 11]:
+                if self.cat_sprites['adult'] == 0:
+                    self.cat_sprites['adult'] = 9
+                elif self.cat_sprites['adult'] == 1:
+                    self.cat_sprites['adult'] = 10
+                elif self.cat_sprites['adult'] == 3:
+                    self.cat_sprites['adult'] = 11
+                else:
+                    self.cat_sprites['adult'] = random.randint(9, 11)
+                self.cat_sprites['young adult'] = self.cat_sprites['adult']
+                self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+                self.cat_sprites['para_adult'] = 16
+        else:
+            if self.cat_sprites['adult'] not in [6, 7, 8]:
+                self.cat_sprites['adult'] = random.randint(6, 8)
+                self.cat_sprites['young adult'] = self.cat_sprites['adult']
+                self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+            self.cat_sprites['para_adult'] = 15
+        if self.cat_sprites['senior'] not in [12, 13, 14]:
+            self.cat_sprites['senior'] = random.randint(12, 14)
         
         if self.pattern in convert_dict["old_tortie_patches"]:
             old_pattern = self.pattern
@@ -765,72 +708,27 @@ class Pelt():
         return chosen_white
 
     def init_sprite(self, species):
-        if species == "bird cat":
-            self.cat_sprites = {
-                'newborn': 47,
-                'kitten': random.randint(0, 2),
-                'adolescent': random.randint(6, 8),
-                'senior': random.randint(24, 25),
-                'sick_young': 37,
-                'sick_adult': 36
-            }
-            self.reverse = choice([True, False])
-            # skin chances
-            self.skin = choice(Pelt.skin_sprites)
-                    
-            if self.length != 'long':
-                self.cat_sprites['adult'] = random.randint(12, 14)
-                self.cat_sprites['para_adult'] = 30
-            else:
-                self.cat_sprites['adult'] = random.randint(18, 20)
-                self.cat_sprites['para_adult'] = 31
-            self.cat_sprites['young adult'] = self.cat_sprites['adult']
-            self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-        
-        if species == "earth cat":
-            self.cat_sprites = {
-                'newborn': 41,
-                'kitten': random.randint(3, 5),
-                'adolescent': random.randint(9, 11),
-                'senior': random.randint(27, 29),
-                'sick_young': 40,
-                'sick_adult': 39
-            }
-            self.reverse = choice([True, False])
-            # skin chances
-            self.skin = choice(Pelt.skin_sprites)
-                    
-            if self.length != 'long':
-                self.cat_sprites['adult'] = random.randint(15, 17)
-                self.cat_sprites['para_adult'] = 33
-            else:
-                self.cat_sprites['adult'] = random.randint(21, 23)
-                self.cat_sprites['para_adult'] = 34
-            self.cat_sprites['young adult'] = self.cat_sprites['adult']
-            self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-        
-        
-        if species == "bat cat":
-            self.cat_sprites = {
-                'newborn': 86,
-                'kitten': random.randint(48, 50),
-                'adolescent': random.randint(54, 56),
-                'senior': random.randint(72, 74),
-                'sick_young': 85,
-                'sick_adult': 84
-            }
-            self.reverse = choice([True, False])
-            # skin chances
-            self.skin = choice(Pelt.skin_sprites)
-                    
-            if self.length != 'long':
-                self.cat_sprites['adult'] = random.randint(60, 62)
-                self.cat_sprites['para_adult'] = 78
-            else:
-                self.cat_sprites['adult'] = random.randint(66, 68)
-                self.cat_sprites['para_adult'] = 79
-            self.cat_sprites['young adult'] = self.cat_sprites['adult']
-            self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+        self.cat_sprites = {
+            'newborn': 20,
+            'kitten': random.randint(0, 2),
+            'adolescent': random.randint(3, 5),
+            'senior': random.randint(12, 14),
+            'sick_kitten': 21,
+            'sick_young': 19,
+            'sick_adult': 18
+        }
+        self.reverse = choice([True, False])
+        # skin chances
+        self.skin = choice(Pelt.skin_sprites)
+                
+        if self.length != 'long':
+            self.cat_sprites['adult'] = random.randint(6, 8)
+            self.cat_sprites['para_adult'] = 16
+        else:
+            self.cat_sprites['adult'] = random.randint(9, 11)
+            self.cat_sprites['para_adult'] = 15
+        self.cat_sprites['young adult'] = self.cat_sprites['adult']
+        self.cat_sprites['senior adult'] = self.cat_sprites['adult']
 
     def init_scars(self, age):
         if age == "newborn":

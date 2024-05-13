@@ -50,8 +50,8 @@ class Sprites():
                    spritesheet,
                    pos,
                    name,
-                   sprites_x=6,
-                   sprites_y=15):  # pos = ex. (2, 3), no single pixels
+                   sprites_x=3,
+                   sprites_y=8):  # pos = ex. (2, 3), no single pixels
         """
         Divide sprites on a sprite-sheet into groups of sprites that are easily accessible.
 
@@ -99,8 +99,8 @@ class Sprites():
         # if anyone changes lineart for whatever reason update this
         if isinstance(self.size, int):
             pass
-        elif width / 6 == height / 15:
-            self.size = width / 6
+        elif width / 3 == height / 8:
+            self.size = width / 3
             print(f"{width} x {height}")
             print(f"{self.size}")
         else:
@@ -111,15 +111,13 @@ class Sprites():
         del width, height # unneeded
 
         for x in [
-            'lineart', 'singlecolours', 'speckledcolours', 'tabbycolours',
+            'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin',
             'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-            'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
-            'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours', 'singlestripecolours',
-            'maskedcolours', 
             'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
-            'medcatherbs', 'lineartdf', 'lightingnew', 'fademask',
-            'fadestarclan', 'fadedarkforest'
+            'medcatherbs', 'lightingnew', 'fademask',
+            'fadestarclan', 'fadedarkforest',
+            'testscars'
 
         ]:
             if 'lineart' in x and game.config['fun']['april_fools']:
@@ -127,10 +125,27 @@ class Sprites():
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
 
-
+        # Lineart
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('lineartdead', (0, 0), 'lineartdead')
-        self.make_group('lineartdf', (0, 0), 'lineartdf')
+        self.make_group('winglineart', (1, 0), 'bird catlines')
+        self.make_group('winglineart', (0, 0), 'bat catlines')
+        for a, i in enumerate(
+                ['df', 'dead']):
+            self.make_group('lineartdead', (a, 0), f'lineart{i}')
+            self.make_group('winglineart', (a, 1), f'bird catlineart{i}')
+            self.make_group('winglineart', (a, 2), f'bat catlineart{i}')
+
+        # Base
+        self.make_group('base', (0, 0), 'base')
+        for a, i in enumerate(
+                ['bat cat', 'bird cat']):
+            self.make_group('wingsbase', (a, 0), f'{i}base')
+
+        # Bat skin
+        self.make_group('batskin', (0, 0), 'batskin')
+
+        # test wing
+        self.make_group('testscars', (1, 0), 'testscarsTEST')
 
         # Shaders
         self.make_group('shadersnewwhite', (0, 0), 'shaders')
@@ -188,107 +203,44 @@ class Sprites():
         for a, i in enumerate(['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR',
             'BUSTER', 'SMOKEY', 'HAWKBLAZE', 'CAKE', 'ROSINA', 'PRINCESS']):
             self.make_group('whitepatches', (a, 8), f'white{i}')
-        for a, i in enumerate(['LOCKET', 'WISP', 'INVERTEDWINGS']):
+        for a, i in enumerate(['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE', 'WISP', 'INVERTEDWINGS']):
             self.make_group('whitepatches', (a, 9), 'white' + i)
 
-        # single (solid)
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('singlecolours', (a, 0), f'single{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('singlecolours', (a, 1), f'single{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('singlecolours', (a, 2), f'single{i}')
-        # tabby
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('tabbycolours', (a, 0), f'tabby{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('tabbycolours', (a, 1), f'tabby{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('tabbycolours', (a, 2), f'tabby{i}')
-        # marbled
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('marbledcolours', (a, 0), f'marbled{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('marbledcolours', (a, 1), f'marbled{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('marbledcolours', (a, 2), f'marbled{i}')
-        # rosette
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('rosettecolours', (a, 0), f'rosette{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('rosettecolours', (a, 1), f'rosette{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('rosettecolours', (a, 2), f'rosette{i}')
-        # smoke
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('smokecolours', (a, 0), f'smoke{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('smokecolours', (a, 1), f'smoke{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('smokecolours', (a, 2), f'smoke{i}')
-        # ticked
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('tickedcolours', (a, 0), f'ticked{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('tickedcolours', (a, 1), f'ticked{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('tickedcolours', (a, 2), f'ticked{i}')
-        # speckled
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('speckledcolours', (a, 0), f'speckled{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('speckledcolours', (a, 1), f'speckled{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('speckledcolours', (a, 2), f'speckled{i}')
-        # bengal
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('bengalcolours', (a, 0), f'bengal{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('bengalcolours', (a, 1), f'bengal{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('bengalcolours', (a, 2), f'bengal{i}')
-        # mackerel
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('mackerelcolours', (a, 0), f'mackerel{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('mackerelcolours', (a, 1), f'mackerel{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('mackerelcolours', (a, 2), f'mackerel{i}')
-        # classic
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('classiccolours', (a, 0), f'classic{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('classiccolours', (a, 1), f'classic{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('classiccolours', (a, 2), f'classic{i}')
-        # sokoke
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('sokokecolours', (a, 0), f'sokoke{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('sokokecolours', (a, 1), f'sokoke{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('sokokecolours', (a, 2), f'sokoke{i}')
-        # agouti
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('agouticolours', (a, 0), f'agouti{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('agouticolours', (a, 1), f'agouti{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('agouticolours', (a, 2), f'agouti{i}')
-        # singlestripe
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('singlestripecolours', (a, 0), f'singlestripe{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('singlestripecolours', (a, 1), f'singlestripe{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('singlestripecolours', (a, 2), f'singlestripe{i}')
-        # masked tabby
-        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
-            self.make_group('maskedcolours', (a, 0), f'masked{i}')
-        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('maskedcolours', (a, 1), f'masked{i}')
-        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('maskedcolours', (a, 2), f'masked{i}')
+        # markings
+        for a, i in enumerate(
+                ['TABBY', 'MASKED', 'MACKEREL', 'AGOUTI', 'SPECKLED', 'CLASSIC', 'SOKOKE', 'SINGLESTRIPE', 'TICKED', 'MARBLED', 'BENGAL', 'SMOKE', 'ROSETTE']):
+            self.make_group('markings', (a, 0), f'markings{i}')
+            self.make_group('markings', (a, 2), f'bird catmarkings{i}')
+            self.make_group('markings', (a, 4), f'bat catmarkings{i}')
+        for a, i in enumerate(
+                ['MASKED', 'SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']):
+            self.make_group('markings', (a, 1), f'markinside{i}')
+        for a, i in enumerate(
+                ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']):
+            self.make_group('markings', (a, 3), f'bird catmarkinside{i}')
+            self.make_group('markings', (a, 5), f'bat catmarkinside{i}')
+        
+        # overlays
+        for a, i in enumerate(
+                ['BASIC', 'BENGAL', 'SOLID']):
+            self.make_group('overlays', (a, 0), f'underfur{i}')
+            self.make_group('overlays', (a, 2), f'bird catunderfur{i}')
+            self.make_group('overlays', (a, 4), f'bat catunderfur{i}')
+        for a, i in enumerate(
+                ['BASIC', 'BENGAL', 'SOLID']):
+            self.make_group('overlays', (a, 1), f'overfur{i}')
+            self.make_group('overlays', (a, 3), f'bird catoverfur{i}')
+            self.make_group('overlays', (a, 5), f'bat catoverfur{i}')
+
+
+        # keeping this here just so I can remember what each color is
+        #for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+        #    self.make_group('singlecolours', (a, 0), f'single{i}')
+        #for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+        #    self.make_group('singlecolours', (a, 1), f'single{i}')
+        #for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+        #    self.make_group('singlecolours', (a, 2), f'single{i}')
+        
             
         # new new torties
         for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE']):
