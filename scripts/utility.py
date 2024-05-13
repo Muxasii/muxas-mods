@@ -2428,6 +2428,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             # draw white patches
+            """
             if cat.pelt.white_patches is not None:
                 white_patches = sprites.sprites['white' + cat.pelt.white_patches + cat_sprite].copy()
 
@@ -2437,6 +2438,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                     tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
                     white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            """
 
                 #wings.blit(white_patches, (0, 0))
 
