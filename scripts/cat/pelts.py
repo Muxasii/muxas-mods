@@ -32,17 +32,17 @@ class Pelt():
     pelt_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE', 'ASH', 'LAVENDER', 'PEACH'
+        'CHOCOLATE', 'ASH', 'LAVENDER', 'PALECREAM'
     ]
     pelt_c_no_white = [
         'SILVER', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE', 'ASH', 'LAVENDER', 'PEACH'
+        'CHOCOLATE', 'ASH', 'LAVENDER', 'PALECREAM'
     ]
     pelt_c_no_bw = [
         'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE', 'PEACH', 'LAVENDER'
+        'CHOCOLATE', 'PALECREAM', 'LAVENDER'
     ]
 
     tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'HALF',
@@ -102,9 +102,9 @@ class Pelt():
     single_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE', 'LAVENDER', 'ASH', 'PEACH'
+        'CHOCOLATE', 'LAVENDER', 'ASH', 'PALECREAM'
     ]
-    ginger_colours = ['PEACH', 'CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
+    ginger_colours = ['PALECREAM', 'CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
     black_colours = ['SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'ASH', 'LAVENDER']
     white_colours = ['WHITE', 'PALEGREY']
     brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
