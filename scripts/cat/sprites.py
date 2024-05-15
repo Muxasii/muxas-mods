@@ -112,9 +112,9 @@ class Sprites():
 
         for x in [
             'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin',
-            'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
+            'whitepatches', 'wingswhitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
+            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiepatchesmasks',
             'medcatherbs', 'lightingnew', 'fademask',
             'fadestarclan', 'fadedarkforest',
             'testscars'
@@ -205,6 +205,29 @@ class Sprites():
             self.make_group('whitepatches', (a, 8), f'white{i}')
         for a, i in enumerate(['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE', 'WISP', 'INVERTEDWINGS']):
             self.make_group('whitepatches', (a, 9), 'white' + i)
+
+        # wing white patches
+        for a, i in enumerate(['NONE', 'FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'HALFWHITE', 'GOATEE',
+            'PEBBLESHINE', 'MISTER', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'SKUNK', 'STRIPES']):
+            self.make_group('wingswhitepatches', (a, 0), f'bat catwhite{i}')
+            self.make_group('wingswhitepatches', (a, 1), f'bird catwhite{i}')
+        for a, i in enumerate(['UNDER', 'WOODPECKER', 'PAINTED', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI']):
+            self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
+            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
+        for a, i in enumerate(['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'HEARTTWO', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']):
+            self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
+            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
+
+        # wing tortie masks
+        for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO']):
+            self.make_group('wingstortiepatchesmasks', (a, 0), f"bat cattortiemask{i}")
+            self.make_group('wingstortiepatchesmasks', (a, 1), f"bird cattortiemask{i}")
+        for a, i in enumerate(['SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL', 'GRUMPYFACE', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE']):
+            self.make_group('wingstortiepatchesmasks', (a, 2), f"bat cattortiemask{i}")
+            self.make_group('wingstortiepatchesmasks', (a, 3), f"bird cattortiemask{i}")
+        for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
+            self.make_group('wingstortiepatchesmasks', (a, 4), f"bat cattortiemask{i}")
+            self.make_group('wingstortiepatchesmasks', (a, 5), f"bird cattortiemask{i}")
 
         # markings
         for a, i in enumerate(

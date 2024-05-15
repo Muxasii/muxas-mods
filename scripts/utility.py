@@ -2086,13 +2086,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                     # my eyes are dry - inside markings
                     if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
                         tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        try:
-                            tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
-                        except:
-                            print(cat_marking)
-                            print(cat.pelt.tortiecolour)
-                            print(cat.pelt.tortiepattern)
-                            print(tortie_color_type)
+                        tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
                         
 
                         tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
@@ -2309,7 +2303,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
 
             # draw tortie
             if cat.pelt.name in ['Tortie', 'Calico']:
-                w_patches = sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite].copy()
+                w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
 
                 # draw base
                 w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
@@ -2414,7 +2408,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                     w_patches.blit(w_tortie_markings, (0, 0))
 
                 # *microwave.sfx*
-                w_patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
                 wings.blit(w_patches, (0, 0))
 
@@ -2428,33 +2422,31 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             # draw white patches
-            """
-            if cat.pelt.white_patches is not None:
-                white_patches = sprites.sprites['white' + cat.pelt.white_patches + cat_sprite].copy()
+            if cat.pelt.wing_white_patches is not None:
+                wing_white_patches = sprites.sprites[f'{cat.species}' + 'white' + cat.pelt.wing_white_patches + cat_sprite].copy()
 
                 # Apply tint to white patches.
                 if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
                     "tint_colours"]:
                     tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            """
+                    wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-                #wings.blit(white_patches, (0, 0))
+                wings.blit(wing_white_patches, (0, 0))
 
             # draw vit & points
 
             if cat.pelt.points:
-                points = sprites.sprites['white' + cat.pelt.points + cat_sprite].copy()
+                wing_points = sprites.sprites[cat.species + 'white' + cat.pelt.points + cat_sprite].copy()
                 if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
                     "tint_colours"]:
                     tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                wings.blit(points, (0, 0))
+                    wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                wings.blit(wing_points, (0, 0))
 
             if cat.pelt.vitiligo:
-                wings.blit(sprites.sprites['white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
+                wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
 
             wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 

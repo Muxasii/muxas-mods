@@ -2900,6 +2900,7 @@ class Cat():
                 "eye_colour2": self.pelt.eye_colour2 if self.pelt.eye_colour2 else None,
                 "reverse": self.pelt.reverse,
                 "white_patches": self.pelt.white_patches,
+                "wing_white_patches": self.pelt.wing_white_patches,
                 "vitiligo": self.pelt.vitiligo,
                 "points": self.pelt.points,
                 "white_patches_tint": self.pelt.white_patches_tint,

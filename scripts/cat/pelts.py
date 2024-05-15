@@ -117,10 +117,10 @@ class Pelt():
     little_white = ['LITTLE', 'LIGHTTUXEDO', 'BUZZARDFANG', 'TIP', 'BLAZE', 'BIB', 'VEE', 'PAWS',
                     'BELLY', 'TAILTIP', 'TOES', 'BROKENBLAZE', 'LILTWO', 'SCOURGE', 'TOESTAIL', 'RAVENPAW', 'HONEY', 'LUNA',
                     'EXTRA', 'MUSTACHE', 'REVERSEHEART', 'SPARKLE', 'RIGHTEAR', 'LEFTEAR', 'ESTRELLA', 'REVERSEEYE', 'BACKSPOT',
-                    'EYEBAGS', 'LOCKET']
+                    'EYEBAGS', 'LOCKET', 'BLAZEMASK', 'TEARS']
     mid_white = ['TUXEDO', 'FANCY', 'UNDERS', 'DAMIEN', 'SKUNK', 'MITAINE', 'SQUEAKS', 'STAR', 'WINGS',
                 'DIVA', 'SAVANNAH', 'FADESPOTS', 'BEARD', 'DAPPLEPAW', 'TOPCOVER', 'WOODPECKER', 'MISS', 'BOWTIE', 'VEST',
-                'FADEBELLY', 'DIGIT', 'FCTWO', 'FCONE', 'MIA', 'ROSINA', 'PRINCESS']
+                'FADEBELLY', 'DIGIT', 'FCTWO', 'FCONE', 'MIA', 'ROSINA', 'PRINCESS', 'DOUGIE']
     high_white = ['ANY', 'ANYTWO', 'BROKEN', 'FRECKLES', 'RINGTAIL', 'HALFFACE', 'PANTSTWO',
                 'GOATEE', 'PRINCE', 'FAROFA', 'MISTER', 'PANTS', 'REVERSEPANTS', 'HALFWHITE', 'APPALOOSA', 'PIEBALD',
                 'CURVED', 'GLASS', 'MASKMANTLE', 'MAO', 'PAINTED', 'SHIBAINU', 'OWL', 'BUB', 'SPARROW', 'TRIXIE',
@@ -132,6 +132,26 @@ class Pelt():
     vit = ['VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI', 'POWDER', 'BLEACHED', 'SMOKEY']
     white_sprites = [
         little_white, mid_white, high_white, mostly_white, point_markings, vit, 'FULLWHITE']
+    
+    # list of all non-unique
+    wing_white_list = ['FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'PEBBLESHINE', 'CAKE', 'KROPKA', 'HALFWHITE', 'GOATEE', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'PAINTED', 'SKUNK', 'STRIPES','UNDER', 'WOODPECKER', 'PAINTED', 'HAWKBLAZE', 'FINN', 'BULLSEYE', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'MISTER', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'PEBBLE']
+
+    # special patches that just look weird with other patches
+    special_wing_white = ['WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'FULLWHITE']
+
+    # selection dict - crying? not today
+    # i love dicts
+    wing_white_sel = {
+        "little": ['little'],
+        "mid": ['little', 'mid', 'high'],
+        "high": ['high', 'mid'],
+        "mostly": ['high', 'mostly'],
+
+        "little_white": ['FADESPOTS', 'WINGTIPS', 'MITAINE', 'MISTER'],
+        "mid_white": ['SKUNK', 'STRIPES', 'UNDER', 'WOODPECKER', 'PAINTED', 'HAWKBLAZE', 'FINN', 'BULLSEYE'],
+        "high_white": ['HALFWHITE', 'GOATEE', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'PAINTED'],
+        "mostly_white": ['FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'PEBBLESHINE', 'CAKE', 'KROPKA', 'PEBBLE']
+    }
 
     skin_sprites = ['BLACK',  'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                     'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'RED']
@@ -142,6 +162,7 @@ class Pelt():
                  length:str="short",
                  colour:str="WHITE",
                  white_patches:str=None,
+                 wing_white_patches:str=None,
                  eye_color:str="BLUE",
                  eye_colour2:str=None,
                  tortiebase:str=None,
@@ -169,6 +190,7 @@ class Pelt():
         self.name = name
         self.colour = colour
         self.white_patches = white_patches
+        self.wing_white_patches = wing_white_patches
         self.eye_colour = eye_color
         self.eye_colour2 = eye_colour2
         self.tortiebase = tortiebase
@@ -210,6 +232,7 @@ class Pelt():
         
         pelt_white = new_pelt.init_pattern_color(parents, gender)
         new_pelt.init_white_patches(pelt_white, parents)
+        new_pelt.init_wing_patches()
         new_pelt.init_sprite(species)
         new_pelt.init_scars(age)
         new_pelt.init_accessories(age)
@@ -326,6 +349,9 @@ class Pelt():
             self.points = self.white_patches
             self.white_patches = None
 
+        if self.wing_white_patches == None and self.white_patches:
+            print("No wing patches when there should be.")
+            self.init_wing_patches()
         
         if self.tortiepattern and "tortie" in self.tortiepattern:
             self.tortiepattern = sub("tortie", "", self.tortiepattern.lower())
@@ -979,6 +1005,54 @@ class Pelt():
         else:
             self.white_patches = None
             self.points = None
+
+    def init_wing_patches(self):
+        """For initialising white patches n crap because I don't want to write this multiple times"""
+        white_choices = []
+
+        # find white amount
+        if self.white_patches in Pelt.little_white:
+            patch_amount = "little"
+        elif self.white_patches in Pelt.mid_white:
+            patch_amount = "mid"
+        elif self.white_patches in Pelt.high_white:
+            patch_amount = "high"
+        elif self.white_patches in Pelt.mostly_white:
+            patch_amount = "mostly"
+        else:
+            patch_amount = "none"
+
+        # check if it exists
+        if self.white_patches in Pelt.wing_white_list:
+
+            # check for special
+            if self.white_patches not in Pelt.special_wing_white:
+                for a, i in enumerate(Pelt.wing_white_sel[f'{patch_amount}']):
+                    white_choices.append(Pelt.wing_white_sel[f'{patch_amount}_white'])
+                    # 50% chance for a random diff white patch or the same one
+                    white_choices.append([self.white_patches] * len(i))
+            else:
+                white_choices.append([self.white_patches])
+        else:
+            # catch if there is no white patch
+            if patch_amount == "none":
+                return
+            else:
+                for a, i in enumerate(Pelt.wing_white_sel[f'{patch_amount}']):
+                    white_choices.append(Pelt.wing_white_sel[f'{patch_amount}_white'])
+                    if patch_amount == "little":
+                        # 75% chance for no white patch on wings
+                        white_choices.append(['NONE'] * len(i) * 2)
+
+        print(white_choices)
+        chosen_white_patches = choice(
+            random.choices(white_choices, k=1)[0]
+        )
+        
+        print(chosen_white_patches)
+
+        self.wing_white_patches = chosen_white_patches
+
 
     def init_tint(self):
         """Sets tint for pelt and white patches"""
