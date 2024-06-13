@@ -54,7 +54,7 @@ class Pelt:
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
                    'classic', 'sokoke', 'agouti', 'singlestripe', 'masked']
 
-    pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "long", "longhorned"]
+    pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "large", "largehorned"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
                    'PALEBLUE',
                    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
@@ -474,9 +474,9 @@ class Pelt:
                 add_weight = (2, 10, 50, 0, 0, 0)
             elif p_ == "mediumhorned":
                 add_weight = (2, 10, 50, 0, 0, 0)
-            elif p_ == "long":
+            elif p_ == "large":
                 add_weight = (2, 10, 50, 0, 0, 0)
-            elif p_ == "longhorned":
+            elif p_ == "largehorned":
                 add_weight = (2, 10, 50, 0, 0, 0)
             elif p_ is None:
                 add_weight = (10, 10, 10, 0, 0, 0)
@@ -616,7 +616,7 @@ class Pelt:
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
-        if self.length != 'longhorned':
+        if self.length != 'largehorned':
             self.cat_sprites['adult'] = random.randint(6, 8)
             self.cat_sprites['para_adult'] = 16
         else:
@@ -1067,7 +1067,7 @@ class Pelt:
 
             if len(cat.pelt.scars) >= 3:
                 color_name = f"scarred {color_name}"
-            if cat.pelt.length == "longhorned":
+            if cat.pelt.length == "largehorned":
                 color_name = f"long-furred {color_name}"
 
         return color_name
