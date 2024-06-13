@@ -54,7 +54,7 @@ class Pelt:
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
                    'classic', 'sokoke', 'agouti', 'singlestripe', 'masked']
 
-    pelt_length = ["short", "medium", "long"]
+    pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "long", "longhorned"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
                    'PALEBLUE',
                    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
@@ -464,18 +464,24 @@ class Pelt:
         #   PELT LENGTH
         # ------------------------------------------------------------------------------------------------------------#
 
-        weights = [0, 0, 0]  # Weights for each length. It goes (short, medium, long)
+        weights = [0, 0, 0, 0, 0, 0]  # Weights for each length. It goes (short, medium, long)
         for p_ in par_peltlength:
-            if p_ == "short":
-                add_weight = (50, 10, 2)
+            if p_ == "small":
+                add_weight = (50, 10, 2, 0, 0, 0)
+            elif p_ == "smallhorned":
+                add_weight = (25, 50, 25, 0, 0, 0)
             elif p_ == "medium":
-                add_weight = (25, 50, 25)
+                add_weight = (2, 10, 50, 0, 0, 0)
+            elif p_ == "mediumhorned":
+                add_weight = (2, 10, 50, 0, 0, 0)
             elif p_ == "long":
-                add_weight = (2, 10, 50)
+                add_weight = (2, 10, 50, 0, 0, 0)
+            elif p_ == "longhorned":
+                add_weight = (2, 10, 50, 0, 0, 0)
             elif p_ is None:
-                add_weight = (10, 10, 10)
+                add_weight = (10, 10, 10, 0, 0, 0)
             else:
-                add_weight = (0, 0, 0)
+                add_weight = (0, 0, 0, 0, 0, 0)
 
             for x in range(0, len(weights)):
                 weights[x] += add_weight[x]
@@ -610,7 +616,7 @@ class Pelt:
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
-        if self.length != 'long':
+        if self.length != 'longhorned':
             self.cat_sprites['adult'] = random.randint(6, 8)
             self.cat_sprites['para_adult'] = 16
         else:
@@ -1061,7 +1067,7 @@ class Pelt:
 
             if len(cat.pelt.scars) >= 3:
                 color_name = f"scarred {color_name}"
-            if cat.pelt.length == "long":
+            if cat.pelt.length == "longhorned":
                 color_name = f"long-furred {color_name}"
 
         return color_name
