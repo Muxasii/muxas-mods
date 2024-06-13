@@ -199,10 +199,10 @@ class Pelt:
                             "senior adult": adult_sprite if adult_sprite is not None else 0,
                             "senior": senior_sprite if senior_sprite is not None else 0,
                             "para_adult": para_adult_sprite if para_adult_sprite is not None else 0,
-                            'newborn': 20,
-                            'para_young': 17,
-                            "sick_adult": 18,
-                            "sick_young": 19}
+                            'newborn': newborn_sprite if newborn_sprite is not None else 0,
+                            'para_young': para_young_sprite if para_young_sprite is not None else 0,
+                            "sick_adult": sick_adult_sprite if sick_adult_sprite is not None else 0,
+                            "sick_young": sick_young_sprite if sick_young_sprite is not None else 0}
 
         self.reverse = reverse
         self.skin = skin
@@ -605,22 +605,22 @@ class Pelt:
 
     def init_sprite(self):
         self.cat_sprites = {
-            'newborn': 20,
-            'kitten': random.randint(0, 2),
-            'adolescent': random.randint(3, 5),
-            'senior': random.randint(12, 14),
-            'sick_young': 19,
-            'sick_adult': 18
+            'newborn': 65,
+            'kitten': random.randint(0, 8),
+            'adolescent': random.randint(9, 17),
+            'senior': random.randint(36, 53),
+            'sick_young': 64,
+            'sick_adult': 63
         }
         self.reverse = choice([True, False])
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
         if self.length != 'largehorned':
-            self.cat_sprites['adult'] = random.randint(6, 8)
-            self.cat_sprites['para_adult'] = 16
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
         else:
-            self.cat_sprites['adult'] = random.randint(9, 11)
+            self.cat_sprites['adult'] = random.randint(18, 26)
             self.cat_sprites['para_adult'] = 15
         self.cat_sprites['young adult'] = self.cat_sprites['adult']
         self.cat_sprites['senior adult'] = self.cat_sprites['adult']
