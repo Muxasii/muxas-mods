@@ -167,11 +167,15 @@ class Pelt:
                  tint: str = "none",
                  skin: str = "BLACK",
                  white_patches_tint: str = "none",
+                 newborn_sprite: int = None,
                  kitten_sprite: int = None,
                  adol_sprite: int = None,
                  adult_sprite: int = None,
                  senior_sprite: int = None,
+                 para_young_sprite: int = None,
                  para_adult_sprite: int = None,
+                 sick_young_sprite: int = None,
+                 sick_adult_sprite: int = None,
                  reverse: bool = False,
                  ) -> None:
         self.name = name
@@ -626,7 +630,7 @@ class Pelt:
         self.cat_sprites['senior adult'] = self.cat_sprites['adult']
 
     def init_scars(self, age):
-        if age == "newborn":
+        if age == "":
             return
 
         if age in ['kitten', 'adolescent']:
@@ -646,7 +650,7 @@ class Pelt:
             self.scars.remove('HALFTAIL')
 
     def init_accessories(self, age):
-        if age == "newborn":
+        if age == "":
             self.accessory = None
             return
 
