@@ -471,19 +471,19 @@ class Pelt:
         weights = [0, 0, 0, 0, 0, 0]  # Weights for each length. It goes (short, medium, long)
         for p_ in par_peltlength:
             if p_ == "small":
-                add_weight = (50, 10, 2, 0, 0, 0)
+                add_weight = (50, 25, 15, 10, 5, 2)
             elif p_ == "smallhorned":
-                add_weight = (25, 50, 25, 0, 0, 0)
+                add_weight = (25, 50, 10, 15, 2, 5)
             elif p_ == "medium":
-                add_weight = (2, 10, 50, 0, 0, 0)
+                    add_weight = (15, 10, 50, 25, 15, 10)
             elif p_ == "mediumhorned":
-                add_weight = (2, 10, 50, 0, 0, 0)
+                add_weight = (10, 15, 25, 50, 10, 15)
             elif p_ == "large":
-                add_weight = (2, 10, 50, 0, 0, 0)
+                add_weight = (5, 2, 15, 10, 50, 25)
             elif p_ == "largehorned":
-                add_weight = (2, 10, 50, 0, 0, 0)
+                add_weight = (2, 5, 10, 15, 25, 50)
             elif p_ is None:
-                add_weight = (10, 10, 10, 0, 0, 0)
+                add_weight = (10, 10, 10, 10, 10, 10)
             else:
                 add_weight = (0, 0, 0, 0, 0, 0)
 
