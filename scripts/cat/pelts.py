@@ -615,7 +615,7 @@ class Pelt:
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
-        elif self.length != 'small':
+        if self.length != 'small':
             self.cat_sprites['newborn'] = random.randint(27, 29)
             self.cat_sprites['kitten'] = random.randint(27, 29)
             self.cat_sprites['adolescent'] = random.randint(27, 29)
