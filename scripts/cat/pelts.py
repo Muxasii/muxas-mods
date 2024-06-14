@@ -609,23 +609,66 @@ class Pelt:
 
     def init_sprite(self):
         self.cat_sprites = {
-            'newborn': 65,
-            'kitten': random.randint(0, 8),
-            'adolescent': random.randint(9, 17),
-            'senior': random.randint(36, 53),
-            'sick_young': 64,
             'sick_adult': 63
         }
         self.reverse = choice([True, False])
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
-        if self.length != 'largehorned':
+        elif self.length != 'small':
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
             self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
+        elif self.length != 'smallhorned':
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
+        elif self.length != 'mediumhorned':
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
+        elif self.length != 'large':
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
+        elif self.length != 'largehorned':
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
             self.cat_sprites['para_adult'] = 55
         else:
-            self.cat_sprites['adult'] = random.randint(18, 26)
-            self.cat_sprites['para_adult'] = 15
+            self.cat_sprites['newborn'] = random.randint(27, 29)
+            self.cat_sprites['kitten'] = random.randint(27, 29)
+            self.cat_sprites['adolescent'] = random.randint(27, 29)
+            self.cat_sprites['adult'] = random.randint(27, 29)
+            self.cat_sprites['senior'] = random.randint(27, 29)
+            self.cat_sprites['sick_young'] = random.randint(27, 29)
+            self.cat_sprites['para_young'] = random.randint(27, 29)
+            self.cat_sprites['para_adult'] = 55
         self.cat_sprites['young adult'] = self.cat_sprites['adult']
         self.cat_sprites['senior adult'] = self.cat_sprites['adult']
 
