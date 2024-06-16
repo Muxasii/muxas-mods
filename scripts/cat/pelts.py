@@ -203,8 +203,8 @@ class Pelt:
                             "senior adult": adult_sprite if adult_sprite is not None else 0,
                             "senior": senior_sprite if senior_sprite is not None else 0,
                             "para_adult": para_adult_sprite if para_adult_sprite is not None else 0,
-                            'newborn': newborn_sprite if newborn_sprite is not None else 0,
-                            'para_young': para_young_sprite if para_young_sprite is not None else 0,
+                            "newborn": newborn_sprite if newborn_sprite is not None else 0,
+                            "para_young": para_young_sprite if para_young_sprite is not None else 0,
                             "sick_adult": sick_adult_sprite if sick_adult_sprite is not None else 0,
                             "sick_young": sick_young_sprite if sick_young_sprite is not None else 0}
 
@@ -624,7 +624,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 70
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 60
-        elif self.length != 'smallhorned':
+        if self.length != 'smallhorned':
             self.cat_sprites['newborn'] = 71
             self.cat_sprites['kitten'] = random.randint(6, 8)
             self.cat_sprites['adolescent'] = random.randint(15, 17)
@@ -633,7 +633,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 70
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 61
-        elif self.length != 'mediumhorned':
+        if self.length != 'mediumhorned':
             self.cat_sprites['newborn'] = 68
             self.cat_sprites['kitten'] = random.randint(3, 5)
             self.cat_sprites['adolescent'] = random.randint(12, 14)
@@ -642,7 +642,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 67
             self.cat_sprites['para_young'] = 59
             self.cat_sprites['para_adult'] = 58
-        elif self.length != 'large':
+        if self.length != 'large':
             self.cat_sprites['newborn'] = 65
             self.cat_sprites['kitten'] = random.randint(0, 2)
             self.cat_sprites['adolescent'] = random.randint(9, 11)
@@ -651,7 +651,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 64
             self.cat_sprites['para_young'] = 56
             self.cat_sprites['para_adult'] = 54
-        elif self.length != 'largehorned':
+        if self.length != 'largehorned':
             self.cat_sprites['newborn'] = 65
             self.cat_sprites['kitten'] = random.randint(0, 2)
             self.cat_sprites['adolescent'] = random.randint(9, 11)
