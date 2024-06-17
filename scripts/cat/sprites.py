@@ -156,9 +156,12 @@ class Sprites:
 
         # Define eye colors
         eye_colors = [
-            ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
-             'HEATHERBLUE', 'SUNLITICE'],
-            ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW']
+            ['BLACK', 'DARK', 'MAHOGANY', 'FATHOMLESS'],
+            ['SPARKLING', 'HEADLIGHTS', 'GREY', 'HAZEL'],
+            ['AMBER', 'YELLOW', 'SUNLITICE', 'COPPER'],
+            ['SAGE', 'BRONZE', 'SILVER', 'PALEYELLOW'],
+            ['GOLD', 'GREENYELLOW', 'RED', 'FIERY'],
+            ['HAGGISH']
         ]
 
         for row, colors in enumerate(eye_colors):
