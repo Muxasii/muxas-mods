@@ -615,7 +615,7 @@ class Pelt:
         # skin chances
         self.skin = choice(Pelt.skin_sprites)
 
-        if self.length != 'small':
+        if self.length == 'small':
             self.cat_sprites['newborn'] = 71
             self.cat_sprites['kitten'] = random.randint(6, 8)
             self.cat_sprites['adolescent'] = random.randint(15, 17)
@@ -624,7 +624,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 70
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 60
-        if self.length != 'smallhorned':
+        if self.length == 'smallhorned':
             self.cat_sprites['newborn'] = 71
             self.cat_sprites['kitten'] = random.randint(6, 8)
             self.cat_sprites['adolescent'] = random.randint(15, 17)
@@ -633,7 +633,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 70
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 61
-        if self.length != 'mediumhorned':
+        if self.length == 'mediumhorned':
             self.cat_sprites['newborn'] = 68
             self.cat_sprites['kitten'] = random.randint(3, 5)
             self.cat_sprites['adolescent'] = random.randint(12, 14)
@@ -642,7 +642,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 67
             self.cat_sprites['para_young'] = 59
             self.cat_sprites['para_adult'] = 58
-        if self.length != 'large':
+        if self.length == 'large':
             self.cat_sprites['newborn'] = 65
             self.cat_sprites['kitten'] = random.randint(0, 2)
             self.cat_sprites['adolescent'] = random.randint(9, 11)
@@ -651,7 +651,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 64
             self.cat_sprites['para_young'] = 56
             self.cat_sprites['para_adult'] = 54
-        if self.length != 'largehorned':
+        if self.length == 'largehorned':
             self.cat_sprites['newborn'] = 65
             self.cat_sprites['kitten'] = random.randint(0, 2)
             self.cat_sprites['adolescent'] = random.randint(9, 11)
