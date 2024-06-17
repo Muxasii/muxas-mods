@@ -231,9 +231,8 @@ class Sprites:
 
         # Define skin colors 
         skin_colors = [
-            ['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN'],
-            ['DARK', 'DARKGREY', 'GREY', 'DARKSALMON', 'SALMON', 'PEACH'],
-            ['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']
+            ['NONE', 'WETNWILD'],
+            ['MAYBELLINE', 'ONFLEEK']
         ]
 
         for row, colors in enumerate(skin_colors):
