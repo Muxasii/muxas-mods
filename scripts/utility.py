@@ -2348,7 +2348,7 @@ def generate_sprite(
         if age in ["kitten", "adolescent"]:
             cat_sprite = str(17)
         else:
-            if cat.pelt.length == "long":
+            if cat.pelt.length == "largehorned":
                 cat_sprite = str(16)
             else:
                 cat_sprite = str(15)
