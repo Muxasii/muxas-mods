@@ -55,13 +55,13 @@ class Pelt:
                    'classic', 'sokoke', 'agouti', 'singlestripe', 'masked']
 
     pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "large", "largehorned"]
-    eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
-                   'PALEBLUE',
-                   'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
-                   'BRONZE', 'SILVER']
-    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER']
-    blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
-    green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL']
+    eye_colours = ['BLACK', 'DARK', 'MAHOGANY', 'FATHOMLESS', 'SPARKLING', 'HEADLIGHTS', 'GREY', 'HAZEL', 'AMBER', 'YELLOW',
+                   'SUNLITICE',
+                   'COPPER', 'SAGE', 'BRONZE', 'SILVER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW', 'RED',
+                   'FIERY', 'HAGGISH']
+    yellow_eyes = ['HAZEL', 'AMBER', 'YELLOW', 'SUNLITICE', 'COPPER', 'SAGE', 'BRONZE', 'PALEYELLOW', 'GOLD', 'GREENYELLOW', 'RED', 'FIERY']
+    black_eyes = ['BLACK', 'DARK', 'MAHOGANY', 'FATHOMLESS', 'SPARKLING', 'GREY', 'SILVER']
+    unnatural_eyes = ['HEADLIGHTS', 'HAGGISH']
 
     # bite scars by @wood pank on discord
 
