@@ -97,6 +97,7 @@ class SkillPath(Enum):
         "prophet",
     )
     GHOST = ("morbid curiosity", "ghost sense", "ghost sight", "ghost speaker")
+    COLLIER = ("mesmerized by flames", "always covered in ashes", "wildfire seeker", "coal diver")
 
     @staticmethod
     def get_random(exclude: list = ()):
@@ -106,6 +107,7 @@ class SkillPath(Enum):
             i
             for i in [
                 SkillPath.GHOST,
+                SkillPath.COLLIER,
                 SkillPath.PROPHET,
                 SkillPath.CLAIRVOYANT,
                 SkillPath.DREAM,
@@ -173,6 +175,7 @@ class Skill:
         SkillPath.PROPHET: "prophesying",
         SkillPath.GHOST: "ghosts",
         SkillPath.DARK: "dark forest",
+        SkillPath.COLLIER: "fire seeking",
     }
 
     def __init__(self, path: SkillPath, points: int = 0, interest_only: bool = False):
@@ -322,6 +325,7 @@ class CatSkills:
         SkillPath.PROPHET: SkillTypeFlag.SUPERNATURAL,
         SkillPath.GHOST: SkillTypeFlag.SUPERNATURAL,
         SkillPath.DARK: SkillTypeFlag.SUPERNATURAL,
+        SkillPath.COLLIER: SkillTypeFlag.SUPERNATURAL | SkillTypeFlag.AGILE,
     }
 
     # pylint: enable=unsupported-binary-operation
