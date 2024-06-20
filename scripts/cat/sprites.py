@@ -127,7 +127,7 @@ class Sprites:
             'scars', 'missingscars',
             'medcatherbs',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-            'singlecolours', 'speckledcolours', 'tabbycolours', 'bengalcolours', 'marbledcolours',
+            'singlecolour', 'speckledcolours', 'tabbycolours', 'bengalcolours', 'marbledcolours',
             'rosettecolours', 'smokecolours', 'tickedcolours', 'mackerelcolours', 'classiccolours',
             'sokokecolours', 'agouticolours', 'singlestripecolours', 'maskedcolours',
             'shadersnewwhite', 'lightingnew',
@@ -198,13 +198,14 @@ class Sprites:
 
         # Define colors and categories
         color_categories = [
-            ['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK'],
-            ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA'],
-            ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
+            ['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY'], 
+            ['GHOST', 'BLACK', 'CREAM', 'PALEGINGER', 'GOLDEN'],
+            ['GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC'],
+            ['BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
         ]
 
         color_types = [
-            'singlecolours', 'tabbycolours', 'marbledcolours', 'rosettecolours',
+            'singlecolour', 'tabbycolours', 'marbledcolours', 'rosettecolours',
             'smokecolours', 'tickedcolours', 'speckledcolours', 'bengalcolours',
             'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours',
             'singlestripecolours', 'maskedcolours'
