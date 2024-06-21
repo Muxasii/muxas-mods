@@ -659,7 +659,7 @@ class Pelt:
             self.cat_sprites['sick_young'] = 64
             self.cat_sprites['para_young'] = 56
             self.cat_sprites['para_adult'] = 55
-        else:
+        if self.length == 'medium':
             self.cat_sprites['newborn'] = 68
             self.cat_sprites['kitten'] = random.randint(3, 5)
             self.cat_sprites['adolescent'] = random.randint(12, 14)
