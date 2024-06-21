@@ -13,9 +13,9 @@ class SkillPath(Enum):
         "unusually strong fighter",
     )
     RUNNER = (
-        "never sits still",
-        "fast runner",
-        "incredible runner",
+        "never stands still",
+        "fast flyer",
+        "incredible flyer",
         "fast as the wind",
     )
     CLIMBER = (
@@ -26,9 +26,9 @@ class SkillPath(Enum):
     )
     SWIMMER = (
         "splashes in puddles",
-        "good swimmer",
-        "talented swimmer",
-        "fish-like swimmer",
+        "good diver",
+        "talented diver",
+        "fish-like diver",
     )
     SPEAKER = (
         "confident with words",
@@ -52,9 +52,9 @@ class SkillPath(Enum):
     SENSE = ("oddly observant", "natural intuition", "keen eye", "unnatural senses")
     KIT = (
         "active imagination",
-        "good kitsitter",
-        "great kitsitter",
-        "beloved kitsitter",
+        "good owlet-sitter",
+        "great owlet-sitter",
+        "beloved owlet-sitter",
     )
     STORY = (
         "lover of stories",
@@ -68,7 +68,7 @@ class SkillPath(Enum):
         "lore keeper",
         "lore master",
     )
-    CAMP = ("picky nest builder", "steady paws", "den builder", "camp keeper")
+    CAMP = ("picky nest builder", "steady claws", "den builder", "camp keeper")
     HEALER = ("interested in herbs", "good healer", "great healer", "fantastic healer")
     STAR = (
         "curious about StarClan",
