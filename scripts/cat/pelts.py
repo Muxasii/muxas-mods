@@ -21,7 +21,7 @@ class Pelt:
         'Classic': 'classic',
         'Sokoke': 'sokoke',
         'Agouti': 'agouti',
-        'Singlestripe': 'singlestripe',
+        'Pulsatrix': 'pulsatrix',
         'Masked': 'masked',
         'Tortie': None,
         'Calico': None,
@@ -52,7 +52,7 @@ class Pelt:
                       'CHEST', 'ARMTAIL', 'SMOKE', 'GRUMPYFACE',
                       'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
-                   'classic', 'sokoke', 'agouti', 'singlestripe', 'masked']
+                   'classic', 'sokoke', 'agouti', 'pulsatrix', 'masked']
 
     pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "large", "largehorned"]
     eye_colours = ['BLACK', 'DARK', 'MAHOGANY', 'FATHOMLESS', 'SPARKLING', 'HEADLIGHTS', 'GREY', 'HAZEL', 'AMBER', 'YELLOW',
@@ -99,7 +99,7 @@ class Pelt:
 
     tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette"]
-    plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
+    plain = ["SingleColour", "TwoColour", "Smoke", "Pulsatrix"]
     exotic = ["Bengal", "Marbled", "Masked"]
     torties = ["Tortie", "Calico"]
     pelt_categories = [tabbies, spotted, plain, exotic, torties]
@@ -736,7 +736,7 @@ class Pelt:
 
                 else:
                     # Normal generation
-                    if self.tortiebase in ["singlestripe", "smoke", "single"]:
+                    if self.tortiebase in ["pulsatrix", "smoke", "single"]:
                         self.tortiepattern = choice(['tabby', 'mackerel', 'classic', 'single', 'smoke', 'agouti',
                                                      'ticked'])
                     else:
@@ -1015,7 +1015,7 @@ class Pelt:
             "Mackerel": "c_n tabby",
             "Classic": "c_n tabby",
             "Agouti": "c_n tabby",
-            "Singlestripe": "dorsal-striped c_n",
+            "Pulsatrix": "colorblocked c_n",
             "Rosette": "unusually spotted c_n",
             "Sokoke": "c_n tabby",
             "Masked": "masked c_n tabby"
