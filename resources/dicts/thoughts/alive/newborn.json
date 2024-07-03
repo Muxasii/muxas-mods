@@ -2,8 +2,8 @@
     {
         "id": "gen_newborn",
         "thoughts": [
-            "Mewls pitifully for milk",
-            "Tries to figure out all of the smells around {PRONOUN/m_c/object}",
+            "screams pitifully for meat",
+            "Tries to figure out all of the sounds around {PRONOUN/m_c/object}",
             "Snoozes peacefully",
             "Tries to open {PRONOUN/m_c/poss} eyes, but it's all blurry",
             "Head empty"
@@ -16,8 +16,9 @@
         "id": "gen_newborn_to_parent",
         "thoughts":[
             "Snuggles closer to r_c",
-            "Smells r_c and immediately perks up",
-            "Mews at r_c as {PRONOUN/r_c/subject} {VERB/r_c/shift/shifts} in the nest"
+            "Hears r_c and immediately perks up",
+            "Hisses at r_c as {PRONOUN/r_c/subject} {VERB/r_c/shift/shifts} in the nest",
+            "Screams in indignation as r_c sits on {PRONOUN/r_c/object} in the nest"
         ],
         "main_age_constraint": [
             "newborn"
