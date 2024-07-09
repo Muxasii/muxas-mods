@@ -218,12 +218,8 @@ class Sprites:
 
         # tortiepatchesmasks
         tortiepatchesmasks = [
-            ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE'],
-            ['MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO', 'SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL',
-             'GRUMPYFACE'],
-            ['MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE'],
-            ['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY'],
-            ['SHILOH', 'FRECKLED', 'HEARTBEAT']
+            ['DAUB', 'HALF'],
+            ['UNDERWINGS', 'SMUDGED', 'BASE']
         ]
 
         for row, masks in enumerate(tortiepatchesmasks):
