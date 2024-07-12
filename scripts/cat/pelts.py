@@ -44,7 +44,7 @@ class Pelt:
         'CHOCOLATE'
     ]
 
-    tortiepatterns = ['DAUB', 'HALF', 'UNDERWINGS', 'SMUDGED', 'BASE']
+    tortiepatterns = ['DAUB', 'HALF', 'UNDERWINGS', 'SMUDGED', 'BASE', 'PETE', 'EMBER', 'WINGTAIL']
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
                    'classic', 'sokoke', 'agouti', 'pulsatrix', 'masked']
 
