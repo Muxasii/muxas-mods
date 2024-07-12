@@ -203,7 +203,9 @@ class Sprites:
         # tortiepatchesmasks
         tortiepatchesmasks = [
             ['DAUB', 'HALF'],
-            ['UNDERWINGS', 'SMUDGED', 'BASE']
+            ['UNDERWINGS', 'SMUDGED'],
+            ['BASE', 'PETE'],
+            ['EMBER', 'WINGTAIL']
         ]
 
         for row, masks in enumerate(tortiepatchesmasks):
