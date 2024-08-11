@@ -1,4 +1,4 @@
-fimport random
+import random
 from random import choice
 from re import sub
 
