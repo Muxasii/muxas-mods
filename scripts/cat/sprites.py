@@ -127,7 +127,7 @@ class Sprites:
             'scars', 'missingscars',
             'medcatherbs',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-            'singlecolours', 'speckledcolours', 'tabbycolours', 'bengalcolours', 'marbledcolours',
+            'singlecolours', 'speckledcolours', 'tabbycolours', 'tytocolours', 'marbledcolours',
             'rosettecolours', 'smokecolours', 'tickedcolours', 'mackerelcolours', 'classiccolours',
             'sokokecolours', 'agouticolours', 'pulsatrixcolours', 'maskedcolours',
             'shadersnewwhite', 'lightingnew',
@@ -190,7 +190,7 @@ class Sprites:
 
         color_types = [
             'singlecolours', 'tabbycolours', 'marbledcolours', 'rosettecolours',
-            'smokecolours', 'tickedcolours', 'speckledcolours', 'bengalcolours',
+            'smokecolours', 'tickedcolours', 'speckledcolours', 'tytocolours',
             'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours',
             'pulsatrixcolours', 'maskedcolours'
         ]
