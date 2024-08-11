@@ -1,4 +1,4 @@
-import random
+fimport random
 from random import choice
 from re import sub
 
@@ -16,7 +16,7 @@ class Pelt:
         'Smoke': 'smoke',
         'Ticked': 'ticked',
         'Speckled': 'speckled',
-        'Bengal': 'bengal',
+        'Tyto': 'tyto',
         'Mackerel': 'mackerel',
         'Classic': 'classic',
         'Sokoke': 'sokoke',
@@ -45,7 +45,7 @@ class Pelt:
     ]
 
     tortiepatterns = ['DAUB', 'HALF', 'UNDERWINGS', 'SMUDGED', 'BASE', 'PETE', 'EMBER', 'WINGTAIL']
-    tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
+    tortiebases = ['single', 'tabby', 'tyto', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
                    'classic', 'sokoke', 'agouti', 'pulsatrix', 'masked']
 
     pelt_length = ["small", "smallhorned", "medium", "mediumhorned", "large", "largehorned"]
@@ -94,7 +94,7 @@ class Pelt:
     tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette"]
     plain = ["SingleColour", "TwoColour", "Smoke", "Pulsatrix"]
-    exotic = ["Bengal", "Marbled", "Masked"]
+    exotic = ["Tyto", "Marbled", "Masked"]
     torties = ["Tortie", "Calico"]
     pelt_categories = [tabbies, spotted, plain, exotic, torties]
 
@@ -989,7 +989,7 @@ class Pelt:
         pattern_des = {
             "Tabby": "c_n tabby",
             "Speckled": "speckled c_n",
-            "Bengal": "unusually dappled c_n",
+            "Tyto": "moon-faced c_n",
             "Marbled": "c_n tabby",
             "Ticked": "c_n ticked",
             "Smoke": "c_n smoke",
@@ -1026,7 +1026,7 @@ class Pelt:
                     color_name = cat.pelt.name.lower()
             else:
                 color_name = cat.pelt.tortiebase.lower()
-                if color_name in Pelt.tabbies + ['bengal', 'rosette', 'speckled']:
+                if color_name in Pelt.tabbies + ['tyto', 'rosette', 'speckled']:
                     color_name = 'tabby'
                 else:
                     color_name = ''
