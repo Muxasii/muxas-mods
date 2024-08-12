@@ -44,14 +44,14 @@
 
         "refugee1": "This owl came to this Clan after fleeing from {PRONOUN/m_c/poss} former Clan and the tyrannical leader that had taken over.",
         "refugee2": "This owl used to live as a loner, but after another owl chased {PRONOUN/m_c/object} from {PRONOUN/m_c/poss} home, {PRONOUN/m_c/subject} took refuge in the Clan.",
-        "refugee3": "This owl used to be a kittypet, but joined the Clan after fleeing from {PRONOUN/m_c/poss} cruel Twoleg.",
+        "refugee3": "This owl used to be in captivity, but joined the Clan after fleeing from {PRONOUN/m_c/poss} cruel Twoleg.",
         "refugee4": "This owl used to be in a rogue group, but joined the Clan after fleeing from the group's tyrannical leader.",
         "refugee5": "This owl got washed away from {PRONOUN/m_c/poss} former territory in a flood that destroyed {PRONOUN/m_c/poss} home but was glad to find a new home in {PRONOUN/m_c/poss} new Clan here.",
-        "refugee6": "This owl used to be a kittypet, but joined the Clan, sick and weak after eating something {PRONOUN/m_c/subject} shouldn't have.",
+        "refugee6": "This owl used to be in captivity, but joined the Clan, sick and weak after eating something {PRONOUN/m_c/subject} shouldn't have.",
 
         "tragedy_survivor1": "Something horrible happened to this owl's previous Clan. {PRONOUN/m_c/subject/CAP} refuse to speak about it.",
         "tragedy_survivor2": "This owl used to be part of a rogue group, but joined the Clan after something terrible happened to it.",
-        "tragedy_survivor3": "This owl used to be a kittypet, but joined the Clan after something terrible happened to {PRONOUN/m_c/poss} Twolegs.",
+        "tragedy_survivor3": "This owl used to be in captivity, but joined the Clan after something terrible happened to {PRONOUN/m_c/poss} Twolegs.",
         "tragedy_survivor4": "This owl used to be a loner, but joined the Clan after something terrible made {PRONOUN/m_c/object} leave {PRONOUN/m_c/poss} old home behind.",
 
         "wandering_healer1": "This owl used to wander, helping those where {PRONOUN/m_c/subject} could, and eventually found the Clan.",
@@ -64,10 +64,10 @@
 
         "orphaned1": "This owl was found with a deceased parent. The Clan took {PRONOUN/m_c/object} in, but doesn't hide where {PRONOUN/m_c/subject} came from.",
         "orphaned2": "This owl was found with a deceased parent. The Clan took {PRONOUN/m_c/object} in, but doesn't tell {PRONOUN/m_c/object} where {PRONOUN/m_c/subject} really came from.",
-        "orphaned3": "This owl was found as a kit among the wreckage of a Monster with no parents in sight and got brought to live in the Clan.",
-        "orphaned4": "This owl was found as a kit hiding near a place of battle where there were no survivors and got brought to live in the Clan.",
-        "orphaned5": "This owl was found as a kit hiding near {PRONOUN/m_c/poss} parent's bodies and got brought to live in the Clan.",
-        "orphaned6": "This owl was found flailing in the ocean as a teeny kitten, no parent in sight.",
+        "orphaned3": "This owl was found as an owlet among the wreckage of a Monster with no parents in sight and got brought to live in the Clan.",
+        "orphaned4": "This owl was found as an owlet hiding near a place of battle where there were no survivors and got brought to live in the Clan.",
+        "orphaned5": "This owl was found as an owlet hiding near {PRONOUN/m_c/poss} parent's bodies and got brought to live in the Clan.",
+        "orphaned6": "This owl was found flailing in the ocean as a teeny owlet, no parent in sight.",
 
         "outsider1": "This owl was born outside of a Clan.",
         "outsider2": "This owl was born outside of a Clan, but at {PRONOUN/m_c/poss} birth one parent was a member of a Clan.",
