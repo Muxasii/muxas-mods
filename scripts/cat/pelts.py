@@ -589,7 +589,7 @@ class Pelt:
 
     def init_sprite(self):
         self.cat_sprites = {
-            'sick_adult': 63
+            
         }
         self.reverse = choice([True, False])
         # skin chances
@@ -602,6 +602,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(24, 26)
             self.cat_sprites['senior'] = random.randint(42, 44)
             self.cat_sprites['sick_young'] = 70
+            self.cat_sprites['sick_adult'] = 69
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 60
         if self.length == 'smallhorned':
@@ -611,6 +612,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(33, 35)
             self.cat_sprites['senior'] = random.randint(51, 53)
             self.cat_sprites['sick_young'] = 70
+            self.cat_sprites['sick_adult'] = 69
             self.cat_sprites['para_young'] = 62
             self.cat_sprites['para_adult'] = 61
         if self.length == 'mediumhorned':
@@ -620,6 +622,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(30, 32)
             self.cat_sprites['senior'] = random.randint(48, 50)
             self.cat_sprites['sick_young'] = 67
+            self.cat_sprites['sick_adult'] = 66
             self.cat_sprites['para_young'] = 59
             self.cat_sprites['para_adult'] = 58
         if self.length == 'large':
@@ -629,6 +632,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(18, 20)
             self.cat_sprites['senior'] = random.randint(36, 38)
             self.cat_sprites['sick_young'] = 64
+            self.cat_sprites['sick_adult'] = 63
             self.cat_sprites['para_young'] = 56
             self.cat_sprites['para_adult'] = 54
         if self.length == 'largehorned':
@@ -638,6 +642,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(27, 29)
             self.cat_sprites['senior'] = random.randint(45, 47)
             self.cat_sprites['sick_young'] = 64
+            self.cat_sprites['sick_adult'] = 63
             self.cat_sprites['para_young'] = 56
             self.cat_sprites['para_adult'] = 55
         if self.length == 'medium':
@@ -647,6 +652,7 @@ class Pelt:
             self.cat_sprites['adult'] = random.randint(21, 23)
             self.cat_sprites['senior'] = random.randint(39, 41)
             self.cat_sprites['sick_young'] = 67
+            self.cat_sprites['sick_adult'] = 66
             self.cat_sprites['para_young'] = 59
             self.cat_sprites['para_adult'] = 57
         self.cat_sprites['young adult'] = self.cat_sprites['adult']
