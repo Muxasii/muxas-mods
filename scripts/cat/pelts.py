@@ -115,8 +115,8 @@ class Pelt:
         'SUNLITICE', 'GREENYELLOW', 'BRONZE', 'SILVER'
     ]
     little_white = ['EYEBAGS', 'LUNA', 'REVERSEEYE', 'LEFTHORN', 'RIGHTHORN']
-    mid_white = []
-    high_white = []
+    mid_white = ['EYEBAGS']
+    high_white = ['LUNA']
     mostly_white = ['FULLWHITE', 'EYE']
     point_markings = []
     vit = []
