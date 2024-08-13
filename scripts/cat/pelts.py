@@ -118,8 +118,8 @@ class Pelt:
     mid_white = ['EYEBAGS']
     high_white = ['LUNA']
     mostly_white = ['FULLWHITE', 'EYE']
-    point_markings = []
-    vit = []
+    point_markings = ['COLOURPOINT']
+    vit = ['VITILIGO']
     white_sprites = [
         little_white, mid_white, high_white, mostly_white, point_markings, vit, 'FULLWHITE']
 
