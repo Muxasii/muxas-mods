@@ -52,11 +52,6 @@ class StartScreen(Screens):
     def __init__(self, name=None):
         super().__init__(name)
         self.warning_label = None
-        if game.settings['dark mode']:
-            self.bg = pygame.image.load("resources/images/menu_dark.png").convert()
-        else:
-            self.bg = pygame.image.load("resources/images/menu.png").convert()
-        self.bg = pygame.transform.scale(self.bg, (screen_x, screen_y))
         self.social_buttons = {}
 
     def handle_event(self, event):
@@ -162,10 +157,11 @@ class StartScreen(Screens):
         TODO: DOCS
         """
         # Checks for dark mode
+        light_dark = "light"
         if game.settings['dark mode']:
-            self.bg = pygame.image.load("resources/images/menu_dark.png").convert()
-        else:
-            self.bg = pygame.image.load("resources/images/menu.png").convert()
+            light_dark = "dark"
+        
+        self.bg = pygame.image.load(f"resources/images/menu_{light_dark}.png").convert()
         self.bg = pygame.transform.scale(self.bg, (screen_x, screen_y))
 
 
@@ -342,7 +338,7 @@ class StartScreen(Screens):
         self.warning_label = pygame_gui.elements.UITextBox(
             "Warning: this game includes some mild descriptions of gore, violence, and animal abuse",
             scale(pygame.Rect((100, 1244), (1400, 60))),
-            object_id="#default_dark",
+            object_id=f"#warning_{light_dark}",
             manager=MANAGER,
         )
 
