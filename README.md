@@ -1,4 +1,4 @@
-# Muxa's Winged Cats
+# WingedGen
 
 Mod of ClanGen
 
