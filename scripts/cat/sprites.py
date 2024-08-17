@@ -234,8 +234,8 @@ class Sprites:
 
         for row, w_patches in enumerate(wing_white_patches):
             for col, w_patch in enumerate(w_patches):
-                self.make_group('whitepatches', (col, row), f'bat catwhite{w_patch}')
-                self.make_group('whitepatches', (col, row), f'bird catwhite{w_patch}')
+                self.make_group('wingswhitepatches', (col, row), f'bat catwhite{w_patch}')
+                self.make_group('wingswhitepatches', (col, row), f'bird catwhite{w_patch}')
 
         # markings
         for a, i in enumerate(
