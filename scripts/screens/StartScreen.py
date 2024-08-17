@@ -45,7 +45,10 @@ class StartScreen(Screens):
     def __init__(self, name=None):
         super().__init__(name)
         self.warning_label = None
-        self.bg = pygame.image.load("resources/images/menu.png").convert()
+        if game.settings['dark mode']:
+            self.bg = pygame.image.load("resources/images/menu_dark.png").convert()
+        else:
+            self.bg = pygame.image.load("resources/images/menu.png").convert()
         self.bg = pygame.transform.scale(self.bg, (screen_x, screen_y))
         self.social_buttons = {}
 
@@ -149,6 +152,14 @@ class StartScreen(Screens):
         """
         TODO: DOCS
         """
+        # Checks for dark mode
+        if game.settings['dark mode']:
+            self.bg = pygame.image.load("resources/images/menu_dark.png").convert()
+        else:
+            self.bg = pygame.image.load("resources/images/menu.png").convert()
+        self.bg = pygame.transform.scale(self.bg, (screen_x, screen_y))
+
+
         # Make those unslightly menu button hide away
         self.hide_menu_buttons()
         # Create buttons
