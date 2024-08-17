@@ -1,14 +1,14 @@
 from random import choice, sample
+
 import pygame
 import pygame_gui
 
-from .Screens import Screens
-from scripts.utility import get_text_box_theme, scale, shorten_text_to_fit
-from scripts.game_structure.image_button import UIImageButton, UISpriteButton
-from scripts.patrol.patrol import Patrol
 from scripts.cat.cats import Cat
 from scripts.game_structure.game_essentials import game, MANAGER
-from scripts.game_structure.propagating_thread import PropagatingThread
+from scripts.game_structure.ui_elements import UIImageButton, UISpriteButton
+from scripts.patrol.patrol import Patrol
+from scripts.utility import get_text_box_theme, scale, shorten_text_to_fit
+from .Screens import Screens
 
 
 class PatrolScreen(Screens):
@@ -65,9 +65,9 @@ class PatrolScreen(Screens):
 
         elif event.type == pygame.KEYDOWN and game.settings['keybinds']:
             if event.key == pygame.K_LEFT:
-                self.change_screen("starclan screen")
-            elif event.key == pygame.K_RIGHT:
-                self.change_screen('list screen')
+                self.change_screen("list screen")
+            # elif event.key == pygame.K_RIGHT:
+            # self.change_screen('list screen')
 
     def handle_choose_cats_events(self, event):
         if event.ui_element == self.elements["random"]:
@@ -265,47 +265,39 @@ class PatrolScreen(Screens):
                 if self.patrol_type == 'med':
                     self.patrol_type = 'general'
 
-            if game.clan.game_mode != 'classic':
-                self.elements['paw'].enable()
-                self.elements['mouse'].enable()
-                self.elements['claws'].enable()
-                self.elements['herb'].enable()
+            self.elements['paw'].enable()
+            self.elements['mouse'].enable()
+            self.elements['claws'].enable()
+            self.elements['herb'].enable()
+            self.elements['info'].kill()  # clearing the text before displaying new text
 
-                self.elements['info'].kill()  # clearing the text before displaying new text
-
-                if self.patrol_type != 'med' and self.current_patrol:
-                    self.elements['herb'].disable()
-                    if self.patrol_type == 'med':
-                        self.patrol_type = 'general'
-
-                if self.patrol_type == 'general':
-                    text = 'random patrol type'
-                elif self.patrol_type == 'training':
-                    text = 'training'
-                elif self.patrol_type == 'border':
-                    text = 'border'
-                elif self.patrol_type == 'hunting':
-                    text = 'hunting'
-                elif self.patrol_type == 'med':
-                    if self.current_patrol:
-                        text = 'herb gathering'
-                        self.elements['mouse'].disable()
-                        self.elements['claws'].disable()
-                        self.elements['paw'].disable()
-                    else:
-                        text = 'herb gathering'
+            if self.patrol_type != 'med' and self.current_patrol:
+                self.elements['herb'].disable()
+                if self.patrol_type == 'med':
+                    self.patrol_type = 'general'
+            if self.patrol_type == 'general':
+                text = 'random patrol type'
+            elif self.patrol_type == 'training':
+                text = 'training'
+            elif self.patrol_type == 'border':
+                text = 'border'
+            elif self.patrol_type == 'hunting':
+                text = 'hunting'
+            elif self.patrol_type == 'med':
+                if self.current_patrol:
+                    text = 'herb gathering'
+                    self.elements['mouse'].disable()
+                    self.elements['claws'].disable()
+                    self.elements['paw'].disable()
                 else:
-                    text = ""
-
-                self.elements['info'] = pygame_gui.elements.UITextBox(
-                    text, scale(pygame.Rect((500, 1050), (600, 800))),
-                    object_id=get_text_box_theme("#text_box_30_horizcenter"), manager=MANAGER
-                )
+                    text = 'herb gathering'
             else:
-                self.elements['paw'].hide()
-                self.elements['mouse'].hide()
-                self.elements['claws'].hide()
-                self.elements['herb'].hide()
+                text = ""
+
+            self.elements['info'] = pygame_gui.elements.UITextBox(
+                text, scale(pygame.Rect((500, 1050), (600, 800))),
+                object_id=get_text_box_theme("#text_box_30_horizcenter"), manager=MANAGER
+            )
 
             able_no_med = [cat for cat in self.able_cats if
                            cat.status not in ['medicine cat', 'medicine cat apprentice']]
@@ -387,11 +379,14 @@ class PatrolScreen(Screens):
                                                                  pygame.image.load(
                                                                      "resources/images/patrol_cat_frame.png").convert_alpha()
                                                                  , manager=MANAGER)
+        self.elements["cat_frame"].disable()
 
         # Frames
         self.elements["able_frame"] = pygame_gui.elements.UIImage(
             scale(pygame.Rect((80, 920), self.able_box.get_size())),
-            self.able_box, manager=MANAGER)
+            self.able_box,
+            starting_height=1,
+            manager=MANAGER)
         self.elements["able_frame"].disable()
 
         self.elements["patrol_frame"] = pygame_gui.elements.UIImage(
@@ -439,21 +434,26 @@ class PatrolScreen(Screens):
 
         # Able cat page buttons
         self.elements['last_page'] = UIImageButton(scale(pygame.Rect((150, 924), (68, 68))), "",
-                                                   object_id="#patrol_last_page"
-                                                   , manager=MANAGER)
+                                                   object_id="#patrol_last_page",
+                                                   starting_height=2,
+                                                   manager=MANAGER)
         self.elements['next_page'] = UIImageButton(scale(pygame.Rect((482, 924), (68, 68))), "",
-                                                   object_id="#patrol_next_page"
-                                                   , manager=MANAGER)
+                                                   object_id="#patrol_next_page",
+                                                   starting_height=2,
+                                                   manager=MANAGER)
 
         # Tabs for the current patrol
         self.elements['patrol_tab'] = UIImageButton(scale(pygame.Rect((1010, 920), (160, 70))), "",
+                                                    starting_height=2,
                                                     object_id="#patrol_cats_tab", manager=MANAGER)
         self.elements['patrol_tab'].disable()  # We start on the patrol_cats_tab
         self.elements['skills'] = UIImageButton(scale(pygame.Rect((1180, 920), (308, 70))), "",
+                                                starting_height=2,
                                                 object_id="#skills_cats_tab", manager=MANAGER)
 
         # Remove all button
         self.elements['remove_all'] = UIImageButton(scale(pygame.Rect((1120, 1254), (248, 70))), "",
+                                                    starting_height=2,
                                                     object_id="#remove_all_button", manager=MANAGER)
 
         # Text box for skills and traits. Hidden for now, and with no text in it
@@ -468,6 +468,18 @@ class PatrolScreen(Screens):
                                                       object_id="#start_patrol_button", manager=MANAGER)
         self.elements['patrol_start'].disable()
 
+        # add prey information
+        if game.clan.game_mode != 'classic':
+            current_amount =  round(game.clan.freshkill_pile.total_amount,2)
+            self.elements['current_prey'] = pygame_gui.elements.UITextBox(
+                f"current prey: {current_amount}", scale(pygame.Rect((600, 1260), (400, 800))),
+                object_id=get_text_box_theme("#text_box_30_horizcenter"), manager=MANAGER
+            )
+            needed_amount = round(game.clan.freshkill_pile.amount_food_needed(),2)
+            self.elements['needed_prey'] = pygame_gui.elements.UITextBox(
+                f"needed prey: {needed_amount}", scale(pygame.Rect((600, 1295), (400, 800))),
+                object_id=get_text_box_theme("#text_box_30_horizcenter"), manager=MANAGER
+            )
         self.update_cat_images_buttons()
         self.update_button()
 
@@ -644,11 +656,7 @@ class PatrolScreen(Screens):
         else:
             all_pages = self.chunks(self.able_cats, 15)
 
-        if self.current_page > len(all_pages):
-            if len(all_pages) == 0:
-                self.current_page = 1
-            else:
-                self.current_page = len(all_pages)
+        self.current_page = max(1, min(self.current_page, len(all_pages)))
 
         # Check for empty list (no able cats)
         if all_pages:
@@ -804,7 +812,7 @@ class PatrolScreen(Screens):
             short_name = shorten_text_to_fit(name, 350, 30)
 
             self.elements['selected_name'] = pygame_gui.elements.UITextBox(short_name,
-                                                                           scale(pygame.Rect((600, 650), (400, 60))),
+                                                                           scale(pygame.Rect((600, 650), (400, 80))),
                                                                            object_id=get_text_box_theme(
                                                                                "#text_box_30_horizcenter"),
                                                                            manager=MANAGER)
@@ -836,12 +844,10 @@ class PatrolScreen(Screens):
                     , manager=MANAGER)
                 # Check for name length
                 name = str(self.mate.name)  # get name
-                if 10 <= len(name):  # check name length
-                    short_name = name[0:9]
-                    name = short_name + '..'
+                short_name = shorten_text_to_fit(name, 145, 22)
                 self.elements['mate_name'] = pygame_gui.elements.ui_label.UILabel(
                     scale(pygame.Rect((306, 600), (190, 60))),
-                    name,
+                    short_name,
                     object_id=get_text_box_theme())
                 self.elements['mate_info'] = pygame_gui.elements.UITextBox(
                     "mate",
@@ -893,12 +899,10 @@ class PatrolScreen(Screens):
                 # Failsafe, if apprentice or mentor is set to none.
                 if self.app_mentor is not None:
                     name = str(self.app_mentor.name)  # get name
-                    if 10 <= len(name):  # check name length
-                        short_name = name[0:9]
-                        name = short_name + '..'
+                    short_name = shorten_text_to_fit(name, 145, 22)
                     self.elements['app_mentor_name'] = pygame_gui.elements.ui_label.UILabel(
                         scale(pygame.Rect((1106, 600), (190, 60))),
-                        name,
+                        short_name,
                         object_id=get_text_box_theme(), manager=MANAGER)
                     self.elements['app_mentor_info'] = pygame_gui.elements.UITextBox(
                         relation,
@@ -947,6 +951,7 @@ class PatrolScreen(Screens):
     def exit_screen(self):
         self.clear_page()
         self.clear_cat_buttons()
+        self.hide_menu_buttons()
 
     def on_use(self):
         

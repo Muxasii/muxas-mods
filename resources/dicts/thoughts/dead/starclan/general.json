@@ -50,7 +50,7 @@
             "Is sharing tongues with r_c",
             "Has been spending time with r_c lately",
             "Is acting huffy at r_c",
-            "Is sharing freshkill with r_c",
+            "Is sharing fresh-kill with r_c",
             "Is curious about r_c",
             "Is talking with r_c",
             "Doesn't want to talk to r_c",
@@ -87,7 +87,7 @@
         "id": "founder_dead_to_dead_other_founder",
         "thoughts": [
             "Is reminiscing with r_c about how c_n came to be",
-            "Is speaking with r_c about how the Clan they founded had changed"
+            "Is speaking with r_c about how the Clan they founded has changed"
         ],
         "main_age_constraint": [
             "adolescent",
