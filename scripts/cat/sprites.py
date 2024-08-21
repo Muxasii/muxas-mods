@@ -130,7 +130,7 @@ class Sprites:
             'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiepatchesmasks',
             'medcatherbs', 'lightingnew', 'fademask',
             'fadestarclan', 'fadedarkforest',
-            'testscars',
+            'wingscars',
             'symbols'
 
         ]:
@@ -158,8 +158,12 @@ class Sprites:
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
 
-        # test wing
-        self.make_group('testscars', (1, 0), 'testscarsTEST')
+
+        # wing scars
+        for a, i in enumerate(['CLIPPED']):
+            self.make_group('wingscars', (a, 0), f'bat catscar{i}')
+            self.make_group('wingscars', (a, 1), f'bird catscar{i}')
+        
 
         # Shaders
         self.make_group('shadersnewwhite', (0, 0), 'shaders')
@@ -208,19 +212,11 @@ class Sprites:
             ['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE']
         ]
 
-        # Define wing white patches
-        wing_white_patches = [
-            ['NONE', 'FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'HALFWHITE', 'GOATEE',
-            'PEBBLESHINE', 'MISTER', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'SKUNK', 'STRIPES'],
-            ['UNDER', 'WOODPECKER', 'PAINTED', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI'],
-            ['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'HEARTTWO', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']
-            ]
-
         for row, patches in enumerate(white_patches):
             for col, patch in enumerate(patches):
                 self.make_group('whitepatches', (col, row), f'white{patch}')
 
-        """# wing white patches
+        # wing white patches
         for a, i in enumerate(['NONE', 'FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'HALFWHITE', 'GOATEE',
             'PEBBLESHINE', 'MISTER', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'SKUNK', 'STRIPES']):
             self.make_group('wingswhitepatches', (a, 0), f'bat catwhite{i}')
@@ -230,12 +226,7 @@ class Sprites:
             self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
         for a, i in enumerate(['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'HEARTTWO', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']):
             self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
-            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')"""
-
-        for row, w_patches in enumerate(wing_white_patches):
-            for col, w_patch in enumerate(w_patches):
-                self.make_group('wingswhitepatches', (col, row), f'bat catwhite{w_patch}')
-                self.make_group('wingswhitepatches', (col, row), f'bird catwhite{w_patch}')
+            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
 
         # markings
         for a, i in enumerate(

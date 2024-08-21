@@ -217,5 +217,10 @@
     "severe headache": [
         "m_c's headache is gone.",
         "m_c breathes a small sigh of relief. Finally, the deep throbbing in {PRONOUN/m_c/poss} head has subsided."
+    ],
+    "clipped wings": [
+        "m_c finds that {PRONOUN/m_c/poss} wings feel fuller and {PRONOUN/m_c/subject} is capable of flight again.",
+        "m_c flaps {PRONOUN/m_c/poss} wings one day and manages to catch the wind. m_c's feathers have finally grown back in.",
+        "Finally, after a good molt of {PRONOUN/m_c/poss} wings, m_c can fly comfortably."
     ]
 }

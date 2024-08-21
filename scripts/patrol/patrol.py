@@ -298,6 +298,7 @@ class Patrol:
             welcoming_rep = True
             chance = welcoming_chance
 
+
         possible_patrols.extend(self.generate_patrol_events(self.HUNTING))
         possible_patrols.extend(self.generate_patrol_events(self.HUNTING_SZN))
         possible_patrols.extend(self.generate_patrol_events(self.BORDER))

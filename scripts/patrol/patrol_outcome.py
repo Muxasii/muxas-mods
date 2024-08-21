@@ -748,7 +748,7 @@ class PatrolOutcome:
 
         if not self.new_cat:
             return ""
-
+        
         results = []
         in_event_cats = {
             "p_l": patrol.patrol_leader,
@@ -783,6 +783,12 @@ class PatrolOutcome:
                             sub_sub[0].dead or sub_sub[0].outside):
                         sub_sub[0].get_injured("recovering from birth")
                         break  # Break - only one parent ever gives birth
+        for sub in patrol.new_cats:
+            if sub[0].moons > 6 and sub[0].species == "bird cat":
+                clip_chance = random.randint(0, 10)
+                if "kittypet" in sub[0].backstory and clip_chance < 5:
+                    sub[0].get_injured("clipped wings")
+        
 
         return " ".join(results)
 

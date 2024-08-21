@@ -1979,7 +1979,7 @@ class ProfileScreen(Screens):
                     text_list.append(f"is {complication}!")
 
             # can or can't patrol
-            if self.the_cat.injuries[name]["severity"] != "minor":
+            if self.the_cat.injuries[name]["severity"] == "major":
                 text_list.append("Can't work with this condition")
 
         # collect details for illnesses

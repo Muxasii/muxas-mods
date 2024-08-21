@@ -1404,6 +1404,57 @@
         ],
         "herbs": [
         ]
+    },
+    "clipped wings": {
+        "duration": 6,
+        "severity": "clipped",
+        "medicine_duration": 6,
+        "mortality": {
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [
+        ],
+        "risks": [
+            {
+                "name": "discomfort",
+                "chance": 5
+            }
+        ],
+        "also_got": [
+	"discomfort"
+        ],
+        "cause_permanent": [
+        ],
+        "herbs": [
+        ]
+    },
+
+    "discomfort":{
+        "duration": 2,
+        "severity": "minor",
+        "medicine_duration": 1,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [],
+        "risks": [],
+        "also_got": [],
+        "cause_permanent": [
+        ],
+        "herbs": [
+            "thyme"
+        ]
     }
 }
 

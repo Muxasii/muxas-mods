@@ -569,7 +569,6 @@ def create_new_cat_block(
                     )
 
             new_cats = [chosen_cat]
-
     # Now we generate the new cat
     if not chosen_cat:
         new_cats = create_new_cat(
@@ -816,6 +815,10 @@ def create_new_cat(
                     parent1=parent1,
                     parent2=parent2,
                 )
+
+        # set species
+        if not litter:
+            Pelt.init_species(new_cat)
 
         # give em a collar if they got one
         if accessory:
@@ -3515,21 +3518,19 @@ def generate_sprite(
 
                 w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                new_sprite.blit(w_underfur, (0, 0))
             elif cat_marking in ['SINGLESTRIPE']:
                 w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
                 w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                wings.blit(w_underfur, (0, 0))
             else:
                 w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
                 w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                wings.blit(w_underfur, (0, 0))
+            wings.blit(w_underfur, (0, 0))
                 
 
             if cat_marking in ['BENGAL', 'MARBLED']:
@@ -3754,7 +3755,6 @@ def generate_sprite(
 
             wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-            # scars here whenever I do that...
 
             # draw line art
             if game.settings['shaders'] and not dead:
@@ -3785,10 +3785,15 @@ def generate_sprite(
 
                 wings.blit(membrane, (0, 0))
             
-            if not scars_hidden:
-                for scar in cat.pelt.scars:
-                    if scar in cat.pelt.scars2:
-                        wings.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+            # scars here whenever I do that...
+            
+            # clipped wings
+            if cat.clipped_wings():
+                wings.blit(
+                    sprites.sprites[cat.species + "scar" + "CLIPPED" + cat_sprite],
+                    (0, 0),
+                    special_flags=pygame.BLEND_RGBA_MIN,
+                )
             
             new_sprite.blit(wings, (0, 0))
         

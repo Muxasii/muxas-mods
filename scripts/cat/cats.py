@@ -1890,7 +1890,8 @@ class Cat:
         :param severity: _description_, defaults to 'default'
         :type severity: str, optional
         """
-        if game.clan and game.clan.game_mode == "classic":
+
+        if game.clan and game.clan.game_mode == "classic" and name != "clipped wings":
             return
 
         if name not in INJURIES:
@@ -2083,14 +2084,21 @@ class Cat:
             }
             new_condition = True
         return new_condition
+    
+    def clipped_wings(self):
+        for injury in self.injuries:
+            if self.injuries[injury]["severity"] == "clipped":
+                return True
+        return False
+        
 
     def not_working(self):
         """returns True if the cat cannot work, False if the cat can work"""
         for illness in self.illnesses:
-            if self.illnesses[illness]["severity"] != "minor":
+            if self.illnesses[illness]["severity"] == "major":
                 return True
         for injury in self.injuries:
-            if self.injuries[injury]["severity"] != "minor":
+            if self.injuries[injury]["severity"] == "major":
                 return True
         return False
 
