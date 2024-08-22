@@ -209,7 +209,7 @@ class Sprites:
              'BLOSSOMSTEP', 'PEBBLE', 'TAILTWO', 'BUDDY', 'BACKSPOT', 'EYEBAGS'],
             ['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR', 'BUSTER', 'SMOKEY', 'HAWKBLAZE',
              'CAKE', 'ROSINA', 'PRINCESS'],
-            ['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE']
+            ['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE','WISP','INVERTEDWINGS']
         ]
 
         for row, patches in enumerate(white_patches):
@@ -276,12 +276,8 @@ class Sprites:
         for row, masks in enumerate(tortiepatchesmasks):
             for col, mask in enumerate(masks):
                 self.make_group('tortiepatchesmasks', (col, row), f"tortiemask{mask}")
-                self.make_group('tortiepatchesmasks', (col, row), f"bat cattortiemask{mask}")
-                self.make_group('tortiepatchesmasks', (col, row), f"bird cattortiemask{mask}")
 
-        
-
-        """# wing tortie masks
+        # wing tortie masks
         for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO']):
             self.make_group('wingstortiepatchesmasks', (a, 0), f"bat cattortiemask{i}")
             self.make_group('wingstortiepatchesmasks', (a, 1), f"bird cattortiemask{i}")
@@ -290,7 +286,7 @@ class Sprites:
             self.make_group('wingstortiepatchesmasks', (a, 3), f"bird cattortiemask{i}")
         for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
             self.make_group('wingstortiepatchesmasks', (a, 4), f"bat cattortiemask{i}")
-            self.make_group('wingstortiepatchesmasks', (a, 5), f"bird cattortiemask{i}")"""
+            self.make_group('wingstortiepatchesmasks', (a, 5), f"bird cattortiemask{i}")
 
         # Define skin colors 
         skin_colors = [

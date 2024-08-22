@@ -3718,13 +3718,20 @@ def generate_sprite(
                 wings.blit(w_patches, (0, 0))
 
             # TINT because tints still exist lol
-            if cat.pelt.tint != "none" and cat.pelt.tint in sprites.cat_tints["tint_colours"]:
-                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+            if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["tint_colours"]
+            ):
                 tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                 tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
                 wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
+                wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
             # draw white patches
             if cat.pelt.wing_white_patches is not None:
