@@ -3095,12 +3095,12 @@ def generate_sprite(
                 marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
 
             if tortie_color_type == "special":
-                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][5]
+                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][5]
             elif tortie_color_type == 0:
                 tortie_base_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][0]
                 tortie_base_underfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][1]
@@ -3116,6 +3116,7 @@ def generate_sprite(
                 tortie_marking_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][4]
                 tortie_marking_inside = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][5]
                 tortie_marking_inside_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][6]
+
 
         # draw pelt
         base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
