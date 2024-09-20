@@ -2646,7 +2646,42 @@ def generate_sprite(
                     '#FFEED8',
                     '#F7D1B5',
                     '#FFF5E6',
-                    '#FFFCF3']
+                    '#FFFCF3'],
+                "DARKLAVENDER": [
+                    '#837487', #base
+                    '#8B7D8E', #underfur
+                    '#5B4F6C', #overfur
+                    '#483E5D', #marking fade
+                    '#766B83', #markings
+                    '#978C92'], #marking inside
+                "BEIGE": [
+                    '#DDD7D0', #base
+                    '#F3EDE8', #underfur
+                    '#D6CAC6', #overfur
+                    '#A29591', #marking fade
+                    '#B3A59D', #markings
+                    '#C3B8B1'], #marking inside
+                "DUST": [
+                    '#BCAF9F', #base
+                    '#CDC1B7', #underfur
+                    '#9C8F86', #overfur
+                    '#665651', #marking fade
+                    '#7D6965', #markings
+                    '#A1918C'], #marking inside
+                "SUNSET": [
+                    '#EFCA87', #base
+                    '#FBE7B6', #underfur
+                    '#EEBE83', #overfur
+                    '#E78D57', #marking fade
+                    '#EBAC70', #markings
+                    '#F1BD7D'], #marking inside
+                "OLDLILAC": [
+                    '#856A6E', #base
+                    '#947A7E', #underfur
+                    '#77565F', #overfur
+                    '#624049', #marking fade
+                    '#7B575F', #markings
+                    '#876762'] #marking inside
             },
             
             "special": {
@@ -2804,7 +2839,42 @@ def generate_sprite(
                         '#FFEED8',
                         '#EDB690',
                         '#FFDFB9',
-                        '#FFFCF3']
+                        '#FFFCF3'],
+                    "DARKLAVENDER": [
+                        '#837487', #base
+                        '#767180', #underfur
+                        '#6F6576', #overfur
+                        '#483E5D', #marking fade
+                        '#504B5E', #markings
+                        '#978C92'] ,#marking inside
+                    "BEIGE": [
+                        '#DDD7D0', #base
+                        '#F3EDE8', #underfur
+                        '#D6CAC6', #overfur
+                        '#A29591', #marking fade
+                        '#B3A59D', #markings
+                        '#C3B8B1'], #marking inside
+                    "DUST": [
+                        '#BCAF9F', #base
+                        '#CDC1B7', #underfur
+                        '#9C8F86', #overfur
+                        '#665651', #marking fade
+                        '#7D6965', #markings
+                        '#A1918C'], #marking inside
+                    "SUNSET": [
+                        '#EFCA87', #base
+                        '#FBE7B6', #underfur
+                        '#EEBE83', #overfur
+                        '#E78D57', #marking fade
+                        '#EBAC70', #markings
+                        '#F1BD7D'], #marking inside
+                    "OLDLILAC": [
+                        '#856A6E', #base
+                        '#947A7E', #underfur
+                        '#7C606A', #overfur
+                        '#593A43', #marking fade
+                        '#754D59', #markings
+                        '#876762'] #marking inside
                 }
             },
             
@@ -2984,7 +3054,44 @@ def generate_sprite(
                     '#F6D1B6',
                     '#F9DFCD',
                     '#F9DCC8',
-                    '#FCEDE4']
+                    '#FCEDE4'],
+                "DARKLAVENDER": [
+                    '#998FA4', #base
+                    '#BDBBC3', #underfur
+                    '#5A5167', #overfur
+                    '#4B3E5A', #marking fade
+                    '#837487', #markings
+                    '#8E8093', #marking inside
+                    '#A49CA7'], #marking inside lower fade
+                "BEIGE": [
+                    '#DDD7D0', #base
+                    '#F3EDE8', #underfur
+                    '#D6CAC6', #overfur
+                    '#A29591', #marking fade
+                    '#B3A59D', #markings
+                    '#C3B8B1'], #marking inside
+                "DUST": [
+                    '#BCAF9F', #base
+                    '#CDC1B7', #underfur
+                    '#9C8F86', #overfur
+                    '#665651', #marking fade
+                    '#7D6965', #markings
+                    '#A1918C'], #marking inside
+                "SUNSET": [
+                    '#EFCA87', #base
+                    '#FBE7B6', #underfur
+                    '#EEBE83', #overfur
+                    '#E78D57', #marking fade
+                    '#EBAC70', #markings
+                    '#F1BD7D'], #marking inside
+                "OLDLILAC": [
+                    '#856A6E', #base
+                    '#BDA5A1', #underfur
+                    '#754D59', #overfur
+                    '#43272E', #marking fade
+                    '#754D59', #markings
+                    '#704C57', #marking inside
+                    '#D1C0BD'] #marking inside lower fade
             }
         }
         # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
@@ -3095,12 +3202,12 @@ def generate_sprite(
                 marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
 
             if tortie_color_type == "special":
-                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiebase}'][f'{cat.pelt.tortiecolour}'][5]
+                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][5]
             elif tortie_color_type == 0:
                 tortie_base_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][0]
                 tortie_base_underfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][1]
