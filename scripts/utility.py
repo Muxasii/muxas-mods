@@ -3224,6 +3224,7 @@ def generate_sprite(
                 tortie_marking_inside = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][5]
                 tortie_marking_inside_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][6]
 
+
         # draw pelt
         base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         base_tint.fill(base_pelt)
