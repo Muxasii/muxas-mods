@@ -126,9 +126,9 @@ class Sprites:
         for x in [
             'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin',
             'whitepatches', 'wingswhitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
-            'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
+            'collars', 'bellcollars', 'bowcollars', 'nyloncollars', 'medcatherbs', 'wild', 
             'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiepatchesmasks',
-            'medcatherbs', 'lightingnew', 'fademask',
+            'lightingnew', 'fademask',
             'fadestarclan', 'fadedarkforest',
             'wingscars',
             'symbols'
@@ -287,6 +287,9 @@ class Sprites:
         for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
             self.make_group('wingstortiepatchesmasks', (a, 4), f"bat cattortiemask{i}")
             self.make_group('wingstortiepatchesmasks', (a, 5), f"bird cattortiemask{i}")
+        for a, i in enumerate(['SHILOH', 'FRECKLED', 'HEARTBEAT']):
+            self.make_group('wingstortiepatchesmasks', (a, 6), f"bat cattortiemask{i}")
+            self.make_group('wingstortiepatchesmasks', (a, 7), f"bird cattortiemask{i}")
 
         # Define skin colors 
         skin_colors = [
