@@ -125,9 +125,9 @@ class Sprites:
 
         for x in [
             'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin',
-            'whitepatches', 'wingswhitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
+            'whitepatches', 'wingswhitepatches', 'eyesnew', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars', 'medcatherbs', 'wild', 
-            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiepatchesmasks',
+            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiemasks',
             'lightingnew', 'fademask',
             'fadestarclan', 'fadedarkforest',
             'wingscars',
@@ -139,37 +139,49 @@ class Sprites:
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
 
-        # Lineart
+        # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('winglineart', (1, 0), 'bird catlines')
         self.make_group('winglineart', (0, 0), 'bat catlines')
+        self.make_group('winglineart', (1, 0), 'bird catlines')
+        self.make_group('winglineart', (2, 0), 'bat catbacklines')
+        self.make_group('winglineart', (3, 0), 'bird catbacklines')
         for a, i in enumerate(
                 ['df', 'dead']):
             self.make_group('lineartdead', (a, 0), f'lineart{i}')
             self.make_group('winglineart', (a, 1), f'bird catlineart{i}')
             self.make_group('winglineart', (a, 2), f'bat catlineart{i}')
+            self.make_group('winglineart', (a+2, 1), f'bird catbacklineart{i}')
+            self.make_group('winglineart', (a+2, 2), f'bat catbacklineart{i}')
 
         # Base
         self.make_group('base', (0, 0), 'base')
         for a, i in enumerate(
                 ['bat cat', 'bird cat']):
             self.make_group('wingsbase', (a, 0), f'{i}base')
+            self.make_group('wingsbase', (a, 1), f'{i}backbase')
 
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
-
 
         # wing scars
         for a, i in enumerate(['CLIPPED']):
             self.make_group('wingscars', (a, 0), f'bat catscar{i}')
             self.make_group('wingscars', (a, 1), f'bird catscar{i}')
         
+        # Eyes
+        self.make_group('eyesnew', (0, 0), 'eyesbase')
+        self.make_group('eyesnew', (1, 0), 'eyesshade')
+        self.make_group('eyesnew', (2, 0), 'eyespupil')
 
         # Shaders
         self.make_group('shadersnewwhite', (0, 0), 'shaders')
+        self.make_group('shadersnewwhite', (1, 0), 'bat catshaders')
+        self.make_group('shadersnewwhite', (2, 0), 'bird catshaders')
 
         #lighting
         self.make_group('lightingnew', (0, 0), 'lighting')
+        self.make_group('lightingnew', (1, 0), 'bat catlighting')
+        self.make_group('lightingnew', (2, 0), 'bird catlighting')
 
         # Fading Fog
         for i in range(0, 3):
@@ -178,7 +190,7 @@ class Sprites:
             self.make_group('fadedarkforest', (i, 0), f'fadedf{i}')
 
         # Define eye colors
-        eye_colors = [
+        """eye_colors = [
             ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
              'HEATHERBLUE', 'SUNLITICE'],
             ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW']
@@ -187,7 +199,7 @@ class Sprites:
         for row, colors in enumerate(eye_colors):
             for col, color in enumerate(colors):
                 self.make_group('eyes', (col, row), f'eyes{color}')
-                self.make_group('eyes2', (col, row), f'eyes2{color}')
+                self.make_group('eyes2', (col, row), f'eyes2{color}')"""
 
         # Define white patches
         white_patches = [
@@ -244,13 +256,19 @@ class Sprites:
         
         # overlays
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
             self.make_group('overlays', (a, 0), f'underfur{i}')
+        for a, i in enumerate(
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
+            self.make_group('overlays', (a, 1), f'overfur{i}')
+
+        # wing overlays
+        for a, i in enumerate(
+                ['BASIC', 'BENGAL', 'SOLID']):
             self.make_group('overlays', (a, 2), f'bird catunderfur{i}')
             self.make_group('overlays', (a, 4), f'bat catunderfur{i}')
         for a, i in enumerate(
                 ['BASIC', 'BENGAL', 'SOLID']):
-            self.make_group('overlays', (a, 1), f'overfur{i}')
             self.make_group('overlays', (a, 3), f'bird catoverfur{i}')
             self.make_group('overlays', (a, 5), f'bat catoverfur{i}')
 
@@ -278,18 +296,19 @@ class Sprites:
                 self.make_group('tortiepatchesmasks', (col, row), f"tortiemask{mask}")
 
         # wing tortie masks
-        for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO']):
-            self.make_group('wingstortiepatchesmasks', (a, 0), f"bat cattortiemask{i}")
-            self.make_group('wingstortiepatchesmasks', (a, 1), f"bird cattortiemask{i}")
-        for a, i in enumerate(['SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL', 'GRUMPYFACE', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE']):
-            self.make_group('wingstortiepatchesmasks', (a, 2), f"bat cattortiemask{i}")
-            self.make_group('wingstortiepatchesmasks', (a, 3), f"bird cattortiemask{i}")
-        for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
-            self.make_group('wingstortiepatchesmasks', (a, 4), f"bat cattortiemask{i}")
-            self.make_group('wingstortiepatchesmasks', (a, 5), f"bird cattortiemask{i}")
+        for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE']):
+            self.make_group('wingstortiemasks', (a, 0), f"bat cattortiemask{i}")
+            self.make_group('wingstortiemasks', (a, 1), f"bird cattortiemask{i}")
+        for a, i in enumerate(['MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO', 'SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL',
+             'GRUMPYFACE']):
+            self.make_group('wingstortiemasks', (a, 2), f"bat cattortiemask{i}")
+            self.make_group('wingstortiemasks', (a, 3), f"bird cattortiemask{i}")
+        for a, i in enumerate(['MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE']):
+            self.make_group('wingstortiemasks', (a, 4), f"bat cattortiemask{i}")
+            self.make_group('wingstortiemasks', (a, 5), f"bird cattortiemask{i}")
         for a, i in enumerate(['SHILOH', 'FRECKLED', 'HEARTBEAT']):
-            self.make_group('wingstortiepatchesmasks', (a, 6), f"bat cattortiemask{i}")
-            self.make_group('wingstortiepatchesmasks', (a, 7), f"bird cattortiemask{i}")
+            self.make_group('wingstortiemasks', (a, 6), f"bat cattortiemask{i}")
+            self.make_group('wingstortiemasks', (a, 7), f"bird cattortiemask{i}")
 
         # Define skin colors 
         skin_colors = [

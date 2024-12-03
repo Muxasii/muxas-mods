@@ -3207,29 +3207,32 @@ def generate_sprite(
                     '#D6CAC6', #overfur
                     '#A29591', #marking fade
                     '#B3A59D', #markings
-                    '#C3B8B1'], #marking inside
+                    '#C3B8B1', #marking inside
+                    '#D3CAC5'], #marking inside lower fade
                 "DUST": [
                     '#BCAF9F', #base
                     '#CDC1B7', #underfur
                     '#9C8F86', #overfur
                     '#665651', #marking fade
                     '#7D6965', #markings
-                    '#A1918C'], #marking inside
+                    '#A1918C', #marking inside
+                    '#A49CA7'], #marking inside lower fade
                 "SUNSET": [
-                    '#EFCA87', #base
-                    '#FBE7B6', #underfur
-                    '#EEBE83', #overfur
-                    '#E78D57', #marking fade
-                    '#EBAC70', #markings
-                    '#F1BD7D'], #marking inside
+                    '#F6D899', #base
+                    '#FFFADB', #underfur
+                    '#FBC878', #overfur
+                    '#E87154', #marking fade
+                    '#FFB379', #markings
+                    '#F29E46', #marking inside
+                    '#F7B14C'], #marking inside lower fade
                 "OLDLILAC": [
                     '#856A6E', #base
                     '#BDA5A1', #underfur
                     '#754D59', #overfur
-                    '#43272E', #marking fade
+                    '#401F27', #marking fade
                     '#754D59', #markings
-                    '#704C57', #marking inside
-                    '#D1C0BD'] #marking inside lower fade
+                    '#572E39', #marking inside
+                    '#8A5E67'] #marking inside lower fade
             }
         }
         # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
@@ -3237,6 +3240,42 @@ def generate_sprite(
         color_type_dict = {
             "special": ["SINGLESTRIPE"],
             "bengal": ["BENGAL", "MARBLED"]
+        }
+
+        # base, shadow, pupil
+        eye_color_dict = {
+            "YELLOW": ['#FFF571','#E6D64E','#E6D64E'],
+            "AMBER": ['#F2E085','#DD9D55','#BA6932'],
+            "HAZEL": ['#C7A37C','#909960','#545A36'],
+            "PALEGREEN": ['#DDE895','#87BA65','#447F4B'],
+            "GREEN": ['#76DF66','#5A9B6C','#35665A'],
+            "BLUE": ['#ADEEF0','#70BBD9','#375AA7'],
+            "DARKBLUE": ['#6C94DB','#3747A1','#1F365F'],
+            "PEBBLE": ['#A9A7A3','#7C8273','#3A3D35'], # renamed from grey
+            "CYAN": ['#CDFFF6','#75E1CE','#4C97A5'],
+            "EMERALD": ['#54B06A','#41785F','#263E3E'],
+            "HEATHERBLUE": ['#809ED0','#8A6BBD','#512E86'],
+            "SUNLITICE": ['#A2FAFF','#DDD374','#6D5730'],
+            "COPPER": ['#D47A3C','#A35118','#62240B'],
+            "SAGE": ['#88985B','#687544','#2F3420'],
+            "COBALT": ['#6387D0','#374F98','#011C48'],
+            "PALEBLUE": ['#AEDBE1','#75B3EF','#4B77BE'],
+            "BRONZE": ['#9A6331','#6D431D','#482F39'],
+            "DUST": ['#DBC9B5','#B1A598','#7B6C5B'], # renamed from silver
+            "PALEYELLOW": ['#FFF8B8','#E5D09A','#B79E48'],
+            "GOLD": ['#FFF8B8','#CCA44F','#6D5730'],
+            "GREENYELLOW": ['#F2E085','#B2BC74','#867E48'],
+            # New colors
+            "INDIGO": ['#000','#000','#000'], # blurple
+            "GLASS": ['#000','#000','#000'], # white with silver-purple shading
+            "OBSIDIAN": ['#000','#000','#000'], # dark dark blue-green
+            "ICE": ['#000','#000','#000'], # light blue
+            "DARKHAZEL": ['#000','#000','#000'], # dark vers of hazel
+            "HONEY": ['#000','#000','#000'], # dark yellow
+            "DARKAMBER": ['#000','#000','#000'], # dark vers of amber
+            "OLIVE": ['#000','#000','#000'], # dull green
+            "SILVER": ['#C4C6C9','#A9AAAD','#51525D'], # actual silver
+            "GREY": ['#9D9D9F','#6A6A6C','#353037'] # actual grey
         }
 
         # waeh
@@ -3264,6 +3303,16 @@ def generate_sprite(
         wing_scars = []
 
         # Get colors - makes things easier for later lol
+
+        eye_base_color = eye_color_dict[cat.pelt.eye_colour][0]
+        eye_shade_color = eye_color_dict[cat.pelt.eye_colour][1]
+        eye_pupil_color = eye_color_dict[cat.pelt.eye_colour][2]
+            
+        if cat.pelt.eye_colour2 != None:
+            eye2_base_color = eye_color_dict[cat.pelt.eye_colour2][0]
+            eye2_shade_color = eye_color_dict[cat.pelt.eye_colour2][1]
+            eye2_pupil_color = eye_color_dict[cat.pelt.eye_colour2][2]
+
         if cat.pelt.name not in ['Tortie', 'Calico']:
             # Get dict
             if cat.pelt.name.upper() in color_type_dict['special']:
@@ -3362,11 +3411,12 @@ def generate_sprite(
                 tortie_marking_inside = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][5]
                 tortie_marking_inside_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][6]
 
+        
+        
 
         # draw pelt
         base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         base_tint.fill(base_pelt)
-
         new_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
         # draw overlays
@@ -3386,11 +3436,16 @@ def generate_sprite(
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        else:
+        elif cat_marking in ['SINGLECOLOUR', 'SMOKE']:
             underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        else:
+            underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
+            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            underfur.blit(sprites.sprites['underfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
         new_sprite.blit(underfur, (0, 0))
             
@@ -3405,11 +3460,16 @@ def generate_sprite(
             overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        else:
+        elif cat_marking in ['SINGLECOLOUR', 'SMOKE']:
             overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
             overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             overfur.blit(sprites.sprites['overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        else:
+            overfur = sprites.sprites['overfur' + 'TABBY' + cat_sprite].copy()
+            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            overfur.blit(sprites.sprites['overfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
         new_sprite.blit(overfur, (0, 0))
 
         # draw markings
@@ -3505,22 +3565,22 @@ def generate_sprite(
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                patches.blit(tortie_underfur, (0, 0))
             elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
                 tortie_underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                patches.blit(tortie_underfur, (0, 0))
-            else:
+            elif cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR']:
                 tortie_underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            else:
+                tortie_underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
+                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-                patches.blit(tortie_underfur, (0, 0))
+                tortie_underfur.blit(sprites.sprites['underfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            patches.blit(tortie_underfur, (0, 0))
                 
 
             if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
@@ -3533,11 +3593,16 @@ def generate_sprite(
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            else:
+            elif cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR']:
                 tortie_overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_overfur.blit(sprites.sprites['overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            else:
+                tortie_overfur = sprites.sprites['overfur' + 'TABBY' + cat_sprite].copy()
+                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_overfur.blit(sprites.sprites['overfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
             patches.blit(tortie_overfur, (0, 0))
 
             # draw markings
@@ -3679,12 +3744,77 @@ def generate_sprite(
             )
 
         # draw eyes & scars1
-        eyes = sprites.sprites["eyes" + cat.pelt.eye_colour + cat_sprite].copy()
+        """eyes = sprites.sprites["eyes" + cat.pelt.eye_colour + cat_sprite].copy()
         if cat.pelt.eye_colour2 != None:
             eyes.blit(
                 sprites.sprites["eyes2" + cat.pelt.eye_colour2 + cat_sprite], (0, 0)
             )
+        new_sprite.blit(eyes, (0, 0))"""
+
+        # prepare tints
+        eye_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        eye_base.fill(eye_base_color)
+
+        eye_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        eye_s.fill(eye_shade_color)
+
+        eye_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        eye_p.fill(eye_pupil_color)
+
+        # base
+        eyes = sprites.sprites['eyes' + 'base' + cat_sprite].copy()
+        eyes.blit(eye_base, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        eyes.blit(sprites.sprites['eyes' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        # draw eye shade
+        eye_shade = sprites.sprites['eyes' + 'shade' + cat_sprite].copy()
+        eye_shade.blit(eye_s, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        eye_shade.blit(sprites.sprites['eyes' + 'shade' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        # draw pupil
+        eye_pupil = sprites.sprites['eyes' + 'pupil' + cat_sprite].copy()
+        eye_pupil.blit(eye_p, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        eye_pupil.blit(sprites.sprites['eyes' + 'pupil' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        # combine
+        eyes.blit(eye_shade, (0, 0))
+        eyes.blit(eye_pupil, (0, 0))
+
         new_sprite.blit(eyes, (0, 0))
+
+        if cat.pelt.eye_colour2 != None:
+            # prepare tints
+            eye2_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            eye2_base.fill(eye2_base_color)
+
+            eye2_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            eye2_s.fill(eye2_shade_color)
+
+            eye2_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            eye2_p.fill(eye2_pupil_color)
+
+            # base
+            eyes2 = sprites.sprites['eyes2' + 'base' + cat_sprite].copy()
+            eyes2.blit(eye2_base, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            eyes2.blit(sprites.sprites['eyes2' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            # draw eye2 shade
+            eye2_shade = sprites.sprites['eyes2' + 'shade' + cat_sprite].copy()
+            eye2_shade.blit(eye2_s, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            eye2_shade.blit(sprites.sprites['eyes2' + 'shade' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            # draw pupil
+            eye2_pupil = sprites.sprites['eyes2' + 'pupil' + cat_sprite].copy()
+            eye2_pupil.blit(eye2_p, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            eye2_pupil.blit(sprites.sprites['eyes2' + 'pupil' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            # combine
+            eyes2.blit(eye2_shade, (0, 0))
+            eyes2.blit(eye2_pupil, (0, 0))
+
+            new_sprite.blit(eyes2, (0, 0))
 
         if not scars_hidden:
             for scar in cat.pelt.scars:
@@ -3704,7 +3834,8 @@ def generate_sprite(
                 (0, 0),
                 special_flags=pygame.BLEND_RGB_MULT,
             )
-            new_sprite.blit(sprites.sprites["lighting" + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites["lighting" + cat_sprite], (0, 0),
+                special_flags=pygame.BLEND_RGB_ADD)
 
         if not dead:
             new_sprite.blit(sprites.sprites["lines" + cat_sprite], (0, 0))
@@ -3725,6 +3856,322 @@ def generate_sprite(
                         special_flags=blendmode,
                     )
 
+        
+
+        # back wings
+        
+        ########################################################################
+        #                                                                      #
+        # back wing start lol lmao love this                                        #
+        #                                                                      #
+        ########################################################################
+
+        if cat.species != "earth cat":
+            
+            # draw base
+            back_wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0))
+
+            back_wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            if cat_marking in ['BENGAL', 'MARBLED']:
+                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            elif cat_marking in ['SINGLESTRIPE']:
+                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
+                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            else:
+                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            back_wings.blit(b_w_underfur, (0, 0))
+                
+
+            if cat_marking in ['BENGAL', 'MARBLED']:
+                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
+                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            elif cat_marking in ['SINGLESTRIPE']:
+                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            else:
+                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
+                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            back_wings.blit(b_w_overfur, (0, 0))
+
+            # draw markings
+
+            if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+
+                b_w_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite].copy().convert_alpha()
+                b_w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # uh...
+                if cat_marking in ['BENGAL', 'MARBLED']:
+                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                elif cat_marking in ['SINGLESTRIPE']:
+                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                else:
+                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                b_w_markings.blit(b_w_mark_fade, (0, 0))
+
+                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+
+                    b_w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
+                    b_w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    # I hate how many times this needs done
+                    if cat_marking in ['BENGAL', 'MARBLED']:
+                        b_w_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                        b_w_markings_inside_fade.fill(marking_inside_fade)
+
+                        b_w_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                        b_w_mark_inside_fade.blit(b_w_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        b_w_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        b_w_markings_inside.blit(b_w_mark_inside_fade, (0, 0))
+
+                        b_w_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        b_w_markings_inside.blit(b_w_mark_inside_fade, (0, 0))
+                    
+                    b_w_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                    b_w_markings.blit(b_w_markings_inside, (0, 0))
+            
+                # appear.
+                back_wings.blit(b_w_markings, (0, 0))
+
+            # draw tortie
+            if cat.pelt.name in ['Tortie', 'Calico']:
+                b_w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
+
+                # draw base
+                b_w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
+
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
+                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
+                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
+                else:
+                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
+                    
+
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
+                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                else:
+                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
+                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                b_w_patches.blit(b_w_tortie_overfur, (0, 0))
+
+                # draw markings
+
+                if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+
+                    b_w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                    b_w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    # uh...
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                        
+                    else:
+                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    b_w_tortie_markings.blit(b_w_tortie_mark_fade, (0, 0))
+
+                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                        b_w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                        b_w_tortie_markings_inside_tint.fill(tortie_marking_inside)
+
+                        b_w_tortie_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
+                        b_w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        # marking inside for tortie
+                        if cat_marking in ['BENGAL', 'MARBLED']:
+                            b_w_tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                            b_w_tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
+
+                            b_w_tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                            b_w_tortie_mark_inside_fade.blit(tortie_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            b_w_tortie_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                            b_w_tortie_markings_inside.blit(b_w_tortie_mark_inside_fade, (0, 0))
+
+                            b_w_tortie_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                            b_w_tortie_markings_inside.blit(b_w_tortie_mark_inside_fade, (0, 0))
+                        
+                        b_w_tortie_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                        b_w_tortie_markings.blit(b_w_tortie_markings_inside, (0, 0))
+                
+                    # appear.
+                    b_w_patches.blit(b_w_tortie_markings, (0, 0))
+
+                # *microwave.sfx*
+                b_w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                back_wings.blit(b_w_patches, (0, 0))
+
+            # TINT because tints still exist lol
+            if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
+                back_wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
+                back_wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+            # draw white patches
+            if cat.pelt.wing_white_patches is not None:
+                b_wing_white_patches = sprites.sprites[f'{cat.species}' + 'white' + cat.pelt.wing_white_patches + cat_sprite].copy()
+
+                # Apply tint to white patches.
+                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
+                    b_wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                back_wings.blit(b_wing_white_patches, (0, 0))
+
+            # draw vit & points
+
+            if cat.pelt.points:
+                back_wing_points = sprites.sprites[cat.species + 'white' + cat.pelt.points + cat_sprite].copy()
+                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
+                    back_wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                back_wings.blit(back_wing_points, (0, 0))
+
+            if cat.pelt.vitiligo:
+                back_wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
+            # draw line art
+            if game.settings['shaders'] and not dead:
+                back_wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                back_wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+
+
+            if not dead:
+                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlines' + cat_sprite], (0, 0))
+            elif cat.df:
+                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlineartdf' + cat_sprite], (0, 0))
+            elif dead:
+                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlineartdead' + cat_sprite], (0, 0))
+            # draw scars2
+            blendmode = pygame.BLEND_RGBA_MIN
+            # draw skin
+            if cat.species == "bat cat":
+                skin_color = skin_dict[f'{cat.pelt.skin}']
+                b_membrane = sprites.sprites['batskin' + cat_sprite]
+
+                b_membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                b_membrane_tint.fill(skin_color)
+                b_membrane.blit(b_membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                b_membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                b_membrane_tint2.fill(base_underfur_pelt)
+
+                b_membrane.blit(b_membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+                back_wings.blit(b_membrane, (0, 0))
+            
+            # scars here whenever I do that...
+            
+            # clipped back_wings
+            if cat.clipped_wings():
+                back_wings.blit(
+                    sprites.sprites[cat.species + "scar" + "CLIPPED" + cat_sprite],
+                    (0, 0),
+                    special_flags=pygame.BLEND_RGBA_MIN,
+                )
+            
+            new_sprite.blit(back_wings, (0, 0))
+        
+        ########################################################################
+        #                                                                      #
+        #end back wings because I will get confused as hell if I don't put this here#
+        #                                                                      #
+        ########################################################################
+
         # draw accessories
         if not acc_hidden:
             if cat.pelt.accessory in cat.pelt.plant_accessories:
@@ -3742,7 +4189,7 @@ def generate_sprite(
                     sprites.sprites["collars" + cat.pelt.accessory + cat_sprite], (0, 0)
                 )
 
-        # draw wings oh boy this will be fun :3c hahaaa
+        # draw the FRONT wings oh boy this will be fun :3c hahaaa
 
         ########################################################################
         #                                                                      #
@@ -4005,14 +4452,14 @@ def generate_sprite(
 
             if cat.pelt.vitiligo:
                 wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
+            # draw line art
+            if game.settings['shaders'] and not dead:
+                wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
             wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
 
-            # draw line art
-            if game.settings['shaders'] and not dead:
-                wings.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                wings.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
 
             if not dead:
                 wings.blit(sprites.sprites[f'{cat.species}' + 'lines' + cat_sprite], (0, 0))
