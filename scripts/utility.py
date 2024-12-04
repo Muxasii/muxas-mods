@@ -3244,7 +3244,7 @@ def generate_sprite(
 
         # base, shadow, pupil
         eye_color_dict = {
-            "YELLOW": ['#FFF571','#E6D64E','#E6D64E'],
+            "YELLOW": ['#FFF571','#E6D64E','#AE8A4D'],
             "AMBER": ['#F2E085','#DD9D55','#BA6932'],
             "HAZEL": ['#C7A37C','#909960','#545A36'],
             "PALEGREEN": ['#DDE895','#87BA65','#447F4B'],
