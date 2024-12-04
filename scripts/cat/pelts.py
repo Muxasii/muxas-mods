@@ -35,17 +35,20 @@ class Pelt:
     pelt_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
-        'CHOCOLATE', 'ASH', 'LAVENDER', 'PALECREAM'
+        'CHOCOLATE', 'ASH', 'LAVENDER', 'PALECREAM', 
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
     ]
     pelt_c_no_white = [
         'SILVER', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'ASH', 'LAVENDER'
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
     ]
     pelt_c_no_bw = [
         'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'LAVENDER'
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
     ]
 
     tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
@@ -1230,7 +1233,15 @@ class Pelt:
                 "golden-brown": "brown",
                 "darkbrown": "brown",
                 "chocolate": "brown",
-                "ghost": "black"
+                "ghost": "black",
+                "ash": "black",
+                "lavender": "gray",
+                "palecream": "pale",
+                "beige": "pale",
+                "dust": "brown",
+                "darklavender": "gray",
+                "sunset": "ginger",
+                "oldlilac": "gray"
             }
         else:
             renamed_colors = {
@@ -1246,7 +1257,15 @@ class Pelt:
                 "golden-brown": "golden brown",
                 "darkbrown": "dark brown",
                 "chocolate": "dark brown",
-                "ghost": "black"
+                "ghost": "black",
+                "ash": "black",
+                "lavender": "gray",
+                "palecream": "pale ginger",
+                "beige": "pale brown",
+                "dust": "gray-brown",
+                "darklavender": "dark gray",
+                "sunset": "ginger",
+                "oldlilac": "gray"
             }
 
         pattern_des = {

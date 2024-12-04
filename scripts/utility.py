@@ -2807,12 +2807,12 @@ def generate_sprite(
                     '#7D6965', #markings
                     '#A1918C'], #marking inside
                 "SUNSET": [
-                    '#EFCA87', #base
-                    '#FBE7B6', #underfur
-                    '#EEBE83', #overfur
-                    '#E78D57', #marking fade
-                    '#EBAC70', #markings
-                    '#F1BD7D'], #marking inside
+                    '#E5A774', #base
+                    '#ECB779', #underfur
+                    '#E99063', #overfur
+                    '#B4513A', #marking fade
+                    '#D27958', #markings
+                    '#C86763'], #marking inside
                 "OLDLILAC": [
                     '#856A6E', #base
                     '#947A7E', #underfur
@@ -2986,11 +2986,11 @@ def generate_sprite(
                         '#504B5E', #markings
                         '#978C92'] ,#marking inside
                     "BEIGE": [
-                        '#DDD7D0', #base
+                        '#EADFD3', #base
                         '#F3EDE8', #underfur
                         '#D6CAC6', #overfur
-                        '#A29591', #marking fade
-                        '#B3A59D', #markings
+                        '#95887E', #marking fade
+                        '#9E9284', #markings
                         '#C3B8B1'], #marking inside
                     "DUST": [
                         '#BCAF9F', #base
@@ -3000,12 +3000,12 @@ def generate_sprite(
                         '#7D6965', #markings
                         '#A1918C'], #marking inside
                     "SUNSET": [
-                        '#EFCA87', #base
-                        '#FBE7B6', #underfur
-                        '#EEBE83', #overfur
-                        '#E78D57', #marking fade
-                        '#EBAC70', #markings
-                        '#F1BD7D'], #marking inside
+                        '#DA9E66', #base
+                        '#ECB779', #underfur
+                        '#DF835A', #overfur
+                        '#B4513A', #marking fade
+                        '#C86758', #markings
+                        '#C86763'], #marking inside
                     "OLDLILAC": [
                         '#856A6E', #base
                         '#947A7E', #underfur
@@ -3202,21 +3202,21 @@ def generate_sprite(
                     '#8E8093', #marking inside
                     '#A49CA7'], #marking inside lower fade
                 "BEIGE": [
-                    '#DDD7D0', #base
-                    '#F3EDE8', #underfur
-                    '#D6CAC6', #overfur
+                    '#F5EDDF', #base
+                    '#FFF6EE', #underfur
+                    '#E7D8C8', #overfur
                     '#A29591', #marking fade
-                    '#B3A59D', #markings
-                    '#C3B8B1', #marking inside
-                    '#D3CAC5'], #marking inside lower fade
+                    '#E0CBB8', #markings
+                    '#B3A59D', #marking inside
+                    '#C1AFA1'], #marking inside lower fade
                 "DUST": [
                     '#BCAF9F', #base
                     '#CDC1B7', #underfur
                     '#9C8F86', #overfur
                     '#665651', #marking fade
                     '#7D6965', #markings
-                    '#A1918C', #marking inside
-                    '#A49CA7'], #marking inside lower fade
+                    '#837162', #marking inside
+                    '#A18C81'], #marking inside lower fade
                 "SUNSET": [
                     '#F6D899', #base
                     '#FFFADB', #underfur
