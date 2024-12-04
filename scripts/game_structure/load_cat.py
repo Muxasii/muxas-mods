@@ -61,7 +61,7 @@ def json_load():
                             cat["specsuffix_hidden"] if "specsuffix_hidden" in cat else False
                         ),
                         gender=cat["gender"],
-                        species=cat["species"],
+                        species=cat["species"] if "species" in cat else None,
                         status=cat["status"],
                         parent1=cat["parent1"],
                         parent2=cat["parent2"],
@@ -88,7 +88,7 @@ def json_load():
                 eye_color=cat["eye_colour"],
                 eye_colour2=cat["eye_colour2"] if "eye_colour2" in cat else None,
                 paralyzed=cat["paralyzed"],
-                species=cat["species"],
+                species=cat["species"] if "species" in cat else None,
                 newborn_sprite=cat["sprite_newborn"] if "sprite_newborn" in cat else 20,
                 kitten_sprite=(
                     cat["sprite_kitten"]
@@ -123,6 +123,7 @@ def json_load():
                 ),
                 white_patches=cat["white_patches"],
                 wing_white_patches=cat["wing_white_patches"] if "wing_white_patches" in cat else None,
+                wing_marks=cat["wing_marks"] if "wing_marks" in cat else "none",
                 tortiebase=cat["tortie_base"],
                 tortiecolour=cat["tortie_color"],
                 tortiepattern=cat["tortie_pattern"],

@@ -28,6 +28,8 @@ class Pelt:
     }
 
     species = ['bird cat', 'earth cat']
+
+    bird_wing_marks = ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', 'NONE']
     
     # ATTRIBUTES, including non-pelt related
     pelt_colours = [
@@ -182,6 +184,7 @@ class Pelt:
                  colour: str = "WHITE",
                  white_patches: str = None,
                  wing_white_patches:str=None,
+                 wing_marks: str = "NONE",
                  eye_color: str = "BLUE",
                  eye_colour2: str = None,
                  tortiebase: str = None,
@@ -210,6 +213,7 @@ class Pelt:
         self.colour = colour
         self.white_patches = white_patches
         self.wing_white_patches = wing_white_patches
+        self.wing_marks = wing_marks
         self.eye_colour = eye_color
         self.eye_colour2 = eye_colour2
         self.tortiebase = tortiebase
@@ -346,6 +350,9 @@ class Pelt:
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         
+        if self.species == None:
+            self.species = Pelt.init_species(self)
+
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
             self.white_patches = "SEALPOINT"
@@ -370,6 +377,22 @@ class Pelt:
         if self.wing_white_patches == None and self.white_patches:
             print("No wing patches when there should be.")
             self.init_wing_patches()
+
+        if self.wing_marks == "none":
+            # Gather weights depending on pelt group
+            if self.name in Pelt.tabbies:
+                weight = [20, 20, 20, 10, 10, 10, 10, 10]
+            elif self.name in Pelt.spotted:
+                weight = [30, 20, 10, 10, 10, 10, 30, 10]
+            elif self.name in Pelt.plain:
+                weight = [10, 15, 10, 10, 20, 20, 10, 30]
+            elif self.name in Pelt.exotic:
+                weight = [30, 10, 20, 15, 10, 10, 30, 10]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1, 1]
+            self.wing_marks = choice(
+            random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
+            )
         
         if self.tortiepattern and "tortie" in self.tortiepattern:
             self.tortiepattern = sub("tortie", "", self.tortiepattern.lower())
@@ -477,6 +500,7 @@ class Pelt:
         par_peltlength = set()
         par_peltcolours = set()
         par_peltnames = set()
+        par_wingmarks = set()
         par_pelts = []
         par_white = []
         for p in parents:
@@ -486,6 +510,9 @@ class Pelt:
 
                 # Gather pelt length
                 par_peltlength.add(p.pelt.length)
+
+                # Gather wing marks
+                par_wingmarks.add(p.pelt.wing_marks)
 
                 # Gather pelt name
                 if p.pelt.name in Pelt.torties:
@@ -508,6 +535,7 @@ class Pelt:
                 par_peltcolours.add(None)
                 par_peltlength.add(None)
                 par_peltnames.add(None)
+                par_wingmarks.add("unknown")
 
         # If this list is empty, something went wrong.
         if not par_peltcolours:
@@ -555,6 +583,8 @@ class Pelt:
             random.choices(Pelt.pelt_categories, weights=weights + [0], k=1)[0]
         )
 
+
+
         # Tortie chance
         tortie_chance_f = game.config["cat_generation"][
             "base_female_tortie"]  # There is a default chance for female tortie
@@ -579,6 +609,53 @@ class Pelt:
                 chosen_tortie_base = "Single"
             chosen_tortie_base = chosen_tortie_base.lower()
             chosen_pelt = random.choice(Pelt.torties)
+
+        # Determine Wing Markings
+        weights = [0, 0, 0, 0, 0, 0, 0, 0]
+
+        # Gather weights depending on pelt group
+        if chosen_pelt in Pelt.tabbies:
+            add_w_weight = (20, 20, 20, 0, 0, 0, 0, 0)
+        elif chosen_pelt in Pelt.spotted:
+            add_w_weight = (5, 20, 0, 0, 0, 0, 20, 0)
+        elif chosen_pelt in Pelt.plain:
+            add_w_weight = (0, 5, 0, 0, 20, 20, 0, 30)
+        elif chosen_pelt in Pelt.exotic:
+            add_w_weight = (20, 0, 30, 10, 0, 0, 20, 0)
+        else:
+            add_w_weight = (1, 1, 1, 1, 1, 1, 1, 1)
+
+        # ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', None]
+        for p_ in par_wingmarks:
+            if p_ == "FLECKS":
+                add_w_weight = (40, 20, 30, 20, 20, 20, 30, 10)
+            if p_ == "TIPS":
+                add_w_weight = (20, 40, 10, 15, 30, 30, 20, 10)
+            if p_ == "STRIPES":
+                add_w_weight = (20, 20, 40, 20, 10, 20, 30, 10)
+            if p_ == "STREAKS":
+                add_w_weight = (20, 20, 20, 40, 10, 20, 30, 10)
+            if p_ == "COVERTS":
+                add_w_weight = (10, 30, 20, 10, 40, 30, 20, 30)
+            if p_ == "PRIMARIES":
+                add_w_weight = (10, 30, 20, 10, 30, 40, 20, 30)
+            if p_ == "SPOTS":
+                add_w_weight = (25, 20, 30, 15, 30, 30, 40, 10)
+            elif p_ is "unknown":
+                add_w_weight = (10, 20, 10, 10, 40, 40, 10, 40)
+            else:
+                add_w_weight = (5, 15, 5, 5, 15, 15, 5, 40)
+
+        for x in range(0, len(weights)):
+            weights[x] += add_w_weight[x]
+
+        # A quick check to make sure all the weights aren't 0
+        if all([x == 0 for x in weights]):
+            weights = [1, 1, 1, 1, 1, 1, 1, 1]
+
+        chosen_wing_marks = choice(
+            random.choices(Pelt.bird_wing_marks, weights=weights, k=1)
+        )
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
@@ -663,6 +740,7 @@ class Pelt:
 
         # SET THE PELT
         self.name = chosen_pelt
+        self.wing_marks = chosen_wing_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
@@ -696,6 +774,24 @@ class Pelt:
             chosen_tortie_base = chosen_tortie_base.lower()
             chosen_pelt = random.choice(Pelt.torties)
 
+        
+        # Gather weights depending on pelt group
+        if chosen_pelt in Pelt.tabbies:
+            weight = [20, 20, 20, 10, 10, 10, 10, 10]
+        elif chosen_pelt in Pelt.spotted:
+            weight = [30, 20, 10, 10, 10, 10, 30, 10]
+        elif chosen_pelt in Pelt.plain:
+            weight = [10, 15, 10, 10, 20, 20, 10, 30]
+        elif chosen_pelt in Pelt.exotic:
+            weight = [30, 10, 20, 15, 10, 10, 30, 10]
+        else:
+            weight = [1, 1, 1, 1, 1, 1, 1, 1]
+        
+        # Pick
+        chosen_wing_marks = choice(
+        random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
+        )
+
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
@@ -727,6 +823,7 @@ class Pelt:
                 chosen_pelt = "Tortie"
 
         self.name = chosen_pelt
+        self.wing_marks = chosen_wing_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.

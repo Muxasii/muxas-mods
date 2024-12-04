@@ -19,26 +19,95 @@
     "BROWN": "brown",
     "GOLDEN-BROWN": "brown",
     "DARKBROWN": "brown",
-    "CHOCOLATE": "brown"
+    "CHOCOLATE": "brown",
+    "LAVENDER": "cool",
+    "ASH": "brown",
+    "PALECREAM": "white",
+    "DARKLAVENDER": "cool",
+    "BEIGE": "brown",
+    "DUST": "brown",
+    "SUNSET": "warm",
+    "OLDLILAC": "warm"
   },
   "possible_tints": {
-    "basic": ["pink", "gray", "red", "orange", "none", "warmdilute"],
-    "warm": ["yellow", "purple", "dilute", "cooldilute"],
-    "cool": ["purple", "black", "dilute"],
-    "white": ["yellow"],
-    "monochrome": ["blue", "black", "dilute", "cooldilute"],
-    "brown": ["yellow", "purple", "black", "dilute", "cooldilute"]
+"basic": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","royalblue2","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+
+"warm": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","sky","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+
+"cool": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","green","leaf","seagreen","darkgreen","green2","leaf2","seagreen2","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","deepblue","darkblue","royalblue","sky","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+
+"white": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","red","palered","richred","orange","paleorange","blaze","gold","yellow","paleyellow","sand","cream","green","leaf","seagreen","darkgreen","cyan","blue","ghost","paleblue","paleblue3","royalblue","sky","teal","cornflower","purple","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none"],
+
+"monochrome": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","sand","cream","green","leaf","seagreen","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+
+"brown": [
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","paleblue2","royalblue","sky","teal","cornflower","purple","purple2","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"]
   },
   "tint_colours":
   {
-    "pink": [253, 237, 237],
-    "gray": [225, 225, 225],
-    "red": [248, 226, 228],
-    "black": [195, 195, 195],
-    "orange": [255, 247, 235],
-    "yellow": [250, 248, 225],
-    "purple": [235, 225, 244],
-    "blue": [218, 237, 245],
+    "black": [200, 200, 200],
+    "dark": [150, 150, 150],
+    "faded": [230, 230, 230],
+    "gray": [211, 217, 219],
+    "pink": [253, 233, 255],
+    "pink2": [240, 228, 233],
+    "darkpink": [235, 228, 234],
+    "lightpink": [254, 245, 255],
+    "magenta": [207, 180, 190],
+    "blood": [201, 175, 175],
+    "red": [255, 222, 222],
+    "palered": [255, 236, 236],
+    "richred": [226, 198, 196],
+    "orange": [248, 224, 202],
+    "paleorange": [255, 238, 229],
+    "paleorange2": [255, 234, 222],
+    "blaze": [255, 227, 212],
+    "gold": [248, 235, 203],
+    "yellow": [255, 251, 210],
+    "paleyellow": [255, 238, 238],
+    "sand": [252, 250, 242],
+    "cream": [250, 245, 238],
+    "green": [241, 251, 233],
+    "leaf": [233, 243, 229],
+    "seagreen": [238, 250, 242],
+    "darkgreen": [226, 238, 222],
+    "green2": [243, 254, 239],
+    "leaf2": [243, 249, 240],
+    "seagreen2": [244, 253, 248],
+    "cyan": [227, 255, 254],
+    "cyan2": [206, 238, 255],
+    "blue": [227, 245, 252],
+    "blue2": [213, 226, 249],
+    "ghost": [234, 237, 241],
+    "paleblue": [240, 249, 255],
+    "paleblue2": [238, 245, 255],
+    "paleblue3": [243, 245, 255],
+    "deepblue": [222, 226, 248],
+    "darkblue": [222, 222, 232],
+    "royalblue": [234, 230, 250],
+    "royalblue2": [241, 240, 255],
+    "sky": [235, 255, 255],
+    "sky2": [209, 237, 249],
+    "teal": [229, 241, 244],
+    "cornflower": [233, 238, 250],
+    "purple": [242, 229, 255],
+    "purple2": [230, 211, 249],
+    "palepurple": [250, 249, 255],
+    "palepurple2": [243, 230, 255],
+    "deeppurple": [235, 228, 255],
+    "deeppurple2": [159, 121, 191],
+    "darkpurple": [224, 222, 227],
+    "darkpurple2": [202, 186, 213],
+    "violet": [249, 243, 253],
+    "lilac": [244, 242, 255],
+    "lilac2": [209, 197, 217],
+    "lavender": [247, 244, 250],
+    "brown": [237, 232, 228],
     "none": null
   },
   "dilute_tint_colours":
@@ -46,6 +115,10 @@
     "dilute": [20, 20, 20],
     "warmdilute": [25, 15, 7],
     "cooldilute": [7, 15, 25],
+    "purpledilute": [17, 1, 30],
+    "reddilute": [23, 5, 0],
+    "creamdilute": [24, 15, 7],
+    "ghostdilute": [30, 30, 30],
     "none": null
   }
 }

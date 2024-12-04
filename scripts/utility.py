@@ -3300,9 +3300,18 @@ def generate_sprite(
             "LIGHTBLUE": "#5B666B",
         }
 
+        accessory_layers = {
+            "middle": 
+            ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", "WHITE POPPY", "PINK POPPY", "BLUEBELLS", "LILY OF THE VALLEY", "SNAPDRAGON", "HERBS", "PETALS", "NETTLE", "HEATHER", "GORSE", "JUNIPER", "RASPBERRY", "LAVENDER", "OAK LEAVES", "CATMINT", "MAPLE SEED", "LAUREL", "BULB WHITE", "BULB YELLOW", "BULB ORANGE", "BULB PINK", "BULB BLUE", "CLOVER", "DAISY", "DRY HERBS", "DRY CATMINT", "DRY NETTLES", "DRY LAURELS", "RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "GULL FEATHERS", "SPARROW FEATHERS", "MOTH WINGS", "ROSY MOTH WINGS", "MORPHO BUTTERFLY", "MONARCH BUTTERFLY", "CICADA WINGS", "BLACK CICADA", "CRIMSONBELL", "BLUEBELL", "YELLOWBELL", "CYANBELL", "REDBELL", "LIMEBELL", "GREENBELL", "RAINBOWBELL", "BLACKBELL", "SPIKESBELL", "WHITEBELL", "PINKBELL", "PURPLEBELL", "MULTIBELL", "INDIGOBELL", "CRIMSONBOW", "BLUEBOW", "YELLOWBOW", "CYANBOW", "REDBOW", "LIMEBOW", "GREENBOW", "RAINBOWBOW", "BLACKBOW", "SPIKESBOW", "WHITEBOW", "PINKBOW", "PURPLEBOW", "MULTIBOW", "INDIGOBOW", "CRIMSONNYLON", "BLUENYLON", "YELLOWNYLON", "CYANNYLON", "REDNYLON", "LIMENYLON", "GREENNYLON", "RAINBOWNYLON", "BLACKNYLON", "SPIKESNYLON", "WHITENYLON", "PINKNYLON", "PURPLENYLON", "MULTINYLON", "INDIGONYLON"],
+            "top": 
+            []
+        }
+
         wing_scars = []
 
         # Get colors - makes things easier for later lol
+
+        birdwing_markings = cat.pelt.wing_marks
 
         eye_base_color = eye_color_dict[cat.pelt.eye_colour][0]
         eye_shade_color = eye_color_dict[cat.pelt.eye_colour][1]
@@ -3425,6 +3434,12 @@ def generate_sprite(
 
         overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         overfur_tint.fill(base_overfur_pelt)
+        
+        markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        markings_tint.fill(marking_base)
+
+        mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        mark_fade_tint.fill(marking_fade)
 
         if cat_marking in ['BENGAL', 'MARBLED']:
             underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
@@ -3475,12 +3490,6 @@ def generate_sprite(
         # draw markings
 
         if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-            markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            markings_tint.fill(marking_base)
-
-            mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            mark_fade_tint.fill(marking_fade)
-
             markings = sprites.sprites['markings' + cat_marking + cat_sprite].copy().convert_alpha()
             markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3510,7 +3519,6 @@ def generate_sprite(
             if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED']:
                 markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                 markings_inside_tint.fill(marking_inside)
-
 
                 markings_inside = sprites.sprites['markinside' + cat_marking + cat_sprite].copy().convert_alpha()
                 markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
@@ -3968,6 +3976,37 @@ def generate_sprite(
                 # appear.
                 back_wings.blit(b_w_markings, (0, 0))
 
+            # draw bird cat markings - i honestly want to weep
+            if birdwing_markings != "NONE" and cat.species == "bird cat":
+
+                b_w_birdmarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
+                b_w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # uh...
+                if cat_marking in ['BENGAL', 'MARBLED']:
+                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                elif cat_marking in ['SINGLESTRIPE']:
+                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                else:
+                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                b_w_birdmark_fade.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                b_w_birdmarkings.blit(b_w_birdmark_fade, (0, 0))
+            
+                # appear.
+                back_wings.blit(b_w_birdmarkings, (0, 0))
+
             # draw tortie
             if cat.pelt.name in ['Tortie', 'Calico']:
                 b_w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
@@ -4074,6 +4113,62 @@ def generate_sprite(
                     # appear.
                     b_w_patches.blit(b_w_tortie_markings, (0, 0))
 
+                    # HERE WE GO AGAIN wing MARKINGS agaiN these variables keep getting longer
+                    if birdwing_markings != "NONE" and cat.species == "bird cat":
+
+                        b_w_bird_tortiemarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
+                        b_w_bird_tortiemarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        # uh...
+                        if cat_marking in ['BENGAL', 'MARBLED']:
+                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                            b_w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                        elif cat_marking in ['SINGLESTRIPE']:
+                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                            b_w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                            
+                        else:
+                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                            b_w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        b_w_bird_tortiemark_fade.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        b_w_bird_tortiemarkings.blit(b_w_bird_tortiemark_fade, (0, 0))
+
+                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+
+                            b_w_bird_tortiemarkings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
+                            b_w_bird_tortiemarkings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            # I hate how many times this needs done
+                            if cat_marking in ['BENGAL', 'MARBLED']:
+                                b_w_bird_tortiemarkings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                                b_w_bird_tortiemarkings_inside_fade.fill(marking_inside_fade)
+
+                                b_w_bird_tortiemark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                                b_w_bird_tortiemark_inside_fade.blit(b_w_bird_tortiemarkings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                                b_w_bird_tortiemark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                                b_w_bird_tortiemarkings_inside.blit(b_w_bird_tortiemark_inside_fade, (0, 0))
+
+                                b_w_bird_tortiemark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                                b_w_bird_tortiemarkings_inside.blit(b_w_bird_tortiemark_inside_fade, (0, 0))
+                            
+                            b_w_bird_tortiemarkings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                            b_w_bird_tortiemarkings.blit(b_w_bird_tortiemarkings_inside, (0, 0))
+                    
+                        # appear.
+                        b_w_patches.blit(b_w_bird_tortiemarkings, (0, 0))
+                
+
                 # *microwave.sfx*
                 b_w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
@@ -4173,7 +4268,7 @@ def generate_sprite(
         ########################################################################
 
         # draw accessories
-        if not acc_hidden:
+        if not acc_hidden and cat.pelt.accessory in accessory_layers["middle"]:
             if cat.pelt.accessory in cat.pelt.plant_accessories:
                 new_sprite.blit(
                     sprites.sprites["acc_herbs" + cat.pelt.accessory + cat_sprite],
@@ -4299,6 +4394,37 @@ def generate_sprite(
                 # appear.
                 wings.blit(w_markings, (0, 0))
 
+            # draw bird cat markings - i honestly want to weep
+            if birdwing_markings != "NONE" and cat.species == "bird cat":
+
+                w_birdmarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
+                w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                # uh...
+                if cat_marking in ['BENGAL', 'MARBLED']:
+                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                elif cat_marking in ['SINGLESTRIPE']:
+                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                else:
+                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                w_birdmark_fade.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                w_birdmarkings.blit(w_birdmark_fade, (0, 0))
+            
+                # appear.
+                wings.blit(w_birdmarkings, (0, 0))
+
             # draw tortie
             if cat.pelt.name in ['Tortie', 'Calico']:
                 w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
@@ -4404,6 +4530,63 @@ def generate_sprite(
                 
                     # appear.
                     w_patches.blit(w_tortie_markings, (0, 0))
+
+                    # HERE WE GO AGAIN wing MARKINGS agaiN these variables keep getting longer
+                    if birdwing_markings != "NONE" and cat.species == "bird cat":
+
+                        w_bird_tortiemarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
+                        w_bird_tortiemarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                        # uh...
+                        if cat_marking in ['BENGAL', 'MARBLED']:
+                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
+                            w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                        elif cat_marking in ['SINGLESTRIPE']:
+                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
+                            w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                            
+                        else:
+                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
+                            w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        w_bird_tortiemark_fade.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                        w_bird_tortiemarkings.blit(w_bird_tortiemark_fade, (0, 0))
+
+                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+
+                            w_bird_tortiemarkings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
+                            w_bird_tortiemarkings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                            # I hate how many times this needs done
+                            if cat_marking in ['BENGAL', 'MARBLED']:
+                                w_bird_tortiemarkings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                                w_bird_tortiemarkings_inside_fade.fill(marking_inside_fade)
+
+                                w_bird_tortiemark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
+                                w_bird_tortiemark_inside_fade.blit(w_bird_tortiemarkings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                                w_bird_tortiemark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                                w_bird_tortiemarkings_inside.blit(w_bird_tortiemark_inside_fade, (0, 0))
+
+                                w_bird_tortiemark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                                w_bird_tortiemarkings_inside.blit(w_bird_tortiemark_inside_fade, (0, 0))
+                            
+                            w_bird_tortiemarkings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                            w_bird_tortiemarkings.blit(w_bird_tortiemarkings_inside, (0, 0))
+                    
+                        # appear.
+                        w_patches.blit(w_bird_tortiemarkings, (0, 0))
+
+
 
                 # *microwave.sfx*
                 w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
