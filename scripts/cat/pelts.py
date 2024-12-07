@@ -353,6 +353,10 @@ class Pelt:
         if self.species is None:
             self.species = Pelt.init_species(self)
 
+        
+        if self.species is None:
+            print("self.species returned with None. Report.")
+
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
             self.white_patches = "SEALPOINT"
