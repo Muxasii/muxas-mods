@@ -334,9 +334,8 @@ class Pelt:
         par_species = []
         for p in parents:
             if p:
-                par_species.append(p.species)
-            else:
-                par_species.append(None)
+                if p.species:
+                    par_species.append(p.species)
         
         if not par_species:
             print("Warning - no parents: species randomized")
@@ -353,7 +352,6 @@ class Pelt:
         if self.species is None:
             self.species = Pelt.init_species(self)
 
-        
         if self.species is None:
             print("self.species returned with None. Report.")
 
