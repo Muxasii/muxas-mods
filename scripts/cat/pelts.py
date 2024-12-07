@@ -351,19 +351,7 @@ class Pelt:
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         
         if self.species is None:
-            species_list = []
-            species_weights = []
-            if game.settings['earth_gen']:
-                species_list.append("earth cat")
-                species_weights.append(game.config["species_generation"]["earth"])
-            if game.settings['bird_gen']:
-                species_list.append("bird cat")
-                species_weights.append(game.config["species_generation"]["bird"])
-            if game.settings['bat_gen']:
-                species_list.append("bat cat")
-                species_weights.append(game.config["species_generation"]["bat"])
-            self.species = Pelt.randomize_species(species_list, species_weights)
-
+            self.species = Pelt.init_species(self)
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
