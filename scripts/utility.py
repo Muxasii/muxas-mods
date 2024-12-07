@@ -2823,6 +2823,197 @@ def generate_sprite(
             },
             
             "special": {
+                "SINGLECOLOUR": {
+                "WHITE": [
+                    '#EFFAFC',
+                    '#F6FBF9',
+                    '#EEF9FC',
+                    '#A7B9BF',
+                    '#C6D6DB',
+                    '#D0DEE1'],
+                "PALEGREY": [
+                    '#C6D7D3',
+                    '#D7E0D1',
+                    '#C2D5D3',
+                    '#788B8B',
+                    '#8FA6A6',
+                    '#A2B1B0'],
+                "SILVER": [
+                    '#B6C8CA',
+                    '#CAD6C7',
+                    '#9FB8BD',
+                    '#2C383F',
+                    '#4C626D',
+                    '#859A9D'],
+                "GREY": [
+                    '#92A1A1',
+                    '#AFB8AE',
+                    '#92A1A1',
+                    '#3F514F',
+                    '#637674',
+                    '#B1AEB0'],
+                "DARKGREY": [
+                    '#697879',
+                    '#8F978F',
+                    '#5B6C6F',
+                    '#0B1110',
+                    '#223734',
+                    '#39484B'],
+                "GHOST": [
+                    '#3C404C',
+                    '#3A3F4B',
+                    '#4D5056',
+                    '#5D6B6F',
+                    '#515E64',
+                    '#4D4E59'],
+                "BLACK": [
+                    '#353A42',
+                    '#46494E',
+                    '#31383F',
+                    '#0A0D15',
+                    '#141720',
+                    '#202427'],
+                "CREAM": [
+                    '#F4DAB5',
+                    '#F4E8CB',
+                    '#F3D7B4',
+                    '#D4A57D',
+                    '#E9B68B',
+                    '#F5CE9A'],
+                "PALEGINGER": [
+                    '#E7C498',
+                    '#E7C69A',
+                    '#E5BD92',
+                    '#C68B5B',
+                    '#DA9C68',
+                    '#E8B479'],
+                "GOLDEN": [
+                    '#EECB84',
+                    '#ECD69F',
+                    '#E5B374',
+                    '#775441',
+                    '#CB906F',
+                    '#D9A859'],
+                "GINGER": [
+                    '#F2AE71',
+                    '#F4C391',
+                    '#F0AC73',
+                    '#AC5A2C',
+                    '#DB7338',
+                    '#DB9355'],
+                "DARKGINGER": [
+                    '#D2713D',
+                    '#E0A67A',
+                    '#D1703C',
+                    '#6F2E18',
+                    '#A34323',
+                    '#BC5D2A'],
+                "SIENNA": [
+                    '#AA583E',
+                    '#B36F50',
+                    '#A9563D',
+                    '#502A2D',
+                    '#87413C',
+                    '#BA6D4C'],
+                "LIGHTBROWN": [
+                    '#DAC7A4',
+                    '#E6D7B6',
+                    '#CEC6B8',
+                    '#6F5D46',
+                    '#BCA07B',
+                    '#C2AF8C'],
+                "LILAC": [
+                    '#B49890',
+                    '#D0BBAC',
+                    '#A6A4A5',
+                    '#655252',
+                    '#8B696B',
+                    '#AD898A'],
+                "BROWN": [
+                    '#A4856C',
+                    '#BEAA8D',
+                    '#93887E',
+                    '#2D221D',
+                    '#674F43',
+                    '#957961'],
+                "GOLDEN-BROWN": [
+                    '#A86D59',
+                    '#D2A686',
+                    '#836B5B',
+                    '#432E2C',
+                    '#7B5248',
+                    '#A86F59'],
+                "DARKBROWN": [
+                    '#754E3C',
+                    '#B09479',
+                    '#6C625D',
+                    '#130B0A',
+                    '#3B2420',
+                    '#5F483C'],
+                "CHOCOLATE": [
+                    '#704642',
+                    '#855953',
+                    '#484145',
+                    '#1E1719',
+                    '#5A3134',
+                    '#705153'],
+                "LAVENDER": [
+                    '#C0B8C8',
+                    '#F7F6FA',
+                    '#B2AAB7',
+                    '#92848E',
+                    '#ADA1B2',
+                    '#CDBFC6'],
+                "ASH": [
+                    '#272120',
+                    '#6C5240',
+                    '#090707',
+                    '#030202',
+                    '#231A19',
+                    '#3D312E'],
+                "PALECREAM": [
+                    '#FFFBF0',
+                    '#FFFFFF',
+                    '#FFEED8',
+                    '#F7D1B5',
+                    '#FFF5E6',
+                    '#FFFCF3'],
+                "DARKLAVENDER": [
+                    '#837487', #base
+                    '#8B7D8E', #underfur
+                    '#5B4F6C', #overfur
+                    '#483E5D', #marking fade
+                    '#766B83', #markings
+                    '#978C92'], #marking inside
+                "BEIGE": [
+                    '#DDD7D0', #base
+                    '#F3EDE8', #underfur
+                    '#D6CAC6', #overfur
+                    '#A29591', #marking fade
+                    '#B3A59D', #markings
+                    '#C3B8B1'], #marking inside
+                "DUST": [
+                    '#BCAF9F', #base
+                    '#CDC1B7', #underfur
+                    '#9C8F86', #overfur
+                    '#665651', #marking fade
+                    '#7D6965', #markings
+                    '#A1918C'], #marking inside
+                "SUNSET": [
+                    '#E5A774', #base
+                    '#ECB779', #underfur
+                    '#E99063', #overfur
+                    '#B4513A', #marking fade
+                    '#D27958', #markings
+                    '#C86763'], #marking inside
+                "OLDLILAC": [
+                    '#856A6E', #base
+                    '#947A7E', #underfur
+                    '#77565F', #overfur
+                    '#624049', #marking fade
+                    '#7B575F', #markings
+                    '#876762'] #marking inside
+                },
                 "SINGLESTRIPE": {
                     "WHITE": [
                         '#EEF9FC',
@@ -4266,6 +4457,96 @@ def generate_sprite(
         #end back wings because I will get confused as hell if I don't put this here#
         #                                                                      #
         ########################################################################
+
+        # draw bat cat mane
+        if cat.species == "bat cat":
+            # draw base
+            bat_mane = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0, 0))
+
+            bat_mane.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # draw overlays
+            mane_overfur = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
+            mane_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            mane_overfur.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            mane_underfur = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
+            mane_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            mane_underfur.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            bat_mane.blit(mane_overfur, (0, 0))
+            bat_mane.blit(mane_underfur, (0, 0))
+
+            # draw markings
+
+            if cat.pelt.mane_marks != "NONE":
+                # draw markings
+                mane_markings = sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite].copy().convert_alpha()
+                mane_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                
+                mane_mark_fade = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
+                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                mane_mark_fade.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                mane_mark_fade = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
+                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                mane_mark_fade.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        
+                mane_markings.blit(mane_mark_fade, (0, 0))
+                mane_markings.blit(sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                # appear.
+                bat_mane.blit(mane_markings, (0, 0))
+
+
+            # TINTS
+            if (
+                cat.pelt.tint != "none"
+                and cat.pelt.tint in sprites.cat_tints["tint_colours"]
+            ):
+                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
+                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            if (
+                cat.pelt.tint != "none"
+                and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
+                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            new_sprite.blit(bat_mane, (0, 0))
+
+            if game.settings["shaders"] and not dead:
+                new_sprite.blit(
+                    sprites.sprites["maneshaders" + cat_sprite],
+                    (0, 0),
+                    special_flags=pygame.BLEND_RGB_MULT,
+                )
+                #new_sprite.blit(sprites.sprites["lighting" + cat_sprite], (0, 0),
+                #    special_flags=pygame.BLEND_RGB_ADD)
+
+            if not dead:
+                new_sprite.blit(sprites.sprites["manelines" + cat_sprite], (0, 0))
+            elif cat.df:
+                new_sprite.blit(sprites.sprites["manelineartdf" + cat_sprite], (0, 0))
+            elif dead:
+                new_sprite.blit(sprites.sprites["manelineartdead" + cat_sprite], (0, 0))
+
+
+
 
         # draw accessories
         if not acc_hidden and cat.pelt.accessory in accessory_layers["middle"]:

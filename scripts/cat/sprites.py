@@ -125,6 +125,7 @@ class Sprites:
 
         for x in [
             'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin', 'wingmarks',
+            'batmane', 'batmanemarkings',
             'whitepatches', 'wingswhitepatches', 'eyesnew', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars', 'medcatherbs', 'wild', 
             'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiemasks',
@@ -187,6 +188,16 @@ class Sprites:
         # bird wing markings
         for a, i in enumerate(['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS']):
             self.make_group('wingmarks', (a, 0), f'wingmarks{i}')
+
+        # bat mane
+        for a, i in enumerate(['lines', 'base', 'shaders']):
+            self.make_group('batmane', (a, 0), f'mane{i}')
+        for a, i in enumerate(['overfur', 'underfur']):
+            self.make_group('batmane', (a, 1), f'mane{i}')
+
+        # bat mane markings
+        for a, i in enumerate(['FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']):
+            self.make_group('batmanemarkings', (a, 0), f'manemarks{i}')
 
 
         # Fading Fog

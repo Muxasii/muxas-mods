@@ -30,6 +30,8 @@ class Pelt:
     species = ['bird cat', 'earth cat']
 
     bird_wing_marks = ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', 'NONE']
+
+    mane_marks_list = ['NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']
     
     # ATTRIBUTES, including non-pelt related
     pelt_colours = [
@@ -188,6 +190,7 @@ class Pelt:
                  white_patches: str = None,
                  wing_white_patches:str=None,
                  wing_marks: str = "NONE",
+                 mane_marks: str = None,
                  eye_color: str = "BLUE",
                  eye_colour2: str = None,
                  tortiebase: str = None,
@@ -217,6 +220,7 @@ class Pelt:
         self.white_patches = white_patches
         self.wing_white_patches = wing_white_patches
         self.wing_marks = wing_marks
+        self.mane_marks = mane_marks
         self.eye_colour = eye_color
         self.eye_colour2 = eye_colour2
         self.tortiebase = tortiebase
@@ -270,70 +274,63 @@ class Pelt:
     @staticmethod
     def init_species(self, parents:tuple=()):
         species_list = []
-        weights = []
+        weight = []
 
         try:
             if game.switches['cur_screen'] == "make clan screen":
                 if game.settings['earth_gen']:
                     species_list.append("earth cat")
-                    weights.append(game.config["species_generation"]["earth"])
+                    weight.append(game.config["species_generation"]["earth"])
                 if game.settings['bird_gen']:
                     species_list.append("bird cat")
-                    weights.append(game.config["species_generation"]["bird"])
+                    weight.append(game.config["species_generation"]["bird"])
                 if game.settings['bat_gen']:
                     species_list.append("bat cat")
-                    weights.append(game.config["species_generation"]["bat"])
+                    weight.append(game.config["species_generation"]["bat"])
             else:
                 if game.clan.clan_settings['earth_gen_clan']:
                     species_list.append("earth cat")
-                    weights.append(game.config["species_generation"]["earth"])
+                    weight.append(game.config["species_generation"]["earth"])
                 if game.clan.clan_settings['bird_gen_clan']:
                     species_list.append("bird cat")
-                    weights.append(game.config["species_generation"]["bird"])
+                    weight.append(game.config["species_generation"]["bird"])
                 if game.clan.clan_settings['bat_gen_clan']:
                     species_list.append("bat cat")
-                    weights.append(game.config["species_generation"]["bat"])
+                    weight.append(game.config["species_generation"]["bat"])
         except:
             if game.settings['earth_gen']:
                 species_list.append("earth cat")
-                weights.append(game.config["species_generation"]["earth"])
+                weight.append(game.config["species_generation"]["earth"])
             if game.settings['bird_gen']:
                 species_list.append("bird cat")
-                weights.append(game.config["species_generation"]["bird"])
+                weight.append(game.config["species_generation"]["bird"])
             if game.settings['bat_gen']:
                 species_list.append("bat cat")
-                weights.append(game.config["species_generation"]["bat"])
+                weight.append(game.config["species_generation"]["bat"])
 
 
         # species_list = ["earth cat", "bird cat", "bat cat"] #, "bug cat"
-        if self.species == None:
+        if self.species is None:
             if parents:
-                species = Pelt.species_inheritance(species_list, parents)
+                species = Pelt.species_inheritance(species_list, parents, weight)
                 return species
             else:
                 species = choice(
-                    random.choices(species_list, weights=weights, k = 1)
+                    random.choices(species_list, weights=weight, k=1)
                 )
                 return species
         else:
             return self.species
         
     @staticmethod
-    def randomize_species(species_list):
-        species_list = species_list
-        weights = []
-        weights.insert(0, game.config["species_generation"]["earth"])
-        weights.insert(1, game.config["species_generation"]["bird"])
-        weights.insert(2, game.config["species_generation"]["bat"])
-
+    def randomize_species(species_list:list=[], species_weights:list=[]):
         chosen_species = choice(
-            random.choices(species_list, weights=weights, k = 1)
+            random.choices(species_list, weights=species_weights, k = 1)
         )
         return chosen_species
     
     @staticmethod
-    def species_inheritance(species_list, parents:tuple=()): # guys I cried while making this because what the hell-
-        species_list = species_list
+    def species_inheritance(species_list, parents:tuple=(), species_weights:list=[]): # guys I cried while making this because what the hell-
         par_species = []
         for p in parents:
             if p:
@@ -343,7 +340,7 @@ class Pelt:
         
         if not par_species:
             print("Warning - no parents: species randomized")
-            chosen_species = Pelt.randomize_species(species_list)
+            chosen_species = Pelt.randomize_species(species_list, species_weights)
             return chosen_species
 
         chosen_species = random.choice(par_species)
@@ -353,8 +350,20 @@ class Pelt:
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         
-        if self.species == None:
-            self.species = Pelt.init_species(self)
+        if self.species is None:
+            species_list = []
+            species_weights = []
+            if game.settings['earth_gen']:
+                species_list.append("earth cat")
+                species_weights.append(game.config["species_generation"]["earth"])
+            if game.settings['bird_gen']:
+                species_list.append("bird cat")
+                species_weights.append(game.config["species_generation"]["bird"])
+            if game.settings['bat_gen']:
+                species_list.append("bat cat")
+                species_weights.append(game.config["species_generation"]["bat"])
+            self.species = Pelt.randomize_species(species_list, species_weights)
+
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
@@ -395,6 +404,26 @@ class Pelt:
                 weight = [1, 1, 1, 1, 1, 1, 1, 1]
             self.wing_marks = choice(
             random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
+            )
+
+        # generate mane info
+        if self.mane_marks is None:
+            # Gather weights depending on pelt group
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if self.name in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif self.name in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif self.name is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif self.name in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif self.name in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
+            self.mane_marks = choice(
+            random.choices(Pelt.mane_marks_list, weights=weight, k=1)
             )
         
         if self.tortiepattern and "tortie" in self.tortiepattern:
@@ -660,6 +689,23 @@ class Pelt:
             random.choices(Pelt.bird_wing_marks, weights=weights, k=1)
         )
 
+        # select mane markings
+        if chosen_pelt in Pelt.tabbies:
+            weight = [5, 30, 30, 30, 30, 0, 0]
+        elif chosen_pelt in Pelt.spotted:
+            weight = [5, 30, 30, 30, 0, 30, 0]
+        elif chosen_pelt is 'Smoke':
+            weight = [0, 30, 20, 20, 0, 0, 30]
+        elif chosen_pelt in Pelt.plain:
+            weight = [30, 30, 20, 20, 0, 0, 10]
+        elif chosen_pelt in Pelt.exotic:
+            weight = [10, 30, 30, 30, 0, 30, 0]
+        else:
+            weight = [1, 1, 1, 1, 1, 1, 1, 1]
+        chosen_mane_marks = choice(
+        random.choices(Pelt.mane_marks_list, weights=weight, k=1)
+        )
+
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
@@ -744,6 +790,7 @@ class Pelt:
         # SET THE PELT
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
+        self.mane_marks = chosen_mane_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
@@ -794,6 +841,24 @@ class Pelt:
         chosen_wing_marks = choice(
         random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
         )
+        
+        # Gather weights depending on pelt group
+        #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+        if chosen_pelt in Pelt.tabbies:
+            weight = [5, 30, 30, 30, 30, 0, 0]
+        elif chosen_pelt in Pelt.spotted:
+            weight = [5, 30, 30, 30, 0, 30, 0]
+        elif chosen_pelt is 'Smoke':
+            weight = [0, 30, 20, 20, 0, 0, 30]
+        elif chosen_pelt in Pelt.plain:
+            weight = [30, 30, 20, 20, 0, 0, 10]
+        elif chosen_pelt in Pelt.exotic:
+            weight = [10, 30, 30, 30, 0, 30, 0]
+        else:
+            weight = [1, 1, 1, 1, 1, 1, 1]
+        chosen_mane_marks = choice(
+        random.choices(Pelt.mane_marks_list, weights=weight, k=1)
+        )
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
@@ -827,6 +892,7 @@ class Pelt:
 
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
+        self.mane_marks = chosen_mane_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
