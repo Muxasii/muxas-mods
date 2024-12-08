@@ -163,11 +163,6 @@ class Sprites:
 
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
-
-        # wing scars
-        for a, i in enumerate(['CLIPPED']):
-            self.make_group('wingscars', (a, 0), f'bat catscar{i}')
-            self.make_group('wingscars', (a, 1), f'bird catscar{i}')
         
         # Eyes
         for a, i in enumerate(
@@ -374,6 +369,13 @@ class Sprites:
         for row, missing_parts in enumerate(missing_parts_data):
             for col, missing_part in enumerate(missing_parts):
                 self.make_group('missingscars', (col, row), f'scars{missing_part}')
+
+        # wing scars
+        for a, i in enumerate(['CLIPPED']):
+            self.make_group('wingscars', (a, 0), f'bat catscar{i}')
+            self.make_group('wingscars', (a, 1), f'bird catscar{i}')
+            self.make_group('wingscars', (a, 3), f'bat catbackscar{i}')
+            self.make_group('wingscars', (a, 4), f'bird catbackscar{i}')
 
         # accessories
         #to my beloved modders, im very sorry for reordering everything <333 -clay

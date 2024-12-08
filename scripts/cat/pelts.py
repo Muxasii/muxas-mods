@@ -1217,6 +1217,10 @@ class Pelt:
                         # 75% chance for no white patch on wings
                         white_choices.append(['NONE'] * len(i) * 2)
 
+        chosen_white_patches = choice(
+            random.choices(white_choices, k=1)[0]
+        )
+        
         self.wing_white_patches = chosen_white_patches
 
 

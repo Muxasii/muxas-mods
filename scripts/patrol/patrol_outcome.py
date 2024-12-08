@@ -807,7 +807,7 @@ class PatrolOutcome:
         for sub in patrol.new_cats:
             if sub[0].moons > 6 and sub[0].species == "bird cat":
                 clip_chance = random.randint(0, 10)
-                if "kittypet" in sub[0].backstory and clip_chance < 5:
+                if sub[0].backstory in ["kittypet1", "kittypet2", "kittypet3", "kittypet4", "kittypet5"] and clip_chance < 6:
                     sub[0].get_injured("clipped wings")
         
 

@@ -4667,7 +4667,7 @@ def generate_sprite(
             # clipped back_wings
             if cat.clipped_wings():
                 back_wings.blit(
-                    sprites.sprites[cat.species + "scar" + "CLIPPED" + cat_sprite],
+                    sprites.sprites[cat.species + "backscar" + "CLIPPED" + cat_sprite],
                     (0, 0),
                     special_flags=pygame.BLEND_RGBA_MIN,
                 )
