@@ -2632,14 +2632,14 @@ def generate_sprite(
         color_dict = {
             "solid": {
                 "WHITE": [
-                    '#EFFAFC',
-                    '#F6FBF9',
-                    '#EEF9FC',
-                    '#A7B9BF',
-                    '#C6D6DB',
+                    '#eef9fc',
+                    '#f6fcf2',
+                    '#eef9fc',
+                    '#b3c0c4',
+                    '#ccdadc',
                     '#D0DEE1'],
                 "PALEGREY": [
-                    '#C6D7D3',
+                    '#c1d5d3',
                     '#D7E0D1',
                     '#C2D5D3',
                     '#788B8B',
@@ -2647,45 +2647,45 @@ def generate_sprite(
                     '#A2B1B0'],
                 "SILVER": [
                     '#B6C8CA',
-                    '#CAD6C7',
-                    '#9FB8BD',
-                    '#2C383F',
-                    '#4C626D',
+                    '#d8e1d4',
+                    '#c1d5d3',
+                    '#6f8181',
+                    '#90a7a7',
                     '#859A9D'],
                 "GREY": [
-                    '#92A1A1',
+                    '#92a1a1',
                     '#AFB8AE',
                     '#92A1A1',
                     '#3F514F',
-                    '#637674',
+                    '#677a78',
                     '#B1AEB0'],
                 "DARKGREY": [
-                    '#697879',
-                    '#8F978F',
-                    '#5B6C6F',
-                    '#0B1110',
-                    '#223734',
+                    '#5b6c6f',
+                    '#838d87',
+                    '#5b6c6f',
+                    '#152220',
+                    '#253e3a',
                     '#39484B'],
                 "GHOST": [
-                    '#3C404C',
-                    '#3A3F4B',
+                    '#3a3f4b',
+                    '#5c5e64',
                     '#4D5056',
-                    '#5D6B6F',
-                    '#515E64',
+                    '#66747a',
+                    '#515e62',
                     '#4D4E59'],
                 "BLACK": [
-                    '#353A42',
-                    '#46494E',
-                    '#31383F',
-                    '#0A0D15',
-                    '#141720',
+                    '#2f353a',
+                    '#4a4d52',
+                    '#2f353a',
+                    '#0f121b',
+                    '#151922',
                     '#202427'],
                 "CREAM": [
-                    '#F4DAB5',
-                    '#F4E8CB',
-                    '#F3D7B4',
-                    '#D4A57D',
-                    '#E9B68B',
+                    '#f3d7b4',
+                    '#f4e7c9',
+                    '#f3d6b2',
+                    '#d6a981',
+                    '#efbc8e',
                     '#F5CE9A'],
                 "PALEGINGER": [
                     '#E7C498',
@@ -2821,198 +2821,388 @@ def generate_sprite(
                     '#7B575F', #markings
                     '#876762'] #marking inside
             },
-            
             "special": {
                 "SINGLECOLOUR": {
-                "WHITE": [
-                    '#EFFAFC',
-                    '#F6FBF9',
-                    '#EEF9FC',
-                    '#A7B9BF',
-                    '#C6D6DB',
-                    '#D0DEE1'],
-                "PALEGREY": [
-                    '#C6D7D3',
-                    '#D7E0D1',
-                    '#C2D5D3',
-                    '#788B8B',
-                    '#8FA6A6',
-                    '#A2B1B0'],
-                "SILVER": [
-                    '#B6C8CA',
-                    '#CAD6C7',
-                    '#9FB8BD',
-                    '#2C383F',
-                    '#4C626D',
-                    '#859A9D'],
-                "GREY": [
-                    '#92A1A1',
-                    '#AFB8AE',
-                    '#92A1A1',
-                    '#3F514F',
-                    '#637674',
-                    '#B1AEB0'],
-                "DARKGREY": [
-                    '#697879',
-                    '#8F978F',
-                    '#5B6C6F',
-                    '#0B1110',
-                    '#223734',
-                    '#39484B'],
-                "GHOST": [
-                    '#3C404C',
-                    '#3A3F4B',
-                    '#4D5056',
-                    '#5D6B6F',
-                    '#515E64',
-                    '#4D4E59'],
-                "BLACK": [
-                    '#353A42',
-                    '#46494E',
-                    '#31383F',
-                    '#0A0D15',
-                    '#141720',
-                    '#202427'],
-                "CREAM": [
-                    '#F4DAB5',
-                    '#F4E8CB',
-                    '#F3D7B4',
-                    '#D4A57D',
-                    '#E9B68B',
-                    '#F5CE9A'],
-                "PALEGINGER": [
-                    '#E7C498',
-                    '#E7C69A',
-                    '#E5BD92',
-                    '#C68B5B',
-                    '#DA9C68',
-                    '#E8B479'],
-                "GOLDEN": [
-                    '#EECB84',
-                    '#ECD69F',
-                    '#E5B374',
-                    '#775441',
-                    '#CB906F',
-                    '#D9A859'],
-                "GINGER": [
-                    '#F2AE71',
-                    '#F4C391',
-                    '#F0AC73',
-                    '#AC5A2C',
-                    '#DB7338',
-                    '#DB9355'],
-                "DARKGINGER": [
-                    '#D2713D',
-                    '#E0A67A',
-                    '#D1703C',
-                    '#6F2E18',
-                    '#A34323',
-                    '#BC5D2A'],
-                "SIENNA": [
-                    '#AA583E',
-                    '#B36F50',
-                    '#A9563D',
-                    '#502A2D',
-                    '#87413C',
-                    '#BA6D4C'],
-                "LIGHTBROWN": [
-                    '#DAC7A4',
-                    '#E6D7B6',
-                    '#CEC6B8',
-                    '#6F5D46',
-                    '#BCA07B',
-                    '#C2AF8C'],
-                "LILAC": [
-                    '#B49890',
-                    '#D0BBAC',
-                    '#A6A4A5',
-                    '#655252',
-                    '#8B696B',
-                    '#AD898A'],
-                "BROWN": [
-                    '#A4856C',
-                    '#BEAA8D',
-                    '#93887E',
-                    '#2D221D',
-                    '#674F43',
-                    '#957961'],
-                "GOLDEN-BROWN": [
-                    '#A86D59',
-                    '#D2A686',
-                    '#836B5B',
-                    '#432E2C',
-                    '#7B5248',
-                    '#A86F59'],
-                "DARKBROWN": [
-                    '#754E3C',
-                    '#B09479',
-                    '#6C625D',
-                    '#130B0A',
-                    '#3B2420',
-                    '#5F483C'],
-                "CHOCOLATE": [
-                    '#704642',
-                    '#855953',
-                    '#484145',
-                    '#1E1719',
-                    '#5A3134',
-                    '#705153'],
-                "LAVENDER": [
-                    '#C0B8C8',
-                    '#F7F6FA',
-                    '#B2AAB7',
-                    '#92848E',
-                    '#ADA1B2',
-                    '#CDBFC6'],
-                "ASH": [
-                    '#272120',
-                    '#6C5240',
-                    '#090707',
-                    '#030202',
-                    '#231A19',
-                    '#3D312E'],
-                "PALECREAM": [
-                    '#FFFBF0',
-                    '#FFFFFF',
-                    '#FFEED8',
-                    '#F7D1B5',
-                    '#FFF5E6',
-                    '#FFFCF3'],
-                "DARKLAVENDER": [
-                    '#837487', #base
-                    '#8B7D8E', #underfur
-                    '#5B4F6C', #overfur
-                    '#483E5D', #marking fade
-                    '#766B83', #markings
-                    '#978C92'], #marking inside
-                "BEIGE": [
-                    '#DDD7D0', #base
-                    '#F3EDE8', #underfur
-                    '#D6CAC6', #overfur
-                    '#A29591', #marking fade
-                    '#B3A59D', #markings
-                    '#C3B8B1'], #marking inside
-                "DUST": [
-                    '#BCAF9F', #base
-                    '#CDC1B7', #underfur
-                    '#9C8F86', #overfur
-                    '#665651', #marking fade
-                    '#7D6965', #markings
-                    '#A1918C'], #marking inside
-                "SUNSET": [
-                    '#E5A774', #base
-                    '#ECB779', #underfur
-                    '#E99063', #overfur
-                    '#B4513A', #marking fade
-                    '#D27958', #markings
-                    '#C86763'], #marking inside
-                "OLDLILAC": [
-                    '#856A6E', #base
-                    '#947A7E', #underfur
-                    '#77565F', #overfur
-                    '#624049', #marking fade
-                    '#7B575F', #markings
-                    '#876762'] #marking inside
+                    "WHITE": [
+                        '#EFFAFC',
+                        '#F6FBF9',
+                        '#EEF9FC',
+                        '#A7B9BF',
+                        '#C6D6DB',
+                        '#D0DEE1'],
+                    "PALEGREY": [
+                        '#C6D7D3',
+                        '#D7E0D1',
+                        '#C2D5D3',
+                        '#788B8B',
+                        '#8FA6A6',
+                        '#A2B1B0'],
+                    "SILVER": [
+                        '#B6C8CA',
+                        '#CAD6C7',
+                        '#9FB8BD',
+                        '#2C383F',
+                        '#4C626D',
+                        '#859A9D'],
+                    "GREY": [
+                        '#92A1A1',
+                        '#AFB8AE',
+                        '#92A1A1',
+                        '#3F514F',
+                        '#637674',
+                        '#B1AEB0'],
+                    "DARKGREY": [
+                        '#697879',
+                        '#8F978F',
+                        '#5B6C6F',
+                        '#0B1110',
+                        '#223734',
+                        '#39484B'],
+                    "GHOST": [
+                        '#3C404C',
+                        '#3A3F4B',
+                        '#4D5056',
+                        '#5D6B6F',
+                        '#515E64',
+                        '#4D4E59'],
+                    "BLACK": [
+                        '#353A42',
+                        '#46494E',
+                        '#31383F',
+                        '#0A0D15',
+                        '#141720',
+                        '#202427'],
+                    "CREAM": [
+                        '#F4DAB5',
+                        '#F4E8CB',
+                        '#F3D7B4',
+                        '#D4A57D',
+                        '#E9B68B',
+                        '#F5CE9A'],
+                    "PALEGINGER": [
+                        '#E7C498',
+                        '#E7C69A',
+                        '#E5BD92',
+                        '#C68B5B',
+                        '#DA9C68',
+                        '#E8B479'],
+                    "GOLDEN": [
+                        '#EECB84',
+                        '#ECD69F',
+                        '#E5B374',
+                        '#775441',
+                        '#CB906F',
+                        '#D9A859'],
+                    "GINGER": [
+                        '#F2AE71',
+                        '#F4C391',
+                        '#F0AC73',
+                        '#AC5A2C',
+                        '#DB7338',
+                        '#DB9355'],
+                    "DARKGINGER": [
+                        '#D2713D',
+                        '#E0A67A',
+                        '#D1703C',
+                        '#6F2E18',
+                        '#A34323',
+                        '#BC5D2A'],
+                    "SIENNA": [
+                        '#AA583E',
+                        '#B36F50',
+                        '#A9563D',
+                        '#502A2D',
+                        '#87413C',
+                        '#BA6D4C'],
+                    "LIGHTBROWN": [
+                        '#DAC7A4',
+                        '#E6D7B6',
+                        '#CEC6B8',
+                        '#6F5D46',
+                        '#BCA07B',
+                        '#C2AF8C'],
+                    "LILAC": [
+                        '#B49890',
+                        '#D0BBAC',
+                        '#A6A4A5',
+                        '#655252',
+                        '#8B696B',
+                        '#AD898A'],
+                    "BROWN": [
+                        '#A4856C',
+                        '#BEAA8D',
+                        '#93887E',
+                        '#2D221D',
+                        '#674F43',
+                        '#957961'],
+                    "GOLDEN-BROWN": [
+                        '#A86D59',
+                        '#D2A686',
+                        '#836B5B',
+                        '#432E2C',
+                        '#7B5248',
+                        '#A86F59'],
+                    "DARKBROWN": [
+                        '#754E3C',
+                        '#B09479',
+                        '#6C625D',
+                        '#130B0A',
+                        '#3B2420',
+                        '#5F483C'],
+                    "CHOCOLATE": [
+                        '#704642',
+                        '#855953',
+                        '#484145',
+                        '#1E1719',
+                        '#5A3134',
+                        '#705153'],
+                    "LAVENDER": [
+                        '#C0B8C8',
+                        '#F7F6FA',
+                        '#B2AAB7',
+                        '#92848E',
+                        '#ADA1B2',
+                        '#CDBFC6'],
+                    "ASH": [
+                        '#272120',
+                        '#6C5240',
+                        '#090707',
+                        '#030202',
+                        '#231A19',
+                        '#3D312E'],
+                    "PALECREAM": [
+                        '#FFFBF0',
+                        '#FFFFFF',
+                        '#FFEED8',
+                        '#F7D1B5',
+                        '#FFF5E6',
+                        '#FFFCF3'],
+                    "DARKLAVENDER": [
+                        '#837487', #base
+                        '#8B7D8E', #underfur
+                        '#5B4F6C', #overfur
+                        '#483E5D', #marking fade
+                        '#766B83', #markings
+                        '#978C92'], #marking inside
+                    "BEIGE": [
+                        '#DDD7D0', #base
+                        '#F3EDE8', #underfur
+                        '#D6CAC6', #overfur
+                        '#A29591', #marking fade
+                        '#B3A59D', #markings
+                        '#C3B8B1'], #marking inside
+                    "DUST": [
+                        '#BCAF9F', #base
+                        '#CDC1B7', #underfur
+                        '#9C8F86', #overfur
+                        '#665651', #marking fade
+                        '#7D6965', #markings
+                        '#A1918C'], #marking inside
+                    "SUNSET": [
+                        '#E5A774', #base
+                        '#ECB779', #underfur
+                        '#E99063', #overfur
+                        '#B4513A', #marking fade
+                        '#D27958', #markings
+                        '#C86763'], #marking inside
+                    "OLDLILAC": [
+                        '#856A6E', #base
+                        '#947A7E', #underfur
+                        '#77565F', #overfur
+                        '#624049', #marking fade
+                        '#7B575F', #markings
+                        '#876762'] #marking inside
+                },
+                "SMOKE": {
+                    "WHITE": [
+                        '#ECF4F6',
+                        '#F4FBF3',
+                        '#ECF4F6',
+                        '#C1CDD1',
+                        '#C1CDD1',
+                        '#C1CDD1'],
+                    "PALEGREY": [
+                        '#C4D4D1',
+                        '#D9E1D1',
+                        '#C4D4D1',
+                        '#8FA1A1',
+                        '#8FA1A1',
+                        '#8FA1A1'],
+                    "SILVER": [
+                        '#ABC0C3',
+                        '#D0D7C9',
+                        '#ABC0C3',
+                        '#4D5256',
+                        '#4D5256',
+                        '#4D5256'],
+                    "GREY": [
+                        '#99A5A4',
+                        '#BFC4B5',
+                        '#99A5A4',
+                        '#5B6967',
+                        '#5B6967',
+                        '#5B6967'],
+                    "DARKGREY": [
+                        '#687577',
+                        '#8F978F',
+                        '#687577',
+                        '#273534',
+                        '#273534',
+                        '#273534'],
+                    "GHOST": [
+                        '#3A3F4B',
+                        '#6D6866',
+                        '#3A3F4B',
+                        '#6A7E85',
+                        '#6A7E85',
+                        '#6A7E85'],
+                    "BLACK": [
+                        '#2F353A',
+                        '#4D5055',
+                        '#2F353A',
+                        '#171B24',
+                        '#171B24',
+                        '#171B24'],
+                    "CREAM": [
+                        '#F3D7B3',
+                        '#F4E8CB',
+                        '#F3D7B3',
+                        '#DFB68E',
+                        '#DFB68E',
+                        '#DFB68E'],
+                    "PALEGINGER": [
+                        '#E3BC93',
+                        '#E7CEAA',
+                        '#E3BC93',
+                        '#D39D6E',
+                        '#D39D6E',
+                        '#D39D6E'],
+                    "GOLDEN": [
+                        '#EDC881',
+                        '#ECD49C',
+                        '#E4B072',
+                        '#906A4C',
+                        '#906A4C',
+                        '#906A4C'],
+                    "GINGER": [
+                        '#F2AD70',
+                        '#F3CEA3',
+                        '#F2AD70',
+                        '#C67340',
+                        '#C67340',
+                        '#C67340'],
+                    "DARKGINGER": [
+                        '#D1703C',
+                        '#E0A67C',
+                        '#D1703C',
+                        '#994625',
+                        '#994625',
+                        '#994625'],
+                    "SIENNA": [
+                        '#A6563E',
+                        '#B26E4F',
+                        '#9C503B',
+                        '#643739',
+                        '#643739',
+                        '#643739'],
+                    "LIGHTBROWN": [
+                        '#d3c6ad',
+                        '#eadfc0',
+                        '#d3c6ad',
+                        '#9f9078',
+                        '#9f9078',
+                        '#9f9078'],
+                    "LILAC": [
+                        '#b1968f',
+                        '#cfbaab',
+                        '#a09a9c',
+                        '#785f61',
+                        '#785f61',
+                        '#785f61'],
+                    "BROWN": [
+                        '#a58f7e',
+                        '#af9981',
+                        '#998c7d',
+                        '#4c3d35',
+                        '#4c3d35',
+                        '#4c3d35'],
+                    "GOLDEN-BROWN": [
+                        '#a26855',
+                        '#c59577',
+                        '#6c4f45',
+                        '#483230',
+                        '#483230',
+                        '#483230'],
+                    "DARKBROWN": [
+                        '#745e55',
+                        '#9a8270',
+                        '#745e55',
+                        '#2c201c',
+                        '#2c201c',
+                        '#2c201c'],
+                    "CHOCOLATE": [
+                        '#654241',
+                        '#875b54',
+                        '#4e3e42',
+                        '#352426',
+                        '#352426',
+                        '#352426'],
+                    "LAVENDER": [ # new colors
+                        '#c3bbc7',
+                        '#dcd7df',
+                        '#aea4b2',
+                        '#65617b',
+                        '#65617b',
+                        '#65617b'],
+                    "ASH": [
+                        '#32261e',
+                        '#574233',
+                        '#201815',
+                        '#090706',
+                        '#090706',
+                        '#090706'],
+                    "PALECREAM": [
+                        '#fae7d0',
+                        '#fcf6ef',
+                        '#faddbb',
+                        '#f3ceab',
+                        '#f3ceab',
+                        '#f3ceab'],
+                    "DARKLAVENDER": [
+                        '#897b8b', #base
+                        '#aa979d', #underfur
+                        '#665a72', #overfur
+                        '#4d4260', #marking fade
+                        '#4d4260', #markings
+                        '#4d4260'], #marking inside
+                    "BEIGE": [
+                        '#ded6d2', #base
+                        '#eee7e1', #underfur
+                        '#d6ceca', #overfur
+                        '#a99a93', #marking fade
+                        '#a99a93', #markings
+                        '#a99a93'], #marking inside
+                    "DUST": [
+                        '#b0a295', #base
+                        '#cdc1b7', #underfur
+                        '#9d8c7d', #overfur
+                        '#4c403b', #marking fade
+                        '#4c403b', #markings
+                        '#4c403b'], #marking inside
+                    "SUNSET": [
+                        '#dc9564', #base
+                        '#f1c787', #underfur
+                        '#d37854', #overfur
+                        '#ad5a46', #marking fade
+                        '#ad5a46', #markings
+                        '#ad5a46'], #marking inside
+                    "OLDLILAC": [
+                        '#8f6f75', #base
+                        '#a19196', #underfur
+                        '#7b5a60', #overfur
+                        '#442b2f', #marking fade
+                        '#442b2f', #markings
+                        '#442b2f'] #marking inside
                 },
                 "SINGLESTRIPE": {
                     "WHITE": [
@@ -3429,7 +3619,7 @@ def generate_sprite(
         # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
         # why am I explaining... who knows
         color_type_dict = {
-            "special": ["SINGLESTRIPE"],
+            "special": ["SINGLESTRIPE", "SINGLECOLOUR", "TWOCOLOUR", "SMOKE"],
             "bengal": ["BENGAL", "MARBLED"]
         }
 
@@ -3522,7 +3712,13 @@ def generate_sprite(
             else:
                 color_type = 0
 
-            cat_marking = cat.pelt.name.upper()
+            if cat.pelt.name.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+                # because they are essentially the same thing
+                cat_marking = "SINGLECOLOUR"
+                print(f"{cat_marking}")
+            else:
+                cat_marking = cat.pelt.name.upper()
+
             if color_type == "special":
 
                 base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
@@ -3547,7 +3743,6 @@ def generate_sprite(
                 marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][5]
                 marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
         else:
-            cat_marking = cat.pelt.tortiebase.upper()
             # Get dict
             if cat.pelt.tortiebase.upper() in color_type_dict['special']:
                 color_type = "special"
@@ -3564,6 +3759,19 @@ def generate_sprite(
             else:
                 tortie_color_type = 0
             
+            if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+                # because they are essentially the same thing
+                cat_marking = "SINGLECOLOUR"
+            else:
+                cat_marking = cat.pelt.tortiebase.upper()
+            
+            if cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+                # because they are essentially the same thing
+                tortie_pattern = "SINGLECOLOUR"
+            else:
+                tortie_pattern = cat.pelt.tortiepattern.upper()
+            print(f"{cat_marking} {tortie_pattern}")
+
             if color_type == "special":
 
                 base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
@@ -3589,12 +3797,12 @@ def generate_sprite(
                 marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
 
             if tortie_color_type == "special":
-                tortie_base_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict['special'][f'{cat.pelt.tortiepattern.upper()}'][f'{cat.pelt.tortiecolour}'][5]
+                tortie_base_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][0]
+                tortie_base_underfur_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][1]
+                tortie_base_overfur_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][2]
+                tortie_marking_base = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][3]
+                tortie_marking_fade = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][4]
+                tortie_marking_inside = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][5]
             elif tortie_color_type == 0:
                 tortie_base_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][0]
                 tortie_base_underfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][1]
@@ -3618,10 +3826,17 @@ def generate_sprite(
         base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         base_tint.fill(base_pelt)
         new_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
+        
         # draw overlays
-        underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        underfur_tint.fill(base_underfur_pelt)
+        try:
+            underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            underfur_tint.fill(base_underfur_pelt)
+        except:
+            print(f"""{cat_marking} {cat.pelt.tortiepattern}
+
+{cat.pelt.colour} {cat.pelt.tortiecolour}
+
+{base_underfur_pelt}""")
 
         overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         overfur_tint.fill(base_overfur_pelt)
@@ -3759,17 +3974,17 @@ def generate_sprite(
             tortie_overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             tortie_overfur_tint.fill(tortie_base_overfur_pelt)
 
-            if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+            if tortie_pattern in ['BENGAL', 'MARBLED']:
                 tortie_underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+            elif tortie_pattern in ['SINGLESTRIPE']:
                 tortie_underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR']:
+            elif tortie_pattern in ['SINGLECOLOUR']:
                 tortie_underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3782,17 +3997,17 @@ def generate_sprite(
             patches.blit(tortie_underfur, (0, 0))
                 
 
-            if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+            if tortie_pattern in ['BENGAL', 'MARBLED']:
                 tortie_overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_overfur.blit(sprites.sprites['overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+            elif tortie_pattern in ['SINGLESTRIPE']:
                 tortie_overfur = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR']:
+            elif tortie_pattern in ['SINGLECOLOUR']:
                 tortie_overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3806,7 +4021,7 @@ def generate_sprite(
 
             # draw markings
 
-            if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+            if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 tortie_markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                 tortie_markings_tint.fill(tortie_marking_base)
 
@@ -4205,14 +4420,14 @@ def generate_sprite(
                 # draw base
                 b_w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
 
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED']:
                     b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
                     b_w_patches.blit(b_w_tortie_underfur, (0, 0))
-                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                elif tortie_pattern in ['SINGLESTRIPE']:
                     b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
                     b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4228,12 +4443,12 @@ def generate_sprite(
                     b_w_patches.blit(b_w_tortie_underfur, (0, 0))
                     
 
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED']:
                     b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                elif tortie_pattern in ['SINGLESTRIPE']:
                     b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
                     b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4247,7 +4462,7 @@ def generate_sprite(
 
                 # draw markings
 
-                if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+                if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
 
                     b_w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
                     b_w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
@@ -4713,14 +4928,14 @@ def generate_sprite(
                 # draw base
                 w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
 
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED']:
                     w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
                     w_patches.blit(w_tortie_underfur, (0, 0))
-                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                elif tortie_pattern in ['SINGLESTRIPE']:
                     w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
                     w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4736,12 +4951,12 @@ def generate_sprite(
                     w_patches.blit(w_tortie_underfur, (0, 0))
                     
 
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED']:
                     w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                     w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
+                elif tortie_pattern in ['SINGLESTRIPE']:
                     w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
                     w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4755,7 +4970,7 @@ def generate_sprite(
 
                 # draw markings
 
-                if cat.pelt.tortiepattern.upper() not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+                if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
 
                     w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
                     w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)

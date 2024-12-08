@@ -22,7 +22,7 @@
     "CHOCOLATE": "brown",
     "LAVENDER": "cool",
     "ASH": "brown",
-    "PALECREAM": "white",
+    "PALECREAM": "warm",
     "DARKLAVENDER": "cool",
     "BEIGE": "white",
     "DUST": "cool",
@@ -31,22 +31,22 @@
   },
   "possible_tints": {
 "basic": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","royalblue2","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","royalblue2","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"],
 
 "warm": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","sky","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","ghost","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"],
 
 "cool": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","green","leaf","seagreen","darkgreen","green2","leaf2","seagreen2","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","deepblue","darkblue","royalblue","sky","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","green","leaf","seagreen","darkgreen","green2","leaf2","seagreen2","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","deepblue","darkblue","royalblue","sky","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"],
 
 "white": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","red","palered","richred","orange","paleorange","blaze","gold","yellow","paleyellow","sand","cream","green","leaf","seagreen","darkgreen","cyan","blue","ghost","paleblue","paleblue3","royalblue","sky","teal","cornflower","purple","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none"],
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","red","palered","richred","orange","paleorange","blaze","gold","yellow","paleyellow","sand","cream","green","leaf","seagreen","darkgreen","cyan","blue","ghost","paleblue","paleblue3","royalblue","sky","teal","cornflower","purple","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown", "none", "none", "none", "none"],
 
 "monochrome": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","sand","cream","green","leaf","seagreen","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"],
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","sand","cream","green","leaf","seagreen","cyan","cyan2","blue","blue2","ghost","paleblue","paleblue2","paleblue3","deepblue","darkblue","royalblue","sky","sky2","teal","cornflower","purple","purple2","palepurple","palepurple2","deeppurple","deeppurple2","darkpurple","darkpurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"],
 
 "brown": [
-"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","paleblue2","royalblue","sky","teal","cornflower","purple","purple2","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute"]
+"black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","paleblue2","purple","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"]
   },
   "tint_colours":
   {
