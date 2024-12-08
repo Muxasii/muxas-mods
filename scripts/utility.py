@@ -3647,14 +3647,23 @@ def generate_sprite(
             "GOLD": ['#FFF8B8','#CCA44F','#6D5730'],
             "GREENYELLOW": ['#F2E085','#B2BC74','#867E48'],
             # New colors
-            "INDIGO": ['#000','#000','#000'], # blurple
-            "GLASS": ['#000','#000','#000'], # white with silver-purple shading
-            "OBSIDIAN": ['#000','#000','#000'], # dark dark blue-green
-            "ICE": ['#000','#000','#000'], # light blue
-            "DARKHAZEL": ['#000','#000','#000'], # dark vers of hazel
-            "HONEY": ['#000','#000','#000'], # dark yellow
-            "DARKAMBER": ['#000','#000','#000'], # dark vers of amber
-            "OLIVE": ['#000','#000','#000'], # dull green
+            "INDIGO": ['#5e51f7','#2e1389','#030339'], # blurple
+            "GLASS": ['#f7f5ff','#c2bfcd','#434152'], # white with silver-purple shading
+            "OBSIDIAN": ['#162523','#0a1515','#020805'], # dark dark blue-green
+            "ICE": ['#d1e9f3','#9ed7f0','#193fa3'], # light blue
+            "DARKHAZEL": ['#7c683a','#2b441e','#130e0b'], # dark vers of hazel
+            "HONEY": ['#a38b33','#73480e','#221304'], # dark yellow
+            "DARKAMBER": ['#7c3310','#4c1709','#190702'], # dark vers of amber
+            "OLIVE": ['#6e7c56','#383c2c','#141512'], # dull green
+            "SALMON": ['#e0bfb8','#b9696e','#4f1f1f'], # pink-red
+            "VIOLET": ['#a775dd','#491fb9','#06041f'], # purple
+            "CRYSTAL": ['#dab0d4','#5c8ea9','#231a56'], # blue pink-red
+            "PLUM": ['#422e69','#25104f','#050219'], # purple
+            "ROSEWOOD": ['#f7f5ff','#c2bfcd','#434152'], # pink-red
+            "SEAFOAM": ['#8fe3c0','#36cd9b','#081a32'], # blue-green
+            "LAVENDER": ['#c0aadd','#8b6cc6','#1a1446'], # light purple
+            "LILAC": ['#e3b8f7','#c685ae','#361b56'], # light purple-pink
+            #
             "SILVER": ['#C4C6C9','#A9AAAD','#51525D'], # actual silver
             "GREY": ['#9D9D9F','#6A6A6C','#353037'] # actual grey
         }

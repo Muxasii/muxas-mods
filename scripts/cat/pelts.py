@@ -67,10 +67,15 @@ class Pelt:
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
                    'PALEBLUE',
                    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
-                   'BRONZE', 'SILVER']
-    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER']
+                   'BRONZE', 'SILVER', 
+                   'DUST', 'PEBBLE', 
+                   'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM'
+                   'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC',
+                   'LAVENDER', 'PLUM', 'VIOLET']
+    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER']
     blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
-    green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL']
+    green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL', 'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM']
+    purple_eyes = ['GLASS', 'INDIGO', 'LAVENDER', 'PLUM', 'VIOLET', 'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC']
 
     # bite scars by @wood pank on discord
 
@@ -509,7 +514,7 @@ class Pelt:
             num = 1
 
         if not random.randint(0, num):
-            colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes]
+            colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes]
             for colour in colour_wheel[:]:
                 if self.eye_colour in colour:
                     colour_wheel.remove(colour) # removes the selected list from the options
