@@ -69,7 +69,7 @@ class Pelt:
                    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
                    'BRONZE', 'SILVER', 
                    'DUST', 'PEBBLE', 
-                   'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM'
+                   'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM',
                    'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC',
                    'LAVENDER', 'PLUM', 'VIOLET']
     yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER']
