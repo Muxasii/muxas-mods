@@ -3724,7 +3724,6 @@ def generate_sprite(
             if cat.pelt.name.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
                 # because they are essentially the same thing
                 cat_marking = "SINGLECOLOUR"
-                print(f"{cat_marking}")
             else:
                 cat_marking = cat.pelt.name.upper()
 
@@ -3779,7 +3778,6 @@ def generate_sprite(
                 tortie_pattern = "SINGLECOLOUR"
             else:
                 tortie_pattern = cat.pelt.tortiepattern.upper()
-            print(f"{cat_marking} {tortie_pattern}")
 
             if color_type == "special":
 
