@@ -4757,8 +4757,8 @@ def generate_sprite(
                     (0, 0),
                     special_flags=pygame.BLEND_RGB_MULT,
                 )
-                #new_sprite.blit(sprites.sprites["lighting" + cat_sprite], (0, 0),
-                #    special_flags=pygame.BLEND_RGB_ADD)
+                new_sprite.blit(sprites.sprites["manelighting" + cat_sprite], (0, 0),
+                    special_flags=pygame.BLEND_RGB_ADD)
 
             if not dead:
                 new_sprite.blit(sprites.sprites["manelines" + cat_sprite], (0, 0))

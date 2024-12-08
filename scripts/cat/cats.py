@@ -3445,6 +3445,8 @@ class Cat:
                 "reverse": self.pelt.reverse,
                 "white_patches": self.pelt.white_patches,
                 "wing_white_patches": self.pelt.wing_white_patches,
+                "wing_marks": self.pelt.wing_marks,
+                "mane_marks": self.pelt.mane_marks,
                 "vitiligo": self.pelt.vitiligo,
                 "points": self.pelt.points,
                 "white_patches_tint": self.pelt.white_patches_tint,
