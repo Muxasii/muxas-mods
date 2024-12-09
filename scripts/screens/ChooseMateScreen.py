@@ -109,6 +109,8 @@ class ChooseMateScreen(Screens):
                 self.selected_mate_index = 0
                 self.change_screen("profile screen")
             elif event.ui_element == self.toggle_mate:
+                if self.work_thread is not None and self.work_thread.is_alive():
+                    return
                 self.work_thread = self.loading_screen_start_work(self.change_mate)
 
             elif event.ui_element == self.previous_cat_button:
@@ -801,7 +803,7 @@ class ChooseMateScreen(Screens):
         (
             self.next_cat,
             self.previous_cat,
-        ) = self.the_cat.determine_next_and_previous_cats()
+        ) = self.the_cat.determine_next_and_previous_cats(exclude_status=["kitten", "medicine cat apprentice", "mediator apprentice", "apprentice"])
         self.next_cat_button.disable() if self.next_cat == 0 else self.next_cat_button.enable()
         self.previous_cat_button.disable() if self.previous_cat == 0 else self.previous_cat_button.enable()
 
@@ -1174,9 +1176,7 @@ class ChooseMateScreen(Screens):
     def on_use(self):
         super().on_use()
 
-        self.loading_screen_on_use(
-            self.work_thread, self.update_both
-        )
+        self.loading_screen_on_use(self.work_thread, self.update_both)
 
     def get_valid_mates(self):
         """Get a list of valid mates for the current cat"""
@@ -1189,6 +1189,7 @@ class ChooseMateScreen(Screens):
             and self.the_cat.is_potential_mate(
                 i, for_love_interest=False, age_restriction=False, ignore_no_mates=True
             )
+            and i.outside == self.the_cat.outside
             and i.ID not in self.the_cat.mate
             and (not self.single_only or not i.mate)
             and (
