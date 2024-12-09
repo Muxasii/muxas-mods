@@ -4704,7 +4704,7 @@ def generate_sprite(
 
             # draw markings
 
-            if cat.pelt.mane_marks != "NONE":
+            if cat.pelt.mane_marks != "NONE" and cat.pelt.mane_marks:
                 # draw markings
                 mane_markings = sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite].copy().convert_alpha()
                 mane_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)

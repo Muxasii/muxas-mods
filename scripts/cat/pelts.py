@@ -404,7 +404,7 @@ class Pelt:
             )
 
         # generate mane info
-        if self.mane_marks is None:
+        if not self.mane_marks:
             # Gather weights depending on pelt group
             #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
             if self.name in Pelt.tabbies:
