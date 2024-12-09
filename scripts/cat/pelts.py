@@ -359,7 +359,7 @@ class Pelt:
         if self.species is None:
             self.species = Pelt.init_species(self)
 
-        if self.species is None:
+        if self.species in [None, "None", "none"]:
             print("self.species returned with None. Report.")
 
         # First, convert from some old names that may be in white_patches. 
@@ -554,7 +554,7 @@ class Pelt:
                 par_pelts.append(p.pelt)
 
                 # Gather bat mane
-                par_mane.add(p.pelt.mane)
+                par_mane.append(p.pelt.mane)
 
                 # Gather if they have white in their pelt.
                 par_white.append(p.pelt.white)
@@ -568,7 +568,7 @@ class Pelt:
                 par_peltcolours.add(None)
                 par_peltlength.add(None)
                 par_peltnames.add(None)
-                par_mane.add(True)
+                par_mane.append(True)
                 par_wingmarks.add("unknown")
 
         # If this list is empty, something went wrong.
@@ -704,6 +704,7 @@ class Pelt:
             weight = [10, 30, 30, 30, 0, 30, 0]
         else:
             weight = [1, 1, 1, 1, 1, 1, 1, 1]
+
         chosen_mane_marks = choice(
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
@@ -864,6 +865,7 @@ class Pelt:
             weight = [10, 30, 30, 30, 0, 30, 0]
         else:
             weight = [1, 1, 1, 1, 1, 1, 1]
+
         chosen_mane_marks = choice(
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
