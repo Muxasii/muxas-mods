@@ -3649,7 +3649,7 @@ def generate_sprite(
             # New colors
             "INDIGO": ['#5e51f7','#2e1389','#030339'], # blurple
             "GLASS": ['#f7f5ff','#c2bfcd','#434152'], # white with silver-purple shading
-            "OBSIDIAN": ['#162523','#0a1515','#020805'], # dark dark blue-green
+            "OBSIDIAN": ['#213127','#17211E','#020805'], # dark dark blue-green
             "ICE": ['#d1e9f3','#9ed7f0','#193fa3'], # light blue
             "DARKHAZEL": ['#7c683a','#2b441e','#130e0b'], # dark vers of hazel
             "HONEY": ['#a38b33','#73480e','#221304'], # dark yellow
