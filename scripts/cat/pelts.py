@@ -696,23 +696,21 @@ class Pelt:
             weight = [5, 30, 30, 30, 30, 0, 0]
         elif chosen_pelt in Pelt.spotted:
             weight = [5, 30, 30, 30, 0, 30, 0]
-        elif chosen_pelt is 'Smoke':
+        elif chosen_pelt == 'Smoke':
             weight = [0, 30, 20, 20, 0, 0, 30]
         elif chosen_pelt in Pelt.plain:
             weight = [30, 30, 20, 20, 0, 0, 10]
         elif chosen_pelt in Pelt.exotic:
             weight = [10, 30, 30, 30, 0, 30, 0]
         else:
-            weight = [1, 1, 1, 1, 1, 1, 1, 1]
+            weight = [1, 1, 1, 1, 1, 1, 1]
 
         chosen_mane_marks = choice(
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
 
         # determine mane
-        chosen_mane = choice(
-            random.choices(par_mane, weights=[1, 1], k=1)
-        )
+        chosen_mane = random.choice(par_mane)
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
@@ -870,9 +868,11 @@ class Pelt:
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
 
-        chosen_mane = choice(
-        random.choices([True, False], weights=[85, 15], k=1)
-        )
+        mane_sel = random.randint(1, 100)
+        if mane_sel < 85:
+            chosen_mane = True
+        else:
+            chosen_mane = False
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR

@@ -4697,92 +4697,94 @@ def generate_sprite(
         ########################################################################
 
         # draw bat cat mane
-        if cat.species == "bat cat" and cat.pelt.mane:
-            # draw base
-            bat_mane = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0, 0))
+        try:
+            if cat.species == "bat cat" and cat.pelt.mane:
+                # draw base
+                bat_mane = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0, 0))
 
-            bat_mane.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                bat_mane.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-            # draw overlays
-            mane_overfur = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
-            mane_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                # draw overlays
+                mane_overfur = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
+                mane_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-            mane_overfur.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                mane_overfur.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-            mane_underfur = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
-            mane_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                mane_underfur = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
+                mane_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-            mane_underfur.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                mane_underfur.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-            bat_mane.blit(mane_overfur, (0, 0))
-            bat_mane.blit(mane_underfur, (0, 0))
+                bat_mane.blit(mane_overfur, (0, 0))
+                bat_mane.blit(mane_underfur, (0, 0))
 
-            # draw markings
-
-            if cat.pelt.mane_marks != "NONE" and cat.pelt.mane_marks:
                 # draw markings
-                mane_markings = sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite].copy().convert_alpha()
-                mane_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-                
-                mane_mark_fade = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
-                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                if cat.pelt.mane_marks != "NONE" and cat.pelt.mane_marks:
+                    # draw markings
+                    mane_markings = sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite].copy().convert_alpha()
+                    mane_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-                mane_mark_fade.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    
+                    mane_mark_fade = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
+                    mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-                mane_mark_fade = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
-                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                    mane_mark_fade.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                mane_mark_fade.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    mane_mark_fade = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
+                    mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-        
-                mane_markings.blit(mane_mark_fade, (0, 0))
-                mane_markings.blit(sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                    mane_mark_fade.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                # appear.
-                bat_mane.blit(mane_markings, (0, 0))
+            
+                    mane_markings.blit(mane_mark_fade, (0, 0))
+                    mane_markings.blit(sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    # appear.
+                    bat_mane.blit(mane_markings, (0, 0))
 
 
-            # TINTS
-            if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["tint_colours"]
-            ):
-                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
-                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
-                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+                # TINTS
+                if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["tint_colours"]
+                ):
+                    # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                    # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                    # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
+                    bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                if (
+                    cat.pelt.tint != "none"
+                    and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
+                ):
+                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
+                    bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
-            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+                bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
-            new_sprite.blit(bat_mane, (0, 0))
+                new_sprite.blit(bat_mane, (0, 0))
 
-            if game.settings["shaders"] and not dead:
-                new_sprite.blit(
-                    sprites.sprites["maneshaders" + cat_sprite],
-                    (0, 0),
-                    special_flags=pygame.BLEND_RGB_MULT,
-                )
-                new_sprite.blit(sprites.sprites["manelighting" + cat_sprite], (0, 0),
-                    special_flags=pygame.BLEND_RGB_ADD)
+                if game.settings["shaders"] and not dead:
+                    new_sprite.blit(
+                        sprites.sprites["maneshaders" + cat_sprite],
+                        (0, 0),
+                        special_flags=pygame.BLEND_RGB_MULT,
+                    )
+                    new_sprite.blit(sprites.sprites["manelighting" + cat_sprite], (0, 0),
+                        special_flags=pygame.BLEND_RGB_ADD)
 
-            if not dead:
-                new_sprite.blit(sprites.sprites["manelines" + cat_sprite], (0, 0))
-            elif cat.df:
-                new_sprite.blit(sprites.sprites["manelineartdf" + cat_sprite], (0, 0))
-            elif dead:
-                new_sprite.blit(sprites.sprites["manelineartdead" + cat_sprite], (0, 0))
-
+                if not dead:
+                    new_sprite.blit(sprites.sprites["manelines" + cat_sprite], (0, 0))
+                elif cat.df:
+                    new_sprite.blit(sprites.sprites["manelineartdf" + cat_sprite], (0, 0))
+                elif dead:
+                    new_sprite.blit(sprites.sprites["manelineartdead" + cat_sprite], (0, 0))
+        except:
+            print(cat.pelt.mane)
 
 
 
