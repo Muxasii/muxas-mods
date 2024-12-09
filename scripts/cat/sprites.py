@@ -185,7 +185,7 @@ class Sprites:
             self.make_group('wingmarks', (a, 0), f'wingmarks{i}')
 
         # bat mane
-        for a, i in enumerate(['lines', 'base', 'shaders', 'lighting']):
+        for a, i in enumerate(['lines', 'base', 'shaders', 'lighting', 'lineartdf', 'lineartdead']):
             self.make_group('batmane', (a, 0), f'mane{i}')
         for a, i in enumerate(['overfur', 'underfur']):
             self.make_group('batmane', (a, 1), f'mane{i}')

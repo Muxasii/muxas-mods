@@ -4681,7 +4681,7 @@ def generate_sprite(
         ########################################################################
 
         # draw bat cat mane
-        if cat.species == "bat cat":
+        if cat.species == "bat cat" and cat.pelt.mane:
             # draw base
             bat_mane = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0, 0))

@@ -196,6 +196,7 @@ class Pelt:
                  wing_white_patches:str=None,
                  wing_marks: str = "NONE",
                  mane_marks: str = None,
+                 mane: bool = True,
                  eye_color: str = "BLUE",
                  eye_colour2: str = None,
                  tortiebase: str = None,
@@ -226,6 +227,7 @@ class Pelt:
         self.wing_white_patches = wing_white_patches
         self.wing_marks = wing_marks
         self.mane_marks = mane_marks
+        self.mane = mane
         self.eye_colour = eye_color
         self.eye_colour2 = eye_colour2
         self.tortiebase = tortiebase
@@ -528,6 +530,7 @@ class Pelt:
         par_peltcolours = set()
         par_peltnames = set()
         par_wingmarks = set()
+        par_mane = []
         par_pelts = []
         par_white = []
         for p in parents:
@@ -550,6 +553,9 @@ class Pelt:
                 # Gather exact pelts, for direct inheritance.
                 par_pelts.append(p.pelt)
 
+                # Gather bat mane
+                par_mane.add(p.pelt.mane)
+
                 # Gather if they have white in their pelt.
                 par_white.append(p.pelt.white)
             else:
@@ -562,6 +568,7 @@ class Pelt:
                 par_peltcolours.add(None)
                 par_peltlength.add(None)
                 par_peltnames.add(None)
+                par_mane.add(True)
                 par_wingmarks.add("unknown")
 
         # If this list is empty, something went wrong.
@@ -701,6 +708,11 @@ class Pelt:
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
 
+        # determine mane
+        chosen_mane = choice(
+            random.choices(par_mane, weights=[1, 1], k=1)
+        )
+
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
@@ -786,6 +798,7 @@ class Pelt:
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
         self.mane_marks = chosen_mane_marks
+        self.mane = chosen_mane
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
@@ -855,6 +868,10 @@ class Pelt:
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
 
+        chosen_mane = choice(
+        random.choices([True, False], weights=[85, 15], k=1)
+        )
+
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
@@ -888,6 +905,7 @@ class Pelt:
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
         self.mane_marks = chosen_mane_marks
+        self.mane = chosen_mane
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
