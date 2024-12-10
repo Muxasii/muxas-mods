@@ -268,7 +268,7 @@ class Sprites:
         
         # overlays
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY', 'SMOKE']):
             self.make_group('overlays', (a, 0), f'underfur{i}')
         for a, i in enumerate(
                 ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):

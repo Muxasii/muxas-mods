@@ -3880,11 +3880,16 @@ def generate_sprite(
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        elif cat_marking in ['SINGLECOLOUR', 'SMOKE']:
+        elif cat_marking in ['SINGLECOLOUR']:
             underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        elif cat_marking in ['SMOKE']:
+            underfur = sprites.sprites['underfur' + 'SMOKE' + cat_sprite].copy()
+            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            underfur.blit(sprites.sprites['underfur' + 'SMOKE' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
         else:
             underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
@@ -4012,6 +4017,12 @@ def generate_sprite(
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 tortie_underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            elif tortie_pattern in ['SMOKE']:
+                tortie_underfur = sprites.sprites['underfur' + 'SMOKE' + cat_sprite].copy()
+                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                tortie_underfur.blit(sprites.sprites['underfur' + 'SMOKE' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
             else:
                 tortie_underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
