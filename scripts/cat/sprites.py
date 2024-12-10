@@ -374,8 +374,8 @@ class Sprites:
         for a, i in enumerate(['CLIPPED']):
             self.make_group('wingscars', (a, 0), f'bat catscar{i}')
             self.make_group('wingscars', (a, 1), f'bird catscar{i}')
-            self.make_group('wingscars', (a, 3), f'bat catbackscar{i}')
-            self.make_group('wingscars', (a, 4), f'bird catbackscar{i}')
+            self.make_group('wingscars', (a, 2), f'bat catbackscar{i}')
+            self.make_group('wingscars', (a, 3), f'bird catbackscar{i}')
 
         # accessories
         #to my beloved modders, im very sorry for reordering everything <333 -clay
