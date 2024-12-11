@@ -648,37 +648,50 @@ class Pelt:
         weights = [0, 0, 0, 0, 0, 0, 0, 0]
 
         # Gather weights depending on pelt group
-        if chosen_pelt in Pelt.tabbies:
-            add_w_weight = (20, 20, 20, 0, 0, 0, 0, 0)
-        elif chosen_pelt in Pelt.spotted:
-            add_w_weight = (5, 20, 0, 0, 0, 0, 20, 0)
-        elif chosen_pelt in Pelt.plain:
-            add_w_weight = (0, 5, 0, 0, 20, 20, 0, 30)
-        elif chosen_pelt in Pelt.exotic:
-            add_w_weight = (20, 0, 30, 10, 0, 0, 20, 0)
+        if chosen_pelt in Pelt.torties:
+            if chosen_tortie_base in Pelt.tabbies:
+                add_w_weight = (20, 20, 20, 0, 0, 0, 0, 0)
+            elif chosen_tortie_base in Pelt.spotted:
+                add_w_weight = (5, 20, 0, 0, 0, 0, 20, 0)
+            elif chosen_tortie_base in Pelt.plain:
+                add_w_weight = (0, 5, 0, 0, 20, 20, 0, 30)
+            elif chosen_tortie_base in Pelt.exotic:
+                add_w_weight = (20, 0, 30, 10, 0, 0, 20, 0)
+            else:
+                add_w_weight = (1, 1, 1, 1, 1, 1, 1, 1)
         else:
-            add_w_weight = (1, 1, 1, 1, 1, 1, 1, 1)
+            # Gather weights depending on pelt group
+            if chosen_pelt in Pelt.tabbies:
+                add_w_weight = (20, 20, 20, 0, 0, 0, 0, 0)
+            elif chosen_pelt in Pelt.spotted:
+                add_w_weight = (5, 20, 0, 0, 0, 0, 20, 0)
+            elif chosen_pelt in Pelt.plain:
+                add_w_weight = (0, 5, 0, 0, 20, 20, 0, 30)
+            elif chosen_pelt in Pelt.exotic:
+                add_w_weight = (20, 0, 30, 10, 0, 0, 20, 0)
+            else:
+                add_w_weight = (1, 1, 1, 1, 1, 1, 1, 1)
 
         # ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', None]
         for p_ in par_wingmarks:
             if p_ == "FLECKS":
-                add_w_weight = (40, 20, 30, 20, 20, 20, 30, 10)
+                add_w_weight += (40, 20, 30, 20, 20, 20, 30, 10)
             if p_ == "TIPS":
-                add_w_weight = (20, 40, 10, 15, 30, 30, 20, 10)
+                add_w_weight += (20, 40, 10, 15, 30, 30, 20, 10)
             if p_ == "STRIPES":
-                add_w_weight = (20, 20, 40, 20, 10, 20, 30, 10)
+                add_w_weight += (20, 20, 40, 20, 10, 20, 30, 10)
             if p_ == "STREAKS":
-                add_w_weight = (20, 20, 20, 40, 10, 20, 30, 10)
+                add_w_weight += (20, 20, 20, 40, 10, 20, 30, 10)
             if p_ == "COVERTS":
-                add_w_weight = (10, 30, 20, 10, 40, 30, 20, 30)
+                add_w_weight += (10, 30, 20, 10, 40, 30, 20, 30)
             if p_ == "PRIMARIES":
-                add_w_weight = (10, 30, 20, 10, 30, 40, 20, 30)
+                add_w_weight += (10, 30, 20, 10, 30, 40, 20, 30)
             if p_ == "SPOTS":
-                add_w_weight = (25, 20, 30, 15, 30, 30, 40, 10)
+                add_w_weight += (25, 20, 30, 15, 30, 30, 40, 10)
             elif p_ is "unknown":
-                add_w_weight = (10, 20, 10, 10, 40, 40, 10, 40)
+                add_w_weight += (10, 20, 10, 10, 40, 40, 10, 40)
             else:
-                add_w_weight = (5, 15, 5, 5, 15, 15, 5, 40)
+                add_w_weight += (5, 15, 5, 5, 15, 15, 5, 40)
 
         for x in range(0, len(weights)):
             weights[x] += add_w_weight[x]
@@ -691,20 +704,37 @@ class Pelt:
             random.choices(Pelt.bird_wing_marks, weights=weights, k=1)
         )
 
-        # select mane markings
-        if chosen_pelt in Pelt.tabbies:
-            weight = [5, 30, 30, 30, 30, 0, 0]
-        elif chosen_pelt in Pelt.spotted:
-            weight = [5, 30, 30, 30, 0, 30, 0]
-        elif chosen_pelt == 'Smoke':
-            weight = [0, 30, 20, 20, 0, 0, 30]
-        elif chosen_pelt in Pelt.plain:
-            weight = [30, 30, 20, 20, 0, 0, 10]
-        elif chosen_pelt in Pelt.exotic:
-            weight = [10, 30, 30, 30, 0, 30, 0]
+        # Gather weights depending on pelt group
+        if chosen_pelt in ["Tortie", "Calico"]:
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if chosen_tortie_base in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif chosen_tortie_base in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif chosen_tortie_base is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif chosen_tortie_base in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif chosen_tortie_base in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
         else:
-            weight = [1, 1, 1, 1, 1, 1, 1]
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if chosen_pelt in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif chosen_pelt in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif chosen_pelt is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif chosen_pelt in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif chosen_pelt in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
 
+        # select mane markings
         chosen_mane_marks = choice(
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
         )
@@ -833,36 +863,63 @@ class Pelt:
 
         
         # Gather weights depending on pelt group
-        if chosen_pelt in Pelt.tabbies:
-            weight = [20, 20, 20, 10, 10, 10, 10, 10]
-        elif chosen_pelt in Pelt.spotted:
-            weight = [30, 20, 10, 10, 10, 10, 30, 10]
-        elif chosen_pelt in Pelt.plain:
-            weight = [10, 15, 10, 10, 20, 20, 10, 30]
-        elif chosen_pelt in Pelt.exotic:
-            weight = [30, 10, 20, 15, 10, 10, 30, 10]
+        if chosen_pelt in ["Tortie", "Calico"]:
+            if chosen_tortie_base in Pelt.tabbies:
+                wm_weight = [20, 20, 20, 10, 10, 10, 10, 10]
+            elif chosen_tortie_base in Pelt.spotted:
+                wm_weight = [30, 20, 10, 10, 10, 10, 30, 10]
+            elif chosen_tortie_base in Pelt.plain:
+                wm_weight = [10, 15, 10, 10, 20, 20, 10, 30]
+            elif chosen_tortie_base in Pelt.exotic:
+                wm_weight = [30, 10, 20, 15, 10, 10, 30, 10]
+            else:
+                wm_weight = [1, 1, 1, 1, 1, 1, 1, 1]
+            
+            # Gather weights depending on pelt group
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if chosen_tortie_base in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif chosen_tortie_base in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif chosen_tortie_base is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif chosen_tortie_base in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif chosen_tortie_base in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
         else:
-            weight = [1, 1, 1, 1, 1, 1, 1, 1]
-        
+            if chosen_pelt in Pelt.tabbies:
+                wm_weight = [20, 20, 20, 10, 10, 10, 10, 10]
+            elif chosen_pelt in Pelt.spotted:
+                wm_weight = [30, 20, 10, 10, 10, 10, 30, 10]
+            elif chosen_pelt in Pelt.plain:
+                wm_weight = [10, 15, 10, 10, 20, 20, 10, 30]
+            elif chosen_pelt in Pelt.exotic:
+                wm_weight = [30, 10, 20, 15, 10, 10, 30, 10]
+            else:
+                wm_weight = [1, 1, 1, 1, 1, 1, 1, 1]
+            
+            # Gather weights depending on pelt group
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if chosen_pelt in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif chosen_pelt in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif chosen_pelt is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif chosen_pelt in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif chosen_pelt in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
+            
         # Pick
         chosen_wing_marks = choice(
-        random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
+        random.choices(Pelt.bird_wing_marks, weights=wm_weight, k=1)
         )
-        
-        # Gather weights depending on pelt group
-        #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
-        if chosen_pelt in Pelt.tabbies:
-            weight = [5, 30, 30, 30, 30, 0, 0]
-        elif chosen_pelt in Pelt.spotted:
-            weight = [5, 30, 30, 30, 0, 30, 0]
-        elif chosen_pelt is 'Smoke':
-            weight = [0, 30, 20, 20, 0, 0, 30]
-        elif chosen_pelt in Pelt.plain:
-            weight = [30, 30, 20, 20, 0, 0, 10]
-        elif chosen_pelt in Pelt.exotic:
-            weight = [10, 30, 30, 30, 0, 30, 0]
-        else:
-            weight = [1, 1, 1, 1, 1, 1, 1]
 
         chosen_mane_marks = choice(
         random.choices(Pelt.mane_marks_list, weights=weight, k=1)
