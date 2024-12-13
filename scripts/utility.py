@@ -3665,7 +3665,7 @@ def generate_sprite(
             # New colors
             "INDIGO": ['#5e51f7','#2e1389','#030339'], # blurple
             "GLASS": ['#f7f5ff','#c2bfcd','#434152'], # white with silver-purple shading
-            "OBSIDIAN": ['#213127','#17211E','#020805'], # dark dark blue-green
+            "OBSIDIAN": ['#2A3F32','#1D2A26','#030A06'], # dark dark blue-green
             "ICE": ['#d1e9f3','#9ed7f0','#193fa3'], # light blue
             "DARKHAZEL": ['#7c683a','#2b441e','#130e0b'], # dark vers of hazel
             "HONEY": ['#a38b33','#73480e','#221304'], # dark yellow
@@ -3674,7 +3674,7 @@ def generate_sprite(
             "SALMON": ['#e0bfb8','#b9696e','#4f1f1f'], # pink-red
             "VIOLET": ['#a775dd','#491fb9','#06041f'], # purple
             "CRYSTAL": ['#dab0d4','#5c8ea9','#231a56'], # blue pink-red
-            "PLUM": ['#543E7D','#3A2759','#050219'], # purple
+            "PLUM": ['#573E88','#3A265D','#040218'], # purple
             "ROSEWOOD": ['#f7f5ff','#c2bfcd','#434152'], # pink-red
             "SEAFOAM": ['#8fe3c0','#36cd9b','#081a32'], # blue-green
             "LAVENDER": ['#c0aadd','#8b6cc6','#1a1446'], # light purple
