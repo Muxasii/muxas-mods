@@ -248,7 +248,7 @@ class Sprites:
         for a, i in enumerate(['UNDER', 'WOODPECKER', 'PAINTED', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI']):
             self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
             self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
-        for a, i in enumerate(['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'HEARTTWO', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']):
+        for a, i in enumerate(['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'SAMMY', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']):
             self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
             self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
 

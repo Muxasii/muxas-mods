@@ -167,7 +167,7 @@ class Pelt:
     wing_white_list = ['FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'PEBBLESHINE', 'CAKE', 'KROPKA', 'HALFWHITE', 'GOATEE', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'PAINTED', 'SKUNK', 'STRIPES','UNDER', 'WOODPECKER', 'PAINTED', 'HAWKBLAZE', 'FINN', 'BULLSEYE', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'MISTER', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'PEBBLE']
 
     # special patches that just look weird with other patches
-    special_wing_white = ['WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'FULLWHITE']
+    special_wing_white = ['WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'FULLWHITE', 'SAMMY']
 
     # selection dict - crying? not today
     # i love dicts
