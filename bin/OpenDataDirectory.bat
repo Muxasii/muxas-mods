@@ -1,1 +1,1 @@
-start %LocalAppData%\WingedGen\WingedGen
+start %LocalAppData%\ClanGen\WingedGen
