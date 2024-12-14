@@ -3737,7 +3737,7 @@ def generate_sprite(
             else:
                 color_type = 0
 
-            if cat.pelt.name.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+            if cat.pelt.name.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 # because they are essentially the same thing
                 cat_marking = "SINGLECOLOUR"
             else:
@@ -3783,13 +3783,13 @@ def generate_sprite(
             else:
                 tortie_color_type = 0
             
-            if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+            if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 # because they are essentially the same thing
                 cat_marking = "SINGLECOLOUR"
             else:
                 cat_marking = cat.pelt.tortiebase.upper()
             
-            if cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR']:
+            if cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 # because they are essentially the same thing
                 tortie_pattern = "SINGLECOLOUR"
             else:
