@@ -1925,9 +1925,6 @@ class Cat:
         :type severity: str, optional
         """
 
-        if game.clan and game.clan.game_mode == "classic" and name != "clipped wings":
-            return
-
         if name not in INJURIES:
             print(f"WARNING: {name} is not in the injuries collection.")
             return
@@ -1947,7 +1944,7 @@ class Cat:
             Cat.all_cats.values(), get_amount_cat_for_one_medic(game.clan)
         ):
             duration = med_duration
-        if severity != "minor":
+        if severity not in ["minor", "clipped"]:
             duration += randrange(-1, 1)
         if duration == 0:
             duration = 1
