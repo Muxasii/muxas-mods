@@ -3032,7 +3032,6 @@
             "Missed a catch and is still sulking over it",
             "Wishes {PRONOUN/m_c/subject} could take the day off",
             "Curses a squirrel that just barely got away",
-            "Wishes {PRONOUN/m_c/subject} had wings so {PRONOUN/m_c/subject} could catch birds easier",
             "Daydreams about being a warrior in LionClan",
             "Daydreams about being a warrior in TigerClan",
             "Daydreams about being a warrior in LeopardClan"
@@ -3042,6 +3041,21 @@
             "warrior",
             "deputy",
             "leader"
+        ]
+    },
+    {
+        "id": "working_cat_earth",
+        "thoughts": [
+            "Wishes {PRONOUN/m_c/subject} had wings so {PRONOUN/m_c/subject} could catch birds easier"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "warrior",
+            "deputy",
+            "leader"
+        ],
+        "main_species_constraint": [
+            "earth cat"
         ]
     },
     {
@@ -4263,6 +4277,78 @@
         ]
     },
     {
+        "id": "clipped_wings",
+        "thoughts": [
+            "Is feeling sore from being unable to catch the wind in {PRONOUN/m_c/poss} wings",
+            "Is currently stuck in a tree, contemplating if {PRONOUN/m_c/subject} will fall or glide",
+            "Is wondering when their feathers will grow back",
+            "Had a dream about flying"
+        ],
+        "has_injuries": {
+            "m_c": [
+                "clipped wings"
+            ]
+        },
+        "main_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "clipped_wings_to_other",
+        "thoughts": [
+            "Is talking with r_c about {PRONOUN/m_c/poss} wings",
+            "Is expressing {PRONOUN/m_c/poss} concern with r_c about if {PRONOUN/m_c/subject} will be able to fly again"
+        ],
+        "has_injuries": {
+            "m_c": [
+                "clipped wings"
+            ]
+        },
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "clipped_wings_to_other_medi",
+        "thoughts": [
+            "Is talking with r_c about how long it takes for feathers to grow back",
+            "Is being examined by r_c to assess {PRONOUN/m_c/poss} feathers"
+        ],
+        "has_injuries": {
+            "m_c": [
+                "clipped wings"
+            ]
+        },
+        "main_living_status": [
+            "living"
+        ],
+        "random_status_constraint":["medicine cat", "medicine cat apprentice"],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_to_clipped_wings_other",
+        "thoughts": [
+            "Is wondering how r_c is feeling with {PRONOUN/r_c/poss} trimmed wings",
+            "Is comforting r_c after a fall"
+        ],
+        "has_injuries": {
+            "r_c": [
+                "clipped wings"
+            ]
+        },
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
         "id": "paralyzed_gen_to_alive_gen",
         "thoughts": [
             "Goes for a swim",
@@ -4901,6 +4987,156 @@
                 "recurring shock"
             ]
         },
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_winged",
+        "thoughts": [
+            "Is spreading {PRONOUN/m_c/poss} wings, soaking up the sun's rays"
+        ],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_winged_not_kit",
+        "thoughts": [
+            "Is gliding around camp",
+            "Forgot to spread {PRONOUN/m_c/poss} wings when jumping down from a high place"
+        ],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "troublesome_winged",
+        "thoughts": [
+            "Is complaining about a sprained wing",
+            "Flew into a tree while trying to show off"
+        ],
+        "main_trait_constraint": ["troublesome"],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "compassionate_winged_to_other",
+        "thoughts": [
+            "Holds a wing over r_c to shield {PRONOUN/r_c/object} from the rain"
+        ],
+        "main_trait_constraint": ["compassionate"],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_winged_to_winged_kit",
+        "thoughts": [
+            "Is teaching r_c how to fly"
+        ],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "random_species_constraint": ["bird cat", "bat cat"],
+        "random_status_constraint": ["kitten"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_winged_to_earth_kit",
+        "thoughts": [
+            "Is flying around camp with r_c on {PRONOUN/m_c/poss} back"
+        ],
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "random_species_constraint": ["earth cat"],
+        "random_status_constraint": ["kitten"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_earth_kit_to_winged_any",
+        "thoughts": [
+            "Is asking r_c how {PRONOUN/r_c/subject} has wings"
+        ],
+        "main_species_constraint": ["earth cat"],
+        "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior", "kitten"],
+        "random_species_constraint": ["bird cat", "bat cat"],
+        "random_status_constraint": ["kitten"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_kit_to_winged",
+        "thoughts": [
+            "Is asking r_c to teach {PRONOUN/m_c/object} how to fly"
+        ],
+        "main_species_constraint": ["any"],
+        "main_status_constraint": ["kitten"],
+        "random_species_constraint": ["bird cat", "bat cat"],
+        "random_status_constraint": ["any"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_bird_cat",
+        "thoughts": [
+            "Is preening {PRONOUN/m_c/self}",
+            "Is trying to befriend the birds, but they keep flying away",
+            "Is decorating {PRONOUN/m_c/poss} nest with {PRONOUN/m_c/poss} feathers"
+        ],
+        "main_species_constraint": ["bird cat"],
+        "main_living_status": [
+            "living"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "gen_bat_cat",
+        "thoughts": [
+            "Does not go 'bleh bleh bleh'",
+            "Is sleeping hanging upside down"
+        ],
+        "main_species_constraint": ["bat cat"],
+        "main_living_status": [
+            "living"
+        ],
         "random_living_status": [
             "living"
         ]

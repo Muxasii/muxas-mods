@@ -95,6 +95,20 @@ class Thoughts:
         elif 'random_status_constraint' in thought and not random_cat:
             pass
 
+        # Constraints for the species of the main cat
+        if 'main_species_constraint' in thought:
+            if (main_cat.species not in thought['main_species_constraint'] and
+                    'any' not in thought['main_species_constraint']):
+                return False
+
+        # Constraints for the species of the random cat
+        if 'random_species_constraint' in thought and random_cat:
+            if (random_cat.species not in thought['random_species_constraint'] and
+                    'any' not in thought['random_species_constraint']):
+                return False
+        elif 'random_species_constraint' in thought and not random_cat:
+            pass
+
         # main cat age constraint
         if 'main_age_constraint' in thought:
             if main_cat.age not in thought['main_age_constraint']:
@@ -200,21 +214,23 @@ class Thoughts:
                     return False
 
             if 'has_injuries' in thought:
-                if "m_c" in thought['has_injuries']:
-                    if main_cat.injuries or main_cat.illnesses:
-                        injuries_and_illnesses = main_cat.injuries.keys() + main_cat.injuries.keys()
-                        if not [i for i in injuries_and_illnesses if i in thought['has_injuries']["m_c"]] and \
+                if "m_c" in thought["has_injuries"]:
+                    if main_cat.injuries:
+                        if not [i for i in main_cat.injuries if
+                                i in thought["has_injuries"]["m_c"]] and \
                                 "any" not in thought['has_injuries']["m_c"]:
                             return False
-                    return False
+                    else:
+                        return False
 
-                if "r_c" in thought['has_injuries'] and random_cat:
-                    if random_cat.injuries or random_cat.illnesses:
-                        injuries_and_illnesses = random_cat.injuries.keys() + random_cat.injuries.keys()
-                        if not [i for i in injuries_and_illnesses if i in thought['has_injuries']["r_c"]] and \
+                if "r_c" in thought["has_injuries"] and random_cat:
+                    if random_cat.injuries:
+                        if not [i for i in random_cat.injuries if
+                                i in thought["has_injuries"]["r_c"]] and \
                                 "any" not in thought['has_injuries']["r_c"]:
                             return False
-                    return False
+                    else:
+                        return False
 
             if "perm_conditions" in thought:
                 if "m_c" in thought["perm_conditions"]:

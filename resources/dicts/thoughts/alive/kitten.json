@@ -122,6 +122,15 @@
         ]
     },
     {
+        "id": "gen_winged_kit",
+        "thoughts": [
+            "Is trying to flap {PRONOUN/m_c/object} wings",
+            "Just flew for the first time!",
+            "Is gliding around camp"
+        ],
+        "main_species_constraint": ["bird cat", "bat cat"]
+    },
+    {
         "id": "kit_alive_elder",
         "thoughts": [
             "Was nipped on the rump by an elder for being naughty",
@@ -797,6 +806,15 @@
         ],
         "random_living_status": [
             "starclan"
+        ]
+    },
+    {
+        "id": "bat_kit_shy",
+        "thoughts": [
+            "Is hiding behind {PRONOUN/m_c/object} large wings"
+        ],
+        "main_species_constraint": [
+            "bat cat"
         ]
     }
 ]

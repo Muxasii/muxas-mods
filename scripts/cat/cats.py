@@ -2144,7 +2144,7 @@ class Cat:
         non_minor_injuries = [
             injury
             for injury in self.injuries
-            if self.injuries[injury]["severity"] != "minor"
+            if self.injuries[injury]["severity"] == "major"
         ]
         if len(non_minor_injuries) > 0:
             return False
