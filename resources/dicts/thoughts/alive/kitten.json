@@ -128,7 +128,8 @@
             "Just flew for the first time!",
             "Is gliding around camp"
         ],
-        "main_species_constraint": ["bird cat", "bat cat"]
+        "main_species_constraint": ["bird cat", "bat cat"],
+        "main_wing_c_constraint": [2]
     },
     {
         "id": "kit_alive_elder",

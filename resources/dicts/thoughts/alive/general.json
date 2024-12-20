@@ -4997,7 +4997,7 @@
             "Is spreading {PRONOUN/m_c/poss} wings, soaking up the sun's rays"
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
-        "main_winged_c_constraint": [2],
+        "main_wing_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5013,7 +5013,7 @@
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
-        "main_winged_c_constraint": [2],
+        "main_wing_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5029,7 +5029,7 @@
         ],
         "main_trait_constraint": ["troublesome"],
         "main_species_constraint": ["bird cat", "bat cat"],
-        "main_winged_c_constraint": [2],
+        "main_wing_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5058,7 +5058,7 @@
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
-        "main_winged_c_constraint": [2],
+        "main_wing_c_constraint": [2],
         "random_species_constraint": ["bird cat", "bat cat"],
         "random_status_constraint": ["kitten"],
         "random_winged_c_constraint": [2],
@@ -5076,7 +5076,7 @@
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
-        "main_winged_c_constraint": [2],
+        "main_wing_c_constraint": [2],
         "random_species_constraint": ["earth cat"],
         "random_status_constraint": ["kitten"],
         "main_living_status": [
