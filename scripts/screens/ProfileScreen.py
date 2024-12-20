@@ -757,6 +757,21 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
+        # SPECIES
+        output += str(the_cat.species)
+        # NEWLINE ----------
+        output += "\n"
+
+        # WING COUNT
+        output += str(the_cat.wing_count)
+        if the_cat.wing_count is 1:
+            output += " wing"
+        else: 
+            output += " wings"
+        # NEWLINE ----------
+        output += "\n"
+
+
         # AGE
         if the_cat.age == "kitten":
             output += "young"
@@ -764,11 +779,6 @@ class ProfileScreen(Screens):
             output += "senior"
         else:
             output += the_cat.age
-        # NEWLINE ----------
-        output += "\n"
-
-        # SPECIES
-        output += str(the_cat.species)
         # NEWLINE ----------
         output += "\n"
 

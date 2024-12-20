@@ -105,6 +105,14 @@ class SpriteInspectScreen(Screens):
 
                 self.make_cat_image()
                 self.update_checkboxes()
+            elif event.ui_element == self.checkboxes["wing_shown"]:
+                if self.wing_shown:
+                    self.wing_shown = False
+                else:
+                    self.wing_shown = True
+
+                self.make_cat_image()
+                self.update_checkboxes()
             elif event.ui_element == self.checkboxes["override_dead_lineart"]:
                 if self.override_dead_lineart:
                     self.override_dead_lineart = False
@@ -202,13 +210,19 @@ class SpriteInspectScreen(Screens):
         )
         self.override_dead_lineart_text = pygame_gui.elements.UITextBox(
             "Show as Living",
-            ui_scale(pygame.Rect((250, 630), (-1, 50))),
+            ui_scale(pygame.Rect((150, 630), (-1, 50))),
             object_id=get_text_box_theme("#text_box_34_horizcenter"),
             starting_height=2,
         )
         self.override_not_working_text = pygame_gui.elements.UITextBox(
             "Show as Healthy",
-            ui_scale(pygame.Rect((450, 630), (-1, 100))),
+            ui_scale(pygame.Rect((350, 630), (-1, 100))),
+            object_id=get_text_box_theme("#text_box_34_horizcenter"),
+            starting_height=2,
+        )
+        self.wing_shown_text = pygame_gui.elements.UITextBox(
+            "Show Wings",
+            ui_scale(pygame.Rect((545, 630), (-1, 50))),
             object_id=get_text_box_theme("#text_box_34_horizcenter"),
             starting_height=2,
         )
@@ -260,6 +274,7 @@ class SpriteInspectScreen(Screens):
         self.scars_shown = True
         self.override_dead_lineart = False
         self.acc_shown = True
+        self.wing_shown = True
         self.override_not_working = False
 
         # Make the cat image
@@ -330,10 +345,9 @@ class SpriteInspectScreen(Screens):
             self.acc_shown,
             self.the_cat.pelt.accessory,
         )
-
         # "Show as living"
         self.make_one_checkbox(
-            ui_scale_offset((200, 625)),
+            ui_scale_offset((100, 625)),
             "override_dead_lineart",
             self.override_dead_lineart,
             self.the_cat.dead,
@@ -342,12 +356,21 @@ class SpriteInspectScreen(Screens):
 
         # "Show as healthy"
         self.make_one_checkbox(
-            ui_scale_offset((400, 625)),
+            ui_scale_offset((300, 625)),
             "override_not_working",
             self.override_not_working,
             self.the_cat.not_working(),
             disabled_object_id="@checked_checkbox",
         )
+
+        # "Show wings"
+        self.make_one_checkbox(
+            ui_scale_offset((500, 625)),
+            "wing_shown",
+            self.wing_shown,
+            self.the_cat.species in ["bird cat", "bat cat", "bug cat"],
+        )
+
 
     def make_one_checkbox(
         self,
@@ -394,6 +417,7 @@ class SpriteInspectScreen(Screens):
             life_state=self.valid_life_stages[self.displayed_life_stage],
             scars_hidden=not self.scars_shown,
             acc_hidden=not self.acc_shown,
+            wing_hidden= not self.wing_shown,
             always_living=self.override_dead_lineart,
             no_not_working=self.override_not_working,
         )

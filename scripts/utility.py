@@ -2584,6 +2584,7 @@ def generate_sprite(
     life_state=None,
     scars_hidden=False,
     acc_hidden=False,
+    wing_hidden=False,
     always_living=False,
     no_not_working=False,
 ) -> pygame.Surface:
@@ -3841,8 +3842,6 @@ def generate_sprite(
                 tortie_marking_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][4]
                 tortie_marking_inside = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][5]
                 tortie_marking_inside_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][6]
-
-        
         
 
         # draw pelt
@@ -4314,7 +4313,7 @@ def generate_sprite(
         #                                                                      #
         ########################################################################
 
-        if cat.species != "earth cat":
+        if cat.species != "earth cat" and cat.wing_count == 2 and not cat.one_wing() and not wing_hidden:
             
             # draw base
             back_wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
@@ -4824,7 +4823,7 @@ def generate_sprite(
         #                                                                      #
         ########################################################################
 
-        if cat.species != "earth cat":
+        if cat.species != "earth cat" and cat.wing_count != 0 and not wing_hidden:
             
             # draw base
             wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()

@@ -4992,11 +4992,12 @@
         ]
     },
     {
-        "id": "gen_winged",
+        "id": "gen_2_winged",
         "thoughts": [
             "Is spreading {PRONOUN/m_c/poss} wings, soaking up the sun's rays"
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
+        "main_winged_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5005,13 +5006,14 @@
         ]
     },
     {
-        "id": "gen_winged_not_kit",
+        "id": "gen_2_winged_not_kit",
         "thoughts": [
             "Is gliding around camp",
             "Forgot to spread {PRONOUN/m_c/poss} wings when jumping down from a high place"
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "main_winged_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5020,13 +5022,14 @@
         ]
     },
     {
-        "id": "troublesome_winged",
+        "id": "troublesome_2_winged",
         "thoughts": [
             "Is complaining about a sprained wing",
             "Flew into a tree while trying to show off"
         ],
         "main_trait_constraint": ["troublesome"],
         "main_species_constraint": ["bird cat", "bat cat"],
+        "main_winged_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5049,14 +5052,16 @@
         ]
     },
     {
-        "id": "gen_winged_to_winged_kit",
+        "id": "gen_2_winged_to_2_winged_kit",
         "thoughts": [
             "Is teaching r_c how to fly"
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "main_winged_c_constraint": [2],
         "random_species_constraint": ["bird cat", "bat cat"],
         "random_status_constraint": ["kitten"],
+        "random_winged_c_constraint": [2],
         "main_living_status": [
             "living"
         ],
@@ -5065,12 +5070,13 @@
         ]
     },
     {
-        "id": "gen_winged_to_earth_kit",
+        "id": "gen_2_winged_to_earth_kit",
         "thoughts": [
             "Is flying around camp with r_c on {PRONOUN/m_c/poss} back"
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
+        "main_winged_c_constraint": [2],
         "random_species_constraint": ["earth cat"],
         "random_status_constraint": ["kitten"],
         "main_living_status": [

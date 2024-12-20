@@ -141,6 +141,7 @@ class Cat:
         status="newborn",
         backstory="clanborn",
         species=None,
+        wing_count=None,
         parent1=None,
         parent2=None,
         adoptive_parents=None,
@@ -180,7 +181,7 @@ class Cat:
         if (
             faded
         ):  # This must be at the top. It's a smaller list of things to init, which is only for faded cats
-            self.init_faded(ID, status, species, prefix, suffix, moons, **kwargs)
+            self.init_faded(ID, status, species, wing_count, prefix, suffix, moons, **kwargs)
             return
 
         self.generate_events = GenerateEvents()
@@ -196,6 +197,7 @@ class Cat:
         self.backstory = backstory
         self.age = None
         self.species = species
+        self.wing_count = wing_count
         self.skills = CatSkills(skill_dict=skill_dict)
         self.personality = Personality(
             trait="troublesome", lawful=0, aggress=0, stable=0, social=0
@@ -307,6 +309,10 @@ class Cat:
         if self.species is None:
             self.species = Pelt.init_species(self, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
 
+        # time to count the kitty wings :3
+        if self.wing_count is None:
+            self.wing_count = Pelt.init_wing_count(self, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
+
         # backstory
         if self.backstory is None:
             self.backstory = "clanborn"
@@ -363,7 +369,7 @@ class Cat:
         if self.ID not in ["0", None]:
             Cat.insert_cat(self)
 
-    def init_faded(self, ID, status, species, prefix, suffix, moons, **kwargs):
+    def init_faded(self, ID, status, species, wing_count, prefix, suffix, moons, **kwargs):
         """Perform faded-specific initialisation
 
         :param ID: Cat ID
@@ -382,6 +388,7 @@ class Cat:
         self.mate = []
         self.status = status
         self.species = species
+        self.wing_count = wing_count
         self.pronouns = []  # Needs to be set as a list
         self.moons = moons
         self.dead_for = 0
@@ -2121,11 +2128,17 @@ class Cat:
         return new_condition
     
     def clipped_wings(self):
+        """returns True if the cat has clipped wings, False if the cat doesn't have clipped wings"""
         for injury in self.injuries:
             if self.injuries[injury]["severity"] == "clipped":
                 return True
         return False
         
+    def one_wing(self):
+        for permanent_condition in self.permanent_condition:
+            if self.injuries[permanent_condition]["name"] == "born with one wing":
+                return True
+        return False
 
     def not_working(self):
         """returns True if the cat cannot work, False if the cat can work"""
@@ -3390,6 +3403,7 @@ class Cat:
                 "name_prefix": self.name.prefix,
                 "name_suffix": self.name.suffix,
                 "species": self.species,
+                "wing_count": self.wing_count,
                 "status": self.status,
                 "moons": self.moons,
                 "dead_for": self.dead_for,
@@ -3407,6 +3421,7 @@ class Cat:
                 "specsuffix_hidden": self.name.specsuffix_hidden,
                 "gender": self.gender,
                 "species": self.species,
+                "wing_count": self.wing_count,
                 "gender_align": self.genderalign,
                 "pronouns": self.pronouns,
                 "birth_cooldown": self.birth_cooldown,

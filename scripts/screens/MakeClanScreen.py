@@ -1101,7 +1101,11 @@ class MakeClanScreen(Screens):
                 selected.genderalign
                 + "\n"
                 + str(
-                    selected.age
+                    selected.species
+                    + "\n"
+                    + str(selected.wing_count)
+                    + "\n"
+                    + str(selected.age)
                     + "\n"
                     + str(selected.personality.trait)
                     + "\n"

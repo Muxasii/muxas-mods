@@ -212,6 +212,7 @@ class Pelt:
                  tint: str = "none",
                  skin: str = "BLACK",
                  species:str=None,
+                 wing_count: int=2,
                  white_patches_tint: str = "none",
                  newborn_sprite:int=None,
                  kitten_sprite: int = None,
@@ -243,6 +244,7 @@ class Pelt:
         self.scars = scars if isinstance(scars, list) else []
         self.tint = tint
         self.species = species
+        self.wing_count = wing_count
         self.white_patches_tint = white_patches_tint
         self.cat_sprites =  {
             "kitten": kitten_sprite if kitten_sprite is not None else 0,
@@ -352,6 +354,77 @@ class Pelt:
         chosen_species = random.choice(par_species)
         return chosen_species
     
+    @staticmethod 
+    def wing_count_inheritance(species, parents:tuple=()):
+        par_wing_count = []
+        p_count = 0
+        for p in parents:
+            if p:
+                if p.wing_count:
+                    p_count += 1 # count parents
+                    par_wing_count.append(p.wing_count)
+        
+        if par_wing_count[1]:
+            par_diff = abs(par_wing_count[0] - par_wing_count[1]) # ensure it is a positive number
+            if par_diff == 2: # earth cat x winged cat
+                weights = [75, 15]
+            elif par_diff == 1: # winged cat x winged cat with hereditary one wing
+                weights = [50, 30]
+            elif par_wing_count[0] == par_wing_count[1]: # 1 winged cat x 1 winged cat
+                weights = [25, 80]
+            elif par_diff == 0: # winged cat x winged cat with both 2 wings
+                weights = [200, 1] # extremely rare chance of hereditary one wing
+            else: # default if doesn't work)
+                weights = [90, 2,]
+        else: # if there is only one parent
+            if not par_wing_count:
+                selected = Pelt.randomize_wing_count(species)
+                return selected
+            else:
+                if par_wing_count[0] == 2:
+                    weights = [200, 1] # extremely rare chance of hereditary one wing
+                elif par_wing_count[0] == 1:
+                    weights = [50, 50]
+                else:
+                    weights = [1, 1]
+        
+        if species != "earth cat":
+            selected = choice(
+                random.choices([2, 1], weights=weights, k = 1)
+            )
+            return selected
+        else:
+            return 0
+
+    @staticmethod 
+    def randomize_wing_count(species):
+        if species == "earth cat":
+            chosen_count = 0
+        else:
+            chosen_count = choice(
+            random.choices([2, 1], weights=[90, 2], k = 1)
+            )
+        return chosen_count
+    
+    @staticmethod
+    def init_wing_count(self, parents:tuple=()):
+        if self.wing_count is None:
+            if parents:
+                chosen_count = Pelt.wing_count_inheritance(self.species, parents)
+                return chosen_count
+            else:
+                if self.species == "earth cat":
+                    chosen_count = 0
+                else:
+                    chosen_count = choice(
+                random.choices([2, 1], weights=[90, 2], k = 1)
+            )
+                if chosen_count == 1:
+                    print("One wing!")
+                return chosen_count
+        else:
+            return self.wing_count
+        
     def check_and_convert(self, convert_dict):
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
@@ -361,6 +434,9 @@ class Pelt:
 
         if self.species in [None, "None", "none"]:
             print("self.species returned with None. Report.")
+
+        if self.wing_count is None:
+            self.wing_count = Pelt.init_wing_count(self)
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
