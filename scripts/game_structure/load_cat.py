@@ -62,6 +62,7 @@ def json_load():
                         ),
                         gender=cat["gender"],
                         species=cat["species"] if "species" in cat else None,
+                        wing_count=cat["wing_count"] if "wing_count" in cat else None,
                         status=cat["status"],
                         parent1=cat["parent1"],
                         parent2=cat["parent2"],
@@ -89,7 +90,6 @@ def json_load():
                 eye_colour2=cat["eye_colour2"] if "eye_colour2" in cat else None,
                 paralyzed=cat["paralyzed"],
                 species=cat["species"] if "species" in cat else None,
-                wing_count=cat["wing_count"] if "wing_count" in cat else None,
                 newborn_sprite=cat["sprite_newborn"] if "sprite_newborn" in cat else 20,
                 kitten_sprite=(
                     cat["sprite_kitten"]
