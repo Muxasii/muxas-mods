@@ -391,6 +391,11 @@ class StartScreen(Screens):
         else:
             self.switch_clan_button.disable()
 
+        if game.switches["error_message"] == "You have disabled species generation in game settings.":
+            self.new_clan_button.disable()
+        else:
+            self.new_clan_button.enable()
+
         if game.switches["error_message"]:
             error_text = (
                 f"There was an error loading the game: {game.switches['error_message']}"

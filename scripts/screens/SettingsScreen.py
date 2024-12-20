@@ -360,6 +360,15 @@ class SettingsScreen(Screens):
 
         self.settings_at_open = game.settings
         self.toggled_theme = "dark" if game.settings["dark mode"] else "light"
+        if not game.settings["bat_gen"] and not game.settings["bird_gen"] and not game.settings["earth_gen"] and not game.switches["error_message"]:
+            game.switches[
+                        "error_message"
+                    ] = "You have disabled species generation in game settings."
+        elif game.switches["error_message"] == "You have disabled species generation in game settings.":
+            game.switches[
+                        "error_message"
+                    ] = ""
+
 
     def save_settings(self):
         """Saves the settings, ensuring that they will be retained when the screen changes."""
@@ -818,3 +827,4 @@ class SettingsScreen(Screens):
         """
         # super().on_use()
         self.show_bg(theme=self.toggled_theme)
+

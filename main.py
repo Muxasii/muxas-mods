@@ -210,6 +210,12 @@ def load_data():
                 ] = "There was an error loading the cats file!"
                 game.switches["traceback"] = e
 
+    if not game.settings["bat_gen"] and not game.settings["bird_gen"] and not game.settings["earth_gen"] and not game.switches["error_message"]:
+        game.switches[
+                    "error_message"
+                ] = "You have disabled species generation in game settings."
+
+
     finished_loading = True
 
 
