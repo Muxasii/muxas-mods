@@ -284,52 +284,55 @@ class Pelt:
     def init_species(self, parents:tuple=()):
         species_list = []
         weight = []
-
+        
+        # yeah that's right there's... 2 try statements - trust me they are both necessary
         try:
-            if game.switches['cur_screen'] == "make clan screen":
-                if game.settings['earth_gen']:
-                    species_list.append("earth cat")
-                    weight.append(game.config["species_generation"]["earth"])
-                if game.settings['bird_gen']:
-                    species_list.append("bird cat")
-                    weight.append(game.config["species_generation"]["bird"])
-                if game.settings['bat_gen']:
-                    species_list.append("bat cat")
-                    weight.append(game.config["species_generation"]["bat"])
+            try:
+                if game.switches['cur_screen'] == "make clan screen":
+                    if game.settings['earth_gen']:
+                        species_list.append("earth cat")
+                        weight.append(game.config["species_generation"]["earth"])
+                    if game.settings['bird_gen']:
+                        species_list.append("bird cat")
+                        weight.append(game.config["species_generation"]["bird"])
+                    if game.settings['bat_gen']:
+                        species_list.append("bat cat")
+                        weight.append(game.config["species_generation"]["bat"])
+                else:
+                    if game.clan.clan_settings['earth_gen_clan']:
+                        species_list.append("earth cat")
+                        weight.append(game.config["species_generation"]["earth"])
+                    if game.clan.clan_settings['bird_gen_clan']:
+                        species_list.append("bird cat")
+                        weight.append(game.config["species_generation"]["bird"])
+                    if game.clan.clan_settings['bat_gen_clan']:
+                        species_list.append("bat cat")
+                        weight.append(game.config["species_generation"]["bat"])
+            except:
+                    if game.settings['earth_gen']:
+                        species_list.append("earth cat")
+                        weight.append(game.config["species_generation"]["earth"])
+                    if game.settings['bird_gen']:
+                        species_list.append("bird cat")
+                        weight.append(game.config["species_generation"]["bird"])
+                    if game.settings['bat_gen']:
+                        species_list.append("bat cat")
+                        weight.append(game.config["species_generation"]["bat"])
+
+            # species_list = ["earth cat", "bird cat", "bat cat"] #, "bug cat"
+            if self.species is None:
+                if parents:
+                    species = Pelt.species_inheritance(species_list, parents, weight)
+                    return species
+                else:
+                    species = choice(
+                        random.choices(species_list, weights=weight, k=1)
+                    )
+                    return species
             else:
-                if game.clan.clan_settings['earth_gen_clan']:
-                    species_list.append("earth cat")
-                    weight.append(game.config["species_generation"]["earth"])
-                if game.clan.clan_settings['bird_gen_clan']:
-                    species_list.append("bird cat")
-                    weight.append(game.config["species_generation"]["bird"])
-                if game.clan.clan_settings['bat_gen_clan']:
-                    species_list.append("bat cat")
-                    weight.append(game.config["species_generation"]["bat"])
+                return self.species
         except:
-            if game.settings['earth_gen']:
-                species_list.append("earth cat")
-                weight.append(game.config["species_generation"]["earth"])
-            if game.settings['bird_gen']:
-                species_list.append("bird cat")
-                weight.append(game.config["species_generation"]["bird"])
-            if game.settings['bat_gen']:
-                species_list.append("bat cat")
-                weight.append(game.config["species_generation"]["bat"])
-
-
-        # species_list = ["earth cat", "bird cat", "bat cat"] #, "bug cat"
-        if self.species is None:
-            if parents:
-                species = Pelt.species_inheritance(species_list, parents, weight)
-                return species
-            else:
-                species = choice(
-                    random.choices(species_list, weights=weight, k=1)
-                )
-                return species
-        else:
-            return self.species
+            return "ERROR"
         
     @staticmethod
     def randomize_species(species_list:list=[], species_weights:list=[]):
