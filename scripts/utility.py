@@ -4698,8 +4698,8 @@ def generate_sprite(
                     special_flags=pygame.BLEND_RGBA_MIN,
                 )
             
-            back_wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            
+            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
             new_sprite.blit(back_wings, (0, 0))
         
         ########################################################################
