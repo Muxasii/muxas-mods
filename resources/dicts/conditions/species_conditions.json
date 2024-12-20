@@ -1,0 +1,29 @@
+{
+    "any": [
+
+        "claw-wound", "bite-wound", "cat bite  ", "beak bite ", "snake bite", "rat bite  ", "tick bites", "blood loss", "broken jaw", "broken bone", "mangled leg", "dislocated joint", "joint pain", "sprain", "mangled tail", "bruises", "cracked pads", "sore", "phantom pain", "scrapes", "small cut", "torn pelt", "torn ear", "frostbite", "recovering from birth", "water in their lungs", "burn", "severe burn", "shock", "lingering shock", "shivering", "dehydrated", "head damage", "quilled by a porcupine", "broken back", "poisoned", "bee sting", "headache", "severe headache", "pregnant",
+
+        "seizure", "diarrhea", "fleas", "greencough", "kittencough", "an infected wound", "carrionplace disease", "redcough", "running nose", "whitecough", "yellowcough", "a festering wound", "heat stroke", "heat exhaustion", "stomachache", "constant nightmares", "grief stricken", "malnourished", "starving", "fatigue",
+
+        "crooked jaw", "lost a leg", "born without a leg", "weak leg", "twisted leg", "lost their tail", "born without a tail", "paralyzed", "raspy lungs", "wasting disease", "blind", "one bad eye", "failing eyesight", "partial hearing loss", "deaf", "constant joint pain", "seizure prone", "allergies", "constantly dizzy", "recurring shock", "lasting grief", "persistent headaches"
+
+    ],
+
+    "winged": [
+    
+        "sprained wing", "broken wing"
+
+],
+    "bird cat": [
+
+        "feather loss",
+        "feathercough"
+
+    ],
+    "bat cat": [
+
+        "torn membrane"
+
+    ],
+    "bug cat": []
+}

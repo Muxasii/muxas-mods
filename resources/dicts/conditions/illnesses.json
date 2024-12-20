@@ -581,6 +581,17 @@
             {
                 "name": "constant nightmares",
                 "chance": 15
+            },
+            {
+                "name": "feather loss",
+                "species": ["bird cat"],
+                "chance": 5
+
+            },
+            {
+                "name": "fatigue",
+                "chance": 10
+
             }
         ],
         "herbs": [
@@ -588,6 +599,32 @@
             "thyme",
             "poppy"
         ]
+    },
+    "fatigue": {
+        "severity": "major",
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "medicine_mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "duration": 1,
+        "medicine_duration": 1,
+        "infectiousness": 0,
+        "risks": [],
+        "herbs": []
     },
     "malnourished": {
         "severity": "minor",
@@ -643,6 +680,54 @@
         "risks": [],
         "herbs": [
             "thyme"
+        ]
+    },
+    "feathercough": {
+        "severity": "severe",
+        "mortality": {
+            "newborn": 2,
+            "kitten": 3,
+            "adolescent": 8,
+            "young adult": 8,
+            "adult": 10,
+            "senior adult": 8,
+            "senior": 3
+        },
+        "medicine_mortality": {
+            "newborn": 7,
+            "kitten": 7,
+            "adolescent": 12,
+            "young adult": 20,
+            "adult": 25,
+            "senior adult": 20,
+            "senior": 7
+        },
+        "duration": 3,
+        "medicine_duration": 2,
+        "infectiousness": 30,
+        "risks": [
+            {
+                "name": "feather loss",
+                "species": ["bird cat"],
+                "chance": 20
+            },
+            {
+                "name": "diarrhea",
+                "chance": 10
+            },
+            {
+                "name": "fatigue",
+                "chance": 10
+            }
+        ],
+        "herbs": [
+            "catmint",
+            "tansy",
+            "mullein",
+            "plantain",
+            "juniper",
+            "poppy",
+            "moss"
         ]
     }
 }

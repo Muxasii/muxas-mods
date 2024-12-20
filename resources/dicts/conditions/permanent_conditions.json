@@ -294,6 +294,10 @@
             {
                 "name": "yellowcough",
                 "chance": 4
+            },
+            {
+                "name": "feathercough",
+                "chance": 4
             }
         ],
         "risks": [
@@ -308,6 +312,10 @@
             {
                 "name": "redcough",
                 "chance": 60
+            },
+            {
+                "name": "fatigue",
+                "chance": 20
             }
         ],
         "herbs": [
@@ -541,6 +549,10 @@
             {
                 "name": "constant nightmares",
                 "chance": 20
+            },
+            {
+                "name": "fatigue",
+                "chance": 20
             }
         ],
         "herbs": [
@@ -568,6 +580,10 @@
             {
                 "name": "grief stricken",
                 "chance": 50
+            },
+            {
+                "name": "fatigue",
+                "chance": 20
             }
         ],
         "herbs": [

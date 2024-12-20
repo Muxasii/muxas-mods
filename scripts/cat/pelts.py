@@ -364,7 +364,7 @@ class Pelt:
                     p_count += 1 # count parents
                     par_wing_count.append(p.wing_count)
         
-        if par_wing_count[1]:
+        try:
             par_diff = abs(par_wing_count[0] - par_wing_count[1]) # ensure it is a positive number
             if par_diff == 2: # earth cat x winged cat
                 weights = [75, 15]
@@ -373,10 +373,10 @@ class Pelt:
             elif par_wing_count[0] == par_wing_count[1]: # 1 winged cat x 1 winged cat
                 weights = [60, 20]
             elif par_diff == 0: # winged cat x winged cat with both 2 wings
-                weights = [200, 0] # extremely rare chance of hereditary one wing
+                weights = [200, 1] # extremely rare chance of hereditary one wing
             else: # default if doesn't work)
-                weights = [90, 2,]
-        else: # if there is only one parent
+                weights = [90, 2]
+        except: # if there is only one parent (or none)
             if not par_wing_count:
                 selected = Pelt.randomize_wing_count(species)
                 return selected

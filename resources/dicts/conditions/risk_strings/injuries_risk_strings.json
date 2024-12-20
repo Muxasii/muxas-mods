@@ -189,5 +189,35 @@
             "m_c yowls with pain, begging r_c for any relief. The damage to {PRONOUN/m_c/poss} head must have been severe to cause such painful headaches.",
             "m_c can't focus on anything but the searing pain in {PRONOUN/m_c/poss} head. {PRONOUN/m_c/poss/CAP} head injury must have rattled something deep in {PRONOUN/m_c/poss} skull."
         ]
+    },
+    "clipped wings": {
+        "discomfort": [
+            "The world feels so incredibly large to m_c. With {PRONOUN/m_c/poss} restricted flight, {PRONOUN/m_c/object} {VERB/m_c/have/has} a hard time being comfortable grounded.",
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/object} had to fly away but was unable to, safe to say m_c is uncomfortable and embarrased from the incident."
+
+        ]
+    },
+    "broken wing": {
+        "discomfort": [
+            "The world feels so incredibly large to m_c. With {PRONOUN/m_c/poss} restricted flight, {PRONOUN/m_c/object} {VERB/m_c/have/has} a hard time being comfortable grounded.",
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/object} had to fly away but was unable to, safe to say m_c is uncomfortable and embarrased from the incident."
+        ],
+        "an infected wound": [
+            "As if the injury wasn't bad enough, m_c has begun feeling feverish. An infection is growing in {PRONOUN/m_c/poss} broken wing.",
+            "Despite the enforced nest rest and how tightly {PRONOUN/m_c/poss} broken wing is bound, m_c's injury is beginning to look concerning to r_c. {PRONOUN/r_c/subject/CAP}{VERB/r_c/'ve/'s} already begun to plan what to do if the infection progresses any further.",
+            "There seems to be an infection growing in m_c's broken bone."
+        ]
+    },
+    "torn membrane": {
+        "discomfort": [
+            "The world feels so incredibly large to m_c. With {PRONOUN/m_c/poss} restricted flight, {PRONOUN/m_c/object} {VERB/m_c/have/has} a hard time being comfortable grounded.",
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/object} had to fly away but was unable to, safe to say m_c is uncomfortable and embarrased from the incident."
+        ],
+        "an infected wound": [
+            "r_c thought that m_c's wing membrane was healing over properly, but it appears that an infection had begun - recognised by the stench.",
+            "Despite the rest and treatment, m_c's torn membrane has become infected.",
+            "m_c can smell the infection from {PRONOUN/m_c/poss} wing and feels the fever coming over {PRONOUN/m_c/self}."
+        ]
+
     }
 }

@@ -902,9 +902,14 @@ INJURY_GROUPS = {
         "mangled tail",
         "torn pelt",
         "cat bite",
+        "broken wing",
+        "torn membrane", 
+        "sprained wing"
     ],
-    "minor_injury": ["sprain", "sore", "bruises", "scrapes"],
-    "blunt_force_injury": ["broken bone", "broken back", "head damage", "broken jaw"],
+    "minor_injury": ["sprain", "sore", "bruises", "scrapes", "sprained wing"],
+    "blunt_force_injury": [
+        "broken bone", "broken back", "head damage", "broken jaw", "broken wing", "torn membrane"
+        ],
     "hot_injury": ["heat exhaustion", "heat stroke", "dehydrated"],
     "cold_injury": ["shivering", "frostbite"],
     "big_bite_injury": [
@@ -913,9 +918,10 @@ INJURY_GROUPS = {
         "torn pelt",
         "mangled leg",
         "mangled tail",
+        "broken wing"
     ],
     "small_bite_injury": ["bite-wound", "torn ear", "torn pelt", "scrapes"],
     "beak_bite": ["beak bite", "torn ear", "scrapes"],
     "rat_bite": ["rat bite", "torn ear", "torn pelt"],
-    "sickness": ["greencough", "redcough", "whitecough", "yellowcough"],
+    "sickness": ["greencough", "redcough", "whitecough", "yellowcough", "feathercough"],
 }

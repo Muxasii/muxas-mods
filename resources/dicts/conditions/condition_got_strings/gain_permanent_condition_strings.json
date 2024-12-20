@@ -195,5 +195,11 @@
             "m_c tries to keep the disappointment down. Logically, {PRONOUN/m_c/subject} knew this was inevitable. Emotionally, {PRONOUN/m_c/subject} just can't accept that {PRONOUN/m_c/subject}'ll never walk again.",
             "m_c continues to do {PRONOUN/m_c/poss} exercises dutifully, hoping beyond hope that someday it will pay off. For now though, {PRONOUN/m_c/subject} {VERB/m_c/know/knows} this paralysis is {PRONOUN/m_c/poss} new reality."
         ]
+    },
+    "broken wing": {
+        "weak wing": [
+            "r_c informs m_c that {PRONOUN/m_c/poss} healed broken wing has left {PRONOUN/m_c/poss} wing permanently weakened.",
+            "m_c finds that {PRONOUN/m_c/subject} flaps are not as powerful as they used to be, despite having healed from {PRONOUN/m_c/poss} broken wing. r_c tells {PRONOUN/m_c/object} it's likely permanent."
+        ]
     }
 }

@@ -222,5 +222,23 @@
         "m_c finds that {PRONOUN/m_c/poss} wings feel fuller and {PRONOUN/m_c/subject} is capable of flight again.",
         "m_c flaps {PRONOUN/m_c/poss} wings one day and manages to catch the wind. m_c's feathers have finally grown back in.",
         "Finally, after a good molt of {PRONOUN/m_c/poss} wings, m_c can fly comfortably."
+    ],
+    "broken wing": [
+        "m_c's broken wing has healed.",
+        "m_c is happy to find {PRONOUN/m_c/poss} body pain-free: it seems {PRONOUN/m_c/poss} broken wing has finally healed.",
+        "m_c has healed from {PRONOUN/m_c/poss} broken wing."
+    ],
+    "sprained wing": [
+        "m_c feels {PRONOUN/m_c/poss} wing is less stiff and painful than the day prior, finally {PRONOUN/m_c/poss} sprained wing has healed.",
+        "m_c's sprained wing has healed.",
+        "m_c's sprained wing is feeling much better.",
+        "m_c has recovered from {PRONOUN/m_c/poss} sprained wing."
+    ],
+    "feather loss": [
+        "m_c regrew {PRONOUN/m_c/poss} lost feathers.",
+        "m_c finds that {PRONOUN/m_c/poss} wings feel full again."
+    ],
+    "torn membrane": [
+        "m_c's torn membrane has finally healed itself over."
     ]
 }

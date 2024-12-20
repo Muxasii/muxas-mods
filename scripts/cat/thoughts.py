@@ -110,23 +110,14 @@ class Thoughts:
             pass
 
         # Constraints for the wing count of the main cat
-        if main_cat.permanent_condition == "born with one wing":
-            mc_wing_count = 1
-        else:
-            mc_wing_count = main_cat.wing_count
-
         if 'main_wing_c_constraint' in thought:
-            if (mc_wing_count not in thought['main_wing_c_constraint'] and
+            if (main_cat.wing_count not in thought['main_wing_c_constraint'] and
                     'any' not in thought['main_wing_c_constraint']):
                 return False
 
         # Constraints for the wing count of the random cat
-        if random_cat.permanent_condition == "born with one wing":
-            rc_wing_count = 1
-        else:
-            rc_wing_count = random_cat.wing_count
         if 'random_wing_c_constraint' in thought and random_cat:
-            if (rc_wing_count not in thought['random_wing_c_constraint'] and
+            if (random_cat.wing_count not in thought['random_wing_c_constraint'] and
                     'any' not in thought['random_wing_c_constraint']):
                 return False
         elif 'random_species_constraint' in thought and not random_cat:

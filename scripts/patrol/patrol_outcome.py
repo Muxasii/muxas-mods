@@ -25,7 +25,7 @@ from scripts.utility import (
 )
 from scripts.game_structure.game_essentials import game
 from scripts.cat.skills import SkillPath
-from scripts.cat.cats import Cat, ILLNESSES, INJURIES, PERMANENT
+from scripts.cat.cats import Cat, ILLNESSES, INJURIES, PERMANENT, SPECIES_CONDITIONS
 from scripts.cat.pelts import Pelt
 from scripts.cat_relations.relationship import Relationship
 from scripts.clan_resources.freshkill import (
@@ -556,15 +556,29 @@ class PatrolOutcome:
             # Injury or scar the cats
             results = []
             for _cat in cats:
+                sel_injuries = []
+
                 # give condition
                 if not possible_injuries:
                     continue
+
+                # check species constraints
+                for pos_injury in possible_injuries:
+                    if pos_injury in SPECIES_CONDITIONS["any"]:
+                        sel_injuries.append(pos_injury)
+
+                if _cat.species in ["bird cat", "bat cat", "bug cat"]:
+                    for pos_injury in possible_injuries:
+                        if pos_injury in SPECIES_CONDITIONS["winged"]:
+                            sel_injuries.append(pos_injury)
+                        if pos_injury in SPECIES_CONDITIONS[_cat.species]:
+                            sel_injuries.append(pos_injury)
 
                 old_injuries = list(_cat.injuries.keys())
                 old_illnesses = list(_cat.illnesses.keys())
                 old_perm_cond = list(_cat.permanent_condition.keys())
 
-                if set(possible_injuries).issubset(
+                if set(sel_injuries).issubset(
                     old_injuries + old_illnesses + old_perm_cond
                 ):
                     print(
@@ -572,14 +586,14 @@ class PatrolOutcome:
                     )
                     continue
 
-                give_injury = choice(possible_injuries)
+                give_injury = choice(sel_injuries)
                 # If the cat already has this injury, reroll it to get something new
                 while (
                     give_injury in old_injuries
                     or give_injury in old_illnesses
                     or give_injury in old_perm_cond
                 ):
-                    give_injury = choice(possible_injuries)
+                    give_injury = choice(sel_injuries)
 
                 if give_injury in INJURIES:
                     _cat.get_injured(give_injury, lethal=lethal)

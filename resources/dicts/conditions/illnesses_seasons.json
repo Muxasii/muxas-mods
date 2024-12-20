@@ -12,12 +12,14 @@
     "Leaf-fall":{
         "stomachache":1,
         "greencough": 1,
+        "feathercough": 1,
         "kittencough": 4,
         "running nose": 3
     },
     "Leaf-bare":{
         "stomachache":1,
         "greencough": 3,
+        "feathercough": 1,
         "running nose": 1,
         "kittencough": 4,
         "yellowcough": 3

@@ -1020,6 +1020,14 @@ class Condition_Events:
             ):
                 continue
 
+            # checking if cat species meets risk species constraint
+            if risk["species"] and cat.species not in risk["species"]:
+                continue
+
+            # checking if cat wing count meets risk wing count constraint
+            if risk["wing_count"] and cat.wing_count != risk["wing_count"]:
+                continue
+
             # adjust chance of risk gain if Clan has enough meds
             chance = risk["chance"]
             if medical_cats_condition_fulfilled(

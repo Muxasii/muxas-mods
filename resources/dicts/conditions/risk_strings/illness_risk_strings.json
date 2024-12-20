@@ -77,6 +77,16 @@
             "m_c wakes from yet another nightmare, feeling as though {PRONOUN/m_c/subject}{VERB/m_c/'re/'s} being haunted by the ghost of the one {PRONOUN/m_c/subject} {VERB/m_c/grieve/grieves}.",
             "m_c wakes and wails, {PRONOUN/m_c/poss} dreams haunted by visions of {PRONOUN/m_c/poss} dead loved one.",
             "m_c jolts awake and immediately leaves the den to clear {PRONOUN/m_c/poss} head, hoping some fresh night air will help {PRONOUN/m_c/object} cope with the sadness and memories."
+        ],
+        "feather loss": [
+            "m_c, from {PRONOUN/m_c/poss} grief, has shed many of {PRONOUN/m_c/poss} feathers. r_c reassures {PRONOUN/m_c/object} that {PRONOUN/m_c/poss} feathers will return.",
+            "m_c finds {PRONOUN/m_c/poss} nest covered in shed feathers. The softness of {PRONOUN/m_c/poss} feathers is at least the smallest bit comforting."
+        ]
+    },
+    "feathercough": {
+        "diarrhea": [
+            "Embarrassed, m_c reports to r_c that {PRONOUN/m_c/subject} is experiencing diarrhea from {PRONOUN/m_c/poss} progressing feathercough. r_c, as unsqueamish as all medicine cats, tells m_c that it's now very important {PRONOUN/m_c/subject} {VERB/m_c/keep/keeps} drinking water, as the diarrhea will make {PRONOUN/m_c/object} lose it quickly.",
+            "m_c is now spending more time at the dirtplace than in camp due to {PRONOUN/m_c/poss} persistent illness."
         ]
     }
 }

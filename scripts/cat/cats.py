@@ -3595,6 +3595,9 @@ with open(f"{resource_directory}illnesses.json", "r", encoding="utf-8") as read_
 with open(f"{resource_directory}injuries.json", "r", encoding="utf-8") as read_file:
     INJURIES = ujson.loads(read_file.read())
 
+with open(f"{resource_directory}species_conditions.json", "r", encoding="utf-8") as read_file:
+    SPECIES_CONDITIONS = ujson.loads(read_file.read())
+
 with open(
     f"{resource_directory}permanent_conditions.json", "r", encoding="utf-8"
 ) as read_file:
