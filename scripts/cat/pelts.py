@@ -18,6 +18,9 @@ class Pelt:
         'Speckled': 'speckled',
         'Bengal': 'bengal',
         'Mackerel': 'mackerel',
+        'Duotone': 'duotone',
+        'Braided': 'braided',
+        'Pinstripe': 'pinstripe',
         'Classic': 'classic',
         'Sokoke': 'sokoke',
         'Agouti': 'agouti',
@@ -39,18 +42,21 @@ class Pelt:
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'ASH', 'LAVENDER', 'PALECREAM', 
         'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC', 'GLASS', 'COPPER', 'GHOSTBROWN', 'GHOSTRED'
     ]
     pelt_c_no_white = [
         'SILVER', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'ASH', 'LAVENDER'
         'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC', 'COPPER', 'GHOSTBROWN', 'GHOSTRED'
     ]
     pelt_c_no_bw = [
         'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'LAVENDER'
         'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC'
+        'BEIGE', 'DUST', 'DARKLAVENDER', 'SUNSET', 'OLDLILAC', 'COPPER', 'GHOSTBROWN', 'GHOSTRED'
     ]
 
     tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
@@ -74,24 +80,8 @@ class Pelt:
                    'LAVENDER', 'PLUM', 'VIOLET']
     yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER']
     blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
-    green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL', 'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM']
-    purple_eyes = ['GLASS', 'INDIGO', 'LAVENDER', 'PLUM', 'VIOLET', 'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC']
 
-    # bite scars by @wood pank on discord
-
-    # scars from other cats, other animals
-    scars1 = ["ONE", "TWO", "THREE", "TAILSCAR", "SNOUT", "CHEEK", "SIDE", "THROAT", "TAILBASE", "BELLY",
-              "LEGBITE", "NECKBITE", "FACE", "MANLEG", "BRIGHTHEART", "MANTAIL", "BRIDGE", "RIGHTBLIND", "LEFTBLIND",
-              "BOTHBLIND", "BEAKCHEEK", "BEAKLOWER", "CATBITE", "RATBITE", "QUILLCHUNK", "QUILLSCRATCH", "HINDLEG",
-              "BACK", "QUILLSIDE", "SCRATCHSIDE", "BEAKSIDE", "CATBITETWO", "FOUR"]
-
-    # missing parts
-    scars2 = ["LEFTEAR", "RIGHTEAR", "NOTAIL", "HALFTAIL", "NOPAW", "NOLEFTEAR", "NORIGHTEAR", "NOEAR"]
-
-    # "special" scars that could only happen in a special event
-    scars3 = ["SNAKE", "TOETRAP", "BURNPAWS", "BURNTAIL", "BURNBELLY", "BURNRUMP", "FROSTFACE", "FROSTTAIL",
-              "FROSTMITT", "FROSTSOCK", "TOE", "SNAKETWO"]
-
+@@ -95,106 +98,106 @@
     # make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely
     plant_accessories = ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", "WHITE POPPY", "PINK POPPY",
                         "BLUEBELLS", "LILY OF THE VALLEY", "SNAPDRAGON", "HERBS", "PETALS", "NETTLE", "HEATHER", "GORSE", "JUNIPER", "RASPBERRY", "LAVENDER",
@@ -116,8 +106,10 @@ class Pelt:
 
     tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette"]
+    spotted = ["Speckled", "Rosette", "Pinstripe"]
     plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
     exotic = ["Bengal", "Marbled", "Masked"]
+    exotic = ["Bengal", "Marbled", "Masked", "Braided"]
     torties = ["Tortie", "Calico"]
     # bird = ["Owl", "Corvid", "Fowl", "Cardinal", "Falcon"]
     # birdexotic = ["Parrot", "Paradise", "Mythical"]
@@ -128,13 +120,18 @@ class Pelt:
     # SPRITE NAMES
     single_colours = [
         'WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
+        'WHITE', 'GLASS', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'CREAM', 'PALEGINGER',
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE', 'LAVENDER', 'ASH', 'PALECREAM'
+        'CHOCOLATE', 'LAVENDER', 'ASH', 'PALECREAM', 'COPPER', 'GHOSTBROWN', 'GHOSTRED'
     ]
     ginger_colours = ['PALECREAM', 'CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
+    ginger_colours = ['PALECREAM', 'CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'GHOSTRED', 'COPPER']
     black_colours = ['SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'ASH', 'LAVENDER']
     white_colours = ['WHITE', 'PALEGREY']
     brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
+    white_colours = ['WHITE', 'PALEGREY', 'GLASS']
+    brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE', 'GHOSTBROWN']
     colour_categories = [ginger_colours, black_colours, white_colours, brown_colours]
     eye_sprites = [
         'YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'BLUEYELLOW', 'BLUEGREEN',
@@ -1456,6 +1453,11 @@ class Pelt:
                 "darklavender": "gray",
                 "sunset": "ginger",
                 "oldlilac": "gray"
+                "oldlilac": "gray",
+                "ghostred": "ginger",
+                "ghostbrown": "brown",
+                "glass": "white",
+                "copper": "ginger"
             }
         else:
             renamed_colors = {
@@ -1480,12 +1482,20 @@ class Pelt:
                 "darklavender": "dark gray",
                 "sunset": "ginger",
                 "oldlilac": "gray"
+                "oldlilac": "gray",
+                "ghostred": "dark ginger",
+                "ghostbrown": "dark brown",
+                "glass": "white",
+                "copper": "dark ginger"
             }
 
         pattern_des = {
             "Tabby": "c_n tabby",
             "Speckled": "speckled c_n",
             "Bengal": "unusually dappled c_n",
+            "Pinstripe": "speckled c_n",
+            "Braided": "unusually striped c_n",
+            "Duotone": "duotone c_n",
             "Marbled": "c_n tabby",
             "Ticked": "c_n ticked",
             "Smoke": "c_n smoke",

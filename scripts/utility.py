@@ -2806,37 +2806,65 @@ def generate_sprite(
                     '#837487', #base
                     '#8B7D8E', #underfur
                     '#5B4F6C', #overfur
-                    '#483E5D', #marking fade
+                    '#483E5D', #marking fade bottom
                     '#766B83', #markings
                     '#978C92'], #marking inside
                 "BEIGE": [
                     '#DDD7D0', #base
                     '#F3EDE8', #underfur
                     '#D6CAC6', #overfur
-                    '#A29591', #marking fade
+                    '#A29591', #marking fade bottom
                     '#B3A59D', #markings
                     '#C3B8B1'], #marking inside
                 "DUST": [
                     '#BCAF9F', #base
                     '#CDC1B7', #underfur
                     '#9C8F86', #overfur
-                    '#665651', #marking fade
+                    '#665651', #marking fade bottom
                     '#7D6965', #markings
                     '#A1918C'], #marking inside
                 "SUNSET": [
                     '#E5A774', #base
                     '#ECB779', #underfur
                     '#E99063', #overfur
-                    '#B4513A', #marking fade
+                    '#B4513A', #marking fade bottom
                     '#D27958', #markings
                     '#C86763'], #marking inside
                 "OLDLILAC": [
                     '#856A6E', #base
                     '#947A7E', #underfur
                     '#77565F', #overfur
-                    '#624049', #marking fade
+                    '#624049', #marking fade bottom
                     '#7B575F', #markings
-                    '#876762'] #marking inside
+                    '#876762'], #marking inside
+                "GLASS": [
+                    '#dbd4d8', #base
+                    '#dbd4d8', #underfur
+                    '#c8c3c8', #overfur
+                    '#f8f5f2', #marking fade bottom
+                    '#efebe9', #markings
+                    '#e7e3e6'], #marking inside
+                "GHOSTBROWN": [
+                    '#613227', #base
+                    '#603730', #underfur
+                    '#472a2a', #overfur
+                    '#be907b', #marking fade bottom
+                    '#885953', #markings
+                    '#714640'], #marking inside
+                "GHOSTRED": [
+                    '#853521', #base
+                    '#9f3f29', #underfur
+                    '#652a1f', #overfur
+                    '#e6bd9d', #marking fade bottom
+                    '#ce864d', #markings
+                    '#b65737'], #marking inside
+                "COPPER": [
+                    '#7c3711', #base
+                    '#b4612f', #underfur
+                    '#7c3711', #overfur
+                    '#36170c', #marking fade bottom
+                    '#5b240b', #markings
+                    '#62270a'] #marking inside
             },
             "special": {
                 "SINGLECOLOUR": {
@@ -2998,37 +3026,65 @@ def generate_sprite(
                         '#837487', #base
                         '#8B7D8E', #underfur
                         '#5B4F6C', #overfur
-                        '#483E5D', #marking fade
+                        '#483E5D', #marking fade bottom
                         '#766B83', #markings
                         '#978C92'], #marking inside
                     "BEIGE": [
                         '#DDD7D0', #base
                         '#F3EDE8', #underfur
                         '#D6CAC6', #overfur
-                        '#A29591', #marking fade
+                        '#A29591', #marking fade bottom
                         '#B3A59D', #markings
                         '#C3B8B1'], #marking inside
                     "DUST": [
                         '#BCAF9F', #base
                         '#CDC1B7', #underfur
                         '#9C8F86', #overfur
-                        '#665651', #marking fade
+                        '#665651', #marking fade bottom
                         '#7D6965', #markings
                         '#A1918C'], #marking inside
                     "SUNSET": [
                         '#E5A774', #base
                         '#ECB779', #underfur
                         '#E99063', #overfur
-                        '#B4513A', #marking fade
+                        '#B4513A', #marking fade bottom
                         '#D27958', #markings
                         '#C86763'], #marking inside
                     "OLDLILAC": [
                         '#856A6E', #base
                         '#947A7E', #underfur
                         '#77565F', #overfur
-                        '#624049', #marking fade
+                        '#624049', #marking fade bottom
                         '#7B575F', #markings
-                        '#876762'] #marking inside
+                        '#876762'], #marking inside
+                    "GLASS": [
+                        '#e5e1d6', #base
+                        '#efebe9', #underfur
+                        '#dedacb', #overfur
+                        '#efebe9', #marking fade bottom
+                        '#f8f5f2', #markings
+                        '#e7e3e6'], #marking inside
+                    "GHOSTBROWN": [
+                        '#55312b', #base
+                        '#5d3229', #underfur
+                        '#402629', #overfur
+                        '#885953', #marking fade bottom
+                        '#be907b', #markings
+                        '#714640'], #marking inside
+                    "GHOSTRED": [
+                        '#863224', #base
+                        '#9f3c25', #underfur
+                        '#652a21', #overfur
+                        '#ce864d', #marking fade bottom
+                        '#e6bd9d', #markings
+                        '#b65737'], #marking inside
+                    "COPPER": [
+                        '#97461c', #base
+                        '#b35f2d', #underfur
+                        '#7c3711', #overfur
+                        '#5b240b', #marking fade bottom
+                        '#36170c', #markings
+                        '#62270a'] #marking inside
                 },
                 "SMOKE": {
                     "WHITE": [
@@ -3189,37 +3245,65 @@ def generate_sprite(
                         '#897b8b', #base
                         '#aa979d', #underfur
                         '#665a72', #overfur
-                        '#4d4260', #marking fade
+                        '#4d4260', #marking fade bottom
                         '#4d4260', #markings
                         '#4d4260'], #marking inside
                     "BEIGE": [
                         '#ded6d2', #base
                         '#eee7e1', #underfur
                         '#d6ceca', #overfur
-                        '#a99a93', #marking fade
+                        '#a99a93', #marking fade bottom
                         '#a99a93', #markings
                         '#a99a93'], #marking inside
                     "DUST": [
                         '#b0a295', #base
                         '#cdc1b7', #underfur
                         '#9d8c7d', #overfur
-                        '#4c403b', #marking fade
+                        '#4c403b', #marking fade bottom
                         '#4c403b', #markings
                         '#4c403b'], #marking inside
                     "SUNSET": [
                         '#dc9564', #base
                         '#f1c787', #underfur
                         '#d37854', #overfur
-                        '#ad5a46', #marking fade
+                        '#ad5a46', #marking fade bottom
                         '#ad5a46', #markings
                         '#ad5a46'], #marking inside
                     "OLDLILAC": [
                         '#8f6f75', #base
                         '#a19196', #underfur
                         '#7b5a60', #overfur
-                        '#442b2f', #marking fade
+                        '#442b2f', #marking fade bottom
                         '#442b2f', #markings
-                        '#442b2f'] #marking inside
+                        '#442b2f'], #marking inside
+                    "GLASS": [
+                        '#d2ccc7', #base
+                        '#d9d4cd', #underfur
+                        '#d0cac5', #overfur
+                        '#e8e4db', #marking fade bottom
+                        '#e8e4db', #markings
+                        '#e8e4db'], #marking inside
+                    "GHOSTBROWN": [
+                        '#57322a', #base
+                        '#6e3d30', #underfur
+                        '#442a2a', #overfur
+                        '#b47862', #marking fade bottom
+                        '#b47862', #markings
+                        '#714640'], #marking inside
+                    "GHOSTRED": [
+                        '#8c3a22', #base
+                        '#973c25', #underfur
+                        '#5f2920', #overfur
+                        '#d3a36e', #marking fade bottom
+                        '#d3a36e', #markings
+                        '#b65737'], #marking inside
+                    "COPPER": [
+                        '#a24c22', #base
+                        '#ce894a', #underfur
+                        '#71300f', #overfur
+                        '#58240b', #marking fade bottom
+                        '#58240b', #markings
+                        '#62270a'] #marking inside
                 },
                 "SINGLESTRIPE": {
                     "WHITE": [
@@ -3380,37 +3464,65 @@ def generate_sprite(
                         '#837487', #base
                         '#767180', #underfur
                         '#6F6576', #overfur
-                        '#483E5D', #marking fade
+                        '#483E5D', #marking fade bottom
                         '#504B5E', #markings
                         '#978C92'] ,#marking inside
                     "BEIGE": [
                         '#EADFD3', #base
                         '#F3EDE8', #underfur
                         '#D6CAC6', #overfur
-                        '#95887E', #marking fade
+                        '#95887E', #marking fade bottom
                         '#9E9284', #markings
                         '#C3B8B1'], #marking inside
                     "DUST": [
                         '#BCAF9F', #base
                         '#CDC1B7', #underfur
                         '#9C8F86', #overfur
-                        '#665651', #marking fade
+                        '#665651', #marking fade bottom
                         '#7D6965', #markings
                         '#A1918C'], #marking inside
                     "SUNSET": [
                         '#DA9E66', #base
                         '#ECB779', #underfur
                         '#DF835A', #overfur
-                        '#B4513A', #marking fade
+                        '#B4513A', #marking fade bottom
                         '#C86758', #markings
                         '#C86763'], #marking inside
                     "OLDLILAC": [
                         '#856A6E', #base
                         '#947A7E', #underfur
                         '#7C606A', #overfur
-                        '#593A43', #marking fade
+                        '#593A43', #marking fade bottom
                         '#754D59', #markings
-                        '#876762'] #marking inside
+                        '#876762'], #marking inside
+                    "GLASS": [
+                        '#cbc5c0', #base
+                        '#cbc5c0', #underfur
+                        '#c1bcb7', #overfur
+                        '#faf8f7', #marking fade bottom
+                        '#faf8f7', #markings
+                        '#faf8f7'], #marking inside
+                    "GHOSTBROWN": [
+                        '#552f27', #base
+                        '#572f27', #underfur
+                        '#422627', #overfur
+                        '#a2655f', #marking fade bottom
+                        '#a2655f', #markings
+                        '#714640'], #marking inside
+                    "GHOSTRED": [
+                        '#903724', #base
+                        '#9f3c25', #underfur
+                        '#702c21', #overfur
+                        '#d78856', #marking fade bottom
+                        '#d78856', #markings
+                        '#b65737'], #marking inside
+                    "COPPER": [
+                        '#93451b', #base
+                        '#b76531', #underfur
+                        '#682b0d', #overfur
+                        '#3a190c', #marking fade bottom
+                        '#3a190c', #markings
+                        '#62270a'] #marking inside
                 }
             },
             
@@ -3595,7 +3707,7 @@ def generate_sprite(
                     '#998FA4', #base
                     '#BDBBC3', #underfur
                     '#5A5167', #overfur
-                    '#4B3E5A', #marking fade
+                    '#4B3E5A', #marking fade bottom
                     '#837487', #markings
                     '#8E8093', #marking inside
                     '#A49CA7'], #marking inside lower fade
@@ -3603,7 +3715,7 @@ def generate_sprite(
                     '#F5EDDF', #base
                     '#FFF6EE', #underfur
                     '#E7D8C8', #overfur
-                    '#A29591', #marking fade
+                    '#A29591', #marking fade bottom
                     '#E0CBB8', #markings
                     '#B3A59D', #marking inside
                     '#C1AFA1'], #marking inside lower fade
@@ -3611,7 +3723,7 @@ def generate_sprite(
                     '#BCAF9F', #base
                     '#CDC1B7', #underfur
                     '#9C8F86', #overfur
-                    '#665651', #marking fade
+                    '#665651', #marking fade bottom
                     '#7D6965', #markings
                     '#837162', #marking inside
                     '#A18C81'], #marking inside lower fade
@@ -3619,7 +3731,7 @@ def generate_sprite(
                     '#F6D899', #base
                     '#FFFADB', #underfur
                     '#FBC878', #overfur
-                    '#E87154', #marking fade
+                    '#E87154', #marking fade bottom
                     '#FFB379', #markings
                     '#F29E46', #marking inside
                     '#F7B14C'], #marking inside lower fade
@@ -3627,17 +3739,49 @@ def generate_sprite(
                     '#856A6E', #base
                     '#BDA5A1', #underfur
                     '#754D59', #overfur
-                    '#401F27', #marking fade
+                    '#401F27', #marking fade bottom
                     '#754D59', #markings
                     '#572E39', #marking inside
-                    '#8A5E67'] #marking inside lower fade
+                    '#8A5E67'], #marking inside lower fade
+                "GLASS": [
+                    '#d1d1d7', #base
+                    '#e9e7e9', #underfur
+                    '#bcbbc6', #overfur
+                    '#f4f3f3', #marking fade bottom
+                    '#f3f2f1', #markings
+                    '#eeedee', #marking inside
+                    '#f4f3f3'], #marking inside lower fade
+                "GHOSTBROWN": [
+                    '#4a2a24', #base
+                    '#583027', #underfur
+                    '#321711', #overfur
+                    '#b47b6d', #marking fade bottom
+                    '#b47b6d', #markings
+                    '#965c4f', #marking inside
+                    '#965c4f'], #marking inside lower fade
+                "GHOSTRED": [
+                    '#823b21', #base
+                    '#b96a40', #underfur
+                    '#442011', #overfur
+                    '#d6ac7a', #marking fade bottom
+                    '#ca9053', #markings
+                    '#cd9961', #marking inside
+                    '#cd9961'], #marking inside lower fade
+                "COPPER": [
+                    '#b4612f', #base
+                    '#f0aa58', #underfur
+                    '#6c2c0c', #overfur
+                    '#4b200b', #marking fade bottom
+                    '#481f0b', #markings
+                    '#481f0b', #marking inside
+                    '#5c240a'] #marking inside lower fade
             }
         }
         # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
         # why am I explaining... who knows
         color_type_dict = {
             "special": ["SINGLESTRIPE", "SINGLECOLOUR", "TWOCOLOUR", "SMOKE"],
-            "bengal": ["BENGAL", "MARBLED"]
+            "bengal": ["BENGAL", "MARBLED", "BRAIDED"]
         }
 
         # base, shadow, pupil
@@ -3869,7 +4013,7 @@ def generate_sprite(
         mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         mark_fade_tint.fill(marking_fade)
 
-        if cat_marking in ['BENGAL', 'MARBLED']:
+        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
             underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
             underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3898,7 +4042,7 @@ def generate_sprite(
         new_sprite.blit(underfur, (0, 0))
             
 
-        if cat_marking in ['BENGAL', 'MARBLED']:
+        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
             overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
             overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3927,7 +4071,7 @@ def generate_sprite(
             markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
             # uh...
-            if cat_marking in ['BENGAL', 'MARBLED']:
+            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
                 mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -3949,7 +4093,7 @@ def generate_sprite(
 
             markings.blit(mark_fade, (0, 0))
 
-            if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED']:
+            if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED', 'BRAIDED']:
                 markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                 markings_inside_tint.fill(marking_inside)
 
@@ -3957,7 +4101,7 @@ def generate_sprite(
                 markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # i am thirsty i should get water
-                if cat_marking in ['BENGAL', 'MARBLED']:
+                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     try:
                         markings_inside_fade.fill(marking_inside_fade)
@@ -4001,7 +4145,7 @@ def generate_sprite(
             tortie_overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             tortie_overfur_tint.fill(tortie_base_overfur_pelt)
 
-            if tortie_pattern in ['BENGAL', 'MARBLED']:
+            if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 tortie_underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
                 tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4030,7 +4174,7 @@ def generate_sprite(
             patches.blit(tortie_underfur, (0, 0))
                 
 
-            if tortie_pattern in ['BENGAL', 'MARBLED']:
+            if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 tortie_overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
                 tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4065,7 +4209,7 @@ def generate_sprite(
                 tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # uh...
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     tortie_mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
                     tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4087,7 +4231,7 @@ def generate_sprite(
 
                 tortie_markings.blit(tortie_mark_fade, (0, 0))
 
-                if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED']:
+                if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED', 'BRAIDED']:
                     tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     tortie_markings_inside_tint.fill(tortie_marking_inside)
 
@@ -4095,7 +4239,7 @@ def generate_sprite(
                     tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     # my eyes are dry - inside markings
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
                         tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                         tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
                         
@@ -4321,7 +4465,7 @@ def generate_sprite(
 
             back_wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-            if cat_marking in ['BENGAL', 'MARBLED']:
+            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                 b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4342,7 +4486,7 @@ def generate_sprite(
             back_wings.blit(b_w_underfur, (0, 0))
                 
 
-            if cat_marking in ['BENGAL', 'MARBLED']:
+            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                 b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4367,7 +4511,7 @@ def generate_sprite(
                 b_w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # uh...
-                if cat_marking in ['BENGAL', 'MARBLED']:
+                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4388,13 +4532,13 @@ def generate_sprite(
 
                 b_w_markings.blit(b_w_mark_fade, (0, 0))
 
-                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
 
                     b_w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
                     b_w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     # I hate how many times this needs done
-                    if cat_marking in ['BENGAL', 'MARBLED']:
+                    if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                         b_w_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                         b_w_markings_inside_fade.fill(marking_inside_fade)
 
@@ -4422,7 +4566,7 @@ def generate_sprite(
                 b_w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # uh...
-                if cat_marking in ['BENGAL', 'MARBLED']:
+                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4453,7 +4597,7 @@ def generate_sprite(
                 # draw base
                 b_w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
 
-                if tortie_pattern in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4476,7 +4620,7 @@ def generate_sprite(
                     b_w_patches.blit(b_w_tortie_underfur, (0, 0))
                     
 
-                if tortie_pattern in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                     b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4501,7 +4645,7 @@ def generate_sprite(
                     b_w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     # uh...
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
                         b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                         b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4523,7 +4667,7 @@ def generate_sprite(
 
                     b_w_tortie_markings.blit(b_w_tortie_mark_fade, (0, 0))
 
-                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
                         b_w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                         b_w_tortie_markings_inside_tint.fill(tortie_marking_inside)
 
@@ -4531,7 +4675,7 @@ def generate_sprite(
                         b_w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                         # marking inside for tortie
-                        if cat_marking in ['BENGAL', 'MARBLED']:
+                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                             b_w_tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                             b_w_tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
 
@@ -4559,7 +4703,7 @@ def generate_sprite(
                         b_w_bird_tortiemarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                         # uh...
-                        if cat_marking in ['BENGAL', 'MARBLED']:
+                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                             b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                             b_w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4580,13 +4724,13 @@ def generate_sprite(
 
                         b_w_bird_tortiemarkings.blit(b_w_bird_tortiemark_fade, (0, 0))
 
-                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
 
                             b_w_bird_tortiemarkings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
                             b_w_bird_tortiemarkings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                             # I hate how many times this needs done
-                            if cat_marking in ['BENGAL', 'MARBLED']:
+                            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                                 b_w_bird_tortiemarkings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                                 b_w_bird_tortiemarkings_inside_fade.fill(marking_inside_fade)
 
@@ -4833,7 +4977,7 @@ def generate_sprite(
 
             wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-            if cat_marking in ['BENGAL', 'MARBLED']:
+            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                 w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4854,7 +4998,7 @@ def generate_sprite(
             wings.blit(w_underfur, (0, 0))
                 
 
-            if cat_marking in ['BENGAL', 'MARBLED']:
+            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                 w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                 w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4879,7 +5023,7 @@ def generate_sprite(
                 w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # uh...
-                if cat_marking in ['BENGAL', 'MARBLED']:
+                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4900,13 +5044,13 @@ def generate_sprite(
 
                 w_markings.blit(w_mark_fade, (0, 0))
 
-                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
 
                     w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
                     w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     # I hate how many times this needs done
-                    if cat_marking in ['BENGAL', 'MARBLED']:
+                    if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                         w_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                         w_markings_inside_fade.fill(marking_inside_fade)
 
@@ -4934,7 +5078,7 @@ def generate_sprite(
                 w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                 # uh...
-                if cat_marking in ['BENGAL', 'MARBLED']:
+                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4965,7 +5109,7 @@ def generate_sprite(
                 # draw base
                 w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
 
-                if tortie_pattern in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                     w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -4988,7 +5132,7 @@ def generate_sprite(
                     w_patches.blit(w_tortie_underfur, (0, 0))
                     
 
-                if tortie_pattern in ['BENGAL', 'MARBLED']:
+                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
                     w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
                     w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -5013,7 +5157,7 @@ def generate_sprite(
                     w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                     # uh...
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED']:
+                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
                         w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                         w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -5035,7 +5179,7 @@ def generate_sprite(
 
                     w_tortie_markings.blit(w_tortie_mark_fade, (0, 0))
 
-                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
                         w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                         w_tortie_markings_inside_tint.fill(tortie_marking_inside)
 
@@ -5043,7 +5187,7 @@ def generate_sprite(
                         w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                         # marking inside for tortie
-                        if cat_marking in ['BENGAL', 'MARBLED']:
+                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                             w_tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                             w_tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
 
@@ -5071,7 +5215,7 @@ def generate_sprite(
                         w_bird_tortiemarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                         # uh...
-                        if cat_marking in ['BENGAL', 'MARBLED']:
+                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                             w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
                             w_bird_tortiemark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -5092,13 +5236,13 @@ def generate_sprite(
 
                         w_bird_tortiemarkings.blit(w_bird_tortiemark_fade, (0, 0))
 
-                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']:
+                        if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
 
                             w_bird_tortiemarkings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
                             w_bird_tortiemarkings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
                             # I hate how many times this needs done
-                            if cat_marking in ['BENGAL', 'MARBLED']:
+                            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
                                 w_bird_tortiemarkings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                                 w_bird_tortiemarkings_inside_fade.fill(marking_inside_fade)
 
