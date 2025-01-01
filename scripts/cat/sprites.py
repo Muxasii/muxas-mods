@@ -254,15 +254,15 @@ class Sprites:
 
         # markings
         for a, i in enumerate(
-                ['TABBY', 'MASKED', 'MACKEREL', 'AGOUTI', 'SPECKLED', 'CLASSIC', 'SOKOKE', 'SINGLESTRIPE', 'TICKED', 'MARBLED', 'BENGAL', 'SMOKE', 'ROSETTE', 'BRAIDED', 'PINSTRIPE', 'DUOTONE']):
+                ['TABBY', 'MASKED', 'MACKEREL', 'AGOUTI', 'SPECKLED', 'CLASSIC', 'SOKOKE', 'SINGLESTRIPE', 'TICKED', 'MARBLED', 'BENGAL', 'SMOKE', 'ROSETTE']):
             self.make_group('markings', (a, 0), f'markings{i}')
             self.make_group('markings', (a, 2), f'bird catmarkings{i}')
             self.make_group('markings', (a, 4), f'bat catmarkings{i}')
         for a, i in enumerate(
-                ['MASKED', 'SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']):
+                ['MASKED', 'SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']):
             self.make_group('markings', (a, 1), f'markinside{i}')
         for a, i in enumerate(
-                ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']):
+                ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE']):
             self.make_group('markings', (a, 3), f'bird catmarkinside{i}')
             self.make_group('markings', (a, 5), f'bat catmarkinside{i}')
         
