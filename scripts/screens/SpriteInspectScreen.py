@@ -454,6 +454,8 @@ class SpriteInspectScreen(Screens):
         self.platform_shown_text = None
         self.scars_shown_text.kill()
         self.scars_shown = None
+        self.wing_shown_text.kill()
+        self.wing_shown = None
         self.acc_shown_text.kill()
         self.acc_shown_text = None
         self.override_dead_lineart_text.kill()
