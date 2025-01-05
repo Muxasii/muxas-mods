@@ -4727,7 +4727,7 @@ def generate_sprite(
         #                                                                      #
         ########################################################################
 
-        if cat.species != "earth cat" and cat.wing_count == 2 and not cat.one_wing() and not wing_hidden:
+        if cat.species != "earth cat" and cat.wing_count == 2 and not cat.one_wing() and not cat.no_wings() and not wing_hidden:
             
             # draw base
             back_wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
@@ -5258,7 +5258,7 @@ def generate_sprite(
         #                                                                      #
         ########################################################################
 
-        if cat.species != "earth cat" and cat.wing_count != 0 and not wing_hidden:
+        if cat.species != "earth cat" and cat.wing_count != 0 and not cat.no_wings() and not wing_hidden:
             
             # draw base
             wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()

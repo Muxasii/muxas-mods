@@ -89,6 +89,7 @@
         "risks": [
             {
                 "name": "torn pelt",
+                "species": ["any"],
                 "chance": 20
             }
         ],
@@ -122,6 +123,7 @@
         "risks": [
             {
                 "name": "yellowcough",
+                "species": ["any"],
                 "chance": 60
             }
         ],
@@ -161,6 +163,7 @@
         "risks": [
             {
                 "name": "whitecough",
+                "species": ["any"],
                 "chance": 10
             }
         ],
@@ -200,6 +203,7 @@
         "risks": [
             {
                 "name": "a festering wound",
+                "species": ["any"],
                 "chance": 10
             }
         ],
@@ -302,6 +306,7 @@
         "risks": [
             {
                 "name": "whitecough",
+                "species": ["any"],
                 "chance": 15
             }
         ],
@@ -337,6 +342,7 @@
         "risks": [
             {
                 "name": "greencough",
+                "species": ["any"],
                 "chance": 18
             }
         ],
@@ -377,6 +383,7 @@
         "risks": [
             {
                 "name": "redcough",
+                "species": ["any"],
                 "chance": 80
             }
         ],
@@ -474,6 +481,7 @@
         "risks": [
             {
                 "name": "heat stroke",
+                "species": ["any"],
                 "chance": 5
             }
         ],
@@ -509,6 +517,7 @@
         "risks": [
             {
                 "name": "diarrhea",
+                "species": ["any"],
                 "chance": 8
             }
         ],
@@ -576,10 +585,12 @@
         "risks": [
             {
                 "name": "lasting grief",
+                "species": ["any"],
                 "chance": 100
             },
             {
                 "name": "constant nightmares",
+                "species": ["any"],
                 "chance": 15
             },
             {
@@ -590,6 +601,7 @@
             },
             {
                 "name": "fatigue",
+                "species": ["any"],
                 "chance": 10
 
             }
@@ -713,10 +725,12 @@
             },
             {
                 "name": "diarrhea",
+                "species": ["any"],
                 "chance": 10
             },
             {
                 "name": "fatigue",
+                "species": ["any"],
                 "chance": 10
             }
         ],

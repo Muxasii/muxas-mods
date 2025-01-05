@@ -2039,8 +2039,14 @@ class Cat:
 
         for condition in PERMANENT:
             possible = PERMANENT[condition]
+            print(f"""
+{condition}
+
+{possible}""")
             if possible["congenital"] in ["always", "sometimes"]:
-                possible_conditions.append(condition)
+                if cat.species in possible["species"] or "any" in possible["species"]:
+                    if cat.wing_count in possible["wing_count"] or "any" in possible["wing_count"]:
+                        possible_conditions.append(condition)
 
         new_condition = choice(possible_conditions)
 
@@ -2144,7 +2150,13 @@ class Cat:
         
     def one_wing(self):
         for permanent_condition in self.permanent_condition:
-            if self.injuries[permanent_condition]["name"] == "born with one wing":
+            if permanent_condition == "born with one wing":
+                return True
+        return False
+        
+    def no_wings(self):
+        for permanent_condition in self.permanent_condition:
+            if permanent_condition == "born with no wings":
                 return True
         return False
 
