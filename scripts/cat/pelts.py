@@ -373,30 +373,30 @@ class Pelt:
         try:
             par_diff = abs(par_wing_count[0] - par_wing_count[1]) # ensure it is a positive number
             if par_diff == 2: # earth cat x winged cat
-                weights = [75, 15]
+                weights = [75, 15, 1]
             elif par_diff == 1: # winged cat x winged cat with hereditary one wing
-                weights = [50, 5]
+                weights = [50, 5, 0]
             elif par_wing_count[0] == par_wing_count[1]: # 1 winged cat x 1 winged cat
-                weights = [60, 20]
+                weights = [60, 20, 5]
             elif par_diff == 0: # winged cat x winged cat with both 2 wings
-                weights = [200, 1] # extremely rare chance of hereditary one wing
+                weights = [200, 1, 0] # extremely rare chance of hereditary one wing
             else: # default if doesn't work)
-                weights = [90, 2]
+                weights = [90, 2, 0]
         except: # if there is only one parent (or none)
             if not par_wing_count:
                 selected = Pelt.randomize_wing_count(species)
                 return selected
             else:
                 if par_wing_count[0] == 2:
-                    weights = [200, 1] # extremely rare chance of hereditary one wing
+                    weights = [200, 1, 0] # extremely rare chance of hereditary one wing
                 elif par_wing_count[0] == 1:
-                    weights = [70, 50]
+                    weights = [70, 50, 1]
                 else:
-                    weights = [1, 1]
+                    weights = [1, 1, 0]
         
         if species != "earth cat":
             selected = choice(
-                random.choices([2, 1], weights=weights, k = 1)
+                random.choices([2, 1, 0], weights=weights, k = 1)
             )
             return selected
         else:
@@ -408,7 +408,7 @@ class Pelt:
             chosen_count = 0
         else:
             chosen_count = choice(
-            random.choices([2, 1], weights=[90, 2], k = 1)
+            random.choices([2, 1, 0], weights=[90, 2, 0], k = 1)
             )
         return chosen_count
     
@@ -423,7 +423,7 @@ class Pelt:
                     chosen_count = 0
                 else:
                     chosen_count = choice(
-                random.choices([2, 1], weights=[90, 2], k = 1)
+                random.choices([2, 1, 0], weights=[90, 2, 0], k = 1)
             )
                 if chosen_count == 1:
                     print("One wing!")

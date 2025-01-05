@@ -2039,14 +2039,16 @@ class Cat:
 
         for condition in PERMANENT:
             possible = PERMANENT[condition]
-            print(f"""
-{condition}
-
-{possible}""")
             if possible["congenital"] in ["always", "sometimes"]:
-                if cat.species in possible["species"] or "any" in possible["species"]:
-                    if cat.wing_count in possible["wing_count"] or "any" in possible["wing_count"]:
-                        possible_conditions.append(condition)
+                if "species" in possible:
+                    if cat.species in possible["species"]:
+                        if "wing_count" in possible:
+                            if cat.wing_count in possible["wing_count"]:
+                                possible_conditions.append(condition)
+                        else:
+                            possible_conditions.append(condition)
+                else:
+                    possible_conditions.append(condition)
 
         new_condition = choice(possible_conditions)
 

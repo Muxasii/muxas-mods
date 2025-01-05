@@ -128,6 +128,11 @@
             "Just flew for the first time!",
             "Is gliding around camp"
         ],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_wing_c_constraint": [2]
     },

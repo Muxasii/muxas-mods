@@ -264,6 +264,23 @@ class Thoughts:
                             return False
                     else:
                         return False
+
+            if "perm_conditions_restraints" in thought:
+                if "m_c" in thought["perm_conditions_restraints"]:
+                    if main_cat.permanent_condition:
+                        if [i for i in main_cat.permanent_condition if
+                                i in thought["perm_conditions_restraints"]["m_c"]]:
+                            return False
+                    else:
+                        return False
+
+                if "r_c" in thought["perm_conditions_restraints"] and random_cat:
+                    if random_cat.permanent_condition:
+                        if [i for i in random_cat.permanent_condition if
+                                i in thought["perm_conditions_restraints"]["r_c"]]:
+                            return False
+                    else:
+                        return False
         
         if "perm_conditions" in thought:
             if "m_c" in thought["perm_conditions"]:
@@ -277,6 +294,23 @@ class Thoughts:
                     if not [i for i in random_cat.permanent_condition if i in thought["perm_conditions"]["r_c"]] and \
                             "any" not in thought['perm_conditions']["r_c"]:
                         return False
+
+        if "perm_conditions_restraints" in thought:
+            if "m_c" in thought["perm_conditions_restraints"]:
+                if main_cat.permanent_condition:
+                    if [i for i in main_cat.permanent_condition if
+                            i in thought["perm_conditions_restraints"]["m_c"]]:
+                        return False
+                else:
+                    return False
+
+            if "r_c" in thought["perm_conditions_restraints"] and random_cat:
+                if random_cat.permanent_condition:
+                    if [i for i in random_cat.permanent_condition if
+                            i in thought["perm_conditions_restraints"]["r_c"]]:
+                        return False
+                else:
+                    return False
 
         return True
 

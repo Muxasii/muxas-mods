@@ -4998,6 +4998,11 @@
         ],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_wing_c_constraint": [2],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],
@@ -5014,6 +5019,11 @@
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_status_constraint": ["apprentice", "deputy", "elder", "leader", "mediator apprentice", "mediator", "medicine cat apprentice", "medicine cat apprentice", "medicine cat", "warrior"],
         "main_wing_c_constraint": [2],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],
@@ -5030,6 +5040,11 @@
         "main_trait_constraint": ["troublesome"],
         "main_species_constraint": ["bird cat", "bat cat"],
         "main_wing_c_constraint": [2],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],
@@ -5044,6 +5059,11 @@
         ],
         "main_trait_constraint": ["compassionate"],
         "main_species_constraint": ["bird cat", "bat cat"],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],
@@ -5061,6 +5081,11 @@
         "main_wing_c_constraint": [2],
         "random_species_constraint": ["bird cat", "bat cat"],
         "random_status_constraint": ["kitten"],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "random_winged_c_constraint": [2],
         "main_living_status": [
             "living"
@@ -5079,6 +5104,11 @@
         "main_wing_c_constraint": [2],
         "random_species_constraint": ["earth cat"],
         "random_status_constraint": ["kitten"],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],
@@ -5140,6 +5170,11 @@
             "Is sleeping hanging upside down"
         ],
         "main_species_constraint": ["bat cat"],
+        "perm_conditions_restraints": {
+            "m_c": [
+                "born with no wings", "born with small wings"
+            ]
+        },
         "main_living_status": [
             "living"
         ],

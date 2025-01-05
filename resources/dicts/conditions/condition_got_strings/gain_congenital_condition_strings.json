@@ -64,12 +64,16 @@
         "r_c notices with some concern that any time m_c opens {PRONOUN/m_c/poss} eyes, {PRONOUN/m_c/subject} {VERB/m_c/mewl/mewls} incessantly and {VERB/m_c/try/tries} to wriggle into the darkest corners of the medicine cat den. r_c suspects {PRONOUN/m_c/subject} may have chronic headaches.",
         "Rather than go outside in the bright sunlight to play with {PRONOUN/m_c/poss} littermates, m_c prefers to huddle by {PRONOUN/m_c/self} in the dark and quiet of the medicine cat den, {PRONOUN/m_c/poss} head hurting too much to move."
     ],
-    "one wing": [
+    "born with one wing": [
         "m_c is looked over by r_c, who states that m_c was simply born without a wing and is in good health.",
         "It's clear that m_c will never be able to fly like the other winged cats - being born with only a singular wing. However, this will not stop m_c from having a happy and healthy life."
     ],
-    "no wings": [
+    "born with no wings": [
         "m_c is looked over by r_c, who states that m_c was simply born without wings and is in good health.",
         "It's clear that m_c will never be able to fly - being born without a pair of wings unlike {PRONOUN/m_c/poss} family. However, this will not stop m_c from having a happy and healthy life."
+    ],
+    "born with small wings": [
+        "m_c is looked over by r_c, who states that m_c was simply born with smaller wings than the other winged cats and is in good health.",
+        "r_c notices that m_c's wings are not growing like they should, being significantly smaller in size compared to normal. However, this will not stop m_c from having a happy and healthy life."
     ]
 }
