@@ -49,6 +49,7 @@ class Patrol:
 
         self.patrol_statuses = {}
         self.patrol_status_list = []
+        self.patrol_species = {}
 
         # Holds new cats for easy access
         self.new_cats: List[List[Cat]] = []
@@ -142,6 +143,11 @@ class Patrol:
                 self.patrol_statuses[cat.status] += 1
             else:
                 self.patrol_statuses[cat.status] = 1
+
+            if cat.species in self.patrol_species:
+                self.patrol_species[cat.species] += 1
+            else:
+                self.patrol_species[cat.species] = 1
 
             # Combined patrol_statuses catagories
             if cat.status in ("medicine cat", "medicine cat apprentice"):
@@ -535,6 +541,18 @@ class Patrol:
                     continue
 
                 if not (num[0] <= self.patrol_statuses.get(sta, -1) <= num[1]):
+                    flag = True
+                    break
+            if flag:
+                continue
+
+            flag = False
+            for sta, num in patrol.min_max_species.items():
+                if len(num) != 2:
+                    print(f"Issue with status limits: {patrol.patrol_id}")
+                    continue
+
+                if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
                     flag = True
                     break
             if flag:

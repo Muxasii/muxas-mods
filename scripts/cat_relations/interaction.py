@@ -18,6 +18,12 @@ class SingleInteraction:
         backstory_constraint=None,
         main_status_constraint=None,
         random_status_constraint=None,
+        main_species_constraint=None,
+        random_species_constraint=None,
+        main_wing_count_constraint=None,
+        random_wing_count_constraint=None,
+        main_perma_con_restraint=None,
+        random_perma_con_restraint=None,
         main_trait_constraint=None,
         random_trait_constraint=None,
         main_skill_constraint=None,
@@ -48,6 +54,24 @@ class SingleInteraction:
         )
         self.random_status_constraint = (
             random_status_constraint if random_status_constraint else []
+        )
+        self.main_species_constraint = (
+            main_species_constraint if main_species_constraint else []
+        )
+        self.random_species_constraint = (
+            random_species_constraint if random_species_constraint else []
+        )
+        self.main_wing_count_constraint = (
+            main_wing_count_constraint if main_wing_count_constraint else []
+        )
+        self.random_wing_count_constraint = (
+            random_wing_count_constraint if random_species_constraint else []
+        )
+        self.main_perma_con_restraint = (
+            main_perma_con_restraint if random_wing_count_constraint else []
+        )
+        self.random_perma_con_restraint = (
+            random_perma_con_restraint if random_perma_con_restraint else []
         )
         self.main_trait_constraint = (
             main_trait_constraint if main_trait_constraint else []
@@ -248,6 +272,38 @@ def cats_fulfill_single_interaction_constraints(
 
     if len(interaction.random_trait_constraint) >= 1:
         if random_cat.personality.trait not in interaction.random_trait_constraint:
+            return False
+
+    if len(interaction.main_species_constraint) >= 1:
+        if main_cat.species not in interaction.main_species_constraint:
+            return False
+
+    if len(interaction.random_species_constraint) >= 1:
+        if random_cat.species not in interaction.random_species_constraint:
+            return False
+
+    if len(interaction.main_wing_count_constraint) >= 1:
+        if main_cat.wing_count not in interaction.main_wing_count_constraint:
+            return False
+
+    if len(interaction.random_wing_count_constraint) >= 1:
+        if random_cat.wing_count not in interaction.random_wing_count_constraint:
+            return False
+
+    if len(interaction.main_perma_con_constraint) >= 1:
+        if main_cat.permanent_condition:
+            if [i for i in main_cat.permanent_condition if
+                    i in interaction.main_perma_con_constraint]:
+                return False
+        else:
+            return False
+
+    if len(interaction.random_perma_con_constraint) >= 1:
+        if random_cat.permanent_condition:
+            if [i for i in random_cat.permanent_condition if
+                    i in interaction.random_perma_con_constraint]:
+                return False
+        else:
             return False
 
     if len(interaction.main_skill_constraint) >= 1:
