@@ -758,19 +758,25 @@ class ProfileScreen(Screens):
         output += "\n"
 
         # SPECIES
-        output += str(the_cat.species)
-        # NEWLINE ----------
-        output += "\n"
-
+        output += f"{the_cat.species}, "
+        # WING TYPE
+        if the_cat.species == "bird cat":
+            wing_shape_out = the_cat.pelt.wing_shape + " "
+        else:
+            wing_shape_out = ""
         # WING COUNT
-        output += str(the_cat.wing_count)
-        if the_cat.wing_count is 1:
-            output += " wing"
-        else: 
-            output += " wings"
+        if "born without wings" in the_cat.permanent_condition:
+            output += "0 wings"
+        elif "born without a wing" in the_cat.permanent_condition:
+            output += "1 wing"
+        else:
+            output += str(the_cat.wing_count)
+            if the_cat.wing_count is 1:
+                output += f" {wing_shape_out}wing"
+            else: 
+                output += f" {wing_shape_out}wings"
         # NEWLINE ----------
         output += "\n"
-
 
         # AGE
         if the_cat.age == "kitten":
@@ -787,22 +793,24 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
+        # CAT SIZE
+        output += f"size: {the_cat.pelt.size}"
+        # NEWLINE ----------
+        output += "\n"
+
+
         # PELT TYPE
         output += "pelt: " + the_cat.pelt.name.lower()
         # NEWLINE ----------
         output += "\n"
 
-        # PELT LENGTH
-        output += "fur length: " + the_cat.pelt.length
+        # FUR
+        output += f"fur: {the_cat.pelt.length}, {the_cat.pelt.fur} {the_cat.pelt.fur_texture} fur"
         # NEWLINE ----------
+        output += "\n"
 
-        # ACCESSORY
-        if the_cat.pelt.accessory:
-            output += "\n"
-            output += "accessory: " + str(
-                ACC_DISPLAY[the_cat.pelt.accessory]["default"]
-            )
-            # NEWLINE ----------
+        # SCENT
+        output += f"scent: {the_cat.pelt.scent}"
 
         # PARENTS
         all_parents = [Cat.fetch_cat(i) for i in the_cat.get_parents()]
@@ -1004,6 +1012,14 @@ class ProfileScreen(Screens):
         output += f"backstory: {bs_text}"
         # NEWLINE ----------
         output += "\n"
+
+        # ACCESSORY
+        if the_cat.pelt.accessory:
+            output += "accessory: " + str(
+                ACC_DISPLAY[the_cat.pelt.accessory]["default"]
+            )
+            # NEWLINE ----------
+            output += "\n"
 
         # NUTRITION INFO (if the game is in the correct mode)
         if (

@@ -32,6 +32,20 @@ class Pelt:
 
     species = ['bird cat', 'earth cat']
 
+    extra_traits_dict = {
+    "wing_shape": ["elliptical", "high-speed", "hovering", "passive soaring", "active soaring"],
+
+    "cat_size": ["tiny", "short", "small", "average", "tall", "large", "massive"],
+
+    "scent": ["flowers", "poppies", "lilies", "rocks", "dirt", "mud", "fish", "salt", "lavendar", "catnip", "twolegs", "cobwebs", "crowfood", "rain", "snow", "frost", "cold air", "mist", "wood", "trees", "leaves", "grass", "corn", "smoke", "ash", "fire", "dog", "mildew", "eggs", "tar", "fog", "hot air", "citrus", "vanilla", "lemongrass", "blood", "honey", "milk", "eucalyptus", "pine needles", "oranges", "apples", "berries", "popcorn", "cinnamon", "oregano", "sage", "nutmeg", "orange blossom", "honeysuckle", "peaches", "jasmine", "grapefruit", "daffodils", "apricot", "cardamom", "bread", "gravel", "dust", "cheese", "raw chicken", "forests", "tomatoes", "marinara sauce", "chocolate", "lilies", "lint", "paint", "cat food", "hamburgers", "beef", "paprika", "rosemary", "cilantro", "sulfur", "cat breath", "mustard", "mayonnaise", "steel", "metal", "copper", "static electricity", "wires", "oil", "plastic", "toothpaste", "sugar", "clay", "sand", "butter", "toast", "feathers", "lettuce", "onions", "garlic", "violets", "clover", "cherries", "soybeans", "sweet peas", "black pepper", "paper", "olives", "olive oil", "gravy"],
+
+    "body_type": ["average", "stocky", "lithe", "slender", "petite", "lanky", "delicate", "dainty", "ample", "plump", "muscular", "frail", "round"],
+
+    "fur": ["well-kept", "messy", "well-kept", "groomed", "scraggly", "untidy", "sleek", "shaggy", "tangled", "wild", "sloppy", "well-groomed", "tidy", "neat", "stylish", "lustrous", "well-maintained"],
+
+    "fur_texture": ["coarse", "smooth", "soft", "feathery", "thin", "thick", "wiry", "double coated", "fine", "prickly", "rough", "sleek", "silky"]
+    }
+
     bird_wing_marks = ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', 'NONE']
 
     mane_marks_list = ['NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']
@@ -223,6 +237,12 @@ class Pelt:
                  adult_sprite: int = None,
                  senior_sprite: int = None,
                  para_adult_sprite: int = None,
+                 size: str = None,
+                 wing_shape: str = None,
+                 scent: str = None,
+                 body_type: str = None,
+                 fur: str = None,
+                 fur_texture: str = None,
                  reverse: bool = False,
                  ) -> None:
         self.name = name
@@ -263,6 +283,14 @@ class Pelt:
             "sick adult": 18,
             "sick_young": 19
         }
+
+        # extra traits
+        self.size = size
+        self.wing_shape = wing_shape
+        self.scent = scent
+        self.body_type = body_type
+        self.fur = fur
+        self.fur_texture = fur_texture
         
         self.reverse = reverse
         self.skin = skin
@@ -280,6 +308,7 @@ class Pelt:
         new_pelt.init_eyes(parents)
         new_pelt.init_pattern()
         new_pelt.init_tint()
+        new_pelt.init_extra_traits(parents)
 
         return new_pelt
 
@@ -430,7 +459,74 @@ class Pelt:
                 return chosen_count
         else:
             return self.wing_count
+
+            
+    def init_extra_traits(self, parents:tuple=()):
+        if parents:
+            Pelt.extra_traits_inheritance(self, parents)
+        else:
+            Pelt.randomize_extra_traits(self)
         
+    def randomize_extra_traits(self):
+        self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=[20, 15, 5, 25, 5])[0]
+        self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=[1, 3, 5, 20, 5, 3, 1])[0]
+
+        self.body_type = random.choice(Pelt.extra_traits_dict["body_type"])
+        self.fur_texture = random.choice(Pelt.extra_traits_dict["fur_texture"])
+
+        self.fur = random.choice(Pelt.extra_traits_dict["fur"])
+        self.scent = random.choice(Pelt.extra_traits_dict["scent"])
+
+    def extra_traits_inheritance(self, parents):
+        par_fur_texture = []
+        par_body_type = []
+        par_size = []
+
+        # init base weights
+        wing_shape_weights = [20, 15, 5, 25, 5]
+        cat_size_weights = [1, 3, 5, 20, 5, 3, 1]
+        
+        # append parent traits
+        for p in parents:
+            par_fur_texture.append(p.fur_texture)
+            par_size.append(p.size)
+            par_body_type.append(p.par_body_type)
+
+            if p.wing_shape == "elliptical":
+                wing_shape_weights += [20, 0, 0, 5, 0]
+            elif p.wing_shape == "high-speed":
+                wing_shape_weights += [0, 20, 0, 10, 0]
+            elif p.wing_shape == "hovering":
+                wing_shape_weights += [0, 0, 20, 0, 0]
+            elif p.wing_shape == "passive soaring":
+                wing_shape_weights += [5, 0, 0, 20, 10]
+            elif p.wing_shape == "active soaring":
+                wing_shape_weights += [0, 0, 0, 10, 20]
+
+            if p.size == "tiny":
+                cat_size_weights += [10, 5, 3, 5, 0, 0, 0]
+            elif p.size == "short":
+                cat_size_weights += [2, 10, 3, 10, 1, 0, 0]
+            elif p.size == "small":
+                cat_size_weights += [1, 3, 10, 15, 1, 1, 0]
+            elif p.size == "average":
+                cat_size_weights += [0, 1, 5, 20, 5, 1, 0]
+            elif p.size == "tall":
+                cat_size_weights += [0, 1, 3, 15, 10, 3, 1]
+            elif p.size == "large":
+                cat_size_weights += [0, 1, 1, 10, 3, 10, 2]
+            elif p.size == "massive":
+                cat_size_weights += [0, 0, 0, 5, 3, 3, 10]
+            
+
+        self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
+        self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
+        self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
+        self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
+
+        self.fur = random.choice(Pelt.extra_traits_dict["fur"])
+        self.scent = random.choice(Pelt.extra_traits_dict["scent"])
+    
     def check_and_convert(self, convert_dict):
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
@@ -443,6 +539,10 @@ class Pelt:
 
         if self.wing_count is None:
             self.wing_count = Pelt.init_wing_count(self)
+
+        # Extra traits - just checking one since if one is none then the rest need regenerated
+        if self.wing_shape is None:
+            Pelt.init_extra_traits(self)
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':

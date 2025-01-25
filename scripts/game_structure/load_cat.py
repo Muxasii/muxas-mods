@@ -135,6 +135,12 @@ def json_load():
                 tint=cat["tint"] if "tint" in cat else "none",
                 scars=cat["scars"] if "scars" in cat else [],
                 accessory=cat["accessory"],
+                wing_shape=cat["extra_traits"]["wing_shape"] if "extra_traits" in cat else None,
+                scent=cat["extra_traits"]["scent"] if "extra_traits" in cat else None,
+                size=cat["extra_traits"]["size"] if "extra_traits" in cat else None,
+                fur=cat["extra_traits"]["fur"] if "extra_traits" in cat else None,
+                fur_texture=cat["extra_traits"]["fur_texture"] if "extra_traits" in cat else None,
+                body_type=cat["extra_traits"]["body_type"] if "extra_traits" in cat else None,
                 opacity=cat["opacity"] if "opacity" in cat else 100,
             )
             
@@ -143,7 +149,7 @@ def json_load():
 
             # Runs a bunch of apperence-related convertion of old stuff. 
             new_cat.pelt.check_and_convert(convert)
-            
+
 
              # converting old specialty saves into new scar parameter
             if "specialty" in cat or "specialty2" in cat:

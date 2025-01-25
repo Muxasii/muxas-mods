@@ -3498,6 +3498,7 @@ class Cat:
                 "skill_dict": self.skills.get_skill_dict(),
                 "scars": self.pelt.scars or [],
                 "accessory": self.pelt.accessory,
+                "extra_traits": self.get_extra_traits_dict(),
                 "experience": self.experience,
                 "dead_moons": self.dead_for,
                 "current_apprentice": list(self.apprentice),
@@ -3509,6 +3510,17 @@ class Cat:
                 "prevent_fading": self.prevent_fading,
                 "favourite": self.favourite,
             }
+        
+    def get_extra_traits_dict(self):
+        """obtain the extra traits."""
+        return {
+            "size": self.pelt.size,
+            "wing_shape": self.pelt.wing_shape,
+            "scent": self.pelt.scent,
+            "body_type": self.pelt.body_type,
+            "fur": self.pelt.fur,
+            "fur_texture": self.pelt.fur_texture,
+        }
 
     def determine_next_and_previous_cats(self, status: List[str] = None, exclude_status: List[str] = None):
         """Determines where the next and previous buttons point to, relative to this cat.

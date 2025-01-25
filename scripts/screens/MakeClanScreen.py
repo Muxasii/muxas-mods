@@ -1096,14 +1096,16 @@ class MakeClanScreen(Screens):
                 )
             else:
                 self.elements["cat_name"].set_text(str(selected.name))
+            wing_display = " wing" if selected.wing_count == 1 else " wings"
             self.elements["cat_name"].show()
             self.elements["cat_info"].set_text(
                 selected.genderalign
                 + "\n"
                 + str(
-                    selected.species
-                    + "\n"
+                    selected.species 
+                    + ", " 
                     + str(selected.wing_count)
+                    + wing_display
                     + "\n"
                     + str(selected.age)
                     + "\n"
