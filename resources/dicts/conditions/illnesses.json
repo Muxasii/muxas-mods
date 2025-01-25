@@ -90,6 +90,7 @@
             {
                 "name": "torn pelt",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 20
             }
         ],
@@ -124,6 +125,7 @@
             {
                 "name": "yellowcough",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 60
             }
         ],
@@ -164,6 +166,7 @@
             {
                 "name": "whitecough",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 10
             }
         ],
@@ -204,6 +207,7 @@
             {
                 "name": "a festering wound",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 10
             }
         ],
@@ -307,6 +311,7 @@
             {
                 "name": "whitecough",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 15
             }
         ],
@@ -343,6 +348,7 @@
             {
                 "name": "greencough",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 18
             }
         ],
@@ -384,6 +390,7 @@
             {
                 "name": "redcough",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 80
             }
         ],
@@ -482,6 +489,7 @@
             {
                 "name": "heat stroke",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 5
             }
         ],
@@ -518,6 +526,7 @@
             {
                 "name": "diarrhea",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 8
             }
         ],
@@ -586,22 +595,26 @@
             {
                 "name": "lasting grief",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 100
             },
             {
                 "name": "constant nightmares",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 15
             },
             {
                 "name": "feather loss",
                 "species": ["bird cat"],
+                "wing_count": ["any"],
                 "chance": 5
 
             },
             {
                 "name": "fatigue",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 10
 
             }
@@ -721,16 +734,19 @@
             {
                 "name": "feather loss",
                 "species": ["bird cat"],
+                "wing_count": ["any"],
                 "chance": 20
             },
             {
                 "name": "diarrhea",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 10
             },
             {
                 "name": "fatigue",
                 "species": ["any"],
+                "wing_count": ["any"],
                 "chance": 10
             }
         ],

@@ -93,5 +93,8 @@
         "m_c's paws no longer feel heavy, and {PRONOUN/m_c/subject} feel much more alert and awake now.",
         "m_c woke up no longer feeling fatigued."
     ],
-    "feathercough": []
+    "feathercough": [
+        "m_c has recovered from feathercough.",
+        "m_c no longer has feathercough.",
+        "m_c's feathercough is gone."]
 }

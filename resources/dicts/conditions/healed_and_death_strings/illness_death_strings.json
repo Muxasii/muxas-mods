@@ -63,5 +63,10 @@
         "m_c's body couldn't continue on without nourishment, and {PRONOUN/m_c/subject} never woke up from {PRONOUN/m_c/poss} sleep.",
         "m_c finally succumbed to starvation.",
         "Frail and exhausted from the lack of food, m_c died of starvation."
-    ]
+    ],
+    "feathercough": [
+        "m_c died of feathercough.",
+        "m_c was killed by feathercough.",
+        "Feathercough killed m_c.",
+        "Feathercough has taken m_c's life."]
 }

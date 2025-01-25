@@ -36,16 +36,19 @@
         "risks": [
             {
                 "name": "an infected wound",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 70
             },
             {
                 "name": "phantom pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -75,11 +78,13 @@
         "risks": [
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 40
             }
@@ -109,16 +114,19 @@
         "risks": [
             {
                 "name": "discomfort",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 40
             }
@@ -190,11 +198,13 @@
         "risks": [
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 40
             }
@@ -224,11 +234,13 @@
         "risks": [
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 40
             }
@@ -258,11 +270,13 @@
         "risks": [
             {
                 "name": "an infected wound",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 70
             },
             {
                 "name": "phantom pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 10
             }
@@ -309,21 +323,25 @@
         "risks": [
             {
                 "name": "an infected wound",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 60
             },
             {
                 "name": "torn pelt",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 30
             },
             {
                 "name": "sore",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -353,6 +371,7 @@
         "risks": [
             {
                 "name": "whitecough",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -400,21 +419,25 @@
         "risks": [
             {
                 "name": "running nose",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 10
             },
             {
                 "name": "yellowcough",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 50
             },
             {
                 "name": "redcough",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 60
             },
             {
                 "name": "fatigue",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -460,6 +483,7 @@
         ],
         "risks": [{
                 "name": "failing eyesight",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 80
             }
@@ -484,6 +508,7 @@
         "risks": [
             {
                 "name": "blind",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 50
             }
@@ -508,6 +533,7 @@
         "risks": [
             {
                 "name": "deaf",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 80
             }
@@ -551,6 +577,7 @@
         "risks": [
             {
                 "name": "joint pain",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 10
             }
@@ -580,6 +607,7 @@
         "risks": [
             {
                 "name": "seizure",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 10
             }
@@ -607,6 +635,7 @@
         "risks": [
             {
                 "name": "running nose",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -631,6 +660,7 @@
         "risks": [
             {
                 "name": "headache",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -655,11 +685,13 @@
         "risks": [
             {
                 "name": "constant nightmares",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "fatigue",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -688,11 +720,13 @@
         "risks": [
             {
                 "name": "grief stricken",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 50
             },
             {
                 "name": "fatigue",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
@@ -721,11 +755,13 @@
         "risks": [
             {
                 "name": "severe headache",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "headache",
+                "wing_count": ["any"],
                 "species": ["any"],
                 "chance": 20
             }
