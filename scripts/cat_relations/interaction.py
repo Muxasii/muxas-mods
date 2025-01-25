@@ -65,10 +65,10 @@ class SingleInteraction:
             main_wing_count_constraint if main_wing_count_constraint else []
         )
         self.random_wing_count_constraint = (
-            random_wing_count_constraint if random_species_constraint else []
+            random_wing_count_constraint if random_wing_count_constraint else []
         )
         self.main_perma_con_restraint = (
-            main_perma_con_restraint if random_wing_count_constraint else []
+            main_perma_con_restraint if main_perma_con_restraint else []
         )
         self.random_perma_con_restraint = (
             random_perma_con_restraint if random_perma_con_restraint else []
