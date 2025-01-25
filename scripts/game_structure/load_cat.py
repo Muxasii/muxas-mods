@@ -147,8 +147,13 @@ def json_load():
             if "newborn_sprite" in cat:
                 newborn_sprite = cat["newborn_sprite"]
 
+            if None in [new_cat.pelt.wing_shape, new_cat.pelt.scent, new_cat.pelt.size, new_cat.pelt.fur, new_cat.pelt.fur_texture, new_cat.pelt.body_type]:
+                extra_traits = False
+            else:
+                extra_traits = True
+
             # Runs a bunch of apperence-related convertion of old stuff. 
-            new_cat.pelt.check_and_convert(convert)
+            new_cat.pelt.check_and_convert(convert, extra_traits)
 
 
              # converting old specialty saves into new scar parameter

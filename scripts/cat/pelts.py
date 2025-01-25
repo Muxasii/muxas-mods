@@ -465,17 +465,18 @@ class Pelt:
         if parents:
             Pelt.extra_traits_inheritance(self, parents)
         else:
-            Pelt.randomize_extra_traits(self)
-        
-    def randomize_extra_traits(self):
-        self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=[20, 15, 5, 25, 5])[0]
-        self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=[1, 3, 5, 20, 5, 3, 1])[0]
-
-        self.body_type = random.choice(Pelt.extra_traits_dict["body_type"])
-        self.fur_texture = random.choice(Pelt.extra_traits_dict["fur_texture"])
-
-        self.fur = random.choice(Pelt.extra_traits_dict["fur"])
-        self.scent = random.choice(Pelt.extra_traits_dict["scent"])
+            if self.wing_shape is None:
+                self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=[20, 15, 5, 25, 5])[0]
+            if self.size is None:
+                self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=[1, 3, 5, 20, 5, 3, 1])[0]
+            if self.body_type is None:
+                self.body_type = random.choice(Pelt.extra_traits_dict["body_type"])
+            if self.fur_texture is None:
+                self.fur_texture = random.choice(Pelt.extra_traits_dict["fur_texture"])
+            if self.fur is None:
+                self.fur = random.choice(Pelt.extra_traits_dict["fur"])
+            if self.scent is None:
+                self.scent = random.choice(Pelt.extra_traits_dict["scent"])
 
     def extra_traits_inheritance(self, parents):
         par_fur_texture = []
@@ -518,16 +519,20 @@ class Pelt:
             elif p.size == "massive":
                 cat_size_weights += [0, 0, 0, 5, 3, 3, 10]
             
-
-        self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
-        self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
-        self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
-        self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
-
-        self.fur = random.choice(Pelt.extra_traits_dict["fur"])
-        self.scent = random.choice(Pelt.extra_traits_dict["scent"])
+        if self.wing_shape is None:
+            self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
+        if self.size is None:
+            self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
+        if self.body_type is None:
+            self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
+        if self.fur_texture is None:
+            self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
+        if self.fur is None:
+            self.fur = random.choice(Pelt.extra_traits_dict["fur"])
+        if self.scent is None:
+            self.scent = random.choice(Pelt.extra_traits_dict["scent"])
     
-    def check_and_convert(self, convert_dict):
+    def check_and_convert(self, convert_dict, extra_traits):
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         
@@ -540,8 +545,8 @@ class Pelt:
         if self.wing_count is None:
             self.wing_count = Pelt.init_wing_count(self)
 
-        # Extra traits - just checking one since if one is none then the rest need regenerated
-        if self.wing_shape is None:
+        # Extra traits
+        if not extra_traits:
             Pelt.init_extra_traits(self)
 
         # First, convert from some old names that may be in white_patches. 
