@@ -24,6 +24,8 @@ class SingleInteraction:
         random_wing_count_constraint=None,
         main_perma_con_restraint=None,
         random_perma_con_restraint=None,
+        main_perma_con_constraint=None,
+        random_perma_con_constraint=None,
         main_trait_constraint=None,
         random_trait_constraint=None,
         main_skill_constraint=None,
