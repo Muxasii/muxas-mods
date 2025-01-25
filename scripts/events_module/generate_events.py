@@ -421,6 +421,16 @@ class GenerateEvents:
                     ):
                         continue
 
+                # check species
+                if "species" in event.m_c:
+                    if cat.species not in event.m_c["species"]:
+                        continue
+
+                # check wing count
+                if "wing_count" in event.m_c:
+                    if cat.wing_count not in event.m_c["wing_count"]:
+                        continue
+
                 # check cat trait and skill
                 if (
                     int(random.random() * trait_skill_bypass) or prevent_bypass
@@ -511,6 +521,16 @@ class GenerateEvents:
                         filter_types=event.r_c["relationship_status"],
                         event_id=event.event_id,
                     ):
+                        continue
+
+                # check species
+                if "species" in event.r_c:
+                    if random_cat.species not in event.r_c["species"]:
+                        continue
+
+                # check wing count
+                if "wing_count" in event.r_c:
+                    if random_cat.wing_count not in event.r_c["wing_count"]:
                         continue
 
                 # check cat trait and skill
