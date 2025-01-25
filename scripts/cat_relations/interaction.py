@@ -67,6 +67,12 @@ class SingleInteraction:
         self.random_wing_count_constraint = (
             random_wing_count_constraint if random_wing_count_constraint else []
         )
+        self.main_perma_con_constraint = (
+            main_perma_con_constraint if main_perma_con_constraint else []
+        )
+        self.random_perma_con_constraint = (
+            random_perma_con_constraint if random_perma_con_constraint else []
+        )
         self.main_perma_con_restraint = (
             main_perma_con_restraint if main_perma_con_restraint else []
         )
@@ -293,7 +299,7 @@ def cats_fulfill_single_interaction_constraints(
     if len(interaction.main_perma_con_constraint) >= 1:
         if main_cat.permanent_condition:
             if [i for i in main_cat.permanent_condition if
-                    i in interaction.main_perma_con_constraint]:
+                    i not in interaction.main_perma_con_constraint]:
                 return False
         else:
             return False
@@ -301,7 +307,23 @@ def cats_fulfill_single_interaction_constraints(
     if len(interaction.random_perma_con_constraint) >= 1:
         if random_cat.permanent_condition:
             if [i for i in random_cat.permanent_condition if
-                    i in interaction.random_perma_con_constraint]:
+                    i not in interaction.random_perma_con_constraint]:
+                return False
+        else:
+            return False
+
+    if len(interaction.main_perma_con_restraint) >= 1:
+        if main_cat.permanent_condition:
+            if [i for i in main_cat.permanent_condition if
+                    i in interaction.main_perma_con_restraint]:
+                return False
+        else:
+            return False
+
+    if len(interaction.random_perma_con_restraint) >= 1:
+        if random_cat.permanent_condition:
+            if [i for i in random_cat.permanent_condition if
+                    i in interaction.random_perma_con_restraint]:
                 return False
         else:
             return False
