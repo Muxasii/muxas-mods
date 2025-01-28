@@ -78,7 +78,8 @@ class Pelt:
                       'CHEST', 'ARMTAIL', 'SMOKE', 'GRUMPYFACE',
                       'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
-                   'classic', 'sokoke', 'agouti', 'singlestripe', 'masked']
+                   'classic', 'sokoke', 'agouti', 'singlestripe', 'masked',
+                   'braided', 'duotone', 'pinstripe']
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
@@ -134,7 +135,7 @@ class Pelt:
     tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette", "Pinstripe"]
     plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
-    exotic = ["Bengal", "Marbled", "Masked", "Braided"]
+    exotic = ["Bengal", "Marbled", "Masked", "Braided", "Duotone"]
     torties = ["Tortie", "Calico"]
     # bird = ["Owl", "Corvid", "Fowl", "Cardinal", "Falcon"]
     # birdexotic = ["Parrot", "Paradise", "Mythical"]
@@ -400,17 +401,18 @@ class Pelt:
                     par_wing_count.append(p.wing_count)
         
         try:
-            par_diff = abs(par_wing_count[0] - par_wing_count[1]) # ensure it is a positive number
-            if par_diff == 2: # earth cat x winged cat
-                weights = [75, 15, 1]
-            elif par_diff == 1: # winged cat x winged cat with hereditary one wing
-                weights = [50, 5, 0]
-            elif par_wing_count[0] == par_wing_count[1]: # 1 winged cat x 1 winged cat
-                weights = [60, 20, 5]
-            elif par_diff == 0: # winged cat x winged cat with both 2 wings
-                weights = [200, 1, 0] # extremely rare chance of hereditary one wing
-            else: # default if doesn't work)
-                weights = [90, 2, 0]
+            if (par_wing_count[0] == 2 and par_wing_count[1] == 2):
+                weights = [200, 1, 0] # extremely rare chance of hereditary one wing - 2 wing x 2 wing
+            elif (par_wing_count[0] == 2 and par_wing_count[1] == 1) or (par_wing_count[1] == 2 and par_wing_count[0] == 1):
+                weights = [50, 10, 0] # winged cat x winged cat 1 wing
+            elif (par_wing_count[0] == 2 and par_wing_count[1] == 0) or (par_wing_count[1] == 2 and par_wing_count[0] == 0):
+                weights = [95, 35, 1] # earth cat/0 wing x winged cat
+            elif (par_wing_count[0] == 1 and par_wing_count[1] == 1):
+                weights = [60, 70, 5] # 1 winged cat x 1 winged cat
+            elif (par_wing_count[0] == 1 and par_wing_count[1] == 0) or (par_wing_count[1] == 1 and par_wing_count[0] == 0):
+                weights = [20, 80, 5] # 1 winged cat x 0 winged
+            else:
+                weights = [0, 1, 120] # 0 wing x 0 wing
         except: # if there is only one parent (or none)
             if not par_wing_count:
                 selected = Pelt.randomize_wing_count(species)
@@ -421,7 +423,7 @@ class Pelt:
                 elif par_wing_count[0] == 1:
                     weights = [70, 50, 1]
                 else:
-                    weights = [1, 1, 0]
+                    weights = [0, 1, 120]
         
         if species != "earth cat":
             selected = choice(
@@ -462,11 +464,12 @@ class Pelt:
 
             
     def init_extra_traits(self, parents:tuple=()):
+        print(parents)
         if parents:
             Pelt.extra_traits_inheritance(self, parents)
         else:
             if self.wing_shape is None:
-                self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=[20, 15, 5, 25, 5])[0]
+                self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=[20, 15, 1, 25, 5])[0]
             if self.size is None:
                 self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=[1, 3, 5, 20, 5, 3, 1])[0]
             if self.body_type is None:
@@ -478,59 +481,61 @@ class Pelt:
             if self.scent is None:
                 self.scent = random.choice(Pelt.extra_traits_dict["scent"])
 
-    def extra_traits_inheritance(self, parents):
+    def extra_traits_inheritance(self, parents:tuple=()):
         par_fur_texture = []
         par_body_type = []
         par_size = []
+        add_weights = []
 
         # init base weights
-        wing_shape_weights = [20, 15, 5, 25, 5]
-        cat_size_weights = [1, 3, 5, 20, 5, 3, 1]
+        wing_shape_weights = [5, 3, 1, 5, 1]
+        cat_size_weights = [1, 3, 5, 10, 5, 3, 1]
         
         # append parent traits
         for p in parents:
-            par_fur_texture.append(p.fur_texture)
-            par_size.append(p.size)
-            par_body_type.append(p.par_body_type)
+            par_fur_texture.append(p.pelt.fur_texture)
+            par_size.append(p.pelt.size)
+            par_body_type.append(p.pelt.body_type)
 
-            if p.wing_shape == "elliptical":
-                wing_shape_weights += [20, 0, 0, 5, 0]
-            elif p.wing_shape == "high-speed":
-                wing_shape_weights += [0, 20, 0, 10, 0]
-            elif p.wing_shape == "hovering":
-                wing_shape_weights += [0, 0, 20, 0, 0]
-            elif p.wing_shape == "passive soaring":
-                wing_shape_weights += [5, 0, 0, 20, 10]
-            elif p.wing_shape == "active soaring":
-                wing_shape_weights += [0, 0, 0, 10, 20]
+            if p.pelt.wing_shape == "elliptical":
+                add_weights = [25, 0, 0, 5, 0]
+            elif p.pelt.wing_shape == "high-speed":
+                add_weights = [0, 25, 0, 5, 0]
+            elif p.pelt.wing_shape == "hovering":
+                add_weights = [0, 0, 20, 0, 0]
+            elif p.pelt.wing_shape == "passive soaring":
+                add_weights = [5, 0, 0, 25, 1]
+            elif p.pelt.wing_shape == "active soaring":
+                add_weights = [1, 0, 0, 5, 25]
 
-            if p.size == "tiny":
-                cat_size_weights += [10, 5, 3, 5, 0, 0, 0]
-            elif p.size == "short":
-                cat_size_weights += [2, 10, 3, 10, 1, 0, 0]
-            elif p.size == "small":
-                cat_size_weights += [1, 3, 10, 15, 1, 1, 0]
-            elif p.size == "average":
-                cat_size_weights += [0, 1, 5, 20, 5, 1, 0]
-            elif p.size == "tall":
-                cat_size_weights += [0, 1, 3, 15, 10, 3, 1]
-            elif p.size == "large":
-                cat_size_weights += [0, 1, 1, 10, 3, 10, 2]
-            elif p.size == "massive":
-                cat_size_weights += [0, 0, 0, 5, 3, 3, 10]
+            for x in range(0, len(wing_shape_weights)):
+                wing_shape_weights[x] += add_weights[x]
+
+            if p.pelt.size == "tiny":
+                add_weights = [10, 5, 3, 5, 0, 0, 0]
+            elif p.pelt.size == "short":
+                add_weights = [2, 10, 3, 10, 1, 0, 0]
+            elif p.pelt.size == "small":
+                add_weights = [1, 3, 10, 15, 1, 1, 0]
+            elif p.pelt.size == "average":
+                add_weights = [0, 1, 5, 20, 5, 1, 0]
+            elif p.pelt.size == "tall":
+                add_weights = [0, 1, 3, 15, 10, 3, 1]
+            elif p.pelt.size == "large":
+                add_weights = [0, 1, 1, 10, 3, 10, 2]
+            elif p.pelt.size == "massive":
+                add_weights = [0, 0, 0, 5, 3, 3, 10]
+
+            for x in range(0, len(cat_size_weights)):
+                cat_size_weights[x] += add_weights[x]
             
-        if self.wing_shape is None:
-            self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
-        if self.size is None:
-            self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
-        if self.body_type is None:
-            self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
-        if self.fur_texture is None:
-            self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
-        if self.fur is None:
-            self.fur = random.choice(Pelt.extra_traits_dict["fur"])
-        if self.scent is None:
-            self.scent = random.choice(Pelt.extra_traits_dict["scent"])
+        print(wing_shape_weights)
+        self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
+        self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
+        self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
+        self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
+        self.fur = random.choice(Pelt.extra_traits_dict["fur"])
+        self.scent = random.choice(Pelt.extra_traits_dict["scent"])
     
     def check_and_convert(self, convert_dict, extra_traits):
         """Checks for old-type properties for the appearance-related properties

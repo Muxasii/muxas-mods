@@ -63,6 +63,7 @@ def json_load():
                         gender=cat["gender"],
                         species=cat["species"] if "species" in cat else None,
                         wing_count=cat["wing_count"] if "wing_count" in cat else None,
+                        display_wing_cat=cat["display_wing_count"] if "display_wing_cat" in cat else None,
                         status=cat["status"],
                         parent1=cat["parent1"],
                         parent2=cat["parent2"],
@@ -143,9 +144,6 @@ def json_load():
                 body_type=cat["extra_traits"]["body_type"] if "extra_traits" in cat else None,
                 opacity=cat["opacity"] if "opacity" in cat else 100,
             )
-            
-            if "newborn_sprite" in cat:
-                newborn_sprite = cat["newborn_sprite"]
 
             if None in [new_cat.pelt.wing_shape, new_cat.pelt.scent, new_cat.pelt.size, new_cat.pelt.fur, new_cat.pelt.fur_texture, new_cat.pelt.body_type]:
                 extra_traits = False
@@ -154,7 +152,6 @@ def json_load():
 
             # Runs a bunch of apperence-related convertion of old stuff. 
             new_cat.pelt.check_and_convert(convert, extra_traits)
-
 
              # converting old specialty saves into new scar parameter
             if "specialty" in cat or "specialty2" in cat:
@@ -278,6 +275,16 @@ def json_load():
         elif "paralyzed" in cat.permanent_condition and not cat.pelt.paralyzed:
             cat.pelt.paralyzed = True
 
+        # set display wing count
+        if cat.display_wing_count is None:
+            if "lost a wing" in cat.permanent_condition or "born with one wing" in cat.permanent_condition:
+                cat.display_wing_count = 1
+            elif "lost their wings" in cat.permanent_condition or "born with no wings"in cat.permanent_condition:
+                cat.display_wing_count = 0
+            else:
+                cat.display_wing_count = cat.wing_count
+
+            
         # load the relationships
         try:
             if not cat.dead:

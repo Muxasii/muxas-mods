@@ -201,5 +201,23 @@
             "r_c informs m_c that {PRONOUN/m_c/poss} healed broken wing has left {PRONOUN/m_c/poss} wing permanently weakened.",
             "m_c finds that {PRONOUN/m_c/subject} flaps are not as powerful as they used to be, despite having healed from {PRONOUN/m_c/poss} broken wing. r_c tells {PRONOUN/m_c/object} it's likely permanent."
         ]
+    },
+    "mangled wing": {
+        "weak wing": [
+            "r_c informs m_c that {PRONOUN/m_c/poss} healed mangled wing has left {PRONOUN/m_c/poss} wing permanently weakened.",
+            "m_c finds that movement with {PRONOUN/m_c/poss} wing is straining, even if the wing had completely healed."
+        ],
+        "lost a wing": [
+            "It is painful, but it is necessary. r_c removes m_c's mangled wing because the damage was far too great.",
+            "m_c buries {PRONOUN/m_c/poss} wing with the support of r_c. Even if the burial provides {PRONOUN/m_c/object} closure, life will still no longer be the same.",
+            "m_c recovered from {PRONOUN/m_c/poss} mangled wing but at the cost of losing it.",
+            "m_c wakes up missing {PRONOUN/m_c/poss} wing. r_c breaks the news to {PRONOUN/m_c/subject} that the wing had been far too damaged and had to be removed."
+        ],
+        "lost their wings": [
+            "It is unfortunate, but it has to be done. r_c informs m_c that {PRONOUN/m_c/poss} wings have to be removed because the damage is far too great. m_c is distraught by this news, but eventually {PRONOUN/m_c/subject} accepts the reality of the situation.",
+            "The damage is far too great, r_c prepared poppy seeds to knock out m_c to remove {PRONOUN/m_c/poss} mangled wings.",
+            "m_c wakes up without either of {PRONOUN/m_c/poss} wings. r_c breaks the news that {PRONOUN/m_c/subject} had to remove m_c's wings. The wings were mangled, sure, but m_c was confident that {PRONOUN/m_c/poss} wings would heal properly. It was for the best, even if m_c would never be able to fly again.",
+            "m_c has healed from {PRONOUN/m_c/poss} mangled wings, but {PRONOUN/m_c/poss} wings had to be removed entirely."
+        ]
     }
 }

@@ -564,14 +564,8 @@ class PatrolOutcome:
 
                 # check species constraints
                 for pos_injury in possible_injuries:
-                    if pos_injury in SPECIES_CONDITIONS["any"]:
-                        sel_injuries.append(pos_injury)
-
-                if _cat.species in ["bird cat", "bat cat", "bug cat"]:
-                    for pos_injury in possible_injuries:
-                        if pos_injury in SPECIES_CONDITIONS["winged"]:
-                            sel_injuries.append(pos_injury)
-                        if pos_injury in SPECIES_CONDITIONS[_cat.species]:
+                    if "species" in pos_injury and "wing_count" in pos_injury:
+                        if _cat.species in pos_injury["species"] and _cat.wing_count in pos_injury["wing_count"]:
                             sel_injuries.append(pos_injury)
 
                 old_injuries = list(_cat.injuries.keys())

@@ -458,6 +458,8 @@ class Condition_Events:
             "recurring shock",
             "lasting grief",
             "persistent headaches",
+            "lost a wing",
+            "lost their wings"
         ]
 
         got_condition = False
@@ -476,7 +478,11 @@ class Condition_Events:
                         ]
                         for x in conditions:
                             if x in scarless_conditions:
-                                possible_conditions.append(x)
+                                if "species" in Condition_Events.PERMANENT and "wing_count" in Condition_Events.PERMANENT:
+                                    if cat.species in Condition_Events.PERMANENT[x]["species"] and cat.display_wing_count in Condition_Events.PERMANENT[x]["wing_count"]:
+                                        possible_conditions.append(x)
+                                else:
+                                    possible_conditions.append(x)
                         if len(possible_conditions) > 0 and not int(
                             random.random()
                             * game.config["condition_related"][

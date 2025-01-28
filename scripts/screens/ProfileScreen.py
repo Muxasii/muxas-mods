@@ -765,16 +765,11 @@ class ProfileScreen(Screens):
         else:
             wing_shape_out = ""
         # WING COUNT
-        if "born without wings" in the_cat.permanent_condition:
-            output += "0 wings"
-        elif "born without a wing" in the_cat.permanent_condition:
-            output += "1 wing"
-        else:
-            output += str(the_cat.wing_count)
-            if the_cat.wing_count is 1:
-                output += f" {wing_shape_out}wing"
-            else: 
-                output += f" {wing_shape_out}wings"
+        output += str(the_cat.display_wing_count)
+        if the_cat.display_wing_count == 1:
+            output += f" {wing_shape_out}wing"
+        else: 
+            output += f" {wing_shape_out}wings"
         # NEWLINE ----------
         output += "\n"
 

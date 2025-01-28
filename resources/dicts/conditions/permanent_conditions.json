@@ -160,6 +160,82 @@
         "wing_count": [2, 1],
         "species": ["bird cat", "bat cat"]
     },
+    "lost a wing": {
+        "severity": "major",
+        "congenital": "never",
+        "moons_until": 0,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [
+            {
+                "name": "discomfort",
+                "wing_count": [2],
+                "species": ["any"],
+                "chance": 20
+            },
+            {
+                "name": "an infected wound",
+                "wing_count": ["any"],
+                "species": ["any"],
+                "chance": 70
+            },
+            {
+                "name": "phantom pain",
+                "wing_count": ["any"],
+                "species": ["any"],
+                "chance": 10
+            }
+        ],
+        "risks": [],
+        "herbs": [],
+        "wing_count": [2, 1],
+        "species": ["bird cat", "bat cat"]
+    },
+    "lost their wings": {
+        "severity": "major",
+        "congenital": "never",
+        "moons_until": 0,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [
+            {
+                "name": "discomfort",
+                "wing_count": [2],
+                "species": ["any"],
+                "chance": 20
+            },
+            {
+                "name": "an infected wound",
+                "wing_count": ["any"],
+                "species": ["any"],
+                "chance": 70
+            },
+            {
+                "name": "phantom pain",
+                "wing_count": ["any"],
+                "species": ["any"],
+                "chance": 10
+            }
+        ],
+        "risks": [],
+        "herbs": [],
+        "wing_count": [2],
+        "species": ["bird cat", "bat cat"]
+    },
     "born with one wing": {
         "severity": "major",
         "congenital": "always",

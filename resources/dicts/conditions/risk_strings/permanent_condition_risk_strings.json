@@ -56,6 +56,29 @@
             "m_c can't understand how an appendage that isn't there can possibly itch so badly, but it's driving {PRONOUN/m_c/object} insane."
         ]
     },
+    "lost their wing": {
+        "an infected wound": [
+            "r_c took m_c aside to apply a herbal salve despite m_c's protests - the stump where m_c's wing had been reeked of infection.",
+            "As if losing a wing wasn't hard enough, m_c woke up one feeling fire rippling beneath {PRONOUN/m_c/poss} pelt. m_c trudges on through the day, but there is clearly something very wrong.",
+            "The stump where m_c's wing used to be has become infected."
+        ],
+        "phantom pain": [
+            "m_c has been spending the entire day grooming {PRONOUN/m_c/self} to alleviate the pain where {PRONOUN/m_c/poss} wing had been - even if the wing is no longer there.",
+            "m_c knows that {PRONOUN/m_c/poss} wing is gone, but the pain is so intense where the wing had once been.",
+            "m_c can't understand how an appendage that isn't there can possibly itch so badly, but it's driving {PRONOUN/m_c/object} insane."
+        ]
+    },
+    "lost their wings": {
+        "an infected wound": [
+            "An overwhelming warmth radiates from where m_c's wings had been... Something is not right.",
+            "r_c has been noticing a stench emanating from m_c, which {PRONOUN/r_c/subject} swiftly took m_c aside to apply healing salves to the infected stumps.",
+            "The stumps where m_c's wings used to be have become infected."
+        ],
+        "phantom pain": [
+            "r_c can't give m_c answers - {PRONOUN/m_c/poss} wings are gone, and yet the pain in them remain.",
+            "m_c can't understand how an appendage that isn't there can possibly itch so badly, but it's driving {PRONOUN/m_c/object} insane."
+        ]
+    },
     "paralyzed": {
         "an infected wound": [
             "r_c brings m_c into the medicine cat den and starts searching - the sick stink of infection is coming from {PRONOUN/m_c/object}, but m_c hasn't noticed anything that could cause it.",
