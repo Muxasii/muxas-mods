@@ -548,7 +548,10 @@ class Pelt:
             print("self.species returned with None. Report.")
 
         if self.wing_count is None:
-            self.wing_count = Pelt.init_wing_count(self)
+            if self.species in ["bird cat", "bat cat"]:
+                self.wing_count = 2
+            else:
+                self.wing_count = 0
 
         # Extra traits
         if not extra_traits:
