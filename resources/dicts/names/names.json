@@ -369,9 +369,7 @@
     "ROSEWOOD": ["Poppy", "Rose", "Tulip", "Blossom", "Cosmos", "Rose", "Pale", "Wood", "Lotus", "Red", "Berry"],
     "GREENYELLOW": ["Green", "Yellow", "Tawny", "Hazel", "Gold", "Daisy", "Sand", "Sandy", "Weed"],
     "SILVER": ["Gray", "Stone", "Silver", "Silver", "Moon", "Rain", "Storm", "Pale", "Light"],
-    "GLASS": ["White", "Crystal", "Silver", "Heather", "Rain", "River", "Pale", "Water", "Pale", "Light"],
-    "CRYSTAL": ["Lilac", "Ice", "Icy", "Dusk", "Crystal", "Silver", "Moon", "Rain", "River", "Water", "Pale", "Light"],
-    "DUST": ["Gray", "Stone", "Silver", "Silver", "Moon", "Rain", "Storm", "Pale", "Light", "Dust", "Pebble"]
+    "ORANGE": ["Amber", "Sun", "Fire", "Honey", "Flame", "Blaze", "Pumpkin", "Red", "Ember", "Orange"]
   },
 
   "loner_names": [
