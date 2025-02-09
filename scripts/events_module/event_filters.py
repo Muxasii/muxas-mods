@@ -231,6 +231,8 @@ def event_for_cat(cat_info: dict, cat, cat_group: list = None, event_id: str = N
         "age": _check_cat_age(cat, cat_info.get("age", [])),
         "status": _check_cat_status(cat, cat_info.get("status", [])),
         "trait": _check_cat_trait(cat, cat_info.get("trait", []), cat_info.get("not_trait", [])),
+        "species": _check_cat_species(cat, cat_info.get("species", [])),
+        "wing_count": _check_cat_wing_count(cat, cat_info.get("wing_count", [])),
         "skills": _check_cat_skills(cat, cat_info.get("skill", []), cat_info.get("not_skill", [])),
         "backstory": _check_cat_backstory(cat, cat_info.get("backstory", [])),
         "gender": _check_cat_gender(cat, cat_info.get("gender", []))
@@ -274,6 +276,23 @@ def _check_cat_status(cat, statuses: list) -> bool:
 
     return False
 
+def _check_cat_species(cat, species: list) -> bool:
+    if "any" in species or not species:
+        return True
+
+    if cat.species in species:
+        return True
+    
+    return False
+
+def _check_cat_wing_count(cat, wing_count: list) -> bool:
+    if "any" in wing_count or not wing_count:
+        return True
+
+    if cat.wing_count in wing_count:
+        return True
+    
+    return False
 
 def _check_cat_trait(cat, traits: list, not_traits: list) -> bool:
     """
