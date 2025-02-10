@@ -345,6 +345,7 @@ class Thoughts:
                         ]
                         and "any" not in thought["perm_conditions_restraints"]["m_c"]
                     ):
+                        return True
                 else:
                     return False
 
@@ -358,6 +359,7 @@ class Thoughts:
                         ]
                         and "any" not in thought["perm_conditions_restraints"]["r_c"]
                     ):
+                        return True
                 else:
                     return False
 

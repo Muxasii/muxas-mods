@@ -807,6 +807,7 @@ class HandleShortEvents:
 
         # adjust entire herb store
         if supply_type == "all_herb":
+            print(herb_supply.entire_supply.copy())
             for herb, count in herb_supply.entire_supply.copy():
                 herb_list.append(herb)
                 if adjustment == "reduce_full":

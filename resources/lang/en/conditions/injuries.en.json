@@ -39,6 +39,13 @@
         "bee sting": "bee sting",
         "headache": "headache",
         "severe headache": "severe headache",
-        "pregnant": "pregnant"
+        "pregnant": "pregnant",
+        "torn membrane": "torn membrane",
+        "mangled wings": "mangled wings",
+        "broken wing": "broken wing",
+        "sprained wing": "sprained wing",
+        "feather loss": "feather loss",
+        "discomfort": "discomfort",
+        "clipped wings": "clipped wings"
     }
 }

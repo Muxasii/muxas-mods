@@ -209,13 +209,13 @@ class SpriteInspectScreen(Screens):
         )
         self.override_dead_lineart_text = pygame_gui.elements.UITextBox(
             "screens.sprite_inspect.show_living",
-            ui_scale(pygame.Rect((250, 630), (-1, 50))),
+            ui_scale(pygame.Rect((150, 630), (-1, 50))),
             object_id=get_text_box_theme("#text_box_34_horizcenter"),
             starting_height=2,
         )
         self.override_not_working_text = pygame_gui.elements.UITextBox(
             "screens.sprite_inspect.show_healthy",
-            ui_scale(pygame.Rect((450, 630), (-1, 100))),
+            ui_scale(pygame.Rect((350, 630), (-1, 100))),
             object_id=get_text_box_theme("#text_box_34_horizcenter"),
             starting_height=2,
         )

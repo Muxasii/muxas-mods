@@ -77,6 +77,54 @@
             "one": "brown",
             "many": "dark brown"
         },
+        "PALECREAM": {
+            "one": "ginger",
+            "many": "pale ginger"
+        },
+        "GLASS": {
+            "one": "white",
+            "many": "white"
+        },
+        "ASH": {
+            "one": "black",
+            "many": "dark brown"
+        },
+        "LAVENDER": {
+            "one": "gray",
+            "many": "gray"
+        },
+        "BEIGE": {
+            "one": "golden",
+            "many": "pale golden"
+        },
+        "DUST": {
+            "one": "gray",
+            "many": "pale gray"
+        },
+        "DARKLAVENDER": {
+            "one": "gray",
+            "many": "dark gray"
+        },
+        "SUNSET": {
+            "one": "ginger",
+            "many": "light ginger"
+        },
+        "OLDLILAC": {
+            "one": "gray",
+            "many": "dark gray"
+        },
+        "COPPER": {
+            "one": "golden",
+            "many": "dark golden"
+        },
+        "GHOSTBROWN": {
+            "one": "brown",
+            "many": "dark brown"
+        },
+        "GHOSTRED": {
+            "one": "ginger",
+            "many": "dark ginger"
+        },
         "SingleColour": "single color",
         "SingleColour_long": "%{color}",
         "TwoColour": "two color",
@@ -97,6 +145,7 @@
         "Mackerel_long": "%{color} tabby",
         "Classic": "classic",
         "Classic_long": "%{color} tabby",
+        "classic_long": "%{color} tabby",
         "Agouti": "agouti",
         "Agouti_long": "%{color} tabby",
         "Singlestripe": "single-striped",
@@ -105,12 +154,19 @@
         "Rosette_long": "unusually spotted %{color}",
         "Sokoke": "Sokoke",
         "Sokoke_long": "%{color} tabby",
+        "sokoke_long": "%{color} tabby",
         "Masked": "Masked",
         "Masked_long": "masked %{color} tabby",
         "Calico": "calico",
         "Calico_tabby": "calico tabby",
         "Tortie": "tortie",
         "Tortie_tabby": "tortie tabby",
+        "Pinstripe": "pinstripe",
+        "Pinstripe_long": "unusually spotted %{color}",
+        "Braided": "braided",
+        "Braided_long": "unusually striped %{color}",
+        "Duotone": "duotone",
+        "Duotone_long": "unusual %{color} smoke",
         "mottled": "mottled",
         "mottled_long": "%{color} mottled",
         "point": "%{color} point",

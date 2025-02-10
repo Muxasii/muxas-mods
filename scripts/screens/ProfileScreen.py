@@ -730,8 +730,8 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
-        # CAT SIZE
-        output += f"size: {the_cat.pelt.size}"
+        # BUILD
+        output += f"build: {the_cat.pelt.size}, {the_cat.pelt.body_type}"
         # NEWLINE ----------
         output += "\n"
 
@@ -745,12 +745,11 @@ class ProfileScreen(Screens):
         output += "\n"
 
         # FUR
-        output += f"fur: {the_cat.pelt.length}, " 
         output += i18n.t(
                     "screens.profile.fur_label",
                     length=i18n.t(f"cat.pelts.fur_{the_cat.pelt.length}"),
                 )
-        output += f" {the_cat.pelt.fur_texture} fur"
+        output += f", {the_cat.pelt.fur} {the_cat.pelt.fur_texture} fur"
         # NEWLINE ----------
         output += "\n"
 
@@ -941,6 +940,8 @@ class ProfileScreen(Screens):
                 accessory=adjust_list_text(
                     [i18n.t(f"cat.accessories.{acc}", count=0) for acc in the_cat.pelt.accessory])
             )
+            # NEWLINE ----------
+            output += "\n"
 
         # NUTRITION INFO (if the game is in the correct mode)
         if (

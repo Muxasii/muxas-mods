@@ -29,7 +29,7 @@
         "leader_ceremony": "Leader Ceremony",
         "eyes_label": "eyes: %{eyes}",
         "pelt_label": "pelt: %{pelt}",
-        "fur_label": "fur length: %{length}",
+        "fur_label": "fur: %{length}",
         "accessory_label": "accessory: %{accessory}",
         "parent_label": {
             "one": "parent: %{parents}",

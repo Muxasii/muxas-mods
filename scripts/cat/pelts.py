@@ -88,13 +88,13 @@ class Pelt:
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
                    'PALEBLUE',
-                   'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW',
+                   'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW', 'ORANGE',
                    'BRONZE', 'SILVER', 
                    'DUST', 'PEBBLE', 
                    'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM',
                    'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC',
                    'LAVENDER', 'PLUM', 'VIOLET']
-    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER']
+    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER', 'ORANGE']
     blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
     green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL', 'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM']
     purple_eyes = ['GLASS', 'INDIGO', 'LAVENDER', 'PLUM', 'VIOLET', 'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC']
@@ -694,13 +694,13 @@ class Pelt:
                         species_list.append("bat cat")
                         weight.append(game.config["species_generation"]["bat"])
                 else:
-                    if game.clan.clan_settings['earth_gen_clan']:
+                    if game.clan.clan_settings['earth_gen__clan']:
                         species_list.append("earth cat")
                         weight.append(game.config["species_generation"]["earth"])
-                    if game.clan.clan_settings['bird_gen_clan']:
+                    if game.clan.clan_settings['bird_gen__clan']:
                         species_list.append("bird cat")
                         weight.append(game.config["species_generation"]["bird"])
-                    if game.clan.clan_settings['bat_gen_clan']:
+                    if game.clan.clan_settings['bat_gen__clan']:
                         species_list.append("bat cat")
                         weight.append(game.config["species_generation"]["bat"])
             except:
@@ -826,7 +826,6 @@ class Pelt:
 
             
     def init_extra_traits(self, parents:tuple=()):
-        print(parents)
         if parents:
             Pelt.extra_traits_inheritance(self, parents)
         else:
@@ -891,11 +890,10 @@ class Pelt:
             for x in range(0, len(cat_size_weights)):
                 cat_size_weights[x] += add_weights[x]
             
-        print(wing_shape_weights)
         self.wing_shape = random.choices(Pelt.extra_traits_dict["wing_shape"], weights=wing_shape_weights)[0]
         self.size = random.choices(Pelt.extra_traits_dict["cat_size"], weights=cat_size_weights)[0]
         self.body_type = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["body_type"])
-        self.fur_texture = random.choice(par_body_type * 20 + Pelt.extra_traits_dict["fur_texture"])
+        self.fur_texture = random.choice(par_fur_texture * 20 + Pelt.extra_traits_dict["fur_texture"])
         self.fur = random.choice(Pelt.extra_traits_dict["fur"])
         self.scent = random.choice(Pelt.extra_traits_dict["scent"])
     

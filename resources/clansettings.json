@@ -25,17 +25,17 @@
             "Automatically save every five moons.",
             false
         ],
-        "bird_gen_clan": [
+        "bird_gen__clan": [
             "Generate bird cats",
             "This will override the game settings.",
             true
         ],
-        "earth_gen_clan": [
+        "earth_gen__clan": [
             "Generate earth cats",
             "This will override the game settings.",
             true
         ],
-        "bat_gen_clan": [
+        "bat_gen__clan": [
             "Generate bat cats",
             "This will override the game settings.",
             true

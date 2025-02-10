@@ -46,6 +46,19 @@
             "m_c just wants to stay very still and quiet, resting as {PRONOUN/m_c/subject} {VERB/m_c/wait/waits} for the joint pain in {PRONOUN/m_c/poss} twisted leg to die down."
         ]
     },
+    "born with small wings": {
+        "discomfort": [
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/subject} were unable to get {PRONOUN/m_c/self} to safely. {PRONOUN/m_c/subject} {VERB/m_c/have/has} been a little on edge ever since."
+        ],
+        "sore": [
+            "m_c probably over-exerted {PRONOUN/m_c/self}, {PRONOUN/m_c/poss} wings aching as a result.",
+            "m_c's wings are feeling particularly sore this moon."
+        ],
+        "joint pain": [
+            "m_c's wings are feeling the strain from the small size of them. Looks like m_c has to rest {PRONOUN/m_c/poss} wings for a couple of days.",
+            "m_c spends the morning with r_c, who helps {PRONOUN/m_c/object} with a paste on {PRONOUN/m_c/poss} joints that'll reduce {PRONOUN/m_c/poss} pain."
+        ]
+    },
     "lost their tail": {
         "an infected wound": [
             "r_c drags m_c into the medicine cat den to apply a herbal salve despite m_c's protests - {PRONOUN/r_c/subject}{VERB/r_c/'ve/'s} begun to smell infection in the tail stump.",
@@ -57,6 +70,10 @@
         ]
     },
     "lost their wing": {
+        "discomfort": [
+            "m_c finds that the world feels... larger, and unsettling, without {PRONOUN/m_c/poss} wing.",
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/object} had to fly away but was unable to, safe to say m_c is frazzled by the incident."
+        ],
         "an infected wound": [
             "r_c took m_c aside to apply a herbal salve despite m_c's protests - the stump where m_c's wing had been reeked of infection.",
             "As if losing a wing wasn't hard enough, m_c woke up one feeling fire rippling beneath {PRONOUN/m_c/poss} pelt. m_c trudges on through the day, but there is clearly something very wrong.",
@@ -69,6 +86,10 @@
         ]
     },
     "lost their wings": {
+        "discomfort": [
+            "m_c finds that the world feels... larger, and unsettling, without {PRONOUN/m_c/poss} wings.",
+            "m_c found {PRONOUN/m_c/self} in a situation where {PRONOUN/m_c/object} had to fly away but was unable to, safe to say m_c is frazzled by the incident."
+        ],
         "an infected wound": [
             "An overwhelming warmth radiates from where m_c's wings had been... Something is not right.",
             "r_c has been noticing a stench emanating from m_c, which {PRONOUN/r_c/subject} swiftly took m_c aside to apply healing salves to the infected stumps.",

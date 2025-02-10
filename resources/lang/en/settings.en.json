@@ -1,5 +1,17 @@
 {
     "en": {
+        "bat_gen": "Generate bat cats",
+        "bat_gen_tooltip": "Generate bat cats",
+        "bird_gen": "Generate bird cats",
+        "bird_gen_tooltip": "Disable this if you do not want bird cats.",
+        "earth_gen": "Generate earth cats",
+        "earth_gen_tooltip": "Disable this if you do not want earth cats.",
+        "bat_gen__clan": "Generate bat cats",
+        "bat_gen__clan_tooltip": "Generate bat cats",
+        "bird_gen__clan": "Generate bird cats",
+        "bird_gen__clan_tooltip": "Disable this if you do not want bird cats.",
+        "earth_gen__clan": "Generate earth cats",
+        "earth_gen__clan_tooltip": "Disable this if you do not want earth cats.",
         "dark mode": "Dark mode",
         "dark mode_tooltip": "Camp backgrounds will match with the mode: nighttime for dark mode and daytime for light mode.",
         "fullscreen scaling": "Ignore fullscreen scaling rules",

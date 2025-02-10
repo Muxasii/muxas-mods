@@ -21,6 +21,23 @@
         "GREENYELLOW": "green-yellow",
         "BRONZE": "bronze",
         "SILVER": "silver",
-		"ORANGE": "orange"
+		"ORANGE": "orange",
+        "INDIGO": "lilac",
+        "GLASS": "glass",
+		"ICE": "ice",
+        "PEBBLE": "pebble",
+		"OBSIDIAN": "obsidian",
+        "DARKHAZEL": "dark hazel",
+        "OLIVE": "olive",
+		"SEAFOAM": "seafoam",
+        "SALMON": "salmon",
+        "CRYSTAL": "crystal",
+		"ROSEWOOD": "rosewood",
+        "LILAC": "lilac",
+        "LAVENDER": "lavender",
+		"PLUM": "plum",
+		"VIOLET": "violet",
+		"DUST": "dust",
+		"HONEY": "honey"
     }
 }

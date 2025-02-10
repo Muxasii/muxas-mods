@@ -115,8 +115,6 @@ class Sprites:
             pass
         elif width / 3 == height / 8:
             self.size = width / 3
-            print(f"{width} x {height}")
-            print(f"{self.size}")
         else:
             self.size = 50  # default, what base clangen uses
             print(f"lineart.png is not 3x7, falling back to {self.size}")

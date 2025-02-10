@@ -126,19 +126,19 @@
         "risks": [
             {
                 "name": "discomfort",
-                "wing_count": ["any"],
+                "wing_count": [2],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "sore",
-                "wing_count": ["any"],
+                "wing_count": ["2"],
                 "species": ["any"],
                 "chance": 20
             },
             {
                 "name": "joint pain",
-                "wing_count": ["any"],
+                "wing_count": ["2"],
                 "species": ["any"],
                 "chance": 40
             }
@@ -195,7 +195,7 @@
         "illness_infectiousness": [
             {
                 "name": "discomfort",
-                "wing_count": [2],
+                "wing_count": [1],
                 "species": ["any"],
                 "chance": 20
             },
@@ -241,7 +241,8 @@
         "illness_infectiousness": [
             {
                 "name": "discomfort",
-                "wing_count": [2],
+                "wing_count": [0],
+                "gen_wing_count": [2],
                 "species": ["any"],
                 "chance": 20
             },
