@@ -4508,7 +4508,7 @@ def generate_sprite(
 
                 if tortie_marking_fade_over:
                     tortie_mark_fade_over_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tortie_mark_fade_over_tint.fill(tortie_mark_fade_over_tint)
+                    tortie_mark_fade_over_tint.fill(tortie_marking_fade_over)
 
                 tortie_markings = sprites.sprites['markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
                 tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
