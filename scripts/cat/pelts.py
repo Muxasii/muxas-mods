@@ -2039,7 +2039,7 @@ class Pelt:
 
 def _describe_pattern(cat, short=False):
     color_name = [f"cat.pelts.{str(cat.pelt.colour)}"]
-    pelt_name = f"cat.pelts.{cat.pelt.name}{'' if short else '_long'}"
+    pelt_name = f"cat.pelts.{cat.pelt.name.lower()}{'' if short else '_long'}"
     if cat.pelt.name in Pelt.torties:
         pelt_name, color_name = _describe_torties(cat, color_name, short)
 
@@ -2082,7 +2082,7 @@ def _describe_torties(cat, color_name, short=False) -> [str, str]:
         ):
             return "cat.pelts.mottled", ""
         else:
-            return f"cat.pelts.{cat.pelt.name}", ""
+            return f"cat.pelts.{cat.pelt.name.lower()}", ""
 
     base = cat.pelt.tortiebase.lower()
 
