@@ -498,7 +498,11 @@ class Condition_Events:
                             if x in scarless_conditions:
                                 if "species" in Condition_Events.PERMANENT and "wing_count" in Condition_Events.PERMANENT:
                                     if cat.species in Condition_Events.PERMANENT[x]["species"] and cat.display_wing_count in Condition_Events.PERMANENT[x]["wing_count"]:
-                                        possible_conditions.append(x)
+                                        if "gen_wing_count" in Condition_Events.PERMANENT:
+                                            if cat.wing_count in Condition_Events.PERMANENT[x]["gen_wing_count"]:
+                                                possible_conditions.append(x)
+                                        else:
+                                            possible_conditions.append(x)
                                 else:
                                     possible_conditions.append(x)
                         if len(possible_conditions) > 0 and not int(

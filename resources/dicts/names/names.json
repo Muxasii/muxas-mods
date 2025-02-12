@@ -54,7 +54,10 @@
     "Singlestripe": ["stripe", "streak", "back", "shade", "stem", "shadow"],
     "Masked": ["stripe", "mask", "mask", "shade"],
     "Tortie": ["dapple", "speckle", "spot", "dapple"],
-    "Calico": ["stripe", "dapple", "patch", "patch"]
+    "Calico": ["stripe", "dapple", "patch", "patch"],
+    "Pinstripe": ["fleck", "spots", "speck", "freckle", "dapple"],
+    "Braided": ["stripes", "stripe", "streak", "fire", "feather", "flame"],
+    "Duotone": ["smoke", "frost", "dawn", "fade", "dusk"]
   },
   "tortie_pelt_suffixes": {
     "single": ["dapple", "speckle", "spots", "splash"],
@@ -70,7 +73,10 @@
     "sokoke": ["stripe", "feather", "fern", "shade", "dapple"],
     "agouti": ["back", "pelt", "fur", "dapple", "splash"],
     "singlestripe": ["stripe", "back", "shade", "stem", "dapple"],
-    "masked": ["stripe", "dapple", "mask", "mask", "shade"]
+    "masked": ["stripe", "dapple", "mask", "mask", "shade"],
+    "pinstripe": [],
+    "braided": [],
+    "duotone": ["feather", "frost", "dusk", "dawn", "fade", "smoke", "wisp"]
   },
 
   "normal_prefixes": [
@@ -257,7 +263,19 @@
     "Brown", "Brown", "Oak", "Mouse", "Dark", "Shade", "Russet", "Dust", "Dusty", "Mud", "Deer", "Fawn", "Doe", "Stag",
     "Twig", "Owl", "Otter", "Log", "Vole", "Branch", "Hazel", "Robin", "Umber", "Tree", "Root", "Shadow", "Ochre", "Auburn", "Burnet",
     "Thrasher", "Thrush"
-    ]
+    ],
+    "GHOSTBROWN": ["Brown", "Brown", "Oak", "Mouse", "Dark", "Shade", "Russet", "Dust", "Dusty", "Mud", "Deer", "Fawn", "Doe", "Stag",
+    "Twig", "Owl", "Otter", "Log", "Vole", "Branch", "Hazel", "Robin", "Umber", "Tree", "Root", "Shadow", "Ochre", "Auburn", "Burnet"],
+    "GHOSTRED": ["Ginger", "Ginger", "Red", "Red", "Fire", "Flame", "Ember", "Oak", "Shade", "Russet", "Fuchsia", "Hollyhock",
+    "Rowan", "Fox", "Orange", "Copper", "Cinnamon", "Burn", "Burnt", "Robin", "Oleander", "Scarlet", "Rust", "Lyre",
+    "Robin", "Berry", "Ochre", "Auburn", "Pumpkin", "Burnet", "Apple", "Orange", "Maple", "Poppy", "Beet", "Raspberry", "Elderberry"],
+    "GLASS": [
+      "White", "White", "Pale", "Snow", "Snowy", "Cloud", "Cloudy", "Milk", "Hail", "Frost", "Frozen", "Freeze", "Ice", "Icy", "Icicle",
+      "Blizzard", "Flurry", "Moon", "Light", "Bone", "Bright", "Swan", "Dove", "Cotton", "Hawthorn", "Laurel", "Wisp",
+      "Fringe", "Ibis", "Air", "Bright", "Rime", "Ghost", "Privet", "Egg"],
+    "COPPER": ["Brown", "Oak", "Mouse", "Dark", "Shade", "Russet", "Mud",
+    "Twig", "Owl", "Otter", "Log", "Vole", "Branch", "Hazel", "Robin", "Umber", "Tree", "Root", "Auburn", "Burnet","Thrush", "Ginger", "Oak", "Shade", "Russet", "Rowan", "Fox", "Orange", "Copper", "Cinnamon", "Burn", "Burnt", "Robin", "Scarlet", "Rust", "Lyre",
+    "Robin", "Ochre", "Auburn", "Pumpkin", "Burnet", "Copper", "Cinnamon", "Copper", "Moth", "Clay", "Acorn", "Egg", "Rock"]
   },
 
   "biome_prefixes": {
