@@ -2044,6 +2044,9 @@ class Cat:
         self.get_permanent_condition(new_condition, born_with=True)
 
     def get_permanent_condition(self, name, born_with=False, event_triggered=False):
+        losing_both = False # we don't know if kitty is going to lose both wings yet...
+        name = "lost a wing"
+
         if name not in PERMANENT:
             print(
                 self.name,
@@ -2054,9 +2057,6 @@ class Cat:
         if "blind" in self.permanent_condition and name == "failing eyesight":
             return
         if "deaf" in self.permanent_condition and name == "partial hearing loss":
-            return
-        
-        if "lost their wings" in self.permanent_condition or "born with no wings" in self.permanent_condition and name == "lost their wing":
             return
 
         # remove accessories if need be
@@ -2080,8 +2080,20 @@ class Cat:
             "DAISY",
         ]:
             self.pelt.accessory = None
+        
+        # one wing is already gone, time to add the lost their wings condition!
+        if ("lost a wing" in self.permanent_condition or self.display_wing_count == 1) and name in ["lost a wing", "lost their wings"]: 
+            name = "lost their wings"
+            losing_both = True
+            print("the deletion incident")
 
         condition = PERMANENT[name]
+
+        # wing count check before proceeding - excludes if this is where it changes from lost a wing -> lost their wings
+        if "wing_count" in condition:
+            if (self.display_wing_count not in condition["wing_count"]) and not losing_both:
+                return
+        
         new_condition = False
         mortality = condition["mortality"][self.age.value]
         if mortality != 0 and (game.clan and game.clan.game_mode == "cruel season"):
@@ -2115,7 +2127,7 @@ class Cat:
             event_triggered=event_triggered,
         )
 
-        if new_perm_condition.name not in self.permanent_condition or (new_perm_condition.name == "lost their wing" and self.display_wing_count == 1):
+        if new_perm_condition.name not in self.permanent_condition:
             self.permanent_condition[new_perm_condition.name] = {
                 "severity": new_perm_condition.severity,
                 "born_with": born_with,
@@ -2129,7 +2141,7 @@ class Cat:
             }
             new_condition = True
         
-        if self.wing_count == 1 or "born with one wing" in self.permanent_condition and name == "lost their wing":
+        if self.wing_count == 1 or ("born with one wing" in self.permanent_condition and name == "lost a wing"):
             self.display_wing_count = 0
 
         if name == "born with one wing" or name == "lost a wing":
@@ -2137,6 +2149,9 @@ class Cat:
 
         if name == "born with no wings" or name == "lost their wings":
             self.display_wing_count = 0
+
+        if name == "lost their wings" and ("lost a wing" in self.permanent_condition):
+            self.permanent_condition.pop("lost a wing", None) # delete it, both are gone now :)
         
         return new_condition
     

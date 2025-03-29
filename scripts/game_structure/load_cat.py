@@ -277,10 +277,10 @@ def json_load():
             cat.pelt.paralyzed = True
 
         # set display wing count
-        if cat.display_wing_count is None:
+        if cat.display_wing_count not in ["0", "1", "2"]:
             if "lost a wing" in cat.permanent_condition or "born with one wing" in cat.permanent_condition:
                 cat.display_wing_count = 1
-            elif "lost their wings" in cat.permanent_condition or "born with no wings"in cat.permanent_condition:
+            elif "lost their wings" in cat.permanent_condition or "born with no wings" in cat.permanent_condition:
                 cat.display_wing_count = 0
             else:
                 cat.display_wing_count = cat.wing_count
