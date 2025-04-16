@@ -4,18 +4,10 @@
 Fan-edit of the warrior cat clangen game
 
 Original creator: just-some-cat.tumblr.com
-
 Fan-edit creator: SableSteel, and many others
 
 ## Downloads
-### Stable
-Stable versions can be downloaded directly from the [official ClanGen website](https://clangen.io/download)
-
-### Development
-**Note**: Development versions are automatic snapshots of current development efforts. They are _not_ stable, can crash and even corrupt your save files.
-Additionally, we do not provide tech support for development versions.
-
-Download at your own risk here: [ClanGen development download](https://clangen.io/download-development)
+Get the nightly binaries here: https://nightly.link/Muxasii/muxas-mods/workflows/build/prismgen
 
 ## Running from source
 ### Requirements
