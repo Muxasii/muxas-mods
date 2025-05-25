@@ -727,7 +727,7 @@ class ProfileScreen(Screens):
         # PELT TYPE
         output += i18n.t(
             "screens.profile.pelt_label",
-            pelt=i18n.t(f"cat.pelts.{the_cat.pelt.name}").lower(),
+            pelt=i18n.t(f"cat.pelts.{the_cat.pelt.name.lower()}"),
         )
         # NEWLINE ----------
         output += "\n"
