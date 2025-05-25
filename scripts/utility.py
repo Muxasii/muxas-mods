@@ -933,6 +933,9 @@ def create_new_cat(
                     "sometimes",
                 ):
                     continue
+                if "species" in PERMANENT[condition]:
+                    if new_cat.species not in PERMANENT[condition]["species"]:
+                        continue
                 # next part ensures that a kit won't get a condition that takes too long to reveal
                 age = new_cat.moons
                 leeway = 5 - (PERMANENT[condition]["moons_until"] + 1)
