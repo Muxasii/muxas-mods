@@ -93,11 +93,29 @@ class Pelt:
                    'DUST', 'PEBBLE', 
                    'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM',
                    'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC',
-                   'LAVENDER', 'PLUM', 'VIOLET']
-    yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER', 'ORANGE']
-    blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
-    green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL', 'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 'SEAFOAM']
-    purple_eyes = ['GLASS', 'INDIGO', 'LAVENDER', 'PLUM', 'VIOLET', 'SALMON', 'CRYSTAL', 'ROSEWOOD', 'LILAC']
+                   'LAVENDER', 'PLUM', 'VIOLET', 'MIRE', 'LILY', 'TOXIC', 'HOLLY', 'LICHEN',
+                    'MOONSTONE', 'CARDINAL', 'DUSK', 'DAWN', 'LILY', 'RUSSET', 'CRIMSON', 
+                    'IRIDESCENT', 'STARLIGHT', 'PEACOCK', 'HAZELBLUE', 'SUNSET']
+    yellow_eyes = [
+        'YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 
+        'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER', 
+        'DUST', 'PEBBLE', 'HONEY', 'DARKAMBER', 'ORANGE', 'UMBER', 'HAZELBLUE', 'SUNSET'
+        ]
+    blue_eyes = [
+        'BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 
+        'COBALT', 'SUNLITICE', 'GREY', 'IRIDESCENT', 'STARLIGHT', 'PEACOCK'
+        ]
+    green_eyes = [
+        'PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 
+        'HAZEL', 'OBSIDIAN', 'DARKHAZEL', 'OLIVE', 
+        'SEAFOAM', 'TOXIC', 'HOLLY', 'LICHEN'
+        ]
+    purple_eyes = [
+        'GLASS', 'INDIGO', 'LAVENDER', 'PLUM', 
+        'VIOLET', 'SALMON', 'CRYSTAL', 'LILAC',
+        'MOONSTONE', 'MIRE'
+        ]
+    red_eyes = ['CARDINAL', 'ROSEWOOD', 'SALMON', 'DUSK', 'DAWN', 'LILY', 'RUSSET', 'CRIMSON']
 
     # bite scars by @wood pank on discord
 
@@ -1107,7 +1125,7 @@ class Pelt:
             num = 1
 
         if not random.randint(0, num):
-            colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes]
+            colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes]
             for colour in colour_wheel[:]:
                 if self.eye_colour in colour:
                     colour_wheel.remove(

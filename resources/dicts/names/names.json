@@ -74,8 +74,8 @@
     "agouti": ["back", "pelt", "fur", "dapple", "splash"],
     "singlestripe": ["stripe", "back", "shade", "stem", "dapple"],
     "masked": ["stripe", "dapple", "mask", "mask", "shade"],
-    "pinstripe": [],
-    "braided": [],
+    "pinstripe": ["dapple", "stripe", "streak", "rain", "speckle", "speck"],
+    "braided": ["stripe", "flame", "fire", "blaze"],
     "duotone": ["feather", "frost", "dusk", "dawn", "fade", "smoke", "wisp"]
   },
 
@@ -387,7 +387,27 @@
     "ROSEWOOD": ["Poppy", "Rose", "Tulip", "Blossom", "Cosmos", "Rose", "Pale", "Wood", "Lotus", "Red", "Berry"],
     "GREENYELLOW": ["Green", "Yellow", "Tawny", "Hazel", "Gold", "Daisy", "Sand", "Sandy", "Weed"],
     "SILVER": ["Gray", "Stone", "Silver", "Silver", "Moon", "Rain", "Storm", "Pale", "Light"],
-    "ORANGE": ["Amber", "Sun", "Fire", "Honey", "Flame", "Blaze", "Pumpkin", "Red", "Ember", "Orange"]
+    "ORANGE": ["Amber", "Sun", "Fire", "Honey", "Flame", "Blaze", "Pumpkin", "Red", "Ember", "Orange"],
+    "IRIDESCENT": ["Glow", "Sun", "Crystal", "River", "Shimmer"],
+    "DUSK": ["Dusk", "Apple", "Sun", "Sunset", "Morning", "Flame", "Fire", "Ember"],
+    "STARLIGHT": ["Glow", "Moon", "Sun", "Light", "Shimmer", "Sky"],
+    "TOXIC": ["Fern", "Ivy", "Snake", "Strike", "Forest", "Leaf", "Vine", "Pod"],
+    "HOLLY": ["Holly", "Berry", "Fern", "Ivy", "Leaf", "Yew"],
+    "HAZELBLUE": ["Hazel", "Blue", "River", "Stone", "Rock", "Pebble", "Splash", "Stream"],
+    "SUNSET": ["Dawn", "Dusk", "Sunset", "Blaze", "Flame", "Morning", "Shine", "Fire", "Ember"],
+    "LILY": ["Lily", "Flower", "Light", "Petal", "White", "Leaf", "Bloom", "Blossom"],
+    "MIRE": ["Marsh", "Mire", "Murk", "Murky", "Reed", "Rush", "Leaf", "Frond", "Vine", "Tree", "Moss", "Sage", "Parsley", "Herb", "Algae"],
+    "SHIMMER": ["Glow", "Light", "Shine", "River", "Silver", "Frost", "Snow", "Ice"],
+    "UMBER": ["Tree", "Oak", "Pine", "Umber", "Dirt", "Drift", "Wood", "Branch", "Twig", "Forest", "Bark"],
+    "LICHEN": ["Lichen", "Moss", "Mossy", "Forest", "Dew", "Droplet", "Rain", "Mist", "Frond", "Pond", "Pod", "Rime", "Algae"],
+    "ROBINEGG": ["Robin", "Egg", "Blue", "Blue", "Sky", "Sky", "Water", "Rime", "Frost"],
+    "DAWN": ["Dawn", "Dawn", "Dusk", "Sunset", "Blaze", "Flame", "Morning", "Shine", "Fire", "Ember"],
+    "PEACOCK": ["Blue", "Leaf", "Rain", "Fog", "Mist", "Splash", "Moss", "Green", "Spruce", "Lake", "Fern", "Algae", "Emerald"],
+    "CARDINAL": ["Cardinal", "Red", "Red", "Russet", "Copper", "Red", "Ginger", "Poppy", "Rose", "Gold", "Red", "Berry"],
+    "STARDUST": ["Cosmos", "Blue", "Blue", "Frost", "Icy", "Dust", "Dusty", "Silver","Frost", "Blue", "Whisper", "Wish", "Water"],
+    "MOONSTONE": ["Moon", "Moon", "Stone", "Pebble", "Crystal", "Gleam", "Shine", "Light", "Pale", "Moon", "Blue", "Violet", "Indigo", "Sky", "Night"],
+    "RUSSET": ["Russet", "Russet", "Copper", "Clay", "Brown", "Ginger", "Red", "Sun", "Amber", "Amber", "Sap", "Gold", "Russet", "Red", "Orange"],
+    "CRIMSON": ["Red", "Red", "Russet", "Flower", "Rose", "BLossom", "Wood", "Berry", "Berry", "Petal", "Dark", "Dark", "Shadow", "Shadow", "Shadow", "Red"]
   },
 
   "loner_names": [
