@@ -4115,7 +4115,7 @@ def generate_sprite(
             "PEACOCK": ['#158f62','#01403e','#081a36'], # blue-green
             "CARDINAL": ['#c24836','#78231c','#29100d'], #red
             "STARDUST": ['#b33d25','#661a10','#290807'], #purple
-            "MOONSTONE": ['#edf2f7','#c','#8d82b8'], #light dull blue purple
+            "MOONSTONE": ['#edf2f7','#b0b3f5','#8d82b8'], #light dull blue purple
             "RUSSET": ['#804334','#70271a','#26120f'], # dark orange red
             "CRIMSON": ['#751323','#520703','#1f0201'], # dark red
         }
