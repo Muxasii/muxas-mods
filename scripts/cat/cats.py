@@ -2049,7 +2049,6 @@ class Cat:
 
     def get_permanent_condition(self, name, born_with=False, event_triggered=False):
         losing_both = False # we don't know if kitty is going to lose both wings yet...
-        name = "lost a wing"
 
         if name not in PERMANENT:
             print(

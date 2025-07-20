@@ -933,6 +933,9 @@ def create_new_cat(
                     "sometimes",
                 ):
                     continue
+                if "species" in PERMANENT[condition]:
+                    if new_cat.species not in PERMANENT[condition]["species"]:
+                        continue
                 # next part ensures that a kit won't get a condition that takes too long to reveal
                 age = new_cat.moons
                 leeway = 5 - (PERMANENT[condition]["moons_until"] + 1)
@@ -4092,7 +4095,29 @@ def generate_sprite(
             "LILAC": ['#e3b8f7','#c685ae','#361b56'], # light purple-pink
             #
             "SILVER": ['#C4C6C9','#A9AAAD','#51525D'], # actual silver
-            "GREY": ['#9D9D9F','#6A6A6C','#353037'] # actual grey
+            "GREY": ['#9D9D9F','#6A6A6C','#353037'], # actual grey
+            # coffee colors - credit to coffee!!!
+            "IRIDESCENT": ['#E2F9A2','#7EBAE4','#5e347d'], #yellow-blue + purple
+            "DUSK": ['#FFCBCE','#7CCDDE','#387683'], # pink-blue
+            "STARLIGHT": ['#FFEEB1','#6D68EC','#3F3B98'], # blue-yellow
+            "TOXIC": ['#D3E658','#68B033','#752EAD'], # neon yellow green
+            "HOLLY": ['#A3D51E','#1FA412','#5e160a'], # holly
+            "HAZELBLUE": ['#B0EAFF','#D8A576','#825D3A'], #blue-brown
+            "SUNSET": ['#F8C74C','#FE874F','#BD29A7'], #yellow-orange
+            "LILY": ['#FFC3F2','#94E394','#215A2C'], #pink-green
+            "MIRE": ['#9DE6AC','#80709D','#6E3D69'], #green-purple
+            # v1.1.1 colors
+            "SHIMMER": ['#e0dae6','#cb92d4','#1c1954'], # white-purple-blue
+            "UMBER": ['##473d3c','#331f1d','#120908'], # dark ashy brown
+            "LICHEN": ['#b6d6c7','#8aa690','#49573e'], # dull blue-green
+            "ROBINEGG": ['#4fdaf0','#18aad6','#124669'], # blue
+            "DAWN": ['#e6aeb5','#dbad79','#3f2e73'], # pink-orange
+            "PEACOCK": ['#158f62','#01403e','#081a36'], # blue-green
+            "CARDINAL": ['#c24836','#78231c','#29100d'], #red
+            "STARDUST": ['#b33d25','#661a10','#290807'], #purple
+            "MOONSTONE": ['#edf2f7','#b0b3f5','#8d82b8'], #light dull blue purple
+            "RUSSET": ['#804334','#70271a','#26120f'], # dark orange red
+            "CRIMSON": ['#751323','#520703','#1f0201'], # dark red
         }
 
         # waeh

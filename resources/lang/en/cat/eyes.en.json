@@ -38,6 +38,26 @@
 		"PLUM": "plum",
 		"VIOLET": "violet",
 		"DUST": "dust",
-		"HONEY": "honey"
+		"HONEY": "honey",
+        "IRIDESCENT": "iridescent",
+		"DUSK": "dusk",
+        "STARLIGHT": "starlight",
+        "TOXIC": "toxic",
+		"HOLLY": "holly",
+        "HAZELBLUE": "hazel blue",
+        "SUNSET": "sunset",
+		"LILY": "lily",
+        "MIRE": "mire",
+        "SHIMMER": "shimmer",
+		"UMBER": "umber",
+		"LICHEN": "lichen",
+		"ROBINEGG": "robin egg",
+		"DAWN": "dawn",
+        "PEACOCK": "peacock",
+		"CARDINAL": "cardinal",
+		"STARDUST": "sap",
+		"MOONSTONE": "moonstone",
+		"RUSSET": "russet",
+		"CRIMSON": "crimson"
     }
 }
