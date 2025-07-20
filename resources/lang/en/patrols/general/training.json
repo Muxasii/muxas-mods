@@ -11792,5 +11792,143 @@
             "art": "train_general_intro"        
                 }
 	]
+},
+{
+    "patrol_id": "gen_train_insecurewingedapp",
+    "biome": [
+        "any"
+    ],
+    "season": [
+        "any"
+    ],
+    "types": [
+        "training"
+    ],
+    "min_cats": 2,
+    "max_cats": 2,
+    "patrol_art": "train_general_intro",
+    "intro_text": "p_l and app1 went out on a training session on gliding. p_l noticed that app1 seemed down and less enthusiastic during this session.",
+    "decline_text": "p_l shook {PRONOUN/p_l/poss} head, no it must be something that {PRONOUN/p_l/subject} shouldn't get into.",
+    "min_max_status": {
+        "normal adult": [
+            1,
+            1
+        ],
+        "apprentice": [
+            1,
+            1
+        ]
+    },
+    "relationship_constraints": [
+        "mentor/app"
+    ],
+    "weight": 10,
+    "chance_of_success": 60,
+    "tags": [],
+    "success_outcomes": [
+        {
+            "text": "p_l pauses the training session to check in on app1. app1 opens up about {PRONOUN/p_l/poss} concerns about {PRONOUN/p_l/poss} wing size, fretting that they may never grow bigger. p_l sits down next to app1, telling {PRONOUN/app1/object} that {PRONOUN/app1/subject} is young and the wings may grow to proper size. Even if they never do, the clan will always be there for app1 and that {PRONOUN/app1/poss} wing size does not determine {PRONOUN/app1/poss} worth to the clan.",
+            "exp": 20,
+            "stat_trait": ["righteous", "faithful", "thoughtful", "sincere", "loving", "compassionate", "calm", "wise"],
+            "can_have_stat": ["p_l"],
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": false,
+                    "values": ["comfort", "trust"],
+                    "amount": 10
+                }],
+            "weight": 20
+        },
+        {
+            "text": "p_l leads app1 to a high point to exercise flight and gliding. app1 appears more uncomfortable as {PRONOUN/p_l/subject} near the edge, trembling as {PRONOUN/app1/subject} look down - there is no way {PRONOUN/app1/subject} was going to make it. p_l reassures app1 that {PRONOUN/app1/subject} will be able to glide. app1 opens up with uncertainty about {PRONOUN/app1/poss} wings. p_l told app1 that {PRONOUN/app1/poss} wings will grow eventually, and {PRONOUN/app1/subject} {VERB/app1/are/is} at least capable of gliding at this point in time. app1 makes {PRONOUN/app1/poss} attempt, managing to catch the wind. p_l smiles with pride.",
+            "exp": 20,
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": false,
+                    "values": ["comfort", "trust"],
+                    "amount": 10
+                }],
+            "weight": 20
+        },
+        {
+            "text": "p_l pauses the training session to check in on app1. app1 opens up about {PRONOUN/p_l/poss} concerns about {PRONOUN/p_l/poss} wing size, fretting that they may never grow bigger. p_l sits down next to app1, telling {PRONOUN/app1/object} about when {PRONOUN/p_l/subject} were younger and with the same concerns. app1 is not alone with {PRONOUN/app1/poss} concerns. p_l tells {PRONOUN/app1/object} that even if {PRONOUN/app1/poss} wings do not grow to full size, the clan will always be there for {PRONOUN/app1/object}.",
+            "exp": 20,
+            "stat_trait": ["insecure", "nervous"],
+            "can_have_stat": ["p_l"],
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": true,
+                    "values": ["comfort", "trust", "platonic", "respect"],
+                    "amount": 10
+                }],
+            "weight": 20
+        }
+    ],
+    "fail_outcomes": [
+        {
+            "text": "p_l scolds app1 for being so distracted during a fleeting moment in battle training, one that resulted in defeat. app1 droops {PRONOUN/p_l/possessive} wings low, going on about how {PRONOUN/p_l/possessive} wings may not grow. p_l tries to say more, but it is only met with app1 leaving. p_l would have to talk to app1 about this.",
+            "exp": 0,
+            "stat_trait": ["righteous", "strict", "responsible", "bold", "confident", "fierce", "oblivious", "troublesome", "vengeful"],
+            "can_have_stat": ["p_l"],
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": false,
+                    "values": ["comfort", "trust"],
+                    "amount": -10
+                }],
+            "weight": 20,
+            "art": "gen_train_patrolapprenticesessionfail"
+        },
+        {
+            "text": "p_l tells app1 to put {PRONOUN/app1/poss} thoughts behind {PRONOUN/app1/object}. app1 went through {PRONOUN/app1/poss} training filled with discouragement. p_l tries to address the matter, but app1 took {PRONOUN/p_l/poss} word to heart. The day went by with little progress.",
+            "exp": 0,
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": false,
+                    "values": ["comfort", "trust"],
+                    "amount": -5
+                }],
+            "weight": 20,
+            "art": "gen_train_patrolapprenticesessionfail"
+        },
+        {
+            "text": "Despite p_l's attempts to get app1 to open up about what is on {PRONOUN/app1/poss} mind, app1 would not budge. p_l hopes that at least the training would be a success, but app1's dampened mood only results in failure.",
+            "exp": 0,
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": false,
+                    "values": ["comfort", "trust"],
+                    "amount": -5
+                }],
+            "weight": 20,
+            "art": "gen_train_patrolapprenticesessionfail"
+        },
+        {
+            "text": "p_l isn't listening or paying attention to app1's concerns. The training session ended up not as successful as it could have been.",
+            "exp": 0,
+            "relationships": [
+                {
+                    "cats_to": ["app1"],
+                    "cats_from": ["p_l"],
+                    "mutual": true,
+                    "values": ["comfort", "trust", "platonic", "respect"],
+                    "amount": -10
+                }],
+            "weight": 10,
+            "art": "gen_train_patrolapprenticesessionfail"
+        }
+    ]
 }
 ]

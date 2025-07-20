@@ -54,6 +54,7 @@ class Patrol:
         self.patrol_statuses = {}
         self.patrol_status_list = []
         self.patrol_species = {}
+        self.patrol_wings = {}
 
         # Holds new cats for easy access
         self.new_cats: List[List[Cat]] = []
@@ -174,6 +175,11 @@ class Patrol:
             else:
                 self.patrol_species[cat.species] = 1
 
+            if cat.wing_count in self.patrol_wings:
+                self.patrol_wings[cat.wing_count] += 1
+            else:
+                self.patrol_wings[cat.wing_count] = 1
+
             # Combined patrol_statuses catagories
             if cat.status in ("medicine cat", "medicine cat apprentice"):
                 if "healer cats" in self.patrol_statuses:
@@ -182,6 +188,10 @@ class Patrol:
                     self.patrol_statuses["healer cats"] = 1
 
             if cat.status in ("apprentice", "medicine cat apprentice"):
+                if "winged apprentices" in self.patrol_statuses:
+                    self.patrol_statuses["winged apprentices"] += 1
+                else:
+                    self.patrol_statuses["all apprentices"] = 1
                 if "all apprentices" in self.patrol_statuses:
                     self.patrol_statuses["all apprentices"] += 1
                 else:
@@ -602,6 +612,18 @@ class Patrol:
                     continue
 
                 if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
+                    flag = True
+                    break
+            if flag:
+                continue
+
+            flag = False
+            for sta, num in patrol.min_max_wings.items():
+                if len(num) != 2:
+                    print(f"Issue with status limits: {patrol.patrol_id}")
+                    continue
+
+                if not (num[0] <= self.patrol_wings.get(sta, -1) <= num[1]):
                     flag = True
                     break
             if flag:

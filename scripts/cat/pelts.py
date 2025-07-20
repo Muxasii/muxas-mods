@@ -923,6 +923,7 @@ class Pelt:
 
         # Extra traits
         if not extra_traits:
+            print("Missing extra traits")
             Pelt.init_extra_traits(self)
 
         # First, convert from some old names that may be in white_patches. 
