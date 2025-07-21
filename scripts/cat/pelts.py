@@ -763,9 +763,9 @@ class Pelt:
                 }
             else:
                 species_settings = {
-                    "earth": get_clan_setting("earth_gen"),
-                    "bird": get_clan_setting("bird_gen"),
-                    "bat": get_clan_setting("bird_gen"),
+                    "earth": get_clan_setting("earth_gen__clan"),
+                    "bird": get_clan_setting("bird_gen__clan"),
+                    "bat": get_clan_setting("bird_gen__clan"),
                 }
 
             for i, value in species_settings.items():
