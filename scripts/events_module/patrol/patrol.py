@@ -640,6 +640,9 @@ class Patrol:
                 if not (num[0] <= self.patrol_statuses.get(sta, -1) <= num[1]):
                     flag = True
                     break
+
+            flag = False
+
             if flag:
                 if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
                     print(
@@ -647,29 +650,47 @@ class Patrol:
                     )
                 continue
 
-            flag = False
-            for sta, num in patrol.min_max_species.items():
-                if len(num) != 2:
-                    print(f"Issue with status limits: {patrol.patrol_id}")
+            if patrol.min_max_species:
+                for sta, num in patrol.min_max_species.items():
+                    if len(num) != 2:
+                        print(f"Issue with status limits: {patrol.patrol_id}")
+                        continue
+
+                    if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
+                        flag = True
+                        break
+                if flag:
                     continue
 
-                if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
-                    flag = True
-                    break
-            if flag:
-                continue
+                flag = False
 
-            flag = False
-            for sta, num in patrol.min_max_wings.items():
-                if len(num) != 2:
-                    print(f"Issue with status limits: {patrol.patrol_id}")
+                if flag:
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (min max species)"
+                        )
                     continue
 
-                if not (num[0] <= self.patrol_wings.get(sta, -1) <= num[1]):
-                    flag = True
-                    break
-            if flag:
-                continue
+            if patrol.min_max_wings:
+                for sta, num in patrol.min_max_wings.items():
+                    if len(num) != 2:
+                        print(f"Issue with status limits: {patrol.patrol_id}")
+                        continue
+
+                    if not (num[0] <= self.patrol_wings.get(sta, -1) <= num[1]):
+                        flag = True
+                        break
+                if flag:
+                    continue
+
+                flag = False
+
+                if flag:
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (min max wings)"
+                        )
+                    continue
             
             if not event_for_tags(patrol.tags, Cat):
                 if self.debug_patrol and self.debug_patrol == patrol.patrol_id:

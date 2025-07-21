@@ -28,6 +28,7 @@ class PatrolEvent:
         max_cats=6,
         min_max_status: dict = None,
         min_max_species: dict = None,
+        min_max_wings: dict = None,
         relationship_constraints: List[str] = None,
         pl_skill_constraints: List[str] = None,
         pl_trait_constraints: List[str] = None,
@@ -67,6 +68,7 @@ class PatrolEvent:
         )
         self.min_max_status = min_max_status if min_max_status is not None else {}
         self.min_max_species = min_max_species if min_max_species is not None else {}
+        self.min_max_wings = min_max_wings if min_max_wings is not None else {}
 
     @property
     def new_cat(self) -> bool:
