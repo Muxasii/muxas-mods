@@ -245,10 +245,8 @@ def load_data():
                 )
                 switch_set_value(Switch.traceback, e)
 
-    if not game.settings["bat_gen"] and not game.settings["bird_gen"] and not game.settings["earth_gen"] and not game.switches["error_message"]:
-        game.switches[
-                    "error_message"
-                ] = "You have disabled species generation in game settings."
+    if not game_setting_get("bat_gen") and not game_setting_get("bird_gen") and not game_setting_get("earth_gen") and not switch_get_value(Switch.error_message):
+        switch_set_value(Switch.error_message, "You have disabled species generation in game settings.")
 
 
     finished_loading = True

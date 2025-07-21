@@ -5274,7 +5274,7 @@ def generate_sprite(
             if cat.pelt.vitiligo:
                 back_wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
             # draw line art
-            if game.settings['shaders'] and not dead:
+            if game_setting_get("shaders") and not dead:
                 back_wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
                 back_wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
@@ -5397,7 +5397,7 @@ def generate_sprite(
 
             new_sprite.blit(bat_mane, (0, 0))
 
-            if game.settings["shaders"] and not dead:
+            if game_setting_get("shaders") and not dead:
                 new_sprite.blit(
                     sprites.sprites["maneshaders" + cat_sprite],
                     (0, 0),
@@ -5814,17 +5814,15 @@ def generate_sprite(
             if cat.pelt.vitiligo:
                 wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
             # draw line art
-            if game.settings['shaders'] and not dead:
+            if game_setting_get("shaders") and not dead:
                 wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
                 wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
             wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-
-
             if not dead:
                 wings.blit(sprites.sprites[f'{cat.species}' + 'lines' + cat_sprite], (0, 0))
-            elif cat.df:
+            elif cat.status.group == CatGroup.DARK_FOREST:
                 wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdf' + cat_sprite], (0, 0))
             elif dead:
                 wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdead' + cat_sprite], (0, 0))

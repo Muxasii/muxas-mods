@@ -139,7 +139,7 @@ class StartScreen(Screens):
         """
         # Checks for dark mode
         light_dark = "light"
-        if game.settings['dark mode']:
+        if game_setting_get("dark mode"):
             light_dark = "dark"
 
         super().screen_switches()

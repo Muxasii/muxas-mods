@@ -3482,6 +3482,7 @@ class Cat:
     def get_info_block(self, *, make_clan=False, patrol=False, relationship=False):
         if make_clan:
             wing_display = f"{self.wing_count} wing" if self.wing_count == 1 else f"{self.wing_count} wings"
+            print(self.species)
             return "\n".join(
                 [
                     self.genderalign,

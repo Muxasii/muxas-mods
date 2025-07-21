@@ -7,7 +7,12 @@ import i18n
 import scripts.game_structure.screen_settings
 from scripts.cat.sprites import sprites
 from scripts.game_structure import constants
+from scripts.game_structure.game.settings import game_setting_get
 from scripts.game_structure.game_essentials import game
+from scripts.clan_package.settings import get_clan_setting
+from scripts.game_structure.game.switches import (
+    switch_get_value,
+)
 from scripts.game_structure.localization import get_lang_config
 from scripts.utility import adjust_list_text
 
@@ -749,39 +754,24 @@ class Pelt:
         species_list = []
         weight = []
         
-        # yeah that's right there's... 2 try statements - trust me they are both necessary
         try:
-            try:
-                if game.switches['cur_screen'] == "make clan screen":
-                    if game.settings['earth_gen']:
-                        species_list.append("earth cat")
-                        weight.append(game.config["species_generation"]["earth"])
-                    if game.settings['bird_gen']:
-                        species_list.append("bird cat")
-                        weight.append(game.config["species_generation"]["bird"])
-                    if game.settings['bat_gen']:
-                        species_list.append("bat cat")
-                        weight.append(game.config["species_generation"]["bat"])
-                else:
-                    if game.clan.clan_settings['earth_gen__clan']:
-                        species_list.append("earth cat")
-                        weight.append(game.config["species_generation"]["earth"])
-                    if game.clan.clan_settings['bird_gen__clan']:
-                        species_list.append("bird cat")
-                        weight.append(game.config["species_generation"]["bird"])
-                    if game.clan.clan_settings['bat_gen__clan']:
-                        species_list.append("bat cat")
-                        weight.append(game.config["species_generation"]["bat"])
-            except:
-                    if game.settings['earth_gen']:
-                        species_list.append("earth cat")
-                        weight.append(game.config["species_generation"]["earth"])
-                    if game.settings['bird_gen']:
-                        species_list.append("bird cat")
-                        weight.append(game.config["species_generation"]["bird"])
-                    if game.settings['bat_gen']:
-                        species_list.append("bat cat")
-                        weight.append(game.config["species_generation"]["bat"])
+            if switch_get_value("cur_screen") == "make clan screen":
+                species_settings = {
+                    "earth": game_setting_get("earth_gen"),
+                    "bird": game_setting_get("bird_gen"),
+                    "bat": game_setting_get("bird_gen"),
+                }
+            else:
+                species_settings = {
+                    "earth": get_clan_setting("earth_gen"),
+                    "bird": get_clan_setting("bird_gen"),
+                    "bat": get_clan_setting("bird_gen"),
+                }
+
+            for i, value in species_settings.items():
+                if value:
+                    species_list.append(f"{i} cat")
+                    weight.append(game.get_config_value("species_generation", i))
 
             # species_list = ["earth cat", "bird cat", "bat cat"] #, "bug cat"
             if self.species is None:
@@ -796,6 +786,7 @@ class Pelt:
             else:
                 return self.species
         except:
+            print("Unable to initialise species.")
             return "ERROR"
         
     @staticmethod

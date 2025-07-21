@@ -17,6 +17,11 @@ from scripts.game_structure.game.settings import (
     game_setting_get,
     game_setting_set,
 )
+from scripts.game_structure.game.switches import (
+    switch_set_value,
+    switch_get_value,
+    Switch,
+)
 
 # please don't do this. we have to.
 import scripts.game_structure.game.settings.settings as all_settings
@@ -369,14 +374,15 @@ class SettingsScreen(Screens):
 
         self.settings_at_open = all_settings.settings
         self.toggled_theme = "dark" if game_setting_get("dark mode") else "light"
-        if not game.settings["bat_gen"] and not game.settings["bird_gen"] and not game.settings["earth_gen"] and not game.switches["error_message"]:
-            game.switches[
-                        "error_message"
-                    ] = "You have disabled species generation in game settings."
-        elif game.switches["error_message"] == "You have disabled species generation in game settings.":
-            game.switches[
-                        "error_message"
-                    ] = ""
+        if (
+            not game_setting_get("bat_gen")
+            and not game_setting_get("bird_gen")
+            and not game_setting_get("earth_gen")
+            and not switch_get_value("error_message")
+        ):
+            switch_set_value("error_message", "You have disabled species generation in game settings.")
+        elif switch_get_value("error_message") == "You have disabled species generation in game settings.":
+            switch_set_value("error_message", "")
 
 
     def save_settings(self):
