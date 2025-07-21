@@ -4,6 +4,8 @@ from typing import Union
 
 import i18n
 
+from scripts.cat.enums import CatRank, CatAge
+
 
 class SkillPath(Enum):
     TEACHER = ("quick to help", "good teacher", "great teacher", "excellent teacher")
@@ -78,12 +80,6 @@ class SkillPath(Enum):
         "deep StarClan bond",
         "unshakable StarClan link",
     )
-    DARK = (
-        "interested in the Dark Forest",
-        "Dark Forest affinity",
-        "deep Dark Forest bond",
-        "unshakable Dark Forest link",
-    )
     OMEN = ("interested in oddities", "omen seeker", "omen sense", "omen sight")
     DREAM = ("restless sleeper", "strange dreamer", "dream walker", "dream shaper")
     CLAIRVOYANT = (
@@ -136,6 +132,12 @@ class SkillPath(Enum):
         "silent paws"
     )
 
+    DARK = (
+        "interested in the Dark Forest",
+        "Dark Forest affinity",
+        "deep Dark Forest bond",
+        "unshakable Dark Forest link",
+    )
 
     @staticmethod
     def get_random(exclude: list = (), wings: bool = False):
@@ -412,7 +414,7 @@ class CatSkills:
         return f"<CatSkills: Primary: |{self.primary}|, Secondary: |{self.secondary}|, Hidden: |{self.hidden}|>"
 
     @staticmethod
-    def generate_new_catskills(status, moons, wing_count, hidden_skill: HiddenSkillEnum = None):
+    def generate_new_catskills(rank, moons, wing_count, hidden_skill: HiddenSkillEnum = None):
         """Generates a new skill"""
         new_skill = CatSkills()
 
@@ -422,12 +424,16 @@ class CatSkills:
             wings = True
         else:
             wings = False
-
-        if status == "newborn" or moons <= 0:
+        
+        if rank == CatRank.NEWBORN or moons <= 0:
             pass
-        elif status == "kitten" or moons < 6:
+        elif rank == CatRank.KITTEN or moons < 6:
             new_skill.primary = Skill.get_random_skill(points=0, interest_only=True, wings=wings)
-        elif status == "apprentice":
+        elif rank in [
+            CatRank.APPRENTICE,
+            CatRank.MEDICINE_APPRENTICE,
+            CatRank.MEDIATOR_APPRENTICE,
+        ]:
             new_skill.primary = Skill.get_random_skill(point_tier=1, interest_only=True, wings=wings)
             if random.randint(1, 3) == 1:
                 new_skill.secondary = Skill.get_random_skill(
@@ -533,7 +539,7 @@ class CatSkills:
         this function should be run every moon for every cat to progress their skills accordingly
         :param the_cat: the cat object for affected cat
         """
-        if the_cat.status == "newborn" or the_cat.moons <= 0:
+        if the_cat.status.rank == CatRank.NEWBORN or the_cat.moons <= 0:
             return
         
         if the_cat.wing_count == 2:
@@ -563,21 +569,20 @@ class CatSkills:
                 self.primary = Skill(
                     random.choice(parental_paths),
                     points=0,
-                    interest_only=(
-                        the_cat.status in ("apprentice", "kitten")
-                    )
+                    interest_only=the_cat.status.rank
+                    in (CatRank.APPRENTICE, CatRank.KITTEN),
+                    wings=wings
                 )
             else:
                 self.primary = Skill.get_random_skill(
                     points=0,
-                    interest_only=(
-                        the_cat.status in ("apprentice", "kitten")
-                    ), 
+                    interest_only=the_cat.status.rank
+                    in (CatRank.APPRENTICE, CatRank.KITTEN), 
                     wings=wings
                 )
 
-        if not (the_cat.outside or the_cat.exiled):
-            if the_cat.status == "kitten":
+        if the_cat.status.is_clancat:
+            if the_cat.status.rank == CatRank.KITTEN:
                 # Check to see if the cat gains a secondary
                 if not self.secondary and not int(random.random() * 22):
                     # if there's no secondary skill, try to give one!
@@ -597,7 +602,7 @@ class CatSkills:
                     elif self.primary:
                         self.primary.points += amount_effect
 
-            elif "apprentice" in the_cat.status:
+            elif the_cat.status.rank.is_any_apprentice_rank():
                 # Check to see if the cat gains a secondary
                 if not self.secondary and not int(random.random() * 22):
                     # if there's no secondary skill, try to give one!
@@ -656,7 +661,7 @@ class CatSkills:
                         wings=wings
                     )
 
-                # There is a change for primary to condinue to improve throughout life
+                # There is a change for primary to continue to improve throughout life
                 # That chance decreases as the cat gets older.
                 # This is to simulate them reaching their "peak"
                 if not int(random.random() * int(the_cat.moons / 4)):
@@ -664,7 +669,7 @@ class CatSkills:
         else:
             # For outside cats, just check interest and flip it if needed.
             # Going on age, rather than status here.
-            if the_cat.age not in ("kitten", "adolescent"):
+            if the_cat.age not in (CatAge.KITTEN, CatAge.ADOLESCENT):
                 self.primary.interest_only = False
                 if self.secondary:
                     self.secondary.interest_only = False
@@ -730,7 +735,7 @@ class CatSkills:
         return skills_meet
 
     @staticmethod
-    def get_skills_from_old(old_skill, status, moons, wing_count):
+    def get_skills_from_old(old_skill, rank, moons, wing_count):
         """Generates a CatSkill object"""
         new_skill = CatSkills()
         conversion = {
@@ -780,6 +785,6 @@ class CatSkills:
             new_skill.primary = Skill(conversion[old_skill][0])
             new_skill.primary.set_points_to_tier(conversion[old_skill][1])
         else:
-            new_skill = CatSkills.generate_new_catskills(status, moons, wing_count)
+            new_skill = CatSkills.generate_new_catskills(rank, moons, wing_count)
 
         return new_skill
