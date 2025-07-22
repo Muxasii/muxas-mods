@@ -203,7 +203,7 @@ def generate_sprite(
         #-----------------
         if cat.display_wing_count in [1, 2] and not wing_hidden:
             back_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            back_wing.blit(create_wings(dead, df, cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.display_wing_count, cat.species, 0))
+            back_wing.blit(create_wings(cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.display_wing_count, cat.species, 0))
 
             # draw line art and shading
             if game_setting_get("shaders") and not dead:
@@ -239,7 +239,7 @@ def generate_sprite(
         #-----------------
         if cat.display_wing_count == 2 and not wing_hidden:
             front_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            front_wing.blit(create_wings(dead, df, cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.display_wing_count, cat.species, 1))
+            front_wing.blit(create_wings(cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.display_wing_count, cat.species, 1))
 
             # draw line art and shading
             if game_setting_get("shaders") and not dead:
@@ -314,7 +314,7 @@ def generate_sprite(
     return new_sprite
 
 def create_base(cat_sprite, colors, tortie_colors, markings, cat):
-    
+    # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
@@ -476,7 +476,8 @@ def create_trait(cat, cat_sprite, colors):
     # TODO: make function work in most scenarios, at least with things like antlers, horns, etc
     return
 
-def create_wings(dead, df, cat_sprite, colors, tortie_colors, markings, cat, wing_count, species, layer):
+def create_wings(cat_sprite, colors, tortie_colors, markings, cat, wing_count, species, layer):
+    # TODO: implement torties
     finished_wing_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.SRCALPHA
     )
