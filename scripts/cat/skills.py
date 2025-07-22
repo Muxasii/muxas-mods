@@ -167,8 +167,8 @@ class SkillPath(Enum):
                 for i in list(SkillPath)
                 if i not in exclude and i not in uncommon_paths and (i not in winged_paths or wings)
             ]
-            print(wings)
-            print(common_paths)
+            #print(wings)
+            #print(common_paths)
             return random.choice(common_paths)
 
 

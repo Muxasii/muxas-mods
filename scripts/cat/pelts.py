@@ -1511,6 +1511,8 @@ class Pelt:
         else:
             torbie = random.getrandbits(tortie_chance_m) == 1
 
+        print(torbie)
+
         chosen_tortie_base = None
         if torbie:
             # If it is tortie, the chosen pelt above becomes the base pelt.
@@ -1519,6 +1521,8 @@ class Pelt:
                 chosen_tortie_base = "Single"
             chosen_tortie_base = chosen_tortie_base.lower()
             chosen_pelt = random.choice(Pelt.torties)
+
+        print(chosen_pelt)
 
         
         # Gather weights depending on pelt group

@@ -13,16 +13,11 @@ from scripts.cat.sprites import sprites
 logger = logging.getLogger(__name__)
 
 accessory_layers = {
-    "middle": ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", 
-        "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", 
-        "WHITE POPPY", "PINK POPPY", "BLUEBELLS", "LILY OF THE VALLEY", 
-        "SNAPDRAGON", "HERBS", "PETALS", "NETTLE", "HEATHER", "GORSE", 
-        "JUNIPER", "RASPBERRY", "LAVENDER", "OAK LEAVES", "CATMINT", 
-        "MAPLE SEED", "LAUREL", "BULB WHITE", "BULB YELLOW", "BULB ORANGE", 
-        "BULB PINK", "BULB BLUE", "CLOVER", "DAISY", "DRY HERBS", "DRY CATMINT", 
+    "middle": [
+        "SNAPDRAGON", "HERBS", "PETALS", "GORSE", 
+        "CLOVER", "DAISY", "DRY HERBS", "DRY CATMINT", 
         "DRY NETTLES", "DRY LAURELS", "RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS",
-    "GULL FEATHERS", "SPARROW FEATHERS", "MOTH WINGS", "ROSY MOTH WINGS", 
-    "MORPHO BUTTERFLY", "MONARCH BUTTERFLY", "CICADA WINGS", "BLACK CICADA", 
+    "GULL FEATHERS", "SPARROW FEATHERS", 
     "CRIMSONBELL", "BLUEBELL", "YELLOWBELL", "CYANBELL", "REDBELL", "LIMEBELL", 
     "GREENBELL", "RAINBOWBELL", "BLACKBELL", "SPIKESBELL", "WHITEBELL", "PINKBELL", 
     "PURPLEBELL", "MULTIBELL", "INDIGOBELL", "CRIMSONBOW", "BLUEBOW", "YELLOWBOW", 
@@ -35,10 +30,14 @@ accessory_layers = {
         "WISTERIA",
         "ROSE MALLOW",
         "PICKLEWEED",
-        "GOLDEN CREEPING JENNY", "CLOVER", "DAISY"
+        "GOLDEN CREEPING JENNY"
     ],
     "top": 
-    []
+    ["NETTLE","HEATHER", "MAPLE SEED", "LAUREL", "BULB WHITE", "BULB YELLOW", "BULB ORANGE", 
+        "BULB PINK", "BULB BLUE", "MOTH WINGS", "ROSY MOTH WINGS", 
+    "MORPHO BUTTERFLY", "MONARCH BUTTERFLY", "CICADA WINGS", "BLACK CICADA", "JUNIPER", "RASPBERRY", "LAVENDER", "OAK LEAVES", "CATMINT", "MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", 
+        "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", 
+        "WHITE POPPY", "PINK POPPY", "BLUEBELLS", "LILY OF THE VALLEY"]
 }
 
 traits_dict = {
@@ -140,6 +139,8 @@ def generate_sprite(
         cat_colors = {}
         eye_colors = {}
         cat_colors_tortie = {}
+        cat_layers_tortie = {}
+        cat_layers = {}
         
         cat_traits = {
             "bat_mane": f"{cat.pelt.mane_marks}"
@@ -165,6 +166,8 @@ def generate_sprite(
             
             color_type = sprites.pelt_colors["pelt_list"][cat_marking]["color_type"]
             cat_colors = sprites.pelt_colors["pelt_colors_list"][color_type][cat.pelt.colour]
+
+            cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
         else:
             if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 cat_marking = "SINGLECOLOUR"
@@ -182,12 +185,13 @@ def generate_sprite(
             color_type = sprites.pelt_colors["pelt_list"][tortie_pattern]["color_type"]
             cat_colors_tortie = sprites.pelt_colors["pelt_colors_list"][color_type][cat.pelt.tortiecolour]
 
-        cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
+            cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
+            cat_layers_tortie = sprites.pelt_colors["pelt_list"][tortie_pattern]["layers"]
                 
         #-----------------
         # create base
         #-----------------
-        new_sprite.blit(create_base(cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt))
+        new_sprite.blit(create_base(cat_sprite, cat_colors, cat_layers, cat.pelt, cat_colors_tortie, cat_layers_tortie))
 
         # draw eye colors
         for num, eye in enumerate(eye_colors, start=1):
@@ -229,7 +233,7 @@ def generate_sprite(
         #-----------------
         if cat.display_wing_count in [1, 2] and not wing_hidden:
             back_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            back_wing.blit(create_wings(dead, df, cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.species, 0))
+            back_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 0, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
 
             if cat.clipped_wings():
                 back_wing.blit(
@@ -249,7 +253,7 @@ def generate_sprite(
             new_sprite.blit(bat_mane)
 
         #-----------------
-        # create accessories
+        # create accessories middle
         #-----------------
 
         new_sprite.blit(create_accessories(cat_sprite, cat.pelt.accessory, acc_hidden, "middle"))
@@ -259,7 +263,7 @@ def generate_sprite(
         #-----------------
         if cat.display_wing_count == 2 and not wing_hidden:
             front_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            front_wing.blit(create_wings(dead, df, cat_sprite, cat_colors, cat_colors_tortie, cat_layers, cat.pelt, cat.species, 1))
+            front_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 1, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
             
             if cat.clipped_wings():
                 front_wing.blit(
@@ -268,6 +272,13 @@ def generate_sprite(
                     special_flags=pygame.BLEND_RGBA_MIN,
                 )
             new_sprite.blit(front_wing)
+
+        
+        #-----------------
+        # create accessories top
+        #-----------------
+
+        new_sprite.blit(create_accessories(cat_sprite, cat.pelt.accessory, acc_hidden, "top"))
 
         #-----------------
         # fading fog
@@ -318,7 +329,7 @@ def generate_sprite(
 
     return new_sprite
 
-def create_base(cat_sprite, colors, tortie_colors, markings, cat):
+def create_base(cat_sprite, colors, markings, cat, tortie_colors=None, tortie_markings=None, tortie=False):
     # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
@@ -331,73 +342,83 @@ def create_base(cat_sprite, colors, tortie_colors, markings, cat):
     for layer_name, layer in markings.items():
         finished_sprite.blit(create_layer(cat_sprite, layer_name, layer, colors))
 
-    # TINTS
-    if (
-        cat.tint != "none"
-        and cat.tint in sprites.cat_tints["tint_colours"]
-    ):
-        # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-        # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-        # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-        tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.tint]))
-        finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-    if (
-        cat.tint != "none"
-        and cat.tint in sprites.cat_tints["dilute_tint_colours"]
-    ):
-        tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.tint]))
-        finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-    # draw white patches
-    if cat.white_patches is not None:
-        white_patches = sprites.sprites[
-            "white" + cat.white_patches + cat_sprite
-        ].copy()
-
-        # Apply tint to white patches.
-        if (
-            cat.white_patches_tint != "none"
-            and cat.white_patches_tint
-            in sprites.white_patches_tints["tint_colours"]
-        ):
-            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(
-                tuple(
-                    sprites.white_patches_tints["tint_colours"][
-                        cat.white_patches_tint
-                    ]
-                )
-            )
-            white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        finished_sprite.blit(white_patches, (0, 0))
-
-    # draw vit & points
-
-    if cat.points:
-        points = sprites.sprites["white" + cat.points + cat_sprite].copy()
-        if (
-            cat.white_patches_tint != "none"
-            and cat.white_patches_tint
-            in sprites.white_patches_tints["tint_colours"]
-        ):
-            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(
-                tuple(
-                    sprites.white_patches_tints["tint_colours"][
-                        cat.white_patches_tint
-                    ]
-                )
-            )
-            points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        finished_sprite.blit(points, (0, 0))
-
-    if cat.vitiligo:
-        finished_sprite.blit(
-            sprites.sprites["white" + cat.vitiligo + cat_sprite], (0, 0)
+    if (cat.name in ["Tortie", "Calico"] and not tortie):
+        tortie_sprite = pygame.Surface(
+            (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
         )
+        tortie_sprite.blit(create_base(cat_sprite, tortie_colors, tortie_markings, cat, tortie=True))
+        tortie_sprite.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
+
+        finished_sprite.blit(tortie_sprite)
+
+    if not tortie:
+        # TINTS
+        if (
+            cat.tint != "none"
+            and cat.tint in sprites.cat_tints["tint_colours"]
+        ):
+            # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+            # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+            # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.tint]))
+            finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+        if (
+            cat.tint != "none"
+            and cat.tint in sprites.cat_tints["dilute_tint_colours"]
+        ):
+            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.tint]))
+            finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+        # draw white patches
+        if cat.white_patches is not None:
+            white_patches = sprites.sprites[
+                "white" + cat.white_patches + cat_sprite
+            ].copy()
+
+            # Apply tint to white patches.
+            if (
+                cat.white_patches_tint != "none"
+                and cat.white_patches_tint
+                in sprites.white_patches_tints["tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(
+                    tuple(
+                        sprites.white_patches_tints["tint_colours"][
+                            cat.white_patches_tint
+                        ]
+                    )
+                )
+                white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            finished_sprite.blit(white_patches, (0, 0))
+
+        # draw vit & points
+
+        if cat.points:
+            points = sprites.sprites["white" + cat.points + cat_sprite].copy()
+            if (
+                cat.white_patches_tint != "none"
+                and cat.white_patches_tint
+                in sprites.white_patches_tints["tint_colours"]
+            ):
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(
+                    tuple(
+                        sprites.white_patches_tints["tint_colours"][
+                            cat.white_patches_tint
+                        ]
+                    )
+                )
+                points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            finished_sprite.blit(points, (0, 0))
+
+        if cat.vitiligo:
+            finished_sprite.blit(
+                sprites.sprites["white" + cat.vitiligo + cat_sprite], (0, 0)
+            )
 
     return finished_sprite
 
@@ -412,7 +433,7 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
         categories = ["collars", "tail_accessories", "body_accessories", "head_accessories"]
         for category in categories:
             for accessory in accessories:
-                if accessory in getattr(Pelt, category) and accessory in accessory_layers[layer]:
+                if (accessory in getattr(Pelt, category)) and (accessory in accessory_layers[layer]):
                     if accessory in Pelt.plant_accessories:
                         finished_sprite.blit(
                             sprites.sprites["acc_herbs" + accessory + cat_sprite],
@@ -435,10 +456,8 @@ def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=No
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
 
-    print(layer_sprite_override)
     layer_sprite = layer["sprite_name"]
     if layer_sprite_override:
-        print(True)
         layer_sprite = layer_sprite_override
     overfur_sprite = layer["overfur"]
     underfur_sprite = layer["underfur"]
@@ -530,7 +549,7 @@ def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_
 
     return finished_sprite
 
-def create_wings(dead, df, cat_sprite, colors, tortie_colors, markings, cat, species, layer):
+def create_wings(cat_sprite, colors, markings, cat, species, layer, tortie_colors=None, tortie_markings=None, tortie=False, dead=False, df=False):
     # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.SRCALPHA
@@ -550,83 +569,93 @@ def create_wings(dead, df, cat_sprite, colors, tortie_colors, markings, cat, spe
         marking_sprites.blit(create_layer(cat_sprite, layer_name, mark_layer, colors, prefix=species), (0, 0))
     
     finished_sprite.blit(marking_sprites)
-    # TINTS
-    if (
-        cat.tint != "none"
-        and cat.tint in sprites.cat_tints["tint_colours"]
-    ):
-        # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-        # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-        # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-        tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.tint]))
-        finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-    if (
-        cat.tint != "none"
-        and cat.tint in sprites.cat_tints["dilute_tint_colours"]
-    ):
-        tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.tint]))
-        finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+    if (cat.name in ["Tortie", "Calico"] and not tortie):
+        tortie_sprite = pygame.Surface(
+            (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
+        )
+        tortie_sprite.blit(create_wings(cat_sprite, tortie_colors, tortie_markings, cat, species, layer, tortie=True))
+        tortie_sprite.blit(sprites.sprites[species + "tortiemask" + cat.pattern + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
 
-    # draw white patches
-    if cat.wing_white_patches is not None:
-        wing_white_patches = sprites.sprites[species + 'white' + cat.wing_white_patches + cat_sprite].copy()
+        finished_sprite.blit(tortie_sprite)
 
-        # Apply tint to white patches.
-        if cat.white_patches_tint != "none" and cat.white_patches_tint in sprites.white_patches_tints[
-            "tint_colours"]:
+    if not tortie:
+        # TINTS
+        if (
+            cat.tint != "none"
+            and cat.tint in sprites.cat_tints["tint_colours"]
+        ):
+            # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+            # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+            # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
             tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
-            wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        white_sprites.blit(wing_white_patches, (0, 0))
-
-    # draw vit & points
-
-    if cat.points:
-        wing_points = sprites.sprites[species + 'white' + cat.points + cat_sprite].copy()
-        if cat.white_patches_tint != "none" and cat.white_patches_tint in sprites.white_patches_tints[
-            "tint_colours"]:
+            tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.tint]))
+            finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+        if (
+            cat.tint != "none"
+            and cat.tint in sprites.cat_tints["dilute_tint_colours"]
+        ):
             tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
-            wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        white_sprites.blit(wing_points, (0, 0))
+            tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.tint]))
+            finished_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 
-    if cat.vitiligo:
-        white_sprites.blit(sprites.sprites[species + 'white' + cat.vitiligo + cat_sprite], (0, 0))
+        # draw white patches
+        if cat.wing_white_patches is not None:
+            wing_white_patches = sprites.sprites[species + 'white' + cat.wing_white_patches + cat_sprite].copy()
 
-    finished_sprite.blit(white_sprites)
-    # draw skin
-    if cat.species == "bat cat":
-        skin_color = sprites.skin_colors[f'{cat.skin}']
-        membrane = sprites.sprites['batskin' + cat_sprite]
+            # Apply tint to white patches.
+            if cat.white_patches_tint != "none" and cat.white_patches_tint in sprites.white_patches_tints[
+                "tint_colours"]:
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-        membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        membrane_tint.fill(skin_color)
-        membrane.blit(membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            white_sprites.blit(wing_white_patches, (0, 0))
 
-        membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        membrane_tint2.fill(colors["underfur"])
+        # draw vit & points
 
-        membrane.blit(membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+        if cat.points:
+            wing_points = sprites.sprites[species + 'white' + cat.points + cat_sprite].copy()
+            if cat.white_patches_tint != "none" and cat.white_patches_tint in sprites.white_patches_tints[
+                "tint_colours"]:
+                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            white_sprites.blit(wing_points, (0, 0))
 
-        finished_sprite.blit(membrane, (0, 0))
+        if cat.vitiligo:
+            white_sprites.blit(sprites.sprites[species + 'white' + cat.vitiligo + cat_sprite], (0, 0))
 
-    # draw line art and shading
-    if game_setting_get("shaders") and not dead:
-        finished_sprite.blit(sprites.sprites[f'{species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        finished_sprite.blit(sprites.sprites[f'{species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+        finished_sprite.blit(white_sprites)
+        # draw skin
+        if cat.species == "bat cat":
+            skin_color = sprites.skin_colors[f'{cat.skin}']
+            membrane = sprites.sprites['batskin' + cat_sprite]
 
-    # mask
-    finished_sprite.blit(sprites.sprites[species + f"_{layer}_base" + cat_sprite],(0,0), special_flags=pygame.BLEND_RGBA_MULT)
+            membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            membrane_tint.fill(skin_color)
+            membrane.blit(membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-    if not dead:
-        finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lines' + cat_sprite], (0, 0))
-    elif df:
-        finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lineartdf' + cat_sprite], (0, 0))
-    elif dead:
-        finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lineartdead' + cat_sprite], (0, 0))
+            membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            membrane_tint2.fill(colors["underfur"])
+
+            membrane.blit(membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+            finished_sprite.blit(membrane, (0, 0))
+
+        # draw line art and shading
+        if game_setting_get("shaders") and not dead:
+            finished_sprite.blit(sprites.sprites[f'{species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            finished_sprite.blit(sprites.sprites[f'{species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+
+        # mask
+        finished_sprite.blit(sprites.sprites[species + f"_{layer}_base" + cat_sprite],(0,0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        if not dead:
+            finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lines' + cat_sprite], (0, 0))
+        elif df:
+            finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lineartdf' + cat_sprite], (0, 0))
+        elif dead:
+            finished_sprite.blit(sprites.sprites[f'{species}_{layer}_lineartdead' + cat_sprite], (0, 0))
 
     return finished_sprite
 
