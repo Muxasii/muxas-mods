@@ -176,24 +176,24 @@ class Sprites:
 
         # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('winglineart', (0, 0), 'bat cat_0_lines')
-        self.make_group('winglineart', (1, 0), 'bird cat_0_lines')
-        self.make_group('winglineart', (2, 0), 'bat cat_1_lines')
-        self.make_group('winglineart', (3, 0), 'bird cat_1_lines')
+        self.make_group('winglineart', (0, 0), 'bat cat_1_lines')
+        self.make_group('winglineart', (1, 0), 'bird cat_1_lines')
+        self.make_group('winglineart', (2, 0), 'bat cat_0_lines')
+        self.make_group('winglineart', (3, 0), 'bird cat_0_lines')
         for a, i in enumerate(
                 ['df', 'dead']):
             self.make_group('lineartdead', (a, 0), f'lineart{i}')
-            self.make_group('winglineart', (a, 1), f'bird cat_0_lineart{i}')
-            self.make_group('winglineart', (a, 2), f'bat cat_0_lineart{i}')
-            self.make_group('winglineart', (a+2, 1), f'bird cat_1_lineart{i}')
-            self.make_group('winglineart', (a+2, 2), f'bat cat_1_lineart{i}')
+            self.make_group('winglineart', (a, 1), f'bird cat_1_lineart{i}')
+            self.make_group('winglineart', (a, 2), f'bat cat_1_lineart{i}')
+            self.make_group('winglineart', (a+2, 1), f'bird cat_0_lineart{i}')
+            self.make_group('winglineart', (a+2, 2), f'bat cat_0_lineart{i}')
 
         # Base
         self.make_group('base', (0, 0), 'base')
         for a, i in enumerate(
                 ['bat cat', 'bird cat']):
-            self.make_group('wingsbase', (a, 0), f'{i}_0_base')
-            self.make_group('wingsbase', (a, 1), f'{i}_1_base')
+            self.make_group('wingsbase', (a, 0), f'{i}_1_base')
+            self.make_group('wingsbase', (a, 1), f'{i}_0_base')
 
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
@@ -220,13 +220,13 @@ class Sprites:
 
         # bat mane
         for a, i in enumerate(['lines', 'base', 'shaders', 'lighting', 'lineartdead', 'lineartdf']):
-            self.make_group('batmane', (a, 0), f'mane{i}')
+            self.make_group('batmane', (a, 0), f'bat_mane{i}')
         for a, i in enumerate(['overfur', 'underfur']):
-            self.make_group('batmane', (a, 1), f'mane{i}')
+            self.make_group('batmane', (a, 1), f'bat_mane{i}')
 
         # bat mane markings
         for a, i in enumerate(['FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']):
-            self.make_group('batmanemarkings', (a, 0), f'manemarks{i}')
+            self.make_group('batmanemarkings', (a, 0), f'bat_manemarkings{i}')
 
 
         # Fading Fog
