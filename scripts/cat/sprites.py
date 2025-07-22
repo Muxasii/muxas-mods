@@ -15,6 +15,9 @@ logger = logging.getLogger(__name__)
 class Sprites:
     cat_tints = {}
     white_patches_tints = {}
+    eye_colors = {}
+    pelt_colors = {}
+    skin_colors = {}
     clan_symbols = []
 
     def __init__(self):
@@ -32,6 +35,7 @@ class Sprites:
         self.blank_sprite = None
 
         self.load_tints()
+        self.load_pelt_jsons()
 
     def load_tints(self):
         try:
@@ -47,6 +51,26 @@ class Sprites:
                 self.white_patches_tints = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading White Patches Tints")
+
+    def load_pelt_jsons(self):
+        try:
+            with open("sprites/dicts/eye_colors.json", "r", encoding="utf-8") as read_file:
+                self.eye_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading eye_colors.json")
+
+        try:
+            with open(
+                "sprites/dicts/pelt_colors.json", "r", encoding="utf-8"
+            ) as read_file:
+                self.pelt_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading pelt_colors.json")
+        try:
+            with open("sprites/dicts/skin_colors.json", "r", encoding="utf-8") as read_file:
+                self.skin_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading skin_colors.json")
 
     def spritesheet(self, a_file, name):
         """
@@ -152,24 +176,24 @@ class Sprites:
 
         # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('winglineart', (0, 0), 'bat catlines')
-        self.make_group('winglineart', (1, 0), 'bird catlines')
-        self.make_group('winglineart', (2, 0), 'bat catbacklines')
-        self.make_group('winglineart', (3, 0), 'bird catbacklines')
+        self.make_group('winglineart', (0, 0), 'bat cat_0_lines')
+        self.make_group('winglineart', (1, 0), 'bird cat_0_lines')
+        self.make_group('winglineart', (2, 0), 'bat cat_1_lines')
+        self.make_group('winglineart', (3, 0), 'bird cat_1_lines')
         for a, i in enumerate(
                 ['df', 'dead']):
             self.make_group('lineartdead', (a, 0), f'lineart{i}')
-            self.make_group('winglineart', (a, 1), f'bird catlineart{i}')
-            self.make_group('winglineart', (a, 2), f'bat catlineart{i}')
-            self.make_group('winglineart', (a+2, 1), f'bird catbacklineart{i}')
-            self.make_group('winglineart', (a+2, 2), f'bat catbacklineart{i}')
+            self.make_group('winglineart', (a, 1), f'bird cat_0_lineart{i}')
+            self.make_group('winglineart', (a, 2), f'bat cat_0_lineart{i}')
+            self.make_group('winglineart', (a+2, 1), f'bird cat_1_lineart{i}')
+            self.make_group('winglineart', (a+2, 2), f'bat cat_1_lineart{i}')
 
         # Base
         self.make_group('base', (0, 0), 'base')
         for a, i in enumerate(
                 ['bat cat', 'bird cat']):
-            self.make_group('wingsbase', (a, 0), f'{i}base')
-            self.make_group('wingsbase', (a, 1), f'{i}backbase')
+            self.make_group('wingsbase', (a, 0), f'{i}_0_base')
+            self.make_group('wingsbase', (a, 1), f'{i}_1_base')
 
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
@@ -177,7 +201,7 @@ class Sprites:
         # Eyes
         for a, i in enumerate(
                 ['base', 'shade', 'pupil']):
-            self.make_group('eyesnew', (a, 0), f'eyes{i}')
+            self.make_group('eyesnew', (a, 0), f'eyes1{i}')
             self.make_group('eyesnew', (a, 1), f'eyes2{i}')
 
         # Shaders
@@ -274,11 +298,11 @@ class Sprites:
 
         # wing overlays
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY', 'SMOKE']):
             self.make_group('overlays', (a, 2), f'bird catunderfur{i}')
             self.make_group('overlays', (a, 4), f'bat catunderfur{i}')
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
             self.make_group('overlays', (a, 3), f'bird catoverfur{i}')
             self.make_group('overlays', (a, 5), f'bat catoverfur{i}')
 

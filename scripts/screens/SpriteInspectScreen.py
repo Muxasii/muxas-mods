@@ -5,10 +5,10 @@ import pygame
 import pygame_gui
 
 from scripts.cat.cats import Cat
+from scripts.cat.generate_sprite import generate_sprite
 from scripts.game_structure.game_essentials import game
 from scripts.game_structure.ui_elements import UIImageButton, UISurfaceImageButton
 from scripts.utility import (
-    generate_sprite,
     shorten_text_to_fit,
     ui_scale_dimensions,
     ui_scale_offset,

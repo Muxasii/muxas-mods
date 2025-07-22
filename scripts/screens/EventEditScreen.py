@@ -8,6 +8,7 @@ import pygame_gui
 import ujson
 
 from scripts.cat.cats import Cat, BACKSTORIES, create_option_preview_cat
+from scripts.cat.generate_sprite import generate_sprite
 from scripts.cat.pelts import Pelt
 from scripts.cat.personality import Personality
 from scripts.cat.skills import SkillPath
@@ -39,7 +40,6 @@ from scripts.utility import (
     ui_scale,
     process_text,
     ui_scale_dimensions,
-    generate_sprite,
     get_text_box_theme,
 )
 

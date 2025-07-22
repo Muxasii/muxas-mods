@@ -1,0 +1,106 @@
+{
+    "eye_color_list": {
+        "HEX COLOR BASE": ["#base", "#shadow", "#pupil"],
+
+        "YELLOW": ["#FFF571", "#E6D64E", "#AE8A4D"],
+        "AMBER": ["#F2E085", "#DD9D55", "#BA6932"],
+        "HAZEL": ["#C7A37C", "#909960", "#545A36"],
+        "PALEGREEN": ["#DDE895", "#87BA65", "#447F4B"],
+        "GREEN": ["#76DF66", "#5A9B6C", "#35665A"],
+        "BLUE": ["#ADEEF0", "#70BBD9", "#375AA7"],
+        "DARKBLUE": ["#6C94DB", "#3747A1", "#1F365F"],
+        "PEBBLE": ["#A9A7A3", "#7C8273", "#3A3D35"],
+        "CYAN": ["#CDFFF6", "#75E1CE", "#4C97A5"],
+        "EMERALD": ["#54B06A", "#41785F", "#263E3E"],
+        "HEATHERBLUE": ["#809ED0", "#8A6BBD", "#512E86"],
+        "SUNLITICE": ["#A2FAFF", "#DDD374", "#6D5730"],
+        "COPPER": ["#D47A3C", "#A35118", "#62240B"],
+        "SAGE": ["#88985B", "#687544", "#2F3420"],
+        "COBALT": ["#6387D0", "#374F98", "#011C48"],
+        "PALEBLUE": ["#AEDBE1", "#75B3EF", "#4B77BE"],
+        "BRONZE": ["#9A6331", "#6D431D", "#482F39"],
+        "DUST": ["#DBC9B5", "#B1A598", "#7B6C5B"],
+        "PALEYELLOW": ["#FFF8B8", "#E5D09A", "#B79E48"],
+        "GOLD": ["#FFF8B8", "#CCA44F", "#6D5730"],
+        "GREENYELLOW": ["#F2E085", "#B2BC74", "#867E48"],
+        "ORANGE": ["#FEA74B", "#F86B21", "#A9280C"],
+
+        "NEW COLORS": [],
+
+        "INDIGO": ["#5e51f7", "#2e1389", "#030339"],
+        "GLASS": ["#f7f5ff", "#c2bfcd", "#434152"],
+        "OBSIDIAN": ["#2A3F32", "#1D2A26", "#030A06"],
+        "ICE": ["#d1e9f3", "#9ed7f0", "#193fa3"],
+        "DARKHAZEL": ["#7c683a", "#2b441e", "#130e0b"],
+        "HONEY": ["#a38b33", "#73480e", "#221304"],
+        "DARKAMBER": ["#7c3310", "#4c1709", "#190702"],
+        "OLIVE": ["#6e7c56", "#383c2c", "#141512"],
+        "SALMON": ["#e0bfb8", "#b9696e", "#4f1f1f"],
+        "VIOLET": ["#a775dd", "#491fb9", "#06041f"],
+        "CRYSTAL": ["#dab0d4", "#5c8ea9", "#231a56"],
+        "PLUM": ["#573E88", "#3A265D", "#040218"],
+        "ROSEWOOD": ["#f7f5ff", "#c2bfcd", "#434152"],
+        "SEAFOAM": ["#8fe3c0", "#36cd9b", "#081a32"],
+        "LAVENDER": ["#c0aadd", "#8b6cc6", "#1a1446"],
+        "LILAC": ["#e3b8f7", "#c685ae", "#361b56"],
+        "SILVER": ["#C4C6C9", "#A9AAAD", "#51525D"],
+        "GREY": ["#9D9D9F", "#6A6A6C", "#353037"],
+
+        "COFFEE COLORS": [],
+
+        "IRIDESCENT": ["#E2F9A2", "#7EBAE4", "#5e347d"],
+        "DUSK": ["#FFCBCE", "#7CCDDE", "#387683"],
+        "STARLIGHT": ["#FFEEB1", "#6D68EC", "#3F3B98"],
+        "TOXIC": ["#D3E658", "#68B033", "#752EAD"],
+        "HOLLY": ["#A3D51E", "#1FA412", "#5e160a"],
+        "HAZELBLUE": ["#B0EAFF", "#D8A576", "#825D3A"],
+        "SUNSET": ["#F8C74C", "#FE874F", "#BD29A7"],
+        "LILY": ["#FFC3F2", "#94E394", "#215A2C"],
+        "MIRE": ["#9DE6AC", "#80709D", "#6E3D69"],
+        "SHIMMER": ["#e0dae6", "#cb92d4", "#1c1954"],
+        "UMBER": ["#473d3c", "#331f1d", "#120908"],
+        "LICHEN": ["#b6d6c7", "#8aa690", "#49573e"],
+        "ROBINEGG": ["#4fdaf0", "#18aad6", "#124669"],
+        "DAWN": ["#e6aeb5", "#dbad79", "#3f2e73"],
+        "PEACOCK": ["#158f62", "#01403e", "#081a36"],
+        "CARDINAL": ["#c24836", "#78231c", "#29100d"],
+        "STARDUST": ["#b33d25", "#661a10", "#290807"],
+        "MOONSTONE": ["#edf2f7", "#b0b3f5", "#8d82b8"],
+        "RUSSET": ["#804334", "#70271a", "#26120f"],
+        "CRIMSON": ["#751323", "#520703", "#1f0201"]
+    },
+
+    "color_lists": {
+        "eye_colours": [
+            "YELLOW", "AMBER", "HAZEL", "PALEGREEN", "GREEN", "BLUE", "DARKBLUE", "GREY", "CYAN", "EMERALD",
+            "PALEBLUE", "PALEYELLOW", "GOLD", "HEATHERBLUE", "COPPER", "SAGE", "COBALT", "SUNLITICE", "GREENYELLOW", "ORANGE",
+            "BRONZE", "SILVER", "DUST", "PEBBLE", "OBSIDIAN", "DARKHAZEL", "OLIVE", "SEAFOAM",
+            "SALMON", "CRYSTAL", "ROSEWOOD", "LILAC", "LAVENDER", "PLUM", "VIOLET", "MIRE", "LILY", "TOXIC", "HOLLY", "LICHEN",
+            "MOONSTONE", "CARDINAL", "DUSK", "DAWN", "LILY", "RUSSET", "CRIMSON",
+            "IRIDESCENT", "STARLIGHT", "PEACOCK", "HAZELBLUE", "SUNSET"
+        ],
+        "yellow_eyes": [
+            "YELLOW", "AMBER", "PALEYELLOW", "GOLD",
+            "COPPER", "GREENYELLOW", "BRONZE", "SILVER",
+            "DUST", "PEBBLE", "HONEY", "DARKAMBER", "ORANGE", "UMBER", "HAZELBLUE", "SUNSET"
+        ],
+        "blue_eyes": [
+            "BLUE", "DARKBLUE", "CYAN", "PALEBLUE", "HEATHERBLUE",
+            "COBALT", "SUNLITICE", "GREY", "IRIDESCENT", "STARLIGHT", "PEACOCK"
+        ],
+        "green_eyes": [
+            "PALEGREEN", "GREEN", "EMERALD", "SAGE",
+            "HAZEL", "OBSIDIAN", "DARKHAZEL", "OLIVE",
+            "SEAFOAM", "TOXIC", "HOLLY", "LICHEN"
+        ],
+        "purple_eyes": [
+            "GLASS", "INDIGO", "LAVENDER", "PLUM",
+            "VIOLET", "SALMON", "CRYSTAL", "LILAC",
+            "MOONSTONE", "MIRE"
+        ],
+        "red_eyes": [
+            "CARDINAL", "ROSEWOOD", "SALMON", "DUSK", "DAWN", "LILY", "RUSSET", "CRIMSON"
+        ]
+    }
+    
+}
