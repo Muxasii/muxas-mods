@@ -413,6 +413,11 @@
                     "sprite_name": "markingsROSETTE",
                     "overfur": false,
                     "underfur": "underfurBASIC"
+                },
+                "markings_inside": {
+                    "sprite_name": "markinsideROSETTE",
+                    "overfur": false,
+                    "underfur": false
                 }
             }
         },
