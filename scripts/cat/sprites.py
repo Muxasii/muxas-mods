@@ -53,12 +53,13 @@ class Sprites:
             print("ERROR: Reading White Patches Tints")
 
     def load_pelt_jsons(self):
+        # open eye colors
         try:
             with open("sprites/dicts/eye_colors.json", "r", encoding="utf-8") as read_file:
                 self.eye_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading eye_colors.json")
-
+        # open pelt colors
         try:
             with open(
                 "sprites/dicts/pelt_colors.json", "r", encoding="utf-8"
@@ -66,11 +67,24 @@ class Sprites:
                 self.pelt_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading pelt_colors.json")
+        # open skin colors
         try:
             with open("sprites/dicts/skin_colors.json", "r", encoding="utf-8") as read_file:
                 self.skin_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading skin_colors.json")
+        # open accessories
+        try:
+            with open("sprites/dicts/accessories.json", "r", encoding="utf-8") as read_file:
+                self.accessories = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading accessories.json")
+        # open extra traits
+        try:
+            with open("sprites/dicts/extra_traits.json", "r", encoding="utf-8") as read_file:
+                self.extra_traits = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading extra_traits.json")
 
     def spritesheet(self, a_file, name):
         """
@@ -216,7 +230,7 @@ class Sprites:
 
         # bird wing markings
         for a, i in enumerate(['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS']):
-            self.make_group('wingmarks', (a, 0), f'wingmarks{i}')
+            self.make_group('wingmarks', (a, 0), f'bird catwingmarks{i}')
 
         # bat mane
         for a, i in enumerate(['lines', 'base', 'shaders', 'lighting', 'lineartdead', 'lineartdf']):

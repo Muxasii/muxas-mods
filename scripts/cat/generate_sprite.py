@@ -12,55 +12,6 @@ from scripts.cat.sprites import sprites
 
 logger = logging.getLogger(__name__)
 
-accessory_layers = {
-    "middle": [
-        "SNAPDRAGON", "HERBS", "PETALS", "GORSE", 
-        "CLOVER", "DAISY", "DRY HERBS", "DRY CATMINT", 
-        "DRY NETTLES", "DRY LAURELS", "RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS",
-    "GULL FEATHERS", "SPARROW FEATHERS", 
-    "CRIMSONBELL", "BLUEBELL", "YELLOWBELL", "CYANBELL", "REDBELL", "LIMEBELL", 
-    "GREENBELL", "RAINBOWBELL", "BLACKBELL", "SPIKESBELL", "WHITEBELL", "PINKBELL", 
-    "PURPLEBELL", "MULTIBELL", "INDIGOBELL", "CRIMSONBOW", "BLUEBOW", "YELLOWBOW", 
-    "CYANBOW", "REDBOW", "LIMEBOW", "GREENBOW", "RAINBOWBOW", "BLACKBOW", "SPIKESBOW", 
-    "WHITEBOW", "PINKBOW", "PURPLEBOW", "MULTIBOW", "INDIGOBOW", "CRIMSONNYLON", 
-    "BLUENYLON", "YELLOWNYLON", "CYANNYLON", "REDNYLON", "LIMENYLON", "GREENNYLON", 
-    "RAINBOWNYLON", "BLACKNYLON", "SPIKESNYLON", "WHITENYLON", "PINKNYLON", "PURPLENYLON",
-    "MULTINYLON", "INDIGONYLON",
-    
-        "WISTERIA",
-        "ROSE MALLOW",
-        "PICKLEWEED",
-        "GOLDEN CREEPING JENNY"
-    ],
-    "top": 
-    ["NETTLE","HEATHER", "MAPLE SEED", "LAUREL", "BULB WHITE", "BULB YELLOW", "BULB ORANGE", 
-        "BULB PINK", "BULB BLUE", "MOTH WINGS", "ROSY MOTH WINGS", 
-    "MORPHO BUTTERFLY", "MONARCH BUTTERFLY", "CICADA WINGS", "BLACK CICADA", "JUNIPER", "RASPBERRY", "LAVENDER", "OAK LEAVES", "CATMINT", "MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", 
-        "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", 
-        "WHITE POPPY", "PINK POPPY", "BLUEBELLS", "LILY OF THE VALLEY"]
-}
-
-traits_dict = {
-    "bat_mane": {
-        "lineart_overfade": False,
-        "lineart_underfade": False,
-        "layers": {
-            "base": {
-                "sprite_name": "bat_manebase",
-                "overfur": "bat_maneoverfur",
-                "underfur": "bat_maneunderfur"
-            },
-            "markings": {
-                "sprite_name": "cat",
-                "overfur": "bat_maneoverfur",
-                "underfur": "bat_maneunderfur"
-            }
-        }
-    },
-    "feathering": {},
-    "leg_fluff": {}
-}
-
 def generate_sprite(
     cat,
     life_state=None,
@@ -140,6 +91,8 @@ def generate_sprite(
         eye_colors = {}
         cat_colors_tortie = {}
         cat_layers_tortie = {}
+        wing_markings_tortie = {}
+        wing_markings = {}
         cat_layers = {}
         
         cat_traits = {
@@ -187,7 +140,22 @@ def generate_sprite(
 
             cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
             cat_layers_tortie = sprites.pelt_colors["pelt_list"][tortie_pattern]["layers"]
-                
+
+        if cat.species == "bird cat" and cat.pelt.wing_marks != "NONE":
+            wing_markings = {
+                "sprite_name": f"wingmarks{cat.pelt.wing_marks}",
+                "overfur": cat_layers["markings"]["overfur"] if "markings" in cat_layers else False,
+                "underfur": cat_layers["markings"]["underfur"] if "markings" in cat_layers else False
+            }
+            if cat_layers_tortie:
+                wing_markings_tortie = {
+                    "sprite_name": f"wingmarks{cat.pelt.wing_marks}",
+                    "overfur": cat_layers_tortie["markings"]["overfur"] if "markings" in cat_layers_tortie else False,
+                    "underfur": cat_layers_tortie["markings"]["underfur"] if "markings" in cat_layers_tortie else False
+                }
+            print(wing_markings)
+        
+
         #-----------------
         # create base
         #-----------------
@@ -231,9 +199,9 @@ def generate_sprite(
         #-----------------
         # create back wing
         #-----------------
-        if cat.display_wing_count in [1, 2] and not wing_hidden:
+        if cat.display_wing_count == 2 and not wing_hidden:
             back_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            back_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 0, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
+            back_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 0, wing_markings, wing_markings_tortie, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
 
             if cat.clipped_wings():
                 back_wing.blit(
@@ -248,7 +216,7 @@ def generate_sprite(
 
         if cat.pelt.mane and cat.species == "bat cat":
             bat_mane = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            bat_mane.blit(create_trait(dead, df, cat.pelt, cat_sprite, cat_colors, "bat_mane", traits_dict["bat_mane"], cat_traits, True))
+            bat_mane.blit(create_trait(dead, df, cat.pelt, cat_sprite, cat_colors, "bat_mane", sprites.extra_traits["bat_mane"], cat_traits, True))
 
             new_sprite.blit(bat_mane)
 
@@ -261,9 +229,9 @@ def generate_sprite(
         #-----------------
         # create front wing
         #-----------------
-        if cat.display_wing_count == 2 and not wing_hidden:
+        if cat.display_wing_count in [1, 2] and not wing_hidden:
             front_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
-            front_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 1, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
+            front_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 1, wing_markings, wing_markings_tortie, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
             
             if cat.clipped_wings():
                 front_wing.blit(
@@ -433,7 +401,7 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
         categories = ["collars", "tail_accessories", "body_accessories", "head_accessories"]
         for category in categories:
             for accessory in accessories:
-                if (accessory in getattr(Pelt, category)) and (accessory in accessory_layers[layer]):
+                if (accessory in getattr(Pelt, category)) and (accessory in sprites.accessories["accessory_layers"][layer]):
                     if accessory in Pelt.plant_accessories:
                         finished_sprite.blit(
                             sprites.sprites["acc_herbs" + accessory + cat_sprite],
@@ -452,13 +420,15 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
     return finished_sprite
 
 def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=None, prefix="", disable_suffix=False):
+    print(f"Creating layer: {layer_name} - {layer}")
     finished_layer = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
-
-    layer_sprite = layer["sprite_name"]
+    
     if layer_sprite_override:
         layer_sprite = layer_sprite_override
+    else:
+        layer_sprite = layer["sprite_name"]
     overfur_sprite = layer["overfur"]
     underfur_sprite = layer["underfur"]
 
@@ -491,7 +461,7 @@ def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=No
         overfur = sprites.sprites[prefix + overfur_sprite + cat_sprite].copy()
         overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
-        overfur.blit(sprites.sprites[layer_sprite + cat_sprite], special_flags=pygame.BLEND_RGBA_MULT)
+        overfur.blit(sprites.sprites[prefix + layer_sprite + cat_sprite], special_flags=pygame.BLEND_RGBA_MULT)
 
         cat_layer.blit(overfur)
     
@@ -549,7 +519,7 @@ def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_
 
     return finished_sprite
 
-def create_wings(cat_sprite, colors, markings, cat, species, layer, tortie_colors=None, tortie_markings=None, tortie=False, dead=False, df=False):
+def create_wings(cat_sprite, colors, markings, cat, species, layer, wing_marks, tortie_wing_marks=None, tortie_colors=None, tortie_markings=None, tortie=False, dead=False, df=False):
     # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.SRCALPHA
@@ -569,11 +539,16 @@ def create_wings(cat_sprite, colors, markings, cat, species, layer, tortie_color
         marking_sprites.blit(create_layer(cat_sprite, layer_name, mark_layer, colors, prefix=species), (0, 0))
     
     finished_sprite.blit(marking_sprites)
+    
+    if wing_marks:
+        print(f"Creating layer: {wing_marks}")
+        finished_sprite.blit(create_layer(cat_sprite, "markings", wing_marks, colors, prefix=species))
+
     if (cat.name in ["Tortie", "Calico"] and not tortie):
         tortie_sprite = pygame.Surface(
             (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
         )
-        tortie_sprite.blit(create_wings(cat_sprite, tortie_colors, tortie_markings, cat, species, layer, tortie=True))
+        tortie_sprite.blit(create_wings(cat_sprite, tortie_colors, tortie_markings, cat, species, layer, tortie_wing_marks, tortie=True))
         tortie_sprite.blit(sprites.sprites[species + "tortiemask" + cat.pattern + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
 
         finished_sprite.blit(tortie_sprite)
@@ -627,7 +602,7 @@ def create_wings(cat_sprite, colors, markings, cat, species, layer, tortie_color
 
         finished_sprite.blit(white_sprites)
         # draw skin
-        if cat.species == "bat cat":
+        if species == "bat cat":
             skin_color = sprites.skin_colors[f'{cat.skin}']
             membrane = sprites.sprites['batskin' + cat_sprite]
 

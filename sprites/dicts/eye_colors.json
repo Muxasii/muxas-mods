@@ -71,7 +71,7 @@
     },
 
     "color_lists": {
-        "eye_colours": [
+        "eye_colors": [
             "YELLOW", "AMBER", "HAZEL", "PALEGREEN", "GREEN", "BLUE", "DARKBLUE", "GREY", "CYAN", "EMERALD",
             "PALEBLUE", "PALEYELLOW", "GOLD", "HEATHERBLUE", "COPPER", "SAGE", "COBALT", "SUNLITICE", "GREENYELLOW", "ORANGE",
             "BRONZE", "SILVER", "DUST", "PEBBLE", "OBSIDIAN", "DARKHAZEL", "OLIVE", "SEAFOAM",

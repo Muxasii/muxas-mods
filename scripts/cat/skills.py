@@ -121,7 +121,7 @@ class SkillPath(Enum):
     )
     SILENTFLIGHT = (
         "scares other cats",
-        "quiet flaps",
+        "flaps quietly",
         "stealthy in flight",
         "silent wings"
     )
@@ -565,13 +565,11 @@ class CatSkills:
 
             # If there are parental paths, flip a coin to determine if they will get a parents path
             if parental_paths and random.randint(0, 1):
-
                 self.primary = Skill(
                     random.choice(parental_paths),
                     points=0,
                     interest_only=the_cat.status.rank
                     in (CatRank.APPRENTICE, CatRank.KITTEN),
-                    wings=wings
                 )
             else:
                 self.primary = Skill.get_random_skill(
