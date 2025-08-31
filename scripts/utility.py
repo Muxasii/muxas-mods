@@ -20,6 +20,10 @@ import pygame
 import ujson
 from pygame_gui.core import ObjectID
 
+from scripts.clan_package.settings import get_clan_setting
+from scripts.game_structure.game.settings import game_settings_save, game_setting_get
+from scripts.game_structure.game.switches import switch_get_value, Switch
+from scripts.cat.status import StatusDict
 from scripts.game_structure.localization import (
     load_lang_resource,
     determine_plural_pronouns,
@@ -27,12 +31,14 @@ from scripts.game_structure.localization import (
 )
 
 logger = logging.getLogger(__name__)
-from scripts.game_structure import image_cache, localization
-from scripts.cat.enums import CatAgeEnum
-from scripts.cat.history import History
+from scripts.game_structure import image_cache, localization, constants
+from scripts.cat.enums import CatAge, CatRank, CatSocial, CatGroup, CatStanding
 from scripts.cat.names import names
 from scripts.cat.sprites import sprites
 from scripts.game_structure.game_essentials import game
+
+from scripts.cat.generate_sprite import generate_sprite
+
 import scripts.game_structure.screen_settings  # must be done like this to get updates when we change screen size etc
 
 if TYPE_CHECKING:
@@ -48,7 +54,7 @@ def get_alive_clan_queens(living_cats):
     living_kits = [
         cat
         for cat in living_cats
-        if not (cat.dead or cat.outside) and cat.status in ("kitten", "newborn")
+        if cat.status.alive_in_player_clan and cat.status.rank.is_baby()
     ]
 
     queen_dict = {}
@@ -58,17 +64,16 @@ def get_alive_clan_queens(living_cats):
         parents = [
             cat.fetch_cat(i)
             for i in parents
-            if cat.fetch_cat(i)
-               and not (cat.fetch_cat(i).dead or cat.fetch_cat(i).outside)
+            if cat.fetch_cat(i) and cat.fetch_cat(i).status.alive_in_player_clan
         ]
         if not parents:
             continue
 
         if (
-                len(parents) == 1
-                or len(parents) > 2
-                or all(i.gender == "male" for i in parents)
-                or parents[0].gender == "female"
+            len(parents) == 1
+            or len(parents) > 2
+            or all(i.gender == "male" for i in parents)
+            or parents[0].gender == "female"
         ):
             if parents[0].ID in queen_dict:
                 queen_dict[parents[0].ID].append(cat)
@@ -86,16 +91,16 @@ def get_alive_clan_queens(living_cats):
     return queen_dict, living_kits
 
 
-def get_alive_status_cats(
-        Cat: Union["Cat", Type["Cat"]],
-        get_status: list,
-        working: bool = False,
-        sort: bool = False,
+def find_alive_cats_with_rank(
+    Cat: Union["Cat", Type["Cat"]],
+    ranks: list,
+    working: bool = False,
+    sort: bool = False,
 ) -> list:
     """
-    returns a list of cat objects for all living cats of get_status in Clan
+    returns a list of cat objects for all living cats with a listed rank in Clan
     :param Cat Cat: Cat class
-    :param list get_status: list of statuses searching for
+    :param list ranks: list of ranks to search for
     :param bool working: default False, set to True if you would like the list to only include working cats
     :param bool sort: default False, set to True if you would like list sorted by descending moon age
     """
@@ -103,7 +108,7 @@ def get_alive_status_cats(
     alive_cats = [
         i
         for i in Cat.all_cats.values()
-        if i.status in get_status and not i.dead and not i.outside
+        if i.status.rank in ranks and i.status.alive_in_player_clan
     ]
 
     if working:
@@ -135,7 +140,7 @@ def get_living_clan_cat_count(Cat):
     """
     count = 0
     for the_cat in Cat.all_cats.values():
-        if the_cat.dead or the_cat.exiled or the_cat.outside:
+        if not the_cat.status.alive_in_player_clan:
             continue
         count += 1
     return count
@@ -150,7 +155,7 @@ def get_cats_same_age(Cat, cat, age_range=10):
     """
     cats = []
     for inter_cat in Cat.all_cats.values():
-        if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
+        if not inter_cat.status.alive_in_player_clan:
             continue
         if inter_cat.ID == cat.ID:
             continue
@@ -162,8 +167,8 @@ def get_cats_same_age(Cat, cat, age_range=10):
             continue
 
         if (
-                inter_cat.moons <= cat.moons + age_range
-                and inter_cat.moons <= cat.moons - age_range
+            inter_cat.moons <= cat.moons + age_range
+            and inter_cat.moons <= cat.moons - age_range
         ):
             cats.append(inter_cat)
 
@@ -174,7 +179,7 @@ def get_free_possible_mates(cat):
     """Returns a list of available cats, which are possible mates for the given cat."""
     cats = []
     for inter_cat in cat.all_cats.values():
-        if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
+        if not inter_cat.status.alive_in_player_clan:
             continue
         if inter_cat.ID == cat.ID:
             continue
@@ -191,7 +196,7 @@ def get_free_possible_mates(cat):
 
 
 def get_random_moon_cat(
-        Cat, main_cat, parent_child_modifier=True, mentor_app_modifier=True
+    Cat, main_cat, parent_child_modifier=True, mentor_app_modifier=True
 ):
     """
     returns a random cat for use in moon events
@@ -205,13 +210,12 @@ def get_random_moon_cat(
     random_cat = None
 
     # grab list of possible random cats
-    possible_r_c = [
-        cat for cat in Cat.all_cats.values()
-        if not cat.dead
-        and not cat.exiled
-        and not cat.outside
-        and (cat.ID != main_cat.ID)
-    ]
+    possible_r_c = list(
+        filter(
+            lambda c: c.status.alive_in_player_clan and (c.ID != main_cat.ID),
+            Cat.all_cats.values(),
+        )
+    )
 
     if possible_r_c:
         random_cat = choice(possible_r_c)
@@ -231,10 +235,9 @@ def get_random_moon_cat(
                 random_cat = Cat.fetch_cat(choice(possible_parents))
         if mentor_app_modifier:
             if (
-                    main_cat.status
-                    in ("apprentice", "mediator apprentice", "medicine cat apprentice")
-                    and main_cat.mentor
-                    and not int(random() * 3)
+                main_cat.status.rank.is_any_apprentice_rank()
+                and main_cat.mentor
+                and not int(random() * 3)
             ):
                 random_cat = Cat.fetch_cat(main_cat.mentor)
             elif main_cat.apprentice and not int(random() * 3):
@@ -270,7 +273,7 @@ def get_current_season():
     :return: the Clan's current season
     """
 
-    if game.config["lock_season"]:
+    if constants.CONFIG["lock_season"]:
         game.clan.current_season = game.clan.starting_season
         return game.clan.starting_season
 
@@ -280,7 +283,7 @@ def get_current_season():
     if index > 11:
         index = index - 12
 
-    game.clan.current_season = game.clan.seasons[index]
+    game.clan.current_season = constants.SEASON_CALENDAR[index]
 
     return game.clan.current_season
 
@@ -291,9 +294,10 @@ def change_clan_reputation(difference):
     """
     game.clan.reputation += difference
     if game.clan.reputation < 0:
-        game.clan.reputation = 0 # clamp to 0
+        game.clan.reputation = 0  # clamp to 0
     elif game.clan.reputation > 100:
-        game.clan.reputation = 100 # clamp to 100
+        game.clan.reputation = 100  # clamp to 100
+
 
 def change_clan_relations(other_clan, difference):
     """
@@ -316,7 +320,7 @@ def change_clan_relations(other_clan, difference):
 
 
 def create_new_cat_block(
-        Cat, Relationship, event, in_event_cats: dict, i: int, attribute_list: List[str]
+    Cat, Relationship, event, in_event_cats: dict, i: int, attribute_list: List[str]
 ) -> list:
     """
     Creates a single new_cat block and then generates and returns the cats within the block
@@ -376,11 +380,7 @@ def create_new_cat_block(
         # TODO: make this less ugly
         for index in mate_indexes:
             if index in in_event_cats:
-                if in_event_cats[index] in (
-                    "apprentice",
-                    "medicine cat apprentice",
-                    "mediator apprentice",
-                ):
+                if in_event_cats[index].status.rank.is_any_apprentice_rank():
                     print("Can't give apprentices mates")
                     continue
 
@@ -402,9 +402,7 @@ def create_new_cat_block(
         gender = "male"
     elif "female" in attribute_list:
         gender = "female"
-    elif (
-            "can_birth" in attribute_list and not game.clan.clan_settings["same sex birth"]
-    ):
+    elif "can_birth" in attribute_list and not get_clan_setting("same sex birth"):
         gender = "female"
     else:
         gender = None
@@ -417,26 +415,29 @@ def create_new_cat_block(
     else:
         new_name = bool(getrandbits(1))
 
-    # STATUS - must be handled before backstories
-    status = None
+    # RANK - must be handled before backstories
+    rank = None
     for _tag in attribute_list:
         match = re.match(r"status:(.+)", _tag)
         if not match:
             continue
 
-        if match.group(1) in (
-            "newborn",
-            "kitten",
-            "elder",
-            "apprentice",
-            "warrior",
-            "mediator apprentice",
-            "mediator",
-            "medicine cat apprentice",
-            "medicine cat",
-        ):
-            status = match.group(1)
+        if match.group(1) in [
+            CatRank.NEWBORN,
+            CatRank.KITTEN,
+            CatRank.ELDER,
+            CatRank.APPRENTICE,
+            CatRank.WARRIOR,
+            CatRank.MEDIATOR_APPRENTICE,
+            CatRank.MEDIATOR,
+            CatRank.MEDICINE_APPRENTICE,
+            CatRank.MEDICINE_CAT,
+        ]:
+            rank = match.group(1)
             break
+
+    # GROUP - # for now, this just gets set to None. event formats don't yet pass group info
+    cat_group = None
 
     # SET AGE
     age = None
@@ -446,7 +447,7 @@ def create_new_cat_block(
             continue
 
         if match.group(1) in Cat.age_moons:
-            min_age, max_age = Cat.age_moons[CatAgeEnum(match.group(1))]
+            min_age, max_age = Cat.age_moons[CatAge(match.group(1))]
             age = randint(min_age, max_age)
             break
 
@@ -460,51 +461,56 @@ def create_new_cat_block(
             age = randint(19, 120)
             break
 
-    if status and not age:
-        if status in ("apprentice", "mediator apprentice", "medicine cat apprentice"):
+    if rank and not age:
+        if rank in [
+            CatRank.APPRENTICE,
+            CatRank.MEDIATOR_APPRENTICE,
+            CatRank.MEDICINE_APPRENTICE,
+        ]:
             age = randint(
-                Cat.age_moons[CatAgeEnum.ADOLESCENT][0],
-                Cat.age_moons[CatAgeEnum.ADOLESCENT][1],
+                Cat.age_moons[CatAge.ADOLESCENT][0],
+                Cat.age_moons[CatAge.ADOLESCENT][1],
             )
-        elif status in ("warrior", "mediator", "medicine cat"):
+        elif rank in [CatRank.WARRIOR, CatRank.MEDIATOR, CatRank.MEDICINE_CAT]:
             age = randint(
                 Cat.age_moons["young adult"][0], Cat.age_moons["senior adult"][1]
             )
-        elif status == "elder":
+        elif rank == CatRank.ELDER:
             age = randint(Cat.age_moons["senior"][0], Cat.age_moons["senior"][1])
 
     if "kittypet" in attribute_list:
-        cat_type = "kittypet"
+        cat_social = CatSocial.KITTYPET
     elif "rogue" in attribute_list:
-        cat_type = "rogue"
+        cat_social = CatSocial.ROGUE
     elif "loner" in attribute_list:
-        cat_type = "loner"
-    elif "clancat" in attribute_list:
-        cat_type = "former Clancat"
+        cat_social = CatSocial.LONER
+    elif "clancat" in attribute_list or "former Clancat" in attribute_list:
+        cat_social = CatSocial.CLANCAT
+        cat_group = choice(game.clan.other_clans)
     else:
-        cat_type = choice(["kittypet", "loner", "former Clancat"])
+        cat_social = choice([CatSocial.KITTYPET, CatSocial.LONER, "former Clancat"])
 
     # LITTER
     litter = False
     if "litter" in attribute_list:
         litter = True
-        if status not in ("kitten", "newborn"):
-            status = "kitten"
+        if rank not in (CatRank.KITTEN, CatRank.NEWBORN):
+            rank = CatRank.KITTEN
 
     # CHOOSE DEFAULT BACKSTORY BASED ON CAT TYPE, STATUS
-    if status in ("kitten", "newborn"):
+    if rank in (CatRank.KITTEN, CatRank.NEWBORN):
         chosen_backstory = choice(
             BACKSTORIES["backstory_categories"]["abandoned_backstories"]
         )
-    elif status == "medicine cat" and cat_type == "former Clancat":
+    elif rank == CatRank.MEDICINE_CAT and cat_social == CatSocial.CLANCAT:
         chosen_backstory = choice(["medicine_cat", "disgraced1"])
-    elif status == "medicine cat":
+    elif rank == CatRank.MEDICINE_CAT:
         chosen_backstory = choice(["wandering_healer1", "wandering_healer2"])
     else:
-        if cat_type == "former Clancat":
+        if cat_social == CatSocial.CLANCAT:
             x = "former_clancat"
         else:
-            x = cat_type
+            x = cat_social
         chosen_backstory = choice(
             BACKSTORIES["backstory_categories"].get(f"{x}_backstories", ["outsider1"])
         )
@@ -519,13 +525,13 @@ def create_new_cat_block(
             stor = []
             for story in bs_list:
                 if story in set(
-                        [
-                            backstory
-                            for backstory_block in BACKSTORIES[
+                    [
+                        backstory
+                        for backstory_block in BACKSTORIES[
                             "backstory_categories"
                         ].values()
-                            for backstory in backstory_block
-                        ]
+                        for backstory in backstory_block
+                    ]
                 ):
                     stor.append(story)
                 elif story in BACKSTORIES["backstory_categories"]:
@@ -535,15 +541,31 @@ def create_new_cat_block(
     if bs_override:
         chosen_backstory = choice(stor)
 
+        if (
+            chosen_backstory
+            in BACKSTORIES["backstory_categories"]["baby_clancat_backstories"]
+        ):
+            cat_social = CatSocial.CLANCAT
+        elif (
+            chosen_backstory
+            in BACKSTORIES["backstory_categories"]["baby_loner_backstories"]
+        ):
+            cat_social = CatSocial.LONER
+        elif (
+            chosen_backstory
+            in BACKSTORIES["backstory_categories"]["baby_kittypet_backstories"]
+        ):
+            cat_social = CatSocial.KITTYPET
+
     # KITTEN THOUGHT
-    if status in ("kitten", "newborn"):
+    if rank in (CatRank.KITTEN, CatRank.NEWBORN):
         thought = i18n.t("hardcoded.thought_new_kitten")
 
     # MEETING - DETERMINE IF THIS IS AN OUTSIDE CAT
     outside = False
     if "meeting" in attribute_list:
         outside = True
-        status = cat_type
+        rank = None
         new_name = False
         thought = i18n.t("hardcoded.thought_meeting")
         if age is not None and age <= 6 and not bs_override:
@@ -559,13 +581,13 @@ def create_new_cat_block(
     chosen_cat = None
     if "exists" in attribute_list:
         existing_outsiders = [
-            i for i in Cat.all_cats.values() if i.outside and not i.dead
+            i for i in Cat.all_cats.values() if i.status.is_outsider and not i.dead
         ]
         possible_outsiders = []
         for cat in existing_outsiders:
             if stor and cat.backstory not in stor:
                 continue
-            if cat_type != cat.status:
+            if cat_social != cat.status.social:
                 continue
             if gender and gender != cat.gender:
                 continue
@@ -575,21 +597,33 @@ def create_new_cat_block(
 
         if possible_outsiders:
             chosen_cat = choice(possible_outsiders)
-            game.clan.add_to_clan(chosen_cat)
-            chosen_cat.status = status
-            chosen_cat.outside = outside
             if not alive:
                 chosen_cat.die()
+            elif not outside:
+                chosen_cat.add_to_clan()
+                if chosen_cat.status.rank != rank:
+                    chosen_cat.rank_change(resort=True)
+            elif outside:
+                # updates so that the clan is marked as knowing of this cat
+                current_standing = chosen_cat.status.get_standing_with_group(
+                    CatGroup.PLAYER_CLAN
+                )
+                if (
+                    CatStanding.KNOWN not in current_standing
+                    and CatStanding.EXILED not in current_standing
+                ):
+                    chosen_cat.status.change_standing(CatStanding.KNOWN)
 
             if new_name:
                 name = f"{chosen_cat.name.prefix}"
                 spaces = name.count(" ")
-                if bool(getrandbits(1)) and spaces > 0:  # adding suffix to OG name
-                    # make a list of the words within the name, then add the OG name back in the list
-                    words = name.split(" ")
-                    words.append(name)
-                    new_prefix = choice(words)  # pick new prefix from that list
-                    name = new_prefix
+                if bool(getrandbits(1)):
+                    if spaces > 0:  # adding suffix to OG name
+                        # make a list of the words within the name, then add the OG name back in the list
+                        words = name.split(" ")
+                        words.append(name)
+                        new_prefix = choice(words)  # pick new prefix from that list
+                        name = new_prefix
                     chosen_cat.name.prefix = name
                     chosen_cat.name.give_suffix(
                         pelt=chosen_cat.pelt,
@@ -614,15 +648,14 @@ def create_new_cat_block(
         new_cats = create_new_cat(
             Cat,
             new_name=new_name,
-            loner=cat_type in ("loner", "rogue"),
-            kittypet=cat_type == "kittypet",
-            other_clan=cat_type == "former Clancat",
-            kit=(not litter) and status in ("kitten", "newborn"),
+            kit=False if litter else rank in (CatRank.KITTEN, CatRank.NEWBORN),
             # this is for singular kits, litters need this to be false
             litter=litter,
             backstory=chosen_backstory,
-            status=status,
-            age=age,
+            rank=rank,
+            original_social=cat_social,
+            original_group=cat_group,
+            moons=age,
             gender=gender,
             thought=thought,
             alive=alive,
@@ -721,41 +754,40 @@ def get_other_clan(clan_name):
 
 
 def create_new_cat(
-        Cat: Union["Cat", Type["Cat"]],
-        new_name: bool = False,
-        loner: bool = False,
-        kittypet: bool = False,
-        kit: bool = False,
-        litter: bool = False,
-        other_clan: bool = None,
-        backstory: bool = None,
-        status: str = None,
-        age: int = None,
-        gender: str = None,
-        thought: str = None,
-        alive: bool = True,
-        outside: bool = False,
-        parent1: str = None,
-        parent2: str = None,
-        adoptive_parents: list = None,
+    Cat: Union["Cat", Type["Cat"]],
+    new_name: bool = False,
+    kit: bool = False,
+    litter: bool = False,
+    backstory: bool = None,
+    rank: CatRank = None,
+    original_social: CatSocial = CatSocial.CLANCAT,
+    original_group: CatGroup = None,
+    moons: int = None,
+    gender: str = None,
+    thought: str = None,
+    alive: bool = True,
+    outside: bool = False,
+    parent1: str = None,
+    parent2: str = None,
+    adoptive_parents: list = None,
 ) -> list:
     """
     This function creates new cats and then returns a list of those cats
     :param Cat Cat: pass the Cat class
     :params Relationship Relationship: pass the Relationship class
     :param bool new_name: set True if cat(s) is a loner/rogue receiving a new Clan name - default: False
-    :param bool loner: set True if cat(s) is a loner or rogue - default: False
-    :param bool kittypet: set True if cat(s) is a kittypet - default: False
     :param bool kit: set True if the cat is a lone kitten - default: False
     :param bool litter: set True if a litter of kittens needs to be generated - default: False
-    :param bool other_clan: if new cat(s) are from a neighboring clan, set true
     :param bool backstory: a list of possible backstories.json for the new cat(s) - default: None
-    :param str status: set as the rank you want the new cat to have - default: None (will cause a random status to be picked)
-    :param int age: set the age of the new cat(s) - default: None (will be random or if kit/litter is true, will be kitten.
+    :param rank: set as the rank you want the new cat to have - default: None (will cause a random status to be picked)
+    :param original_social: set as the cat's old social - default: None (cat will not be given any past social, it will
+    appear that they have always been a clancat)
+    :param original_group: set as the cat's old group - default: None (cat will not be given any past group)
+    :param bool outside: set this as True to generate the cat as an outsider instead of as part of the Clan - default: False (Clan cat)
+    :param int moons: set the age of the new cat(s) - default: None (will be random or if kit/litter is true, will be kitten.
     :param str gender: set the gender (BIRTH SEX) of the cat - default: None (will be random)
     :param str thought: if you need to give a custom "welcome" thought, set it here
     :param bool alive: set this as False to generate the cat as already dead - default: True (alive)
-    :param bool outside: set this as True to generate the cat as an outsider instead of as part of the Clan - default: False (Clan cat)
     :param str parent1: Cat ID to set as the biological parent1
     :param str parent2: Cat ID to set as the biological parent2
     :param list adoptive_parents: Cat IDs to set as adoptive parents
@@ -764,16 +796,18 @@ def create_new_cat(
     if thought is None:
         thought = i18n.t("hardcoded.thought_new_cat")
 
-    # TODO: it would be nice to rewrite this to be less bool-centric
-    accessory = None
     if isinstance(backstory, list):
         backstory = choice(backstory)
 
-    if backstory in (
+    if (
+        backstory
+        in (
             BACKSTORIES["backstory_categories"]["former_clancat_backstories"]
             or BACKSTORIES["backstory_categories"]["otherclan_categories"]
+        )
+        and not original_group
     ):
-        other_clan = True
+        original_group = choice(game.clan.other_clans)
 
     created_cats = []
 
@@ -782,34 +816,45 @@ def create_new_cat(
     else:
         number_of_cats = choices([2, 3, 4, 5], [5, 4, 1, 1], k=1)[0]
 
-    if not isinstance(age, int):
-        if status == "newborn":
-            age = 0
+    if not isinstance(moons, int):
+        if rank == CatRank.NEWBORN:
+            moons = 0
         elif litter or kit:
-            age = randint(1, 5)
-        elif status in ("apprentice", "medicine cat apprentice", "mediator apprentice"):
-            age = randint(6, 11)
-        elif status == "warrior":
-            age = randint(23, 120)
-        elif status == "medicine cat":
-            age = randint(23, 140)
-        elif status == "elder":
-            age = randint(120, 130)
+            moons = randint(1, 5)
+        elif rank in (
+            CatRank.APPRENTICE,
+            CatRank.MEDICINE_APPRENTICE,
+            CatRank.MEDIATOR_APPRENTICE,
+        ):
+            moons = randint(6, 11)
+        elif rank == CatRank.WARRIOR:
+            moons = randint(23, 120)
+        elif rank == CatRank.MEDICINE_CAT:
+            moons = randint(23, 140)
+        elif rank == CatRank.ELDER:
+            moons = randint(120, 130)
         else:
-            age = randint(6, 120)
+            moons = randint(6, 120)
 
-    # setting status
-    if not status:
-        if age == 0:
-            status = "newborn"
-        elif age < 6:
-            status = "kitten"
-        elif 6 <= age <= 11:
-            status = "apprentice"
-        elif age >= 12:
-            status = "warrior"
-        elif age >= 120:
-            status = "elder"
+    # setting rank
+    if not rank and not outside:
+        if moons == 0:
+            rank = CatRank.NEWBORN
+        elif moons < 6:
+            rank = CatRank.KITTEN
+        elif 6 <= moons <= 11:
+            rank = CatRank.APPRENTICE
+        elif moons >= 120:
+            rank = CatRank.ELDER
+        else:
+            rank = CatRank.WARRIOR
+
+    # need to get actual age enum
+    age = CatAge.SENIOR
+    for key_age in Cat.age_moons.keys():
+        if moons in range(Cat.age_moons[key_age][0], Cat.age_moons[key_age][1] + 1):
+            age: CatAge = key_age
+            break
 
     # cat creation and naming time
     for index in range(number_of_cats):
@@ -819,88 +864,86 @@ def create_new_cat(
         else:
             _gender = gender
 
-        # other Clan cats, apps, and kittens (kittens and apps get indoctrinated lmao no old names for them)
-        if other_clan or kit or litter or age < 12 and not (loner or kittypet):
-            new_cat = Cat(
-                moons=age,
-                status=status,
-                gender=_gender,
-                backstory=backstory,
-                parent1=parent1,
-                parent2=parent2,
-                adoptive_parents=adoptive_parents if adoptive_parents else [],
-            )
+        # first we generate the cat as though they are not part of the clan yet
+        new_cat = Cat(
+            moons=moons,
+            status_dict={
+                "social": original_social,
+                "age": age,
+                "rank": rank,
+                "group": original_group,
+            },
+            gender=_gender,
+            backstory=backstory,
+            parent1=parent1,
+            parent2=parent2,
+            adoptive_parents=adoptive_parents if adoptive_parents else [],
+        )
+        # this simulates a "history" as whomever they used to be
+        new_cat.status.change_current_moons_as(moons)
+
+        # now we actually add them to the clan, if they should be joining
+        if not outside and alive:
+            new_cat.add_to_clan()
+            # check if cat is the correct rank
+            if new_cat.status.rank != rank:
+                new_cat.status._change_rank(rank)
+            # give apprentice aged cat a mentor
+            if new_cat.status.rank in (
+                CatRank.APPRENTICE,
+                CatRank.MEDICINE_APPRENTICE,
+                CatRank.MEDIATOR_APPRENTICE,
+            ):
+                new_cat.update_mentor()
+
+        # NAMES and accs
+        # clancat adults should have already generated with a clan-ish name, thus they skip all of this re-naming
+        # little babies will take a clancat name, we love indoctrination
+        if (kit or litter or moons < 12) and (
+            not original_group or not original_group.is_other_clan_group()
+        ):
+            # babies change name, in case their initial name isn't clan-ish
+            new_cat.change_name()
         else:
-            # grab starting names and accs for loners/kittypets
-            if kittypet:
+            # give kittypets a kittypet name
+            if original_social == CatSocial.KITTYPET:
                 name = choice(names.names_dict["loner_names"])
+                # check if the kittypets come with a pretty acc
                 if bool(getrandbits(1)):
                     # TODO: refactor this entire function to remove this call amongst other things
                     from scripts.cat.pelts import Pelt
 
-                    accessory = choice(Pelt.collars)
-            elif loner and bool(
-                    getrandbits(1)
-            ):  # try to give name from full loner name list
-                name = choice(names.names_dict["loner_names"])
-            else:
-                name = choice(
-                    names.names_dict["normal_prefixes"]
-                )  # otherwise give name from prefix list (more nature-y names)
+                    new_cat.pelt.accessory.append(choice(Pelt.collars))
 
-            # now we make the cats
-            if new_name:  # these cats get new names
-                if bool(getrandbits(1)):  # adding suffix to OG name
+            # try to give name from full loner name list
+            elif original_social in (CatSocial.LONER, CatSocial.ROGUE) and bool(
+                getrandbits(1)
+            ):
+                name = choice(names.names_dict["loner_names"])
+            # otherwise give name from prefix list (more nature-y names)
+            else:
+                name = choice(names.names_dict["normal_prefixes"])
+
+                # now, if this cat should take a new clan name, we give them such
+            if new_name:
+                # check if adding suffix to OG name
+                if bool(getrandbits(1)):
                     spaces = name.count(" ")
                     if spaces > 0:
                         # make a list of the words within the name, then add the OG name back in the list
                         words = name.split(" ")
                         words.append(name)
                         new_prefix = choice(words)  # pick new prefix from that list
-                        name = new_prefix
-                    new_cat = Cat(
-                        moons=age,
-                        prefix=name,
-                        status=status,
-                        gender=_gender,
-                        backstory=backstory,
-                        parent1=parent1,
-                        parent2=parent2,
-                        adoptive_parents=adoptive_parents if adoptive_parents else [],
-                    )
-                else:  # completely new name
-                    new_cat = Cat(
-                        moons=age,
-                        status=status,
-                        gender=_gender,
-                        backstory=backstory,
-                        parent1=parent1,
-                        parent2=parent2,
-                        adoptive_parents=adoptive_parents if adoptive_parents else [],
-                    )
-            # these cats keep their old names
+                        new_cat.change_name(new_prefix=new_prefix)
+                # else, take a whole new name
+                else:
+                    new_cat.change_name()
+            # else, let them keep their old name
             else:
-                new_cat = Cat(
-                    moons=age,
-                    prefix=name,
-                    suffix="",
-                    status=status,
-                    gender=_gender,
-                    backstory=backstory,
-                    parent1=parent1,
-                    parent2=parent2,
-                    adoptive_parents=adoptive_parents if adoptive_parents else [],
-                )
-
-        # give em a collar if they got one
-        if accessory:
-            new_cat.pelt.accessory = [accessory]
-
-        # give apprentice aged cat a mentor
-        if new_cat.age == "adolescent":
-            new_cat.update_mentor()
+                new_cat.change_name(new_prefix=name, new_suffix="")
 
         # Remove disabling scars, if they generated.
+        # these are removed bc the cat won't have the associated perm condition
         not_allowed = [
             "NOPAW",
             "NOTAIL",
@@ -921,41 +964,38 @@ def create_new_cat(
         # chance to give the new cat a permanent condition, higher chance for found kits and litters
         if kit or litter:
             chance = int(
-                game.config["cat_generation"]["base_permanent_condition"] / 11.25
+                constants.CONFIG["cat_generation"]["base_permanent_condition"] / 11.25
             )
         else:
-            chance = game.config["cat_generation"]["base_permanent_condition"] + 10
+            chance = constants.CONFIG["cat_generation"]["base_permanent_condition"] + 10
         if not int(random() * chance):
             possible_conditions = []
             for condition in PERMANENT:
-                if (kit or litter) and PERMANENT[condition]["congenital"] not in (
+                if (kit or litter) and PERMANENT[condition]["congenital"] not in [
                     "always",
                     "sometimes",
-                ):
+                ]:
                     continue
                 if "species" in PERMANENT[condition]:
                     if new_cat.species not in PERMANENT[condition]["species"]:
                         continue
                 # next part ensures that a kit won't get a condition that takes too long to reveal
-                age = new_cat.moons
+                moons = new_cat.moons
                 leeway = 5 - (PERMANENT[condition]["moons_until"] + 1)
-                if age > leeway:
+                if moons > leeway:
                     continue
                 possible_conditions.append(condition)
 
             if possible_conditions:
                 chosen_condition = choice(possible_conditions)
-                born_with = False
-                if PERMANENT[chosen_condition]["congenital"] in (
+                if PERMANENT[chosen_condition]["congenital"] in [
                     "always",
                     "sometimes",
-                ):
-                    born_with = True
-
-                    new_cat.get_permanent_condition(chosen_condition, born_with)
+                ]:
+                    new_cat.get_permanent_condition(chosen_condition, True)
                     if (
-                            new_cat.permanent_condition[chosen_condition]["moons_until"]
-                            == 0
+                        new_cat.permanent_condition[chosen_condition]["moons_until"]
+                        == 0
                     ):
                         new_cat.permanent_condition[chosen_condition][
                             "moons_until"
@@ -967,8 +1007,7 @@ def create_new_cat(
                 elif chosen_condition in ("lost their tail", "born without a tail"):
                     new_cat.pelt.scars.append("NOTAIL")
 
-        if outside:
-            new_cat.outside = True
+        # KILL >:D only if we're sposed to tho
         if not alive:
             new_cat.die()
 
@@ -978,8 +1017,7 @@ def create_new_cat(
         # and they exist now
         created_cats.append(new_cat)
         game.clan.add_cat(new_cat)
-        history = History()
-        history.add_beginning(new_cat)
+        new_cat.history.add_beginning()
 
         # create relationships
         new_cat.create_relationships_new_cat()
@@ -996,7 +1034,7 @@ def create_new_cat(
 
 
 def get_highest_romantic_relation(
-        relationships, exclude_mate=False, potential_mate=False
+    relationships, exclude_mate=False, potential_mate=False
 ):
     """Returns the relationship with the highest romantic value."""
     max_love_value = 0
@@ -1007,7 +1045,7 @@ def get_highest_romantic_relation(
         if exclude_mate and rel.cat_from.ID in rel.cat_to.mate:
             continue
         if potential_mate and not rel.cat_to.is_potential_mate(
-                rel.cat_from, for_love_interest=True
+            rel.cat_from, for_love_interest=True
         ):
             continue
         if rel.romantic_love > max_love_value:
@@ -1090,7 +1128,7 @@ def get_cats_of_romantic_interest(cat):
     """Returns a list of cats, those cats are love interest of the given cat"""
     cats = []
     for inter_cat in cat.all_cats.values():
-        if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
+        if not inter_cat.status.alive_in_player_clan:
             continue
         if inter_cat.ID == cat.ID:
             continue
@@ -1103,8 +1141,8 @@ def get_cats_of_romantic_interest(cat):
 
         # Extra check to ensure they are potential mates
         if (
-                inter_cat.is_potential_mate(cat, for_love_interest=True)
-                and cat.relationships[inter_cat.ID].romantic_love > 0
+            inter_cat.is_potential_mate(cat, for_love_interest=True)
+            and cat.relationships[inter_cat.ID].romantic_love > 0
         ):
             cats.append(inter_cat)
     return cats
@@ -1159,7 +1197,7 @@ def get_amount_of_cats_with_relation_value_towards(cat, value, all_cats):
 
 
 def filter_relationship_type(
-        group: list, filter_types: List[str], event_id: str = None, patrol_leader=None
+    group: list, filter_types: List[str], event_id: str = None, patrol_leader=None
 ):
     """
     filters for specific types of relationships between groups of cat objects, returns bool
@@ -1339,7 +1377,7 @@ def filter_relationship_type(
             relevant_relationships = list(
                 filter(
                     lambda rel: rel.cat_to.ID in group_ids
-                                and rel.cat_to.ID != inter_cat.ID,
+                    and rel.cat_to.ID != inter_cat.ID,
                     list(inter_cat.relationships.values()),
                 )
             )
@@ -1393,13 +1431,12 @@ def filter_relationship_type(
 
 
 def gather_cat_objects(
-        Cat, abbr_list: List[str], event, stat_cat=None, extra_cat=None
+    Cat, abbr_list: List[str], event, stat_cat=None, extra_cat=None
 ) -> list:
     """
     gathers cat objects from list of abbreviations used within an event format block
     :param Cat Cat: Cat class
-    :param list[str] abbr_list: The list of abbreviations, supports "m_c", "r_c", "p_l", "s_c", "app1" through "app6",
-    "clan", "some_clan", "patrol", "multi", "n_c{index}"
+    :param list[str] abbr_list: The list of abbreviations
     :param event: the controlling class of the event (e.g. Patrol, HandleShortEvents), default None
     :param Cat stat_cat: if passing the Patrol class, must include stat_cat separately
     :param Cat extra_cat: if not passing an event class, include the single affected cat object here. If you are not
@@ -1407,6 +1444,8 @@ def gather_cat_objects(
     The other cat abbreviations will not work.
     :return: list of cat objects
     """
+
+    clan_cats = [x for x in Cat.all_cats_list if x.status.alive_in_player_clan]
     out_set = set()
 
     for abbr in abbr_list:
@@ -1417,6 +1456,12 @@ def gather_cat_objects(
                 out_set.add(event.main_cat)
         elif abbr == "r_c":
             out_set.add(event.random_cat)
+        elif re.match(r"n_c:[0-9]+", abbr):
+            index = re.match(r"n_c:([0-9]+)", abbr).group(1)
+            index = int(index)
+            if index < len(event.new_cats):
+                out_set.update(event.new_cats[index])
+        # PATROL SPECIFIC
         elif abbr == "p_l":
             out_set.add(event.patrol_leader)
         elif abbr == "s_c":
@@ -1433,27 +1478,36 @@ def gather_cat_objects(
             out_set.add(event.patrol_apprentices[4])
         elif abbr == "app6" and len(event.patrol_apprentices) >= 6:
             out_set.add(event.patrol_apprentices[5])
-        elif abbr == "clan":
-            out_set.update(
-                [x for x in Cat.all_cats_list if not (x.dead or x.outside or x.exiled)]
-            )
-        elif abbr == "some_clan":  # 1 / 8 of clan cats are affected
-            clan_cats = [
-                x for x in Cat.all_cats_list if not (x.dead or x.outside or x.exiled)
-            ]
-            out_set.update(
-                sample(clan_cats, randint(1, max(1, round(len(clan_cats) / 8))))
-            )
         elif abbr == "patrol":
             out_set.update(event.patrol_cats)
         elif abbr == "multi":
             cat_num = randint(1, max(1, len(event.patrol_cats) - 1))
             out_set.update(sample(event.patrol_cats, cat_num))
-        elif re.match(r"n_c:[0-9]+", abbr):
-            index = re.match(r"n_c:([0-9]+)", abbr).group(1)
-            index = int(index)
-            if index < len(event.new_cats):
-                out_set.update(event.new_cats[index])
+        # OVERALL CLAN CATS
+        elif abbr == "clan":
+            out_set.update(clan_cats)
+        elif abbr == "some_clan":  # 1 / 8 of clan cats are affected
+            out_set.update(
+                sample(clan_cats, randint(1, max(1, round(len(clan_cats) / 8))))
+            )
+        # FACET CATS IN CLAN
+        elif abbr == "high_social":
+            out_set = {c for c in out_set if c.personality.sociability > 8}
+        elif abbr == "low_social":
+            out_set = {c for c in out_set if c.personality.sociability <= 8}
+        elif abbr == "high_lawful":
+            out_set = {c for c in out_set if c.personality.lawfulness > 8}
+        elif abbr == "low_lawful":
+            out_set = {c for c in out_set if c.personality.lawfulness <= 8}
+        elif abbr == "high_stable":
+            out_set = {c for c in out_set if c.personality.stability > 8}
+        elif abbr == "low_stable":
+            out_set = {c for c in out_set if c.personality.stability <= 8}
+        elif abbr == "high_aggress":
+            out_set = {c for c in out_set if c.personality.aggression > 8}
+        elif abbr == "low_aggress":
+            out_set = {c for c in out_set if c.personality.aggression <= 8}
+
         else:
             print(f"WARNING: Unsupported abbreviation {abbr}")
 
@@ -1461,7 +1515,7 @@ def gather_cat_objects(
 
 
 def unpack_rel_block(
-        Cat, relationship_effects: List[dict], event=None, stat_cat=None, extra_cat=None
+    Cat, relationship_effects: List[dict], event=None, stat_cat=None, extra_cat=None
 ):
     """
     Unpacks the info from the relationship effect block used in patrol and moon events, then adjusts rel values
@@ -1614,17 +1668,17 @@ def unpack_rel_block(
 
 
 def change_relationship_values(
-        cats_to: list,
-        cats_from: list,
-        romantic_love: int = 0,
-        platonic_like: int = 0,
-        dislike: int = 0,
-        admiration: int = 0,
-        comfortable: int = 0,
-        jealousy: int = 0,
-        trust: int = 0,
-        auto_romance: bool = False,
-        log: str = None,
+    cats_to: list,
+    cats_from: list,
+    romantic_love: int = 0,
+    platonic_like: int = 0,
+    dislike: int = 0,
+    admiration: int = 0,
+    comfortable: int = 0,
+    jealousy: int = 0,
+    trust: int = 0,
+    auto_romance: bool = False,
+    log: str = None,
 ):
     """
     changes relationship values according to the parameters.
@@ -1668,8 +1722,8 @@ def change_relationship_values(
 
             # here we just double-check that the cats are allowed to be romantic with each other
             if (
-                    single_cat_from.is_potential_mate(single_cat_to, for_love_interest=True)
-                    or single_cat_to.ID in single_cat_from.mate
+                single_cat_from.is_potential_mate(single_cat_to, for_love_interest=True)
+                or single_cat_to.ID in single_cat_from.mate
             ):
                 # if cat already has romantic feelings then automatically increase romantic feelings
                 # when platonic feelings would increase
@@ -1717,7 +1771,7 @@ def get_leader_life_notice() -> str:
     """
     Returns a string specifying how many lives the leader has left or notifying of the leader's full death
     """
-    if game.clan.instructor.df:
+    if game.clan.instructor.status.group == CatGroup.DARK_FOREST:
         return i18n.t("cat.history.leader_lives_left_df", count=game.clan.leader_lives)
     return i18n.t("cat.history.leader_lives_left_sc", count=game.clan.leader_lives)
 
@@ -1873,7 +1927,7 @@ def adjust_prey_abbr(patrol_text):
 
 
 def get_special_snippet_list(
-        chosen_list, amount, sense_groups=None, return_string=True
+    chosen_list, amount, sense_groups=None, return_string=True
 ):
     """
     function to grab items from various lists in snippet_collections.json
@@ -1893,7 +1947,9 @@ def get_special_snippet_list(
     (i.e. ["hate", "fear", "dread"] becomes "hate, fear, and dread") - Default is True
     :return: a list of the chosen items from chosen_list or a formatted string if format is True
     """
-    biome = game.clan.biome.casefold()
+    biome = (
+        game.clan.biome if not game.clan.override_biome else game.clan.override_biome
+    ).casefold()
     global SNIPPETS
     if langs["snippet"] != i18n.config.get("locale"):
         langs["snippet"] = i18n.config.get("locale")
@@ -1902,12 +1958,12 @@ def get_special_snippet_list(
     # these lists don't get sense specific snippets, so is handled first
     if chosen_list in ["dream_list", "story_list"]:
         if (
-                chosen_list == "story_list"
+            chosen_list == "story_list"
         ):  # story list has some biome specific things to collect
             snippets = SNIPPETS[chosen_list]["general"]
             snippets.extend(SNIPPETS[chosen_list][biome])
         elif (
-                chosen_list == "clair_list"
+            chosen_list == "clair_list"
         ):  # the clair list also pulls from the dream list
             snippets = SNIPPETS[chosen_list]
             snippets.extend(SNIPPETS["dream_list"])
@@ -2049,7 +2105,7 @@ def selective_replace(text, pattern, replacement):
         if start_brace != -1 and end_brace != -1 and start_brace < index < end_brace:
             i = index + len(pattern)
         else:
-            text = text[:index] + replacement + text[index + len(pattern):]
+            text = text[:index] + replacement + text[index + len(pattern) :]
             i = index + len(replacement)
 
     return text
@@ -2071,7 +2127,9 @@ def ongoing_event_text_adjust(Cat, text, clan=None, other_clan_name=None):
         kitty = Cat.fetch_cat(game.clan.deputy)
         cat_dict["dep_name"] = (str(kitty.name), choice(kitty.pronouns))
     if "med_name" in text:
-        kitty = choice(get_alive_status_cats(Cat, ["medicine cat"], working=True))
+        kitty = choice(
+            find_alive_cats_with_rank(Cat, [CatRank.MEDICINE_CAT], working=True)
+        )
         cat_dict["med_name"] = (str(kitty.name), choice(kitty.pronouns))
 
     if cat_dict:
@@ -2083,7 +2141,8 @@ def ongoing_event_text_adjust(Cat, text, clan=None, other_clan_name=None):
         clan_name = str(clan.name)
     else:
         if game.clan is None:
-            clan_name = game.switches["clan_list"][0]
+            # todo can this be Switch.clan_name ?
+            clan_name = switch_get_value(Switch.clan_list)[0]
         else:
             clan_name = str(game.clan.name)
 
@@ -2093,21 +2152,21 @@ def ongoing_event_text_adjust(Cat, text, clan=None, other_clan_name=None):
 
 
 def event_text_adjust(
-        Cat: Type["Cat"],
-        text,
-        *,
-        patrol_leader=None,
-        main_cat=None,
-        random_cat=None,
-        stat_cat=None,
-        victim_cat=None,
-        patrol_cats: list = None,
-        patrol_apprentices: list = None,
-        new_cats: list = None,
-        multi_cats: list = None,
-        clan=None,
-        other_clan=None,
-        chosen_herb: str = None,
+    Cat: Type["Cat"],
+    text,
+    *,
+    patrol_leader=None,
+    main_cat=None,
+    random_cat=None,
+    stat_cat=None,
+    victim_cat=None,
+    patrol_cats: list = None,
+    patrol_apprentices: list = None,
+    new_cats: list = None,
+    multi_cats: list = None,
+    clan=None,
+    other_clan=None,
+    chosen_herb: str = None,
 ):
     """
     handles finding abbreviations in the text and replacing them appropriately, returns the adjusted text
@@ -2127,6 +2186,10 @@ def event_text_adjust(
     :param str chosen_herb: string of chosen_herb (chosen_herb), if present
     """
     vowels = ["A", "E", "I", "O", "U"]
+    if not patrol_apprentices:
+        patrol_apprentices = []
+    if not new_cats:
+        new_cats = []
 
     if not text:
         text = "This should not appear, report as a bug please! Tried to adjust the text, but no text was provided."
@@ -2201,7 +2264,7 @@ def event_text_adjust(
             )
 
     # new_cats (include pre version)
-    if "n_c" in text and new_cats:
+    if "n_c" in text:
         for i, cat_list in enumerate(new_cats):
             if len(new_cats) > 1:
                 pronoun = localization.get_new_pronouns("default plural")[0]
@@ -2227,7 +2290,9 @@ def event_text_adjust(
 
     # med_name
     if "med_name" in text:
-        med = choice(get_alive_status_cats(Cat, ["medicine cat"], working=True))
+        med = choice(
+            find_alive_cats_with_rank(Cat, [CatRank.MEDICINE_CAT], working=True)
+        )
         replace_dict["med_name"] = (str(med.name), choice(med.pronouns))
 
     # assign all names and pronouns
@@ -2243,7 +2308,7 @@ def event_text_adjust(
         text = text.replace("multi_cat", list_text)
 
     # other_clan_name
-    if "o_c_n" in text:
+    if "o_c_n" in text and other_clan:
         other_clan_name = other_clan.name
         pos = 0
         for x in range(text.count("o_c_n")):
@@ -2270,7 +2335,8 @@ def event_text_adjust(
         try:
             clan_name = clan.name
         except AttributeError:
-            clan_name = game.switches["clan_list"][0]
+            # todo can this be Switch.clan_name ?
+            clan_name = switch_get_value(Switch.clan_list)[0]
 
         pos = 0
         for x in range(text.count("c_n")):
@@ -2296,33 +2362,35 @@ def event_text_adjust(
     text = adjust_prey_abbr(text)
 
     # acc_plural (only works for main_cat's acc)
-    if "acc_plural" in text:
-        text = text.replace(
-            "acc_plural", i18n.t(f"cat.accessories.{main_cat.pelt.accessory[-1]}", count=2)
-        )
+    if main_cat:
+        if "acc_plural" in text:
+            text = text.replace(
+                "acc_plural",
+                i18n.t(f"cat.accessories.{main_cat.pelt.accessory[-1]}", count=2),
+            )
 
-    # acc_singular (only works for main_cat's acc)
-    if "acc_singular" in text:
-        text = text.replace(
-            "acc_singular",
-            i18n.t(f"cat.accessories.{main_cat.pelt.accessory[-1]}", count=1),
-        )
+        # acc_singular (only works for main_cat's acc)
+        if "acc_singular" in text:
+            text = text.replace(
+                "acc_singular",
+                i18n.t(f"cat.accessories.{main_cat.pelt.accessory[-1]}", count=1),
+            )
 
-    if "given_herb" in text:
-        text = text.replace(
-            "given_herb", i18n.t(f"conditions.herbs.{chosen_herb}", count=2)
-        )
+        if "given_herb" in text:
+            text = text.replace(
+                "given_herb", i18n.t(f"conditions.herbs.{chosen_herb}", count=2)
+            )
 
     return text
 
 
 def leader_ceremony_text_adjust(
-        Cat,
-        text,
-        leader,
-        life_giver=None,
-        virtue=None,
-        extra_lives=None,
+    Cat,
+    text,
+    leader,
+    life_giver=None,
+    virtue=None,
+    extra_lives=None,
 ):
     """
     used to adjust the text for leader ceremonies
@@ -2353,16 +2421,16 @@ def leader_ceremony_text_adjust(
 
 
 def ceremony_text_adjust(
-        Cat,
-        text,
-        cat,
-        old_name=None,
-        dead_mentor=None,
-        mentor=None,
-        previous_alive_mentor=None,
-        random_honor=None,
-        living_parents=(),
-        dead_parents=(),
+    Cat,
+    text,
+    cat,
+    old_name=None,
+    dead_mentor=None,
+    mentor=None,
+    previous_alive_mentor=None,
+    random_honor=None,
+    living_parents=(),
+    dead_parents=(),
 ):
     clanname = str(game.clan.name + "Clan")
 
@@ -2426,9 +2494,9 @@ def ceremony_text_adjust(
         )
 
     if (
-            "dead_par1" in adjust_text
-            and "dead_par2" in adjust_text
-            and len(dead_parents) >= 2
+        "dead_par1" in adjust_text
+        and "dead_par2" in adjust_text
+        and len(dead_parents) >= 2
     ):
         cat_dict["dead_par1"] = (
             str(dead_parents[0].name),
@@ -2464,7 +2532,7 @@ def get_pronouns(cat: "Cat"):
 
 
 def shorten_text_to_fit(
-        name, length_limit, font_size=None, font_type="resources/fonts/NotoSans-Medium.ttf"
+    name, length_limit, font_size=None, font_type="resources/fonts/NotoSans-Medium.ttf"
 ):
     length_limit = length_limit * scripts.game_structure.screen_settings.screen_scale
     if font_size is None:
@@ -2535,12 +2603,16 @@ def ui_scale_dimensions(dim: Tuple[int, int]):
     :return: The scaled dimensions
     """
     return (
-        floor(dim[0] * scripts.game_structure.screen_settings.screen_scale)
-        if dim[0] > 0
-        else dim[0],
-        floor(dim[1] * scripts.game_structure.screen_settings.screen_scale)
-        if dim[1] > 0
-        else dim[1],
+        (
+            floor(dim[0] * scripts.game_structure.screen_settings.screen_scale)
+            if dim[0] > 0
+            else dim[0]
+        ),
+        (
+            floor(dim[1] * scripts.game_structure.screen_settings.screen_scale)
+            if dim[1] > 0
+            else dim[1]
+        ),
     )
 
 
@@ -2595,6 +2667,35 @@ def update_sprite(cat):
     cat.all_cats[cat.ID] = cat
 
 
+def update_mask(cat):
+    if cat.faded or cat.dead:
+        # should never need a mask since they can't appear on the Clan screen
+        cat.sprite_mask = None
+        return
+
+    val = pygame.mask.from_surface(
+        pygame.transform.scale(cat.sprite, ui_scale_dimensions((50, 50))), threshold=250
+    )
+
+    inflated_mask = pygame.Mask(
+        (
+            val.get_size()[0] + 10,
+            val.get_size()[1] + 10,
+        )
+    )
+    inflated_mask.draw(val, (5, 5))
+    for _ in range(3):
+        outline = inflated_mask.outline()
+        for point in outline:
+            for dx in range(-1, 2):
+                for dy in range(-1, 2):
+                    try:
+                        inflated_mask.set_at((point[0] + dx, point[1] + dy), 1)
+                    except IndexError:
+                        continue
+    cat.sprite_mask = inflated_mask
+
+
 def clan_symbol_sprite(clan, return_string=False, force_light=False):
     """
     returns the clan symbol for the given clan_name, if no symbol exists then random symbol is chosen
@@ -2623,3212 +2724,6 @@ def clan_symbol_sprite(clan, return_string=False, force_light=False):
     else:
         return sprites.get_symbol(clan.chosen_symbol, force_light=force_light)
 
-
-def generate_sprite(
-    cat,
-    life_state=None,
-    scars_hidden=False,
-    acc_hidden=False,
-    wing_hidden=False,
-    always_living=False,
-    no_not_working=False,
-) -> pygame.Surface:
-    """
-    Generates the sprite for a cat, with optional arguments that will override certain things.
-
-    :param life_state: sets the age life_stage of the cat, overriding the one set by its age. Set to string.
-    :param scars_hidden: If True, doesn't display the cat's scars. If False, display cat scars.
-    :param acc_hidden: If True, hide the accessory. If false, show the accessory.
-    :param always_living: If True, always show the cat with living lineart
-    :param no_not_working: If true, never use the not_working lineart.
-                    If false, use the cat.not_working() to determine the no_working art.
-    """
-
-    if life_state is not None:
-        age = life_state
-    else:
-        age = cat.age.value
-
-    if always_living:
-        dead = False
-    else:
-        dead = cat.dead
-        
-    # setting the cat_sprite (bc this makes things much easier)
-    if not no_not_working and cat.not_working() and age != 'newborn' and game.config['cat_sprites']['sick_sprites']:
-        if age in ['kitten']:
-            cat_sprite = str(21)
-        elif age in ['adolescent']:
-            cat_sprite = str(19)
-        else:
-            cat_sprite = str(18)
-    elif cat.pelt.paralyzed and age != "newborn":
-        if age in ["kitten", "adolescent"]:
-            cat_sprite = str(17)
-        else:
-            if cat.pelt.length == "long":
-                cat_sprite = str(16)
-            else:
-                cat_sprite = str(15)
-    else:
-        if age == "elder" and not game.config["fun"]["all_cats_are_newborn"]:
-            age = "senior"
-
-        if game.config["fun"]["all_cats_are_newborn"]:
-            cat_sprite = str(cat.pelt.cat_sprites["newborn"])
-        else:
-            cat_sprite = str(cat.pelt.cat_sprites[age])
-
-    new_sprite = pygame.Surface(
-        (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
-    )
-
-    # draw base
-    new_sprite.blit(sprites.sprites['base' + cat_sprite], (0, 0))
-
-    # generating the sprite
-    try:
-        # copying kori's awoogen thanks kori (I would've done this route anyway)
-        # base, underfur, overfur, markings fade, markings, marking inside
-        # i cried typing all of this out lol help me
-        color_dict = {
-            "solid": {
-                "WHITE": [
-                    '#eef9fc',
-                    '#f6fcf2',
-                    '#eef9fc',
-                    '#b3c0c4',
-                    '#ccdadc',
-                    '#D0DEE1'],
-                "PALEGREY": [
-                    '#c1d5d3',
-                    '#D7E0D1',
-                    '#C2D5D3',
-                    '#788B8B',
-                    '#8FA6A6',
-                    '#A2B1B0'],
-                "SILVER": [
-                    '#B6C8CA',
-                    '#d8e1d4',
-                    '#c1d5d3',
-                    '#6f8181',
-                    '#90a7a7',
-                    '#859A9D'],
-                "GREY": [
-                    '#92a1a1',
-                    '#AFB8AE',
-                    '#92A1A1',
-                    '#3F514F',
-                    '#677a78',
-                    '#B1AEB0'],
-                "DARKGREY": [
-                    '#5b6c6f',
-                    '#838d87',
-                    '#5b6c6f',
-                    '#152220',
-                    '#253e3a',
-                    '#39484B'],
-                "GHOST": [
-                    '#3a3f4b',
-                    '#5c5e64',
-                    '#4D5056',
-                    '#66747a',
-                    '#515e62',
-                    '#4D4E59'],
-                "BLACK": [
-                    '#2f353a',
-                    '#4a4d52',
-                    '#2f353a',
-                    '#0f121b',
-                    '#151922',
-                    '#202427'],
-                "CREAM": [
-                    '#f3d7b4',
-                    '#f4e7c9',
-                    '#f3d6b2',
-                    '#d6a981',
-                    '#efbc8e',
-                    '#F5CE9A'],
-                "PALEGINGER": [
-                    '#E7C498',
-                    '#E7C69A',
-                    '#E5BD92',
-                    '#C68B5B',
-                    '#DA9C68',
-                    '#E8B479'],
-                "GOLDEN": [
-                    '#EECB84',
-                    '#ECD69F',
-                    '#E5B374',
-                    '#775441',
-                    '#CB906F',
-                    '#D9A859'],
-                "GINGER": [
-                    '#F2AE71',
-                    '#F4C391',
-                    '#F0AC73',
-                    '#AC5A2C',
-                    '#DB7338',
-                    '#DB9355'],
-                "DARKGINGER": [
-                    '#D2713D',
-                    '#E0A67A',
-                    '#D1703C',
-                    '#6F2E18',
-                    '#A34323',
-                    '#BC5D2A'],
-                "SIENNA": [
-                    '#AA583E',
-                    '#B36F50',
-                    '#A9563D',
-                    '#502A2D',
-                    '#87413C',
-                    '#BA6D4C'],
-                "LIGHTBROWN": [
-                    '#DAC7A4',
-                    '#E6D7B6',
-                    '#CEC6B8',
-                    '#6F5D46',
-                    '#BCA07B',
-                    '#C2AF8C'],
-                "LILAC": [
-                    '#B49890',
-                    '#D0BBAC',
-                    '#A6A4A5',
-                    '#655252',
-                    '#8B696B',
-                    '#AD898A'],
-                "BROWN": [
-                    '#A4856C',
-                    '#BEAA8D',
-                    '#93887E',
-                    '#2D221D',
-                    '#674F43',
-                    '#957961'],
-                "GOLDEN-BROWN": [
-                    '#A86D59',
-                    '#D2A686',
-                    '#836B5B',
-                    '#432E2C',
-                    '#7B5248',
-                    '#A86F59'],
-                "DARKBROWN": [
-                    '#754E3C',
-                    '#B09479',
-                    '#6C625D',
-                    '#130B0A',
-                    '#3B2420',
-                    '#5F483C'],
-                "CHOCOLATE": [
-                    '#704642',
-                    '#855953',
-                    '#484145',
-                    '#1E1719',
-                    '#5A3134',
-                    '#705153'],
-                "LAVENDER": [
-                    '#C0B8C8',
-                    '#F7F6FA',
-                    '#B2AAB7',
-                    '#92848E',
-                    '#ADA1B2',
-                    '#CDBFC6'],
-                "ASH": [
-                    '#272120',
-                    '#6C5240',
-                    '#090707',
-                    '#030202',
-                    '#231A19',
-                    '#3D312E'],
-                "PALECREAM": [
-                    '#FFFBF0',
-                    '#FFFFFF',
-                    '#FFEED8',
-                    '#F7D1B5',
-                    '#FFF5E6',
-                    '#FFFCF3'],
-                "DARKLAVENDER": [
-                    '#837487', #base
-                    '#8B7D8E', #underfur
-                    '#5B4F6C', #overfur
-                    '#483E5D', #marking fade bottom
-                    '#766B83', #markings
-                    '#978C92'], #marking inside
-                "BEIGE": [
-                    '#DDD7D0', #base
-                    '#F3EDE8', #underfur
-                    '#D6CAC6', #overfur
-                    '#A29591', #marking fade bottom
-                    '#B3A59D', #markings
-                    '#C3B8B1'], #marking inside
-                "DUST": [
-                    '#BCAF9F', #base
-                    '#CDC1B7', #underfur
-                    '#9C8F86', #overfur
-                    '#665651', #marking fade bottom
-                    '#7D6965', #markings
-                    '#A1918C'], #marking inside
-                "SUNSET": [
-                    '#E5A774', #base
-                    '#ECB779', #underfur
-                    '#E99063', #overfur
-                    '#B4513A', #marking fade bottom
-                    '#D27958', #markings
-                    '#C86763'], #marking inside
-                "OLDLILAC": [
-                    '#856A6E', #base
-                    '#947A7E', #underfur
-                    '#77565F', #overfur
-                    '#624049', #marking fade bottom
-                    '#7B575F', #markings
-                    '#876762'], #marking inside
-                "GLASS": [
-                    '#dbd4d8', #base
-                    '#dbd4d8', #underfur
-                    '#c8c3c8', #overfur
-                    '#f8f5f2', #marking fade bottom
-                    '#efebe9', #markings
-                    '#e7e3e6'], #marking inside
-                "GHOSTBROWN": [
-                    '#613227', #base
-                    '#603730', #underfur
-                    '#472a2a', #overfur
-                    '#be907b', #marking fade bottom
-                    '#885953', #markings
-                    '#714640'], #marking inside
-                "GHOSTRED": [
-                    '#853521', #base
-                    '#9f3f29', #underfur
-                    '#652a1f', #overfur
-                    '#e6bd9d', #marking fade bottom
-                    '#ce864d', #markings
-                    '#b65737'], #marking inside
-                "COPPER": [
-                    '#7c3711', #base
-                    '#b4612f', #underfur
-                    '#7c3711', #overfur
-                    '#36170c', #marking fade bottom
-                    '#5b240b', #markings
-                    '#62270a'] #marking inside
-            },
-            "special": {
-                "SINGLECOLOUR": {
-                    "WHITE": [
-                        '#EFFAFC',
-                        '#F6FBF9',
-                        '#EEF9FC',
-                        '#A7B9BF',
-                        '#C6D6DB',
-                        '#D0DEE1'],
-                    "PALEGREY": [
-                        '#C6D7D3',
-                        '#D7E0D1',
-                        '#C2D5D3',
-                        '#788B8B',
-                        '#8FA6A6',
-                        '#A2B1B0'],
-                    "SILVER": [
-                        '#B6C8CA',
-                        '#CAD6C7',
-                        '#9FB8BD',
-                        '#2C383F',
-                        '#4C626D',
-                        '#859A9D'],
-                    "GREY": [
-                        '#92A1A1',
-                        '#AFB8AE',
-                        '#92A1A1',
-                        '#3F514F',
-                        '#637674',
-                        '#B1AEB0'],
-                    "DARKGREY": [
-                        '#697879',
-                        '#8F978F',
-                        '#5B6C6F',
-                        '#0B1110',
-                        '#223734',
-                        '#39484B'],
-                    "GHOST": [
-                        '#3C404C',
-                        '#3A3F4B',
-                        '#4D5056',
-                        '#5D6B6F',
-                        '#515E64',
-                        '#4D4E59'],
-                    "BLACK": [
-                        '#353A42',
-                        '#46494E',
-                        '#31383F',
-                        '#0A0D15',
-                        '#141720',
-                        '#202427'],
-                    "CREAM": [
-                        '#F4DAB5',
-                        '#F4E8CB',
-                        '#F3D7B4',
-                        '#D4A57D',
-                        '#E9B68B',
-                        '#F5CE9A'],
-                    "PALEGINGER": [
-                        '#E7C498',
-                        '#E7C69A',
-                        '#E5BD92',
-                        '#C68B5B',
-                        '#DA9C68',
-                        '#E8B479'],
-                    "GOLDEN": [
-                        '#EECB84',
-                        '#ECD69F',
-                        '#E5B374',
-                        '#775441',
-                        '#CB906F',
-                        '#D9A859'],
-                    "GINGER": [
-                        '#F2AE71',
-                        '#F4C391',
-                        '#F0AC73',
-                        '#AC5A2C',
-                        '#DB7338',
-                        '#DB9355'],
-                    "DARKGINGER": [
-                        '#D2713D',
-                        '#E0A67A',
-                        '#D1703C',
-                        '#6F2E18',
-                        '#A34323',
-                        '#BC5D2A'],
-                    "SIENNA": [
-                        '#AA583E',
-                        '#B36F50',
-                        '#A9563D',
-                        '#502A2D',
-                        '#87413C',
-                        '#BA6D4C'],
-                    "LIGHTBROWN": [
-                        '#DAC7A4',
-                        '#E6D7B6',
-                        '#CEC6B8',
-                        '#6F5D46',
-                        '#BCA07B',
-                        '#C2AF8C'],
-                    "LILAC": [
-                        '#B49890',
-                        '#D0BBAC',
-                        '#A6A4A5',
-                        '#655252',
-                        '#8B696B',
-                        '#AD898A'],
-                    "BROWN": [
-                        '#A4856C',
-                        '#BEAA8D',
-                        '#93887E',
-                        '#2D221D',
-                        '#674F43',
-                        '#957961'],
-                    "GOLDEN-BROWN": [
-                        '#A86D59',
-                        '#D2A686',
-                        '#836B5B',
-                        '#432E2C',
-                        '#7B5248',
-                        '#A86F59'],
-                    "DARKBROWN": [
-                        '#754E3C',
-                        '#B09479',
-                        '#6C625D',
-                        '#130B0A',
-                        '#3B2420',
-                        '#5F483C'],
-                    "CHOCOLATE": [
-                        '#704642',
-                        '#855953',
-                        '#484145',
-                        '#1E1719',
-                        '#5A3134',
-                        '#705153'],
-                    "LAVENDER": [
-                        '#C0B8C8',
-                        '#F7F6FA',
-                        '#B2AAB7',
-                        '#92848E',
-                        '#ADA1B2',
-                        '#CDBFC6'],
-                    "ASH": [
-                        '#272120',
-                        '#6C5240',
-                        '#090707',
-                        '#030202',
-                        '#231A19',
-                        '#3D312E'],
-                    "PALECREAM": [
-                        '#FFFBF0',
-                        '#FFFFFF',
-                        '#FFEED8',
-                        '#F7D1B5',
-                        '#FFF5E6',
-                        '#FFFCF3'],
-                    "DARKLAVENDER": [
-                        '#837487', #base
-                        '#8B7D8E', #underfur
-                        '#5B4F6C', #overfur
-                        '#483E5D', #marking fade bottom
-                        '#766B83', #markings
-                        '#978C92'], #marking inside
-                    "BEIGE": [
-                        '#DDD7D0', #base
-                        '#F3EDE8', #underfur
-                        '#D6CAC6', #overfur
-                        '#A29591', #marking fade bottom
-                        '#B3A59D', #markings
-                        '#C3B8B1'], #marking inside
-                    "DUST": [
-                        '#BCAF9F', #base
-                        '#CDC1B7', #underfur
-                        '#9C8F86', #overfur
-                        '#665651', #marking fade bottom
-                        '#7D6965', #markings
-                        '#A1918C'], #marking inside
-                    "SUNSET": [
-                        '#E5A774', #base
-                        '#ECB779', #underfur
-                        '#E99063', #overfur
-                        '#B4513A', #marking fade bottom
-                        '#D27958', #markings
-                        '#C86763'], #marking inside
-                    "OLDLILAC": [
-                        '#856A6E', #base
-                        '#947A7E', #underfur
-                        '#77565F', #overfur
-                        '#624049', #marking fade bottom
-                        '#7B575F', #markings
-                        '#876762'], #marking inside
-                    "GLASS": [
-                        '#e5e1d6', #base
-                        '#efebe9', #underfur
-                        '#dedacb', #overfur
-                        '#efebe9', #marking fade bottom
-                        '#f8f5f2', #markings
-                        '#e7e3e6'], #marking inside
-                    "GHOSTBROWN": [
-                        '#55312b', #base
-                        '#5d3229', #underfur
-                        '#402629', #overfur
-                        '#885953', #marking fade bottom
-                        '#be907b', #markings
-                        '#714640'], #marking inside
-                    "GHOSTRED": [
-                        '#863224', #base
-                        '#9f3c25', #underfur
-                        '#652a21', #overfur
-                        '#ce864d', #marking fade bottom
-                        '#e6bd9d', #markings
-                        '#b65737'], #marking inside
-                    "COPPER": [
-                        '#97461c', #base
-                        '#b35f2d', #underfur
-                        '#7c3711', #overfur
-                        '#5b240b', #marking fade bottom
-                        '#36170c', #markings
-                        '#62270a'] #marking inside
-                },
-                "SMOKE": {
-                    "WHITE": [
-                        '#ECF4F6',
-                        '#F4FBF3',
-                        '#ECF4F6',
-                        '#C1CDD1',
-                        '#C1CDD1',
-                        '#C1CDD1'],
-                    "PALEGREY": [
-                        '#C4D4D1',
-                        '#D9E1D1',
-                        '#C4D4D1',
-                        '#8FA1A1',
-                        '#8FA1A1',
-                        '#8FA1A1'],
-                    "SILVER": [
-                        '#ABC0C3',
-                        '#D0D7C9',
-                        '#ABC0C3',
-                        '#4D5256',
-                        '#4D5256',
-                        '#4D5256'],
-                    "GREY": [
-                        '#99A5A4',
-                        '#BFC4B5',
-                        '#99A5A4',
-                        '#5B6967',
-                        '#5B6967',
-                        '#5B6967'],
-                    "DARKGREY": [
-                        '#687577',
-                        '#8F978F',
-                        '#687577',
-                        '#273534',
-                        '#273534',
-                        '#273534'],
-                    "GHOST": [
-                        '#3A3F4B',
-                        '#464952',
-                        '#3A3F4B',
-                        '#6A7E85',
-                        '#6A7E85',
-                        '#6A7E85'],
-                    "BLACK": [
-                        '#2F353A',
-                        '#4D5055',
-                        '#2F353A',
-                        '#171B24',
-                        '#171B24',
-                        '#171B24'],
-                    "CREAM": [
-                        '#F3D7B3',
-                        '#F4E8CB',
-                        '#F3D7B3',
-                        '#DFB68E',
-                        '#DFB68E',
-                        '#DFB68E'],
-                    "PALEGINGER": [
-                        '#E3BC93',
-                        '#E7CEAA',
-                        '#E3BC93',
-                        '#D39D6E',
-                        '#D39D6E',
-                        '#D39D6E'],
-                    "GOLDEN": [
-                        '#EDC881',
-                        '#ECD49C',
-                        '#E4B072',
-                        '#906A4C',
-                        '#906A4C',
-                        '#906A4C'],
-                    "GINGER": [
-                        '#F2AD70',
-                        '#F3CEA3',
-                        '#F2AD70',
-                        '#C67340',
-                        '#C67340',
-                        '#C67340'],
-                    "DARKGINGER": [
-                        '#D1703C',
-                        '#E0A67C',
-                        '#D1703C',
-                        '#994625',
-                        '#994625',
-                        '#994625'],
-                    "SIENNA": [
-                        '#A6563E',
-                        '#B26E4F',
-                        '#9C503B',
-                        '#643739',
-                        '#643739',
-                        '#643739'],
-                    "LIGHTBROWN": [
-                        '#d3c6ad',
-                        '#eadfc0',
-                        '#d3c6ad',
-                        '#9f9078',
-                        '#9f9078',
-                        '#9f9078'],
-                    "LILAC": [
-                        '#b1968f',
-                        '#cfbaab',
-                        '#a09a9c',
-                        '#785f61',
-                        '#785f61',
-                        '#785f61'],
-                    "BROWN": [
-                        '#a58f7e',
-                        '#af9981',
-                        '#998c7d',
-                        '#4c3d35',
-                        '#4c3d35',
-                        '#4c3d35'],
-                    "GOLDEN-BROWN": [
-                        '#a26855',
-                        '#c59577',
-                        '#6c4f45',
-                        '#483230',
-                        '#483230',
-                        '#483230'],
-                    "DARKBROWN": [
-                        '#745e55',
-                        '#9a8270',
-                        '#745e55',
-                        '#2c201c',
-                        '#2c201c',
-                        '#2c201c'],
-                    "CHOCOLATE": [
-                        '#654241',
-                        '#875b54',
-                        '#4e3e42',
-                        '#352426',
-                        '#352426',
-                        '#352426'],
-                    "LAVENDER": [ # new colors
-                        '#c3bbc7',
-                        '#dcd7df',
-                        '#aea4b2',
-                        '#65617b',
-                        '#65617b',
-                        '#65617b'],
-                    "ASH": [
-                        '#32261e',
-                        '#574233',
-                        '#201815',
-                        '#090706',
-                        '#090706',
-                        '#090706'],
-                    "PALECREAM": [
-                        '#fae7d0',
-                        '#fcf6ef',
-                        '#faddbb',
-                        '#f3ceab',
-                        '#f3ceab',
-                        '#f3ceab'],
-                    "DARKLAVENDER": [
-                        '#897b8b', #base
-                        '#aa979d', #underfur
-                        '#665a72', #overfur
-                        '#4d4260', #marking fade bottom
-                        '#4d4260', #markings
-                        '#4d4260'], #marking inside
-                    "BEIGE": [
-                        '#ded6d2', #base
-                        '#eee7e1', #underfur
-                        '#d6ceca', #overfur
-                        '#a99a93', #marking fade bottom
-                        '#a99a93', #markings
-                        '#a99a93'], #marking inside
-                    "DUST": [
-                        '#b0a295', #base
-                        '#cdc1b7', #underfur
-                        '#9d8c7d', #overfur
-                        '#4c403b', #marking fade bottom
-                        '#4c403b', #markings
-                        '#4c403b'], #marking inside
-                    "SUNSET": [
-                        '#dc9564', #base
-                        '#f1c787', #underfur
-                        '#d37854', #overfur
-                        '#ad5a46', #marking fade bottom
-                        '#ad5a46', #markings
-                        '#ad5a46'], #marking inside
-                    "OLDLILAC": [
-                        '#8f6f75', #base
-                        '#a19196', #underfur
-                        '#7b5a60', #overfur
-                        '#442b2f', #marking fade bottom
-                        '#442b2f', #markings
-                        '#442b2f'], #marking inside
-                    "GLASS": [
-                        '#d2ccc7', #base
-                        '#d9d4cd', #underfur
-                        '#d0cac5', #overfur
-                        '#e8e4db', #marking fade bottom
-                        '#e8e4db', #markings
-                        '#e8e4db'], #marking inside
-                    "GHOSTBROWN": [
-                        '#57322a', #base
-                        '#6e3d30', #underfur
-                        '#442a2a', #overfur
-                        '#b47862', #marking fade bottom
-                        '#b47862', #markings
-                        '#714640'], #marking inside
-                    "GHOSTRED": [
-                        '#8c3a22', #base
-                        '#973c25', #underfur
-                        '#5f2920', #overfur
-                        '#d3a36e', #marking fade bottom
-                        '#d3a36e', #markings
-                        '#b65737'], #marking inside
-                    "COPPER": [
-                        '#a24c22', #base
-                        '#ce894a', #underfur
-                        '#71300f', #overfur
-                        '#58240b', #marking fade bottom
-                        '#58240b', #markings
-                        '#62270a'] #marking inside
-                },
-                "SINGLESTRIPE": {
-                    "WHITE": [
-                        '#EEF9FC',
-                        '#F4FBF4',
-                        '#EEF9FC',
-                        '#B4D1DB',
-                        '#B4D1DB',
-                        '#D0DEE1'],
-                    "PALEGREY": [
-                        '#C2D5D3',
-                        '#D9E1D1',
-                        '#C1D5D3',
-                        '#89A9A2',
-                        '#89A9A2',
-                        '#A2B1B0'],
-                    "SILVER": [
-                        '#A6BFC1',
-                        '#C5D3C6',
-                        '#9FBBC0',
-                        '#436A6F',
-                        '#436A6F',
-                        '#859A9D'],
-                    "GREY": [
-                        '#94A3A2',
-                        '#92A1A1',
-                        '#92A1A1',
-                        '#324242',
-                        '#324242',
-                        '#B1AEB0'],
-                    "DARKGREY": [
-                        '#5E6D70',
-                        '#828E8C',
-                        '#5B6C6F',
-                        '#0C1315',
-                        '#0C1315',
-                        '#39484B'],
-                    "GHOST": [
-                        '#3E424E',
-                        '#5C5E63',
-                        '#3A3F4B',
-                        '#8B93A5',
-                        '#8B93A5',
-                        '#4D4E59'],
-                    "BLACK": [
-                        '#2F353A',
-                        '#3D4247',
-                        '#2F353A',
-                        '#050708',
-                        '#050708',
-                        '#202427'],
-                    "CREAM": [
-                        '#F3D6B2',
-                        '#F4E8CB',
-                        '#F3D6B2',
-                        '#E1A568',
-                        '#E1A568',
-                        '#F5CE9A'],
-                    "PALEGINGER": [
-                        '#E7C498',
-                        '#E7C69A',
-                        '#E5BD92',
-                        '#C1763E',
-                        '#C1763E',
-                        '#E8B479'],
-                    "GOLDEN": [
-                        '#EBC27D',
-                        '#ECD49B',
-                        '#E6B576',
-                        '#C16A27',
-                        '#C16A27',
-                        '#D9A859'],
-                    "GINGER": [
-                        '#F2A96B',
-                        '#F4C594',
-                        '#F0AC73',
-                        '#DB6126',
-                        '#DB6126',
-                        '#DB9355'],
-                    "DARKGINGER": [
-                        '#D57D4B',
-                        '#E0A67A',
-                        '#D1703C',
-                        '#9A230A',
-                        '#9A230A',
-                        '#BC5D2A'],
-                    "SIENNA": [
-                        '#A9563D',
-                        '#B47353',
-                        '#A9563D',
-                        '#3F2529',
-                        '#743A38',
-                        '#BA6D4C'],
-                    "LIGHTBROWN": [
-                        '#DDCCAE',
-                        '#E6D7B7',
-                        '#D0C6B5',
-                        '#9E8867',
-                        '#9E8867',
-                        '#C2AF8C'],
-                    "LILAC": [
-                        '#B3968F',
-                        '#D0BCAD',
-                        '#A6A4A5',
-                        '#6E5859',
-                        '#8D6B6C',
-                        '#AD898A'],
-                    "BROWN": [
-                        '#AA9682',
-                        '#BDA78E',
-                        '#93887E',
-                        '#4D3625',
-                        '#4D3625',
-                        '#957961'],
-                    "GOLDEN-BROWN": [
-                        '#A76B57',
-                        '#D2A685',
-                        '#886C5D',
-                        '#473130',
-                        '#795047',
-                        '#A86F59'],
-                    "DARKBROWN": [
-                        '#7A5948',
-                        '#927C6A',
-                        '#6B5C54',
-                        '#311910',
-                        '#311910',
-                        '#5F483C'],
-                    "CHOCOLATE": [
-                        '#6E4642',
-                        '#875B54',
-                        '#4A3F46',
-                        '#281E1F',
-                        '#513133',
-                        '#705153'],
-                    "LAVENDER": [
-                        '#C8C2CD',
-                        '#F7F6FA',
-                        '#BEB5C8',
-                        '#6C5A6A',
-                        '#A798AE',
-                        '#CDBFC6'],
-                    "ASH": [
-                        '#352D2C',
-                        '#8E7156',
-                        '#090707',
-                        '#030202',
-                        '#231A1A',
-                        '#3D312E'],
-                    "PALECREAM": [
-                        '#FFFBF0',
-                        '#FFFFFF',
-                        '#FFEED8',
-                        '#EDB690',
-                        '#FFDFB9',
-                        '#FFFCF3'],
-                    "DARKLAVENDER": [
-                        '#837487', #base
-                        '#767180', #underfur
-                        '#6F6576', #overfur
-                        '#483E5D', #marking fade bottom
-                        '#504B5E', #markings
-                        '#978C92'] ,#marking inside
-                    "BEIGE": [
-                        '#EADFD3', #base
-                        '#F3EDE8', #underfur
-                        '#D6CAC6', #overfur
-                        '#95887E', #marking fade bottom
-                        '#9E9284', #markings
-                        '#C3B8B1'], #marking inside
-                    "DUST": [
-                        '#BCAF9F', #base
-                        '#CDC1B7', #underfur
-                        '#9C8F86', #overfur
-                        '#665651', #marking fade bottom
-                        '#7D6965', #markings
-                        '#A1918C'], #marking inside
-                    "SUNSET": [
-                        '#DA9E66', #base
-                        '#ECB779', #underfur
-                        '#DF835A', #overfur
-                        '#B4513A', #marking fade bottom
-                        '#C86758', #markings
-                        '#C86763'], #marking inside
-                    "OLDLILAC": [
-                        '#856A6E', #base
-                        '#947A7E', #underfur
-                        '#7C606A', #overfur
-                        '#593A43', #marking fade bottom
-                        '#754D59', #markings
-                        '#876762'], #marking inside
-                    "GLASS": [
-                        '#cbc5c0', #base
-                        '#cbc5c0', #underfur
-                        '#c1bcb7', #overfur
-                        '#faf8f7', #marking fade bottom
-                        '#faf8f7', #markings
-                        '#faf8f7'], #marking inside
-                    "GHOSTBROWN": [
-                        '#552f27', #base
-                        '#572f27', #underfur
-                        '#422627', #overfur
-                        '#a2655f', #marking fade bottom
-                        '#a2655f', #markings
-                        '#714640'], #marking inside
-                    "GHOSTRED": [
-                        '#903724', #base
-                        '#9f3c25', #underfur
-                        '#702c21', #overfur
-                        '#d78856', #marking fade bottom
-                        '#d78856', #markings
-                        '#b65737'], #marking inside
-                    "COPPER": [
-                        '#93451b', #base
-                        '#b76531', #underfur
-                        '#682b0d', #overfur
-                        '#3a190c', #marking fade bottom
-                        '#3a190c', #markings
-                        '#62270a'] #marking inside
-                }
-            },
-            
-            "bengal": {
-                "WHITE": [
-                    '#F5F5F5',
-                    '#FFFFFF',
-                    '#E7E6EB',
-                    '#BEBDBE',
-                    '#D4D3D3',
-                    '#CDCCCE',
-                    '#D7D6D6'],
-                "PALEGREY": [
-                    '#C4C9CE',
-                    '#F8F8F5',
-                    '#959AA0',
-                    '#1A1A20',
-                    '#403F4A',
-                    '#47494F',
-                    '#7D7C81'],
-                "SILVER": [
-                    '#C0C6CF',
-                    '#F8F8F5',
-                    '#7D828A',
-                    '#43464D',
-                    '#5F6571',
-                    '#595C64',
-                    '#92969C'],
-                "GREY": [
-                    '#8B919C',
-                    '#F2F2DB',
-                    '#6B7078',
-                    '#43464D',
-                    '#666B75',
-                    '#53565E',
-                    '#939594'],
-                "DARKGREY": [
-                    '#A0A2A9',
-                    '#F8F8F5',
-                    '#4F5155',
-                    '#1E1E24',
-                    '#403F4A',
-                    '#1E1E24',
-                    '#403F4A'],
-                "GHOST": [
-                    '#525D65',
-                    '#8899A9',
-                    '#2F353A',
-                    '#0A0D15',
-                    '#0F0F12',
-                    '#171B24',
-                    '#171B24'],
-                "BLACK": [
-                    '#7E7878',
-                    '#C7C3BA',
-                    '#35353A',
-                    '#0E0E11',
-                    '#1E1E24',
-                    '#0E0E11',
-                    '#1E1E24'],
-                "CREAM": [
-                    '#F3D6B2',
-                    '#FEFDFD',
-                    '#EFBC8E',
-                    '#D3A17A',
-                    '#EFBC8E',
-                    '#DCAA82',
-                    '#F0CEAF'],
-                "PALEGINGER": [
-                    '#C4C9CE',
-                    '#EBDDD3',
-                    '#E2A36F',
-                    '#C5875A',
-                    '#E2A36F',
-                    '#CF9162',
-                    '#E3B590'],
-                "GOLDEN": [
-                    '#EECB83',
-                    '#F3ECD9',
-                    '#E6B575',
-                    '#6C4C3A',
-                    '#CD9170',
-                    '#98724F',
-                    '#D2AB90'],
-                "GINGER": [
-                    '#F2A96B',
-                    '#FFF0B6',
-                    '#DB8A51',
-                    '#A8582B',
-                    '#EF884C',
-                    '#BA6A38',
-                    '#EEA76D'],
-                "DARKGINGER": [
-                    '#D37642',
-                    '#FFEFB6',
-                    '#BD5629',
-                    '#6F2E17',
-                    '#AC4825',
-                    '#8B3C1E',
-                    '#9B5837'],
-                "SIENNA": [
-                    '#AC5D43',
-                    '#D4C498',
-                    '#A9563D',
-                    '#482628',
-                    '#743839',
-                    '#89433C',
-                    '#89433C'],
-                "LIGHTBROWN": [
-                    '#E0CFAD',
-                    '#F8F7F4',
-                    '#B4A07E',
-                    '#877358',
-                    '#BCA07B',
-                    '#978366',
-                    '#BEA887'],
-                "LILAC": [
-                    '#B79088',
-                    '#DEC3A6',
-                    '#AA9F9E',
-                    '#654749',
-                    '#876162',
-                    '#8C7475',
-                    '#8C7475'],
-                "BROWN": [
-                    '#A5856B',
-                    '#F3ECDA',
-                    '#8D6A4E',
-                    '#46362E',
-                    '#644C41',
-                    '#604839',
-                    '#938173'],
-                "GOLDEN-BROWN": [
-                    '#A26655',
-                    '#DECBA5',
-                    '#896C5D',
-                    '#281B17',
-                    '#7F5548',
-                    '#65443B',
-                    '#6B473D'],
-                "DARKBROWN": [
-                    '#685E57',
-                    '#EAE1C9',
-                    '#2F2A27',
-                    '#110B0A',
-                    '#3B2723',
-                    '#110B0A',
-                    '#3B2723'],
-                "CHOCOLATE": [
-                    '#774D48',
-                    '#C1A79D',
-                    '#473F46',
-                    '#241A1C',
-                    '#382021',
-                    '#523133',
-                    '#523133'],
-                "LAVENDER": [
-                    '#E3DFE7',
-                    '#F9FBFF',
-                    '#C0B9C0',
-                    '#6B5F7A',
-                    '#8A829B',
-                    '#9D96AB',
-                    '#AE9FB2'],
-                "ASH": [
-                    '#392F2D',
-                    '#7D5A4C',
-                    '#110D0D',
-                    '#030202',
-                    '#231A19',
-                    '#060404',
-                    '#231A19'],
-                "PALECREAM": [
-                    '#FFFBF0',
-                    '#FFFFFF',
-                    '#FFF2E0',
-                    '#F6D1B6',
-                    '#F9DFCD',
-                    '#F9DCC8',
-                    '#FCEDE4'],
-                "DARKLAVENDER": [
-                    '#998FA4', #base
-                    '#BDBBC3', #underfur
-                    '#5A5167', #overfur
-                    '#4B3E5A', #marking fade bottom
-                    '#837487', #markings
-                    '#8E8093', #marking inside
-                    '#A49CA7'], #marking inside lower fade
-                "BEIGE": [
-                    '#F5EDDF', #base
-                    '#FFF6EE', #underfur
-                    '#E7D8C8', #overfur
-                    '#A29591', #marking fade bottom
-                    '#E0CBB8', #markings
-                    '#B3A59D', #marking inside
-                    '#C1AFA1'], #marking inside lower fade
-                "DUST": [
-                    '#BCAF9F', #base
-                    '#CDC1B7', #underfur
-                    '#9C8F86', #overfur
-                    '#665651', #marking fade bottom
-                    '#7D6965', #markings
-                    '#837162', #marking inside
-                    '#A18C81'], #marking inside lower fade
-                "SUNSET": [
-                    '#F6D899', #base
-                    '#FFFADB', #underfur
-                    '#FBC878', #overfur
-                    '#E87154', #marking fade bottom
-                    '#FFB379', #markings
-                    '#F29E46', #marking inside
-                    '#F7B14C'], #marking inside lower fade
-                "OLDLILAC": [
-                    '#856A6E', #base
-                    '#BDA5A1', #underfur
-                    '#754D59', #overfur
-                    '#401F27', #marking fade bottom
-                    '#754D59', #markings
-                    '#572E39', #marking inside
-                    '#8A5E67'], #marking inside lower fade
-                "GLASS": [
-                    '#d1d1d7', #base
-                    '#e9e7e9', #underfur
-                    '#bcbbc6', #overfur
-                    '#f4f3f3', #marking fade bottom
-                    '#f3f2f1', #markings
-                    '#eeedee', #marking inside
-                    '#f4f3f3'], #marking inside lower fade
-                "GHOSTBROWN": [
-                    '#4a2a24', #base
-                    '#583027', #underfur
-                    '#321711', #overfur
-                    '#b47b6d', #marking fade bottom
-                    '#b47b6d', #markings
-                    '#965c4f', #marking inside
-                    '#965c4f'], #marking inside lower fade
-                "GHOSTRED": [
-                    '#823b21', #base
-                    '#b96a40', #underfur
-                    '#442011', #overfur
-                    '#d6ac7a', #marking fade bottom
-                    '#ca9053', #markings
-                    '#cd9961', #marking inside
-                    '#cd9961'], #marking inside lower fade
-                "COPPER": [
-                    '#b4612f', #base
-                    '#f0aa58', #underfur
-                    '#6c2c0c', #overfur
-                    '#4b200b', #marking fade bottom
-                    '#481f0b', #markings
-                    '#481f0b', #marking inside
-                    '#5c240a'] #marking inside lower fade
-            },
-            "special_overfur": {
-                "DUOTONE": {
-                    "WHITE": [
-                    '#eef9fc', #base
-                    '#f0efec', #underfur
-                    '#eef9fc', #overfur
-                    '#fffae2', #marking fade bottom
-                    '#c5d2d6', #markings
-                    '#94a5bd'], #marking fade top
-                "PALEGREY": [
-                    '#c1d5d3', #base
-                    '#dae2d4', #underfur
-                    '#90a7a7', #overfur
-                    '#a5b2af', #marking fade bottom
-                    '#90a7a7', #markings
-                    '#676975'], #marking fade top
-                "SILVER": [
-                    '#d7e1e6', #base
-                    '#c8d3c9', #underfur
-                    '#7f9397', #overfur
-                    '#a89e9a', #marking fade bottom
-                    '#89a9a8', #markings
-                    '#424f63'], #marking fade top
-                "GREY": [
-                    '#92a1a1', #base
-                    '#e6e5da', #underfur
-                    '#566a6f', #overfur
-                    '#fff9ef', #marking fade bottom
-                    '#92a1a1', #markings
-                    '#262f35'], #marking fade top
-                "DARKGREY": [
-                    '#495659', #base
-                    '#8c96a6', #underfur
-                    '#494c5c', #overfur
-                    '#a5b2c6', #marking fade bottom
-                    '#494c5c', #markings
-                    '#110e1c'], #marking fade top
-                "GHOST": [
-                    '#3a3f4b', #base
-                    '#5e5e76', #underfur
-                    '#392835', #overfur
-                    '#3a3f4b', #marking fade bottom
-                    '#312d46', #markings
-                    '#68767c'], #marking fade top
-                "BLACK": [
-                    '#2f353a', #base
-                    '#4a4d52', #underfur
-                    '#150c32', #overfur
-                    '#141821', #marking fade bottom
-                    '#100f21', #markings
-                    '#221c2e'], #marking fade top
-                "CREAM": [
-                    '#f6e4c4', #base
-                    '#fffaef', #underfur
-                    '#f6dfc0', #overfur
-                    '#ffffff', #marking fade bottom
-                    '#f1c69e', #markings
-                    '#d68278'], #marking fade top
-                "PALEGINGER": [
-                    '#e5bd92', #base
-                    '#ebdcbb', #underfur
-                    '#d49564', #overfur
-                    '#ede6c8', #marking fade bottom
-                    '#d69a68', #markings
-                    '#903348'], #marking fade top
-                "GOLDEN": [
-                    '#e6b475', #base
-                    '#edd69e', #underfur
-                    '#c2896a', #overfur
-                    '#a3613d', #marking fade bottom
-                    '#93481f', #markings
-                    '#3f212c'], #marking fade top
-                "GINGER": [
-                    '#f4bd87', #base
-                    '#f7deb4', #underfur
-                    '#a76b56', #overfur
-                    '#ffe3b1', #marking fade bottom
-                    '#e09b74', #markings
-                    '#702e2b'], #marking fade top
-                "DARKGINGER": [
-                    '#d98e62', #base
-                    '#f0c695', #underfur
-                    '#8c3a1e', #overfur
-                    '#d46538', #marking fade bottom
-                    '#8c3a1e', #markings
-                    '#7c0831'], #marking fade top
-                "SIENNA": [
-                    '#a9563d', #base
-                    '#e1cbaf', #underfur
-                    '#693637', #overfur
-                    '#b57056', #marking fade bottom
-                    '#b57056', #markings
-                    '#320d12'], #marking fade top
-                "LIGHTBROWN": [
-                    '#ddcdb0', #base
-                    '#eae0c0', #underfur
-                    '#d1cabc', #overfur
-                    '#d6d1cd', #marking fade bottom
-                    '#b08c81', #markings
-                    '#594945'], #marking fade top
-                "LILAC": [
-                    '#c69f96', #base
-                    '#e3d5ce', #underfur
-                    '#a8a1a1', #overfur
-                    '#ac9d9b', #marking fade bottom
-                    '#a07175', #markings
-                    '#908487'], #marking fade top
-                "BROWN": [
-                    '#846a59', #base
-                    '#c1aa94', #underfur
-                    '#776558', #overfur
-                    '#99756c', #marking fade bottom
-                    '#4c2929', #markings
-                    '#2f1b18'], #marking fade top
-                "GOLDEN-BROWN": [
-                    '#a56b58', #base
-                    '#d2b58a', #underfur
-                    '#c19477', #overfur
-                    '#724c44', #marking fade bottom
-                    '#724c44', #markings
-                    '#593c38'], #marking fade top
-                "DARKBROWN": [
-                    '#685b54', #base
-                    '#856a58', #underfur
-                    '#856a58', #overfur
-                    '#34201c', #marking fade bottom
-                    '#52342f', #markings
-                    '#150a14'], #marking fade top
-                "CHOCOLATE": [
-                    '#744945', #base
-                    '#936259', #underfur
-                    '#5b4244', #overfur
-                    '#dda48e', #marking fade bottom
-                    '#5b3133', #markings
-                    '#1b1719'], #marking fade top
-                "LAVENDER": [
-                    '#c1b9c9', #base
-                    '#f3f1f6', #underfur
-                    '#92848e', #overfur
-                    '#a69cb3', #marking fade bottom
-                    '#352820', #markings
-                    '#6a6c83'], #marking fade top
-                "ASH": [
-                    '#795942', #base
-                    '#0f0b09', #underfur
-                    '#0a0808', #overfur
-                    '#684f3e', #marking fade bottom
-                    '#352820', #markings
-                    '#0a0808'], #marking fade top
-                "PALECREAM": [
-                    '#fffcf1', #base
-                    '#fffcf1', #underfur
-                    '#fffcf1', #overfur
-                    '#e3eaed', #marking fade bottom
-                    '#f8d2b6', #markings
-                    '#ca908e'], #marking fade top
-                "DARKLAVENDER": [
-                    '#87798b', #base
-                    '#aaa1b9', #underfur
-                    '#713576', #overfur
-                    '#725a73', #marking fade bottom
-                    '#483e5d', #markings
-                    '#574069'], #marking fade top
-                "BEIGE": [
-                    '#ded8d1', #base
-                    '#ffffff', #underfur
-                    '#b0a395', #overfur
-                    '#d6b895', #marking fade bottom
-                    '#bdb4a9', #markings
-                    '#80776d'], #marking fade top
-                "DUST": [
-                    '#bfb2a3', #base
-                    '#f0e4e3', #underfur
-                    '#a68c8f', #overfur
-                    '#ad8d83', #marking fade bottom
-                    '#837075', #markings
-                    '#463a36'], #marking fade top
-                "SUNSET": [
-                    '#edb96f', #base
-                    '#ffe2a5', #underfur
-                    '#dd9075', #overfur
-                    '#cd5d36', #marking fade bottom
-                    '#d77c55', #markings
-                    '#b9372f'], #marking fade top
-                "OLDLILAC": [
-                    '#8b7074', #base
-                    '#93797d', #underfur
-                    '#93797d', #overfur
-                    '#7c4e55', #marking fade bottom
-                    '#764653', #markings
-                    '#59263b'], #marking fade top
-                "GLASS": [
-                    '#dbd4d8', #base
-                    '#e6e5dd', #underfur
-                    '#ffffff', #overfur
-                    '#bfc0cd', #marking fade bottom
-                    '#8585a0', #markings
-                    '#ffffff'], #marking fade top
-                "GHOSTBROWN": [
-                    '#613227', #base
-                    '#3c100c', #underfur
-                    '#472a2a', #overfur
-                    '#8a5b55', #marking fade bottom
-                    '#8d4e41', #markings
-                    '#c2927a'], #marking fade top
-                "GHOSTRED": [
-                    '#672a1f', #base
-                    '#bd6939', #underfur
-                    '#b26c28', #overfur
-                    '#ffdb9b', #marking fade bottom
-                    '#db9f62', #markings
-                    '#e9c19a'], #marking fade top
-                "COPPER": [
-                    '#7c3711', #base
-                    '#caa172', #underfur
-                    '#7c3711', #overfur
-                    '#a35121', #marking fade bottom
-                    '#603924', #markings
-                    '#1f1d1d'] #marking fade top
-                }
-                
-            }
-        }
-        # to handle the ones with more special coloration - special are for overridden colors for that specific marking and then bengal is just... sharing bengal lol
-        # why am I explaining... who knows
-        color_type_dict = {
-            "special": ["SINGLESTRIPE", "SINGLECOLOUR", "TWOCOLOUR", "SMOKE"],
-            "bengal": ["BENGAL", "MARBLED", "BRAIDED"],
-            "special_overfur": ["DUOTONE"]
-        }
-
-        # base, shadow, pupil
-        eye_color_dict = {
-            "YELLOW": ['#FFF571','#E6D64E','#AE8A4D'],
-            "AMBER": ['#F2E085','#DD9D55','#BA6932'],
-            "HAZEL": ['#C7A37C','#909960','#545A36'],
-            "PALEGREEN": ['#DDE895','#87BA65','#447F4B'],
-            "GREEN": ['#76DF66','#5A9B6C','#35665A'],
-            "BLUE": ['#ADEEF0','#70BBD9','#375AA7'],
-            "DARKBLUE": ['#6C94DB','#3747A1','#1F365F'],
-            "PEBBLE": ['#A9A7A3','#7C8273','#3A3D35'], # renamed from grey
-            "CYAN": ['#CDFFF6','#75E1CE','#4C97A5'],
-            "EMERALD": ['#54B06A','#41785F','#263E3E'],
-            "HEATHERBLUE": ['#809ED0','#8A6BBD','#512E86'],
-            "SUNLITICE": ['#A2FAFF','#DDD374','#6D5730'],
-            "COPPER": ['#D47A3C','#A35118','#62240B'],
-            "SAGE": ['#88985B','#687544','#2F3420'],
-            "COBALT": ['#6387D0','#374F98','#011C48'],
-            "PALEBLUE": ['#AEDBE1','#75B3EF','#4B77BE'],
-            "BRONZE": ['#9A6331','#6D431D','#482F39'],
-            "DUST": ['#DBC9B5','#B1A598','#7B6C5B'], # renamed from silver
-            "PALEYELLOW": ['#FFF8B8','#E5D09A','#B79E48'],
-            "GOLD": ['#FFF8B8','#CCA44F','#6D5730'],
-            "GREENYELLOW": ['#F2E085','#B2BC74','#867E48'],
-            "ORANGE": ['#FEA74B','#F86B21','#A9280C'],
-            # New colors
-            "INDIGO": ['#5e51f7','#2e1389','#030339'], # blurple
-            "GLASS": ['#f7f5ff','#c2bfcd','#434152'], # white with silver-purple shading
-            "OBSIDIAN": ['#2A3F32','#1D2A26','#030A06'], # dark dark blue-green
-            "ICE": ['#d1e9f3','#9ed7f0','#193fa3'], # light blue
-            "DARKHAZEL": ['#7c683a','#2b441e','#130e0b'], # dark vers of hazel
-            "HONEY": ['#a38b33','#73480e','#221304'], # dark yellow
-            "DARKAMBER": ['#7c3310','#4c1709','#190702'], # dark vers of amber
-            "OLIVE": ['#6e7c56','#383c2c','#141512'], # dull green
-            "SALMON": ['#e0bfb8','#b9696e','#4f1f1f'], # pink-red
-            "VIOLET": ['#a775dd','#491fb9','#06041f'], # purple
-            "CRYSTAL": ['#dab0d4','#5c8ea9','#231a56'], # blue pink-red
-            "PLUM": ['#573E88','#3A265D','#040218'], # purple
-            "ROSEWOOD": ['#f7f5ff','#c2bfcd','#434152'], # pink-red
-            "SEAFOAM": ['#8fe3c0','#36cd9b','#081a32'], # blue-green
-            "LAVENDER": ['#c0aadd','#8b6cc6','#1a1446'], # light purple
-            "LILAC": ['#e3b8f7','#c685ae','#361b56'], # light purple-pink
-            #
-            "SILVER": ['#C4C6C9','#A9AAAD','#51525D'], # actual silver
-            "GREY": ['#9D9D9F','#6A6A6C','#353037'], # actual grey
-            # coffee colors - credit to coffee!!!
-            "IRIDESCENT": ['#E2F9A2','#7EBAE4','#5e347d'], #yellow-blue + purple
-            "DUSK": ['#FFCBCE','#7CCDDE','#387683'], # pink-blue
-            "STARLIGHT": ['#FFEEB1','#6D68EC','#3F3B98'], # blue-yellow
-            "TOXIC": ['#D3E658','#68B033','#752EAD'], # neon yellow green
-            "HOLLY": ['#A3D51E','#1FA412','#5e160a'], # holly
-            "HAZELBLUE": ['#B0EAFF','#D8A576','#825D3A'], #blue-brown
-            "SUNSET": ['#F8C74C','#FE874F','#BD29A7'], #yellow-orange
-            "LILY": ['#FFC3F2','#94E394','#215A2C'], #pink-green
-            "MIRE": ['#9DE6AC','#80709D','#6E3D69'], #green-purple
-            # v1.1.1 colors
-            "SHIMMER": ['#e0dae6','#cb92d4','#1c1954'], # white-purple-blue
-            "UMBER": ['##473d3c','#331f1d','#120908'], # dark ashy brown
-            "LICHEN": ['#b6d6c7','#8aa690','#49573e'], # dull blue-green
-            "ROBINEGG": ['#4fdaf0','#18aad6','#124669'], # blue
-            "DAWN": ['#e6aeb5','#dbad79','#3f2e73'], # pink-orange
-            "PEACOCK": ['#158f62','#01403e','#081a36'], # blue-green
-            "CARDINAL": ['#c24836','#78231c','#29100d'], #red
-            "STARDUST": ['#b33d25','#661a10','#290807'], #purple
-            "MOONSTONE": ['#edf2f7','#b0b3f5','#8d82b8'], #light dull blue purple
-            "RUSSET": ['#804334','#70271a','#26120f'], # dark orange red
-            "CRIMSON": ['#751323','#520703','#1f0201'], # dark red
-        }
-
-        # waeh
-        skin_dict = {
-            "BLACK": "#5E504B",
-            "RED": "#BE4E32",
-            "PINK": "#FABFB7",
-            "DARKBROWN": "#5A4235",
-            "BROWN": "#816559",
-            "LIGHTBROWN": "#977A67",
-            "DARK": "#24211E",
-            "DARKGREY": "#4F4A48",
-            "GREY": "#736B64",
-            "DARKSALMON": "#A55C43",
-            "SALMON": "#D29777",
-            "PEACH": "#F9C0A2",
-            "DARKMARBLED": "#2A1F1D",
-            "MARBLED": "#CC9587",
-            "LIGHTMARBLED": "#433130",
-            "DARKBLUE": "#3B474C",
-            "BLUE": "#4E5B61",
-            "LIGHTBLUE": "#5B666B",
-        }
-
-        accessory_layers = {
-            "middle": 
-            ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", 
-             "RYE STALK", "CATTAIL", "POPPY", "ORANGE POPPY", "CYAN POPPY", 
-             "WHITE POPPY", "PINK POPPY", "BLUEBELLS", "LILY OF THE VALLEY", 
-             "SNAPDRAGON", "HERBS", "PETALS", "NETTLE", "HEATHER", "GORSE", 
-             "JUNIPER", "RASPBERRY", "LAVENDER", "OAK LEAVES", "CATMINT", 
-             "MAPLE SEED", "LAUREL", "BULB WHITE", "BULB YELLOW", "BULB ORANGE", 
-             "BULB PINK", "BULB BLUE", "CLOVER", "DAISY", "DRY HERBS", "DRY CATMINT", 
-             "DRY NETTLES", "DRY LAURELS", "RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS",
-            "GULL FEATHERS", "SPARROW FEATHERS", "MOTH WINGS", "ROSY MOTH WINGS", 
-            "MORPHO BUTTERFLY", "MONARCH BUTTERFLY", "CICADA WINGS", "BLACK CICADA", 
-            "CRIMSONBELL", "BLUEBELL", "YELLOWBELL", "CYANBELL", "REDBELL", "LIMEBELL", 
-            "GREENBELL", "RAINBOWBELL", "BLACKBELL", "SPIKESBELL", "WHITEBELL", "PINKBELL", 
-            "PURPLEBELL", "MULTIBELL", "INDIGOBELL", "CRIMSONBOW", "BLUEBOW", "YELLOWBOW", 
-            "CYANBOW", "REDBOW", "LIMEBOW", "GREENBOW", "RAINBOWBOW", "BLACKBOW", "SPIKESBOW", 
-            "WHITEBOW", "PINKBOW", "PURPLEBOW", "MULTIBOW", "INDIGOBOW", "CRIMSONNYLON", 
-            "BLUENYLON", "YELLOWNYLON", "CYANNYLON", "REDNYLON", "LIMENYLON", "GREENNYLON", 
-            "RAINBOWNYLON", "BLACKNYLON", "SPIKESNYLON", "WHITENYLON", "PINKNYLON", "PURPLENYLON",
-            "MULTINYLON", "INDIGONYLON",
-            
-                "WISTERIA",
-                "ROSE MALLOW",
-                "PICKLEWEED",
-                "GOLDEN CREEPING JENNY", "CLOVER", "DAISY"
-            ],
-            "top": 
-            []
-        }
-
-        wing_scars = []
-
-        # Get colors - makes things easier for later lol
-
-        marking_fade_over = None
-        tortie_marking_fade_over = None
-
-        birdwing_markings = cat.pelt.wing_marks
-
-        eye_base_color = eye_color_dict[cat.pelt.eye_colour][0]
-        eye_shade_color = eye_color_dict[cat.pelt.eye_colour][1]
-        eye_pupil_color = eye_color_dict[cat.pelt.eye_colour][2]
-            
-        if cat.pelt.eye_colour2 != None:
-            eye2_base_color = eye_color_dict[cat.pelt.eye_colour2][0]
-            eye2_shade_color = eye_color_dict[cat.pelt.eye_colour2][1]
-            eye2_pupil_color = eye_color_dict[cat.pelt.eye_colour2][2]
-
-        if cat.pelt.name not in ['Tortie', 'Calico']:
-            # Get dict
-            if cat.pelt.name.upper() in color_type_dict['special']:
-                color_type = "special"
-            elif cat.pelt.name.upper() in color_type_dict['bengal']:
-                color_type = "bengal"
-            elif cat.pelt.name.upper() in color_type_dict['special_overfur']:
-                color_type = "special_overfur"
-            else:
-                color_type = 0
-
-            if cat.pelt.name.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-                # because they are essentially the same thing
-                cat_marking = "SINGLECOLOUR"
-            else:
-                cat_marking = cat.pelt.name.upper()
-
-            if color_type == "special":
-
-                base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
-            elif color_type == 0:
-                base_pelt = color_dict['solid'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict['solid'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict['solid'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict['solid'][f'{cat.pelt.colour}'][5]
-            elif color_type == "special_overfur":
-                base_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
-                marking_fade = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
-                marking_base = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
-                marking_fade_over = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
-            else:
-                base_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][5]
-                marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
-        else:
-            # Get dict
-            if cat.pelt.tortiebase.upper() in color_type_dict['special']:
-                color_type = "special"
-            elif cat.pelt.tortiebase.upper() in color_type_dict['bengal']:
-                color_type = "bengal"
-            elif cat.pelt.tortiebase.upper() in color_type_dict['special_overfur']:
-                color_type = "special_overfur"
-            else:
-                color_type = 0
-
-            # Get dict of tortie
-            if cat.pelt.tortiepattern.upper() in color_type_dict['special']:
-                tortie_color_type = "special"
-            elif cat.pelt.tortiepattern.upper() in color_type_dict['bengal']:
-                tortie_color_type = "bengal"
-            elif cat.pelt.tortiepattern.upper() in color_type_dict['special_overfur']:
-                tortie_color_type = "special_overfur"
-            else:
-                tortie_color_type = 0
-            
-            if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-                # because they are essentially the same thing
-                cat_marking = "SINGLECOLOUR"
-            else:
-                cat_marking = cat.pelt.tortiebase.upper()
-            
-            if cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-                # because they are essentially the same thing
-                tortie_pattern = "SINGLECOLOUR"
-            else:
-                tortie_pattern = cat.pelt.tortiepattern.upper()
-
-            if color_type == "special":
-
-                base_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict['special'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
-            elif color_type == 0:
-                base_pelt = color_dict['solid'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['solid'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict['solid'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict['solid'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict['solid'][f'{cat.pelt.colour}'][5]
-            elif color_type == "special_overfur":
-                base_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][2]
-                marking_fade = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][3]
-                marking_base = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][4]
-                marking_fade_over = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.colour}'][5]
-            else:
-                base_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][0]
-                base_underfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][1]
-                base_overfur_pelt = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][2]
-                marking_base = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][3]
-                marking_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][4]
-                marking_inside = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][5]
-                marking_inside_fade = color_dict[f'{color_type}'][f'{cat.pelt.colour}'][6]
-
-            if tortie_color_type == "special":
-                tortie_base_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict['special'][f'{tortie_pattern}'][f'{cat.pelt.tortiecolour}'][5]
-            elif tortie_color_type == 0:
-                tortie_base_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['solid'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict['solid'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict['solid'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict['solid'][f'{cat.pelt.tortiecolour}'][5]
-            elif tortie_color_type == "special_overfur":
-                tortie_base_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_fade = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_base = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_fade_over = color_dict['special_overfur'][f'{cat_marking}'][f'{cat.pelt.tortiecolour}'][5]
-            else:
-                tortie_base_pelt = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][0]
-                tortie_base_underfur_pelt = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][1]
-                tortie_base_overfur_pelt = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][2]
-                tortie_marking_base = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][3]
-                tortie_marking_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][4]
-                tortie_marking_inside = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][5]
-                tortie_marking_inside_fade = color_dict[f'{tortie_color_type}'][f'{cat.pelt.tortiecolour}'][6]
-        
-
-        # draw pelt
-        base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        base_tint.fill(base_pelt)
-        new_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        
-        # draw overlays
-        underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        underfur_tint.fill(base_underfur_pelt)
-
-        overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        overfur_tint.fill(base_overfur_pelt)
-        
-        markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        markings_tint.fill(marking_base)
-
-        mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        mark_fade_tint.fill(marking_fade)
-
-        if marking_fade_over:
-            mark_fade_over_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            mark_fade_over_tint.fill(marking_fade_over)
-
-        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-            underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        elif cat_marking in ['SINGLESTRIPE', 'DUOTONE']:
-            underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
-            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        elif cat_marking in ['SINGLECOLOUR']:
-            underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
-            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        elif cat_marking in ['SMOKE']:
-            underfur = sprites.sprites['underfur' + 'SMOKE' + cat_sprite].copy()
-            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        else:
-            underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
-            underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-
-        new_sprite.blit(underfur, (0, 0))
-            
-
-        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-            overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
-            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        elif cat_marking in ['SINGLESTRIPE', 'DUOTONE']:
-            overfur = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        elif cat_marking in ['SINGLECOLOUR', 'SMOKE']:
-            overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
-            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        else:
-            overfur = sprites.sprites['overfur' + 'TABBY' + cat_sprite].copy()
-            overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        new_sprite.blit(overfur, (0, 0))
-
-        # draw markings
-
-        if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-            markings = sprites.sprites['markings' + cat_marking + cat_sprite].copy().convert_alpha()
-            markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            # uh...
-            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            
-            elif cat_marking in ['DUOTONE']:
-                mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-                mark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            elif cat_marking in ['SINGLESTRIPE']:
-                mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                
-            else:
-                mark_fade = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
-                mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            markings.blit(mark_fade, (0, 0))
-
-            if cat_marking in ['DUOTONE']:
-                
-                mark_fade_under = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
-                mark_fade_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                markings.blit(mark_fade_under, (0,0))
-
-            markings.blit(sprites.sprites['markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED', 'BRAIDED']:
-                markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                markings_inside_tint.fill(marking_inside)
-
-                markings_inside = sprites.sprites['markinside' + cat_marking + cat_sprite].copy().convert_alpha()
-                markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # i am thirsty i should get water
-                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    markings_inside_fade.fill(marking_inside_fade)
-
-                    mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                    mark_inside_fade.blit(markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    markings_inside.blit(mark_inside_fade, (0, 0))
-
-                    mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    markings_inside.blit(mark_inside_fade, (0, 0))
-                
-                markings_inside.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                markings.blit(markings_inside, (0, 0))
-        
-            # appear.
-            new_sprite.blit(markings, (0, 0))
-
-        # draw tortie
-        if cat.pelt.name in ['Tortie', 'Calico']:
-            patches = sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite].copy()
-
-            tortie_base_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tortie_base_tint.fill(tortie_base_pelt)
-
-            # draw base
-            patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
-            
-            # draw overlays aa
-            tortie_underfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tortie_underfur_tint.fill(tortie_base_underfur_pelt)
-
-            tortie_overfur_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tortie_overfur_tint.fill(tortie_base_overfur_pelt)
-
-            if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                tortie_underfur = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_underfur.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif tortie_pattern in ['SINGLESTRIPE', 'DUOTONE']:
-                tortie_underfur = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
-                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_underfur.blit(sprites.sprites['underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif tortie_pattern in ['SINGLECOLOUR']:
-                tortie_underfur = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
-                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_underfur.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif tortie_pattern in ['SMOKE']:
-                tortie_underfur = sprites.sprites['underfur' + 'SMOKE' + cat_sprite].copy()
-                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_underfur.blit(sprites.sprites['underfur' + 'SMOKE' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            else:
-                tortie_underfur = sprites.sprites['underfur' + 'TABBY' + cat_sprite].copy()
-                tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_underfur.blit(sprites.sprites['underfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            patches.blit(tortie_underfur, (0, 0))
-                
-
-            if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                tortie_overfur = sprites.sprites['overfur' + 'BENGAL' + cat_sprite].copy()
-                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_overfur.blit(sprites.sprites['overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif tortie_pattern in ['SINGLESTRIPE', 'DUOTONE']:
-                tortie_overfur = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_overfur.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif tortie_pattern in ['SINGLECOLOUR']:
-                tortie_overfur = sprites.sprites['overfur' + 'BASIC' + cat_sprite].copy()
-                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_overfur.blit(sprites.sprites['overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            else:
-                tortie_overfur = sprites.sprites['overfur' + 'TABBY' + cat_sprite].copy()
-                tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                tortie_overfur.blit(sprites.sprites['overfur' + 'TABBY' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            patches.blit(tortie_overfur, (0, 0))
-
-            # draw markings
-
-            if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-                tortie_markings_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tortie_markings_tint.fill(tortie_marking_base)
-
-                tortie_mark_fade_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tortie_mark_fade_tint.fill(tortie_marking_fade)
-
-                if tortie_marking_fade_over:
-                    tortie_mark_fade_over_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tortie_mark_fade_over_tint.fill(tortie_marking_fade_over)
-
-                tortie_markings = sprites.sprites['markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # uh...
-                if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    tortie_mark_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_mark_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-                    tortie_mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-                    tortie_mark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_mark_fade.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
-                    tortie_mark_fade = sprites.sprites['overfur' + 'SOLID' + cat_sprite].copy()
-                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_mark_fade.blit(sprites.sprites['overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    
-                else:
-                    tortie_mark_fade = sprites.sprites['underfur' + 'BASIC' + cat_sprite].copy()
-                    tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_mark_fade.blit(sprites.sprites['underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                tortie_markings.blit(tortie_mark_fade, (0, 0))
-
-                if cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-                
-                    tortie_mark_fade_under = sprites.sprites['underfur' + 'SOLID' + cat_sprite].copy()
-                    tortie_mark_fade_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_markings.blit(mark_fade_under, (0,0))
-
-                tortie_markings.blit(sprites.sprites['markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'MASKED', 'BRAIDED']:
-                    tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tortie_markings_inside_tint.fill(tortie_marking_inside)
-
-                    tortie_markings_inside = sprites.sprites['markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                    tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    # my eyes are dry - inside markings
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                        tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
-                        
-
-                        tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                        tortie_mark_inside_fade.blit(tortie_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        tortie_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        tortie_markings_inside.blit(tortie_mark_inside_fade, (0, 0))
-
-                        tortie_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        tortie_markings_inside.blit(tortie_mark_inside_fade, (0, 0))
-                        
-                    tortie_markings_inside.blit(sprites.sprites['markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                    tortie_markings.blit(tortie_markings_inside, (0, 0))
-        
-                # appear.
-                patches.blit(tortie_markings, (0, 0))
-
-            # *microwave.sfx*
-            patches.blit(sprites.sprites["tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            new_sprite.blit(patches, (0, 0))
-
-        # TINTS
-        if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["tint_colours"]
-        ):
-            # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-            # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-            # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
-            new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-        if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
-        ):
-            tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
-            new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-        # draw white patches
-        if cat.pelt.white_patches is not None:
-            white_patches = sprites.sprites[
-                "white" + cat.pelt.white_patches + cat_sprite
-                ].copy()
-
-            # Apply tint to white patches.
-            if (
-                    cat.pelt.white_patches_tint != "none"
-                    and cat.pelt.white_patches_tint
-                    in sprites.white_patches_tints["tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(
-                    tuple(
-                        sprites.white_patches_tints["tint_colours"][
-                            cat.pelt.white_patches_tint
-                        ]
-                    )
-                )
-                white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            new_sprite.blit(white_patches, (0, 0))
-
-        # draw vit & points
-
-        if cat.pelt.points:
-            points = sprites.sprites["white" + cat.pelt.points + cat_sprite].copy()
-            if (
-                    cat.pelt.white_patches_tint != "none"
-                    and cat.pelt.white_patches_tint
-                    in sprites.white_patches_tints["tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(
-                    tuple(
-                        sprites.white_patches_tints["tint_colours"][
-                            cat.pelt.white_patches_tint
-                        ]
-                    )
-                )
-                points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            new_sprite.blit(points, (0, 0))
-
-        if cat.pelt.vitiligo:
-            new_sprite.blit(
-                sprites.sprites["white" + cat.pelt.vitiligo + cat_sprite], (0, 0)
-            )
-
-        # draw eyes & scars1
-        """eyes = sprites.sprites["eyes" + cat.pelt.eye_colour + cat_sprite].copy()
-        if cat.pelt.eye_colour2 != None:
-            eyes.blit(
-                sprites.sprites["eyes2" + cat.pelt.eye_colour2 + cat_sprite], (0, 0)
-            )
-        new_sprite.blit(eyes, (0, 0))"""
-
-        # prepare tints
-        eye_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        eye_base.fill(eye_base_color)
-
-        eye_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        eye_s.fill(eye_shade_color)
-
-        eye_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        eye_p.fill(eye_pupil_color)
-
-        # base
-        eyes = sprites.sprites['eyes' + 'base' + cat_sprite].copy()
-        eyes.blit(eye_base, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        eyes.blit(sprites.sprites['eyes' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        # draw eye shade
-        eye_shade = sprites.sprites['eyes' + 'shade' + cat_sprite].copy()
-        eye_shade.blit(eye_s, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        eye_shade.blit(sprites.sprites['eyes' + 'shade' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        # draw pupil
-        eye_pupil = sprites.sprites['eyes' + 'pupil' + cat_sprite].copy()
-        eye_pupil.blit(eye_p, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        eye_pupil.blit(sprites.sprites['eyes' + 'pupil' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        # combine
-        eyes.blit(eye_shade, (0, 0))
-        eyes.blit(eye_pupil, (0, 0))
-
-        new_sprite.blit(eyes, (0, 0))
-
-        if cat.pelt.eye_colour2 != None:
-            # prepare tints
-            eye2_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            eye2_base.fill(eye2_base_color)
-
-            eye2_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            eye2_s.fill(eye2_shade_color)
-
-            eye2_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            eye2_p.fill(eye2_pupil_color)
-
-            # base
-            eyes2 = sprites.sprites['eyes2' + 'base' + cat_sprite].copy()
-            eyes2.blit(eye2_base, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            eyes2.blit(sprites.sprites['eyes2' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            # draw eye2 shade
-            eye2_shade = sprites.sprites['eyes2' + 'shade' + cat_sprite].copy()
-            eye2_shade.blit(eye2_s, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            eye2_shade.blit(sprites.sprites['eyes2' + 'shade' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            # draw pupil
-            eye2_pupil = sprites.sprites['eyes2' + 'pupil' + cat_sprite].copy()
-            eye2_pupil.blit(eye2_p, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            eye2_pupil.blit(sprites.sprites['eyes2' + 'pupil' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            # combine
-            eyes2.blit(eye2_shade, (0, 0))
-            eyes2.blit(eye2_pupil, (0, 0))
-
-            new_sprite.blit(eyes2, (0, 0))
-
-        if not scars_hidden:
-            for scar in cat.pelt.scars:
-                if scar in cat.pelt.scars1:
-                    new_sprite.blit(
-                        sprites.sprites["scars" + scar + cat_sprite], (0, 0)
-                    )
-                if scar in cat.pelt.scars3:
-                    new_sprite.blit(
-                        sprites.sprites["scars" + scar + cat_sprite], (0, 0)
-                    )
-
-        # draw line art
-        if game.settings["shaders"] and not dead:
-            new_sprite.blit(
-                sprites.sprites["shaders" + cat_sprite],
-                (0, 0),
-                special_flags=pygame.BLEND_RGB_MULT,
-            )
-            new_sprite.blit(sprites.sprites["lighting" + cat_sprite], (0, 0),
-                special_flags=pygame.BLEND_RGB_ADD)
-
-        if not dead:
-            new_sprite.blit(sprites.sprites["lines" + cat_sprite], (0, 0))
-        elif cat.df:
-            new_sprite.blit(sprites.sprites["lineartdf" + cat_sprite], (0, 0))
-        elif dead:
-            new_sprite.blit(sprites.sprites["lineartdead" + cat_sprite], (0, 0))
-        # draw skin and scars2
-        blendmode = pygame.BLEND_RGBA_MIN
-        new_sprite.blit(sprites.sprites["skin" + cat.pelt.skin + cat_sprite], (0, 0))
-
-        if not scars_hidden:
-            for scar in cat.pelt.scars:
-                if scar in cat.pelt.scars2:
-                    new_sprite.blit(
-                        sprites.sprites["scars" + scar + cat_sprite],
-                        (0, 0),
-                        special_flags=blendmode,
-                    )
-
-        
-
-        # back wings
-        
-        ########################################################################
-        #                                                                      #
-        # back wing start lol lmao love this                                        #
-        #                                                                      #
-        ########################################################################
-
-        if cat.display_wing_count == 2 and not wing_hidden:
-            
-            # draw base
-            back_wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0))
-
-            back_wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            elif cat_marking in ['SINGLESTRIPE']:
-                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            else:
-                b_w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                b_w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            back_wings.blit(b_w_underfur, (0, 0))
-                
-
-            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat_marking in ['SINGLESTRIPE']:
-                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            else:
-                b_w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
-                b_w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            back_wings.blit(b_w_overfur, (0, 0))
-
-            # draw markings
-
-            if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-
-                b_w_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite].copy().convert_alpha()
-                b_w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # uh...
-                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['SINGLESTRIPE']:
-                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['DUOTONE']:
-                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_mark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    
-                else:
-                    b_w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    b_w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                b_w_markings.blit(b_w_mark_fade, (0, 0))            
-                if cat_marking in ['DUOTONE']:
-                
-                    b_w_under = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                    b_w_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                    
-                    b_w_markings.blit(b_w_under, (0,0))
-
-                b_w_markings.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
-
-                    b_w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
-                    b_w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    # I hate how many times this needs done
-                    if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                        b_w_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        b_w_markings_inside_fade.fill(marking_inside_fade)
-
-                        b_w_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                        b_w_mark_inside_fade.blit(b_w_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        b_w_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        b_w_markings_inside.blit(b_w_mark_inside_fade, (0, 0))
-
-                        b_w_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        b_w_markings_inside.blit(b_w_mark_inside_fade, (0, 0))
-                    
-                    b_w_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                    b_w_markings.blit(b_w_markings_inside, (0, 0))
-            
-                # appear.
-                back_wings.blit(b_w_markings, (0, 0))
-
-            # draw bird cat markings - i honestly want to weep
-            if birdwing_markings != "NONE" and cat.species == "bird cat":
-
-                b_w_birdmarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
-                b_w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # uh...
-                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['SINGLESTRIPE']:
-                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['DUOTONE']:
-                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_birdmark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    
-                else:
-                    b_w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    b_w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                b_w_birdmarkings.blit(b_w_birdmark_fade, (0, 0))
-                
-                if cat_marking in ['DUOTONE']:
-                    b_w_under_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_under_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_under_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    b_w_birdmarkings.blit(b_w_under_birdmark_fade, (0, 0))
-
-                b_w_birdmarkings.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            
-                # appear.
-                back_wings.blit(b_w_birdmarkings, (0, 0))
-
-            # draw tortie
-            if cat.pelt.name in ['Tortie', 'Calico']:
-                b_w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
-
-                # draw base
-                b_w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
-
-                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
-                elif tortie_pattern in ['SINGLESTRIPE']:
-                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
-                else:
-                    b_w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    b_w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    b_w_patches.blit(b_w_tortie_underfur, (0, 0))
-                    
-
-                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif tortie_pattern in ['SINGLESTRIPE']:
-                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                else:
-                    b_w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
-                    b_w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    b_w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                b_w_patches.blit(b_w_tortie_overfur, (0, 0))
-
-                # draw markings
-
-                if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-
-                    b_w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                    b_w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    # uh...
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
-                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    elif cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-
-                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                        b_w_tortie_mark_fade.blit(tortie_mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        
-                    else:
-                        b_w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                        b_w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        b_w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    b_w_tortie_markings.blit(b_w_tortie_mark_fade, (0, 0))
-                    if cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-                
-                        b_w_tortie_under = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                        b_w_tortie_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                        
-                        b_w_tortie_markings.blit(b_w_tortie_under, (0,0))
-
-                    b_w_tortie_markings.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
-                        b_w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        b_w_tortie_markings_inside_tint.fill(tortie_marking_inside)
-
-                        b_w_tortie_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                        b_w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        # marking inside for tortie
-                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                            b_w_tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                            b_w_tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
-
-                            b_w_tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                            b_w_tortie_mark_inside_fade.blit(tortie_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_tortie_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            b_w_tortie_markings_inside.blit(b_w_tortie_mark_inside_fade, (0, 0))
-
-                            b_w_tortie_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            b_w_tortie_markings_inside.blit(b_w_tortie_mark_inside_fade, (0, 0))
-                        
-                        b_w_tortie_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                        b_w_tortie_markings.blit(b_w_tortie_markings_inside, (0, 0))
-                
-                    # appear.
-                    b_w_patches.blit(b_w_tortie_markings, (0, 0))
-
-                    # HERE WE GO AGAIN wing MARKINGS agaiN these variables keep getting longer
-                    if birdwing_markings != "NONE" and cat.species == "bird cat":
-
-                        b_w_bird_tortiemarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
-                        b_w_bird_tortiemarkings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        # uh...
-                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                            b_w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        elif cat_marking in ['SINGLESTRIPE']:
-                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                            b_w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        elif cat_marking in ['DUOTONE']:
-
-                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                            b_w_bird_tortiemark_fade.blit(tortie_mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                            
-                        else:
-                            b_w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                            b_w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        b_w_bird_tortiemarkings.blit(b_w_bird_tortiemark_fade, (0, 0))
-                        
-                        if cat_marking in ['DUOTONE']:
-                            b_w_under_tortiebirdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                            b_w_under_tortiebirdmark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            b_w_under_tortiebirdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            b_w_bird_tortiemarkings.blit(b_w_under_tortiebirdmark_fade, (0, 0))
-
-                        b_w_bird_tortiemarkings.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    
-                        # appear.
-                        b_w_patches.blit(b_w_bird_tortiemarkings, (0, 0))
-
-                # *microwave.sfx*
-                b_w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                back_wings.blit(b_w_patches, (0, 0))
-
-            # TINT because tints still exist lol
-            if (
-                    cat.pelt.tint != "none"
-                    and cat.pelt.tint in sprites.cat_tints["tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
-                back_wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            if (
-                    cat.pelt.tint != "none"
-                    and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
-                back_wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-            # draw white patches
-            if cat.pelt.wing_white_patches is not None:
-                b_wing_white_patches = sprites.sprites[f'{cat.species}' + 'white' + cat.pelt.wing_white_patches + cat_sprite].copy()
-
-                # Apply tint to white patches.
-                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
-                    "tint_colours"]:
-                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    b_wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                back_wings.blit(b_wing_white_patches, (0, 0))
-
-            # draw vit & points
-
-            if cat.pelt.points:
-                back_wing_points = sprites.sprites[cat.species + 'white' + cat.pelt.points + cat_sprite].copy()
-                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
-                    "tint_colours"]:
-                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    back_wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                back_wings.blit(back_wing_points, (0, 0))
-
-            if cat.pelt.vitiligo:
-                back_wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
-            # draw line art
-            if game.settings['shaders'] and not dead:
-                back_wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                back_wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-
-
-            if not dead:
-                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlines' + cat_sprite], (0, 0))
-            elif cat.df:
-                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlineartdf' + cat_sprite], (0, 0))
-            elif dead:
-                back_wings.blit(sprites.sprites[f'{cat.species}' + 'backlineartdead' + cat_sprite], (0, 0))
-            # draw scars2
-            blendmode = pygame.BLEND_RGBA_MIN
-            # draw skin
-            if cat.species == "bat cat":
-                skin_color = skin_dict[f'{cat.pelt.skin}']
-                b_membrane = sprites.sprites['batskin' + cat_sprite]
-
-                b_membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                b_membrane_tint.fill(skin_color)
-                b_membrane.blit(b_membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                b_membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                b_membrane_tint2.fill(base_underfur_pelt)
-
-                b_membrane.blit(b_membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-                back_wings.blit(b_membrane, (0, 0))
-            
-            # scars here whenever I do that...
-            
-            # clipped back_wings
-            if cat.clipped_wings():
-                back_wings.blit(
-                    sprites.sprites[cat.species + "backscar" + "CLIPPED" + cat_sprite],
-                    (0, 0),
-                    special_flags=pygame.BLEND_RGBA_MIN,
-                )
-            
-            back_wings.blit(sprites.sprites[f'{cat.species}' + 'backbase' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            new_sprite.blit(back_wings, (0, 0))
-        
-        ########################################################################
-        #                                                                      #
-        #end back wings because I will get confused as hell if I don't put this here#
-        #                                                                      #
-        ########################################################################
-
-        # draw bat cat mane
-        if cat.species == "bat cat" and cat.pelt.mane:
-            # draw base
-            bat_mane = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0, 0))
-
-            bat_mane.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            # draw overlays
-            mane_overfur = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
-            mane_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            mane_overfur.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            mane_underfur = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
-            mane_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            mane_underfur.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            bat_mane.blit(mane_overfur, (0, 0))
-            bat_mane.blit(mane_underfur, (0, 0))
-
-            # draw markings
-
-            if cat.pelt.mane_marks != "NONE" and cat.pelt.mane_marks:
-                # draw markings
-                mane_markings = sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite].copy().convert_alpha()
-                mane_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                
-                mane_mark_fade = sprites.sprites['mane' + 'overfur' + cat_sprite].copy()
-                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                mane_mark_fade.blit(sprites.sprites['mane' + 'overfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                mane_mark_fade = sprites.sprites['mane' + 'underfur' + cat_sprite].copy()
-                mane_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                mane_mark_fade.blit(sprites.sprites['mane' + 'underfur' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        
-                mane_markings.blit(mane_mark_fade, (0, 0))
-                mane_markings.blit(sprites.sprites['manemarks' + cat.pelt.mane_marks + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                # appear.
-                bat_mane.blit(mane_markings, (0, 0))
-
-
-            # TINTS
-            if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["tint_colours"]
-            ):
-                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
-                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            if (
-                cat.pelt.tint != "none"
-                and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
-                bat_mane.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-            bat_mane.blit(sprites.sprites['mane' + 'base' + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            new_sprite.blit(bat_mane, (0, 0))
-
-            if game.settings["shaders"] and not dead:
-                new_sprite.blit(
-                    sprites.sprites["maneshaders" + cat_sprite],
-                    (0, 0),
-                    special_flags=pygame.BLEND_RGB_MULT,
-                )
-                new_sprite.blit(sprites.sprites["manelighting" + cat_sprite], (0, 0),
-                    special_flags=pygame.BLEND_RGB_ADD)
-
-            if not dead:
-                new_sprite.blit(sprites.sprites["manelines" + cat_sprite], (0, 0))
-            elif cat.df:
-                new_sprite.blit(sprites.sprites["manelineartdf" + cat_sprite], (0, 0))
-            elif dead:
-                new_sprite.blit(sprites.sprites["manelineartdead" + cat_sprite], (0, 0))
-
-        # draw accessories
-        from scripts.cat.pelts import Pelt
-        if not acc_hidden and cat.pelt.accessory:
-            cat_accessories = cat.pelt.accessory
-            
-            categories = ["collars", "tail_accessories", "body_accessories", "head_accessories"]
-            for category in categories:
-                for accessory in cat_accessories:
-                    if accessory in getattr(Pelt, category) and accessory in accessory_layers["middle"]:
-                        if accessory in cat.pelt.plant_accessories:
-                            new_sprite.blit(
-                                sprites.sprites["acc_herbs" + accessory + cat_sprite],
-                                (0, 0),
-                            )
-                        elif accessory in cat.pelt.wild_accessories:
-                            new_sprite.blit(
-                                sprites.sprites["acc_wild" + accessory + cat_sprite],
-                                (0, 0),
-                            )
-                        elif accessory in cat.pelt.collars:
-                            new_sprite.blit(
-                                sprites.sprites["collars" + accessory + cat_sprite], (0, 0)
-                            )
-
-        # draw the FRONT wings oh boy this will be fun :3c hahaaa
-
-        ########################################################################
-        #                                                                      #
-        # wing start lol lmao love this                                        #
-        #                                                                      #
-        ########################################################################
-
-        if cat.display_wing_count != 0 and not wing_hidden:
-            
-            # draw base
-            wings = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0))
-
-            wings.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            elif cat_marking in ['SINGLESTRIPE']:
-                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            else:
-                w_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                w_underfur.blit(underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            wings.blit(w_underfur, (0, 0))
-                
-
-            if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            elif cat_marking in ['SINGLESTRIPE']:
-                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            else:
-                w_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
-                w_overfur.blit(overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                w_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            wings.blit(w_overfur, (0, 0))
-
-            # draw markings
-
-            if cat_marking not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-
-                w_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite].copy().convert_alpha()
-                w_markings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # uh...
-                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['SINGLESTRIPE']:
-                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['DUOTONE']:
-                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    w_mark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                else:
-                    w_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    w_mark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                w_markings.blit(w_mark_fade, (0, 0))
-                
-                if cat_marking in ['DUOTONE']:
-                
-                    w_under = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    w_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                    
-                    w_markings.blit(w_under, (0,0))
-
-                w_markings.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                if cat_marking in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
-
-                    w_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite].copy().convert_alpha()
-                    w_markings_inside.blit(markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    # I hate how many times this needs done
-                    if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                        w_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        w_markings_inside_fade.fill(marking_inside_fade)
-
-                        w_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                        w_mark_inside_fade.blit(w_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        w_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        w_markings_inside.blit(w_mark_inside_fade, (0, 0))
-
-                        w_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        w_markings_inside.blit(w_mark_inside_fade, (0, 0))
-                    
-                    w_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat_marking + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                    w_markings.blit(w_markings_inside, (0, 0))
-            
-                # appear.
-                wings.blit(w_markings, (0, 0))
-
-            # draw bird cat markings - i honestly want to weep
-            if birdwing_markings != "NONE" and cat.species == "bird cat":
-
-                w_birdmarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
-                w_birdmarkings.blit(markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                # uh...
-                if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['SINGLESTRIPE']:
-                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif cat_marking in ['DUOTONE']:
-                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    w_birdmark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                else:
-                    w_birdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    w_birdmark_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_birdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                w_birdmarkings.blit(w_birdmark_fade, (0, 0))
-
-                if cat_marking in ['DUOTONE']:
-                    w_birdmark_under_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    w_birdmark_under_fade.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_birdmark_under_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    w_birdmarkings.blit(w_birdmark_under_fade, (0, 0))
-
-                w_birdmarkings.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-            
-                # appear.
-                wings.blit(w_birdmarkings, (0, 0))
-
-            # draw tortie
-            if cat.pelt.name in ['Tortie', 'Calico']:
-                w_patches = sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite].copy()
-
-                # draw base
-                w_patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)
-
-                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    w_patches.blit(w_tortie_underfur, (0, 0))
-                elif tortie_pattern in ['SINGLESTRIPE']:
-                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    w_patches.blit(w_tortie_underfur, (0, 0))
-                else:
-                    w_tortie_underfur = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                    w_tortie_underfur.blit(tortie_underfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_tortie_underfur.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    w_patches.blit(w_tortie_underfur, (0, 0))
-                    
-
-                if tortie_pattern in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                elif tortie_pattern in ['SINGLESTRIPE']:
-                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                else:
-                    w_tortie_overfur = sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite].copy()
-                    w_tortie_overfur.blit(tortie_overfur_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    w_tortie_overfur.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                w_patches.blit(w_tortie_overfur, (0, 0))
-
-                # draw markings
-
-                if tortie_pattern not in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
-
-                    w_tortie_markings = sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                    w_tortie_markings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                    # uh...
-                    if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    elif cat.pelt.tortiepattern.upper() in ['SINGLESTRIPE']:
-                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite].copy()
-                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        
-                    elif cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                        w_tortie_mark_fade.blit(mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                    else:
-                        w_tortie_mark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                        w_tortie_mark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        w_tortie_mark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-
-                    w_tortie_markings.blit(w_tortie_mark_fade, (0, 0))
-
-                    if cat.pelt.tortiepattern.upper() in ['DUOTONE']:
-                
-                        w_tortie_under = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                        w_tortie_under.blit(mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                        
-                        w_tortie_markings.blit(w_tortie_under, (0,0))
-
-                    w_tortie_markings.blit(sprites.sprites[f'{cat.species}' + 'markings' + cat.pelt.tortiepattern.upper() + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    if cat.pelt.tortiepattern.upper() in ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']:
-                        w_tortie_markings_inside_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                        w_tortie_markings_inside_tint.fill(tortie_marking_inside)
-
-                        w_tortie_markings_inside = sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite].copy().convert_alpha()
-                        w_tortie_markings_inside.blit(tortie_markings_inside_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        # marking inside for tortie
-                        if cat.pelt.tortiepattern.upper() in ['BENGAL', 'MARBLED', 'BRAIDED']:
-                            w_tortie_markings_inside_fade = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                            w_tortie_markings_inside_fade.fill(tortie_marking_inside_fade)
-
-                            w_tortie_mark_inside_fade = sprites.sprites['underfur' + 'BENGAL' + cat_sprite].copy()
-                            w_tortie_mark_inside_fade.blit(tortie_markings_inside_fade, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_tortie_mark_inside_fade.blit(sprites.sprites['underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            w_tortie_markings_inside.blit(w_tortie_mark_inside_fade, (0, 0))
-
-                            w_tortie_mark_inside_fade.blit(sprites.sprites['markinside' + cat_marking + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            w_tortie_markings_inside.blit(w_tortie_mark_inside_fade, (0, 0))
-                        
-                        w_tortie_markings_inside.blit(sprites.sprites[f'{cat.species}' + 'markinside' + cat.pelt.tortiepattern.upper() + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-                        w_tortie_markings.blit(w_tortie_markings_inside, (0, 0))
-                
-                    # appear.
-                    w_patches.blit(w_tortie_markings, (0, 0))
-
-                    # HERE WE GO AGAIN wing MARKINGS agaiN these variables keep getting longer
-                    if birdwing_markings != "NONE" and cat.species == "bird cat":
-
-                        w_bird_tortiemarkings = sprites.sprites['wingmarks' + birdwing_markings + cat_sprite].copy().convert_alpha()
-                        w_bird_tortiemarkings.blit(tortie_markings_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                        # uh...
-                        if cat_marking in ['BENGAL', 'MARBLED', 'BRAIDED', 'DUOTONE']:
-                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                            w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        elif cat_marking in ['SINGLESTRIPE']:
-                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite].copy()
-                            w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'SOLID' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                        elif cat_marking in ['DUOTONE']:
-
-                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite].copy()
-                            w_bird_tortiemark_fade.blit(tortie_mark_fade_over_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'overfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                            
-                        else:
-                            w_bird_tortiemark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite].copy()
-                            w_bird_tortiemark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_bird_tortiemark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BASIC' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                        w_bird_tortiemarkings.blit(w_bird_tortiemark_fade, (0, 0))
-                        
-                        if cat_marking in ['DUOTONE']:
-                            w_under_tortiebirdmark_fade = sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite].copy()
-                            w_under_tortiebirdmark_fade.blit(tortie_mark_fade_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                            w_under_tortiebirdmark_fade.blit(sprites.sprites[f'{cat.species}' + 'underfur' + 'BENGAL' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                            w_bird_tortiemarkings.blit(w_under_tortiebirdmark_fade, (0, 0))
-
-                        w_bird_tortiemarkings.blit(sprites.sprites['wingmarks' + birdwing_markings + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    
-                        # appear.
-                        w_patches.blit(w_bird_tortiemarkings, (0, 0))
-
-                # *microwave.sfx*
-                w_patches.blit(sprites.sprites[cat.species + "tortiemask" + cat.pelt.pattern + cat_sprite], (0,0), special_flags=pygame.BLEND_RGBA_MULT)
-
-                wings.blit(w_patches, (0, 0))
-
-            # TINT because tints still exist lol
-            if (
-                    cat.pelt.tint != "none"
-                    and cat.pelt.tint in sprites.cat_tints["tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.tint]))
-                wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            if (
-                    cat.pelt.tint != "none"
-                    and cat.pelt.tint in sprites.cat_tints["dilute_tint_colours"]
-            ):
-                tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                tint.fill(tuple(sprites.cat_tints["dilute_tint_colours"][cat.pelt.tint]))
-                wings.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-            # draw white patches
-            if cat.pelt.wing_white_patches is not None:
-                wing_white_patches = sprites.sprites[f'{cat.species}' + 'white' + cat.pelt.wing_white_patches + cat_sprite].copy()
-
-                # Apply tint to white patches.
-                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
-                    "tint_colours"]:
-                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    wing_white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                wings.blit(wing_white_patches, (0, 0))
-
-            # draw vit & points
-
-            if cat.pelt.points:
-                wing_points = sprites.sprites[cat.species + 'white' + cat.pelt.points + cat_sprite].copy()
-                if cat.pelt.white_patches_tint != "none" and cat.pelt.white_patches_tint in sprites.white_patches_tints[
-                    "tint_colours"]:
-                    tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                    tint.fill(tuple(sprites.white_patches_tints["tint_colours"][cat.pelt.white_patches_tint]))
-                    wing_points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                wings.blit(wing_points, (0, 0))
-
-            if cat.pelt.vitiligo:
-                wings.blit(sprites.sprites[cat.species + 'white' + cat.pelt.vitiligo + cat_sprite], (0, 0))
-            # draw line art
-            if game.settings['shaders'] and not dead:
-                wings.blit(sprites.sprites[f'{cat.species}shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                wings.blit(sprites.sprites[f'{cat.species}lighting' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-            wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-
-
-            if not dead:
-                wings.blit(sprites.sprites[f'{cat.species}' + 'lines' + cat_sprite], (0, 0))
-            elif cat.df:
-                wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdf' + cat_sprite], (0, 0))
-            elif dead:
-                wings.blit(sprites.sprites[f'{cat.species}' + 'lineartdead' + cat_sprite], (0, 0))
-            # draw scars2
-            blendmode = pygame.BLEND_RGBA_MIN
-            # draw skin
-            if cat.species == "bat cat":
-                skin_color = skin_dict[f'{cat.pelt.skin}']
-                membrane = sprites.sprites['batskin' + cat_sprite]
-
-                membrane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                membrane_tint.fill(skin_color)
-                membrane.blit(membrane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-                membrane_tint2 = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-                membrane_tint2.fill(base_underfur_pelt)
-
-                membrane.blit(membrane_tint2, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
-
-                wings.blit(membrane, (0, 0))
-            
-            # scars here whenever I do that...
-            
-            # clipped wings
-            if cat.clipped_wings():
-                wings.blit(
-                    sprites.sprites[cat.species + "scar" + "CLIPPED" + cat_sprite],
-                    (0, 0),
-                    special_flags=pygame.BLEND_RGBA_MIN,
-                )
-            wings.blit(sprites.sprites[f'{cat.species}' + 'base' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            new_sprite.blit(wings, (0, 0))
-        
-        ########################################################################
-        #                                                                      #
-        #end wings because I will get confused as hell if I don't put this here#
-        #                                                                      #
-        ########################################################################
-
-        # draw accessories top
-        if not acc_hidden and cat.pelt.accessory:
-            cat_accessories = cat.pelt.accessory
-            
-            categories = ["collars", "tail_accessories", "body_accessories", "head_accessories"]
-            for category in categories:
-                for accessory in cat_accessories:
-                    if accessory in getattr(Pelt, category) and accessory in accessory_layers["top"]:
-                        if accessory in cat.pelt.plant_accessories:
-                            new_sprite.blit(
-                                sprites.sprites["acc_herbs" + accessory + cat_sprite],
-                                (0, 0),
-                            )
-                        elif accessory in cat.pelt.wild_accessories:
-                            new_sprite.blit(
-                                sprites.sprites["acc_wild" + accessory + cat_sprite],
-                                (0, 0),
-                            )
-                        elif accessory in cat.pelt.collars:
-                            new_sprite.blit(
-                                sprites.sprites["collars" + accessory + cat_sprite], (0, 0)
-                            )
-
-        # Apply fading fog
-        if (
-                cat.pelt.opacity <= 97
-                and not cat.prevent_fading
-                and game.clan.clan_settings["fading"]
-                and dead
-        ):
-            stage = "0"
-            if 80 >= cat.pelt.opacity > 45:
-                # Stage 1
-                stage = "1"
-            elif cat.pelt.opacity <= 45:
-                # Stage 2
-                stage = "2"
-
-            new_sprite.blit(
-                sprites.sprites["fademask" + stage + cat_sprite],
-                (0, 0),
-                special_flags=pygame.BLEND_RGBA_MULT,
-            )
-
-            if cat.df:
-                temp = sprites.sprites["fadedf" + stage + cat_sprite].copy()
-                temp.blit(new_sprite, (0, 0))
-                new_sprite = temp
-            else:
-                temp = sprites.sprites["fadestarclan" + stage + cat_sprite].copy()
-                temp.blit(new_sprite, (0, 0))
-                new_sprite = temp
-
-        # reverse, if assigned so
-        if cat.pelt.reverse:
-            new_sprite = pygame.transform.flip(new_sprite, True, False)
-
-    except (TypeError, KeyError):
-        logger.exception("Failed to load sprite")
-
-        # Placeholder image
-        new_sprite = image_cache.load_image(
-            f"sprites/error_placeholder.png"
-        ).convert_alpha()
-
-    return new_sprite
-
-
 def apply_opacity(surface, opacity):
     for x in range(surface.get_width()):
         for y in range(surface.get_height()):
@@ -5844,7 +2739,7 @@ def apply_opacity(surface, opacity):
 
 
 def chunks(L, n):
-    return [L[x: x + n] for x in range(0, len(L), n)]
+    return [L[x : x + n] for x in range(0, len(L), n)]
 
 
 def clamp(value: float, minimum_value: float, maximum_value: float) -> float:
@@ -5871,7 +2766,7 @@ def is_iterable(y):
 
 def get_text_box_theme(theme_name=None):
     """Updates the name of the theme based on dark or light mode"""
-    if game.settings["dark mode"]:
+    if game_setting_get("dark mode"):
         return ObjectID("#dark", theme_name)
     else:
         return theme_name
@@ -5882,7 +2777,7 @@ def quit(savesettings=False, clearevents=False):
     Quits the game, avoids a bunch of repeated lines
     """
     if savesettings:
-        game.save_settings(None)
+        game_settings_save(None)
     if clearevents:
         game.cur_events_list.clear()
     game.rpc.close_rpc.set()
@@ -5895,14 +2790,20 @@ def quit(savesettings=False, clearevents=False):
 
 
 resource_directory = "resources/dicts/conditions/"
-with open(os.path.normpath(f"{resource_directory}illnesses.json"), "r", encoding="utf-8") as read_file:
+with open(
+    os.path.normpath(f"{resource_directory}illnesses.json"), "r", encoding="utf-8"
+) as read_file:
     ILLNESSES = ujson.loads(read_file.read())
 
-with open(os.path.normpath(f"{resource_directory}injuries.json"), "r", encoding="utf-8") as read_file:
+with open(
+    os.path.normpath(f"{resource_directory}injuries.json"), "r", encoding="utf-8"
+) as read_file:
     INJURIES = ujson.loads(read_file.read())
 
 with open(
-        os.path.normpath(f"{resource_directory}permanent_conditions.json"), "r", encoding="utf-8"
+    os.path.normpath(f"{resource_directory}permanent_conditions.json"),
+    "r",
+    encoding="utf-8",
 ) as read_file:
     PERMANENT = ujson.loads(read_file.read())
 
@@ -5912,6 +2813,6 @@ SNIPPETS = None
 PREY_LISTS = None
 
 with open(
-        os.path.normpath("resources/dicts/backstories.json"), "r", encoding="utf-8"
+    os.path.normpath("resources/dicts/backstories.json"), "r", encoding="utf-8"
 ) as read_file:
     BACKSTORIES = ujson.loads(read_file.read())

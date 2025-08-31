@@ -5,8 +5,9 @@ from copy import copy
 import pygame
 import ujson
 
+from scripts.game_structure import constants
+from scripts.game_structure.game.settings import game_setting_get
 from scripts.special_dates import SpecialDate, is_today
-from scripts.game_structure.game_essentials import game
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,9 @@ logger = logging.getLogger(__name__)
 class Sprites:
     cat_tints = {}
     white_patches_tints = {}
+    eye_colors = {}
+    pelt_colors = {}
+    skin_colors = {}
     clan_symbols = []
 
     def __init__(self):
@@ -31,6 +35,7 @@ class Sprites:
         self.blank_sprite = None
 
         self.load_tints()
+        self.load_pelt_jsons()
 
     def load_tints(self):
         try:
@@ -46,6 +51,40 @@ class Sprites:
                 self.white_patches_tints = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading White Patches Tints")
+
+    def load_pelt_jsons(self):
+        # open eye colors
+        try:
+            with open("sprites/dicts/eye_colors.json", "r", encoding="utf-8") as read_file:
+                self.eye_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading eye_colors.json")
+        # open pelt colors
+        try:
+            with open(
+                "sprites/dicts/pelt_colors.json", "r", encoding="utf-8"
+            ) as read_file:
+                self.pelt_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading pelt_colors.json")
+        # open skin colors
+        try:
+            with open("sprites/dicts/skin_colors.json", "r", encoding="utf-8") as read_file:
+                self.skin_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading skin_colors.json")
+        # open accessories
+        try:
+            with open("sprites/dicts/accessories.json", "r", encoding="utf-8") as read_file:
+                self.accessories = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading accessories.json")
+        # open extra traits
+        try:
+            with open("sprites/dicts/extra_traits.json", "r", encoding="utf-8") as read_file:
+                self.extra_traits = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading extra_traits.json")
 
     def spritesheet(self, a_file, name):
         """
@@ -141,31 +180,34 @@ class Sprites:
             'symbols'
 
         ]:
-            if "lineart" in x and game.config["fun"]["april_fools"]:
+            if "lineart" in x and (
+                constants.CONFIG["fun"]["april_fools"]
+                or is_today(SpecialDate.APRIL_FOOLS)
+            ):
                 self.spritesheet(f"sprites/aprilfools{x}.png", x)
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
 
         # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('winglineart', (0, 0), 'bat catlines')
-        self.make_group('winglineart', (1, 0), 'bird catlines')
-        self.make_group('winglineart', (2, 0), 'bat catbacklines')
-        self.make_group('winglineart', (3, 0), 'bird catbacklines')
+        self.make_group('winglineart', (0, 0), 'bat cat_1_lines')
+        self.make_group('winglineart', (1, 0), 'bird cat_1_lines')
+        self.make_group('winglineart', (2, 0), 'bat cat_0_lines')
+        self.make_group('winglineart', (3, 0), 'bird cat_0_lines')
         for a, i in enumerate(
                 ['df', 'dead']):
             self.make_group('lineartdead', (a, 0), f'lineart{i}')
-            self.make_group('winglineart', (a, 1), f'bird catlineart{i}')
-            self.make_group('winglineart', (a, 2), f'bat catlineart{i}')
-            self.make_group('winglineart', (a+2, 1), f'bird catbacklineart{i}')
-            self.make_group('winglineart', (a+2, 2), f'bat catbacklineart{i}')
+            self.make_group('winglineart', (a, 1), f'bird cat_1_lineart{i}')
+            self.make_group('winglineart', (a, 2), f'bat cat_1_lineart{i}')
+            self.make_group('winglineart', (a+2, 1), f'bird cat_0_lineart{i}')
+            self.make_group('winglineart', (a+2, 2), f'bat cat_0_lineart{i}')
 
         # Base
         self.make_group('base', (0, 0), 'base')
         for a, i in enumerate(
                 ['bat cat', 'bird cat']):
-            self.make_group('wingsbase', (a, 0), f'{i}base')
-            self.make_group('wingsbase', (a, 1), f'{i}backbase')
+            self.make_group('wingsbase', (a, 0), f'{i}_1_base')
+            self.make_group('wingsbase', (a, 1), f'{i}_0_base')
 
         # Bat skin
         self.make_group('batskin', (0, 0), 'batskin')
@@ -173,7 +215,7 @@ class Sprites:
         # Eyes
         for a, i in enumerate(
                 ['base', 'shade', 'pupil']):
-            self.make_group('eyesnew', (a, 0), f'eyes{i}')
+            self.make_group('eyesnew', (a, 0), f'eyes1{i}')
             self.make_group('eyesnew', (a, 1), f'eyes2{i}')
 
         # Shaders
@@ -188,17 +230,17 @@ class Sprites:
 
         # bird wing markings
         for a, i in enumerate(['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS']):
-            self.make_group('wingmarks', (a, 0), f'wingmarks{i}')
+            self.make_group('wingmarks', (a, 0), f'bird catwingmarks{i}')
 
         # bat mane
         for a, i in enumerate(['lines', 'base', 'shaders', 'lighting', 'lineartdead', 'lineartdf']):
-            self.make_group('batmane', (a, 0), f'mane{i}')
+            self.make_group('batmane', (a, 0), f'bat_mane{i}')
         for a, i in enumerate(['overfur', 'underfur']):
-            self.make_group('batmane', (a, 1), f'mane{i}')
+            self.make_group('batmane', (a, 1), f'bat_mane{i}')
 
         # bat mane markings
         for a, i in enumerate(['FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']):
-            self.make_group('batmanemarkings', (a, 0), f'manemarks{i}')
+            self.make_group('batmanemarkings', (a, 0), f'bat_manemarkings{i}')
 
 
         # Fading Fog
@@ -270,11 +312,11 @@ class Sprites:
 
         # wing overlays
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY', 'SMOKE']):
             self.make_group('overlays', (a, 2), f'bird catunderfur{i}')
             self.make_group('overlays', (a, 4), f'bat catunderfur{i}')
         for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID']):
+                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
             self.make_group('overlays', (a, 3), f'bird catoverfur{i}')
             self.make_group('overlays', (a, 5), f'bat catoverfur{i}')
 
@@ -507,6 +549,11 @@ class Sprites:
                 "ROSE MALLOW",
                 "PICKLEWEED",
                 "GOLDEN CREEPING JENNY",
+                "DESERT WILLOW",
+                "CACTUS FLOWER",
+                "PRAIRIE FIRE",
+                "VERBENA EAR",
+                "VERBENA PELT",
             ],
         ]
         dryherbs_data = [["DRY HERBS", "DRY CATMINT", "DRY NETTLES", "DRY LAURELS"]]
@@ -523,7 +570,10 @@ class Sprites:
                 "MONARCH BUTTERFLY",
                 "CICADA WINGS",
                 "BLACK CICADA",
-            ]
+            ],
+            [
+                "ROAD RUNNER FEATHER",
+            ],
         ]
 
         collars_data = [
@@ -575,7 +625,7 @@ class Sprites:
         # wild
         for row, wilds in enumerate(wild_data):
             for col, wild in enumerate(wilds):
-                self.make_group("wild", (col, 0), f"acc_wild{wild}")
+                self.make_group("wild", (col, row), f"acc_wild{wild}")
 
         # collars
         for row, collars in enumerate(collars_data):
@@ -683,9 +733,11 @@ class Sprites:
         var = pygame.PixelArray(recolored_symbol)
         var.replace(
             (87, 76, 45),
-            pygame.Color(game.config["theme"]["dark_mode_clan_symbols"])
-            if not force_light and game.settings["dark mode"]
-            else pygame.Color(game.config["theme"]["light_mode_clan_symbols"]),
+            (
+                pygame.Color(constants.CONFIG["theme"]["dark_mode_clan_symbols"])
+                if not force_light and game_setting_get("dark mode")
+                else pygame.Color(constants.CONFIG["theme"]["light_mode_clan_symbols"])
+            ),
             distance=0,
         )
         del var

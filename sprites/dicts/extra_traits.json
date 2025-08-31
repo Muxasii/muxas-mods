@@ -1,0 +1,20 @@
+{
+    "bat_mane": {
+        "lineart_overfade": false,
+        "lineart_underfade": false,
+        "layers": {
+            "base": {
+                "sprite_name": "bat_manebase",
+                "overfur": "bat_maneoverfur",
+                "underfur": "bat_maneunderfur"
+            },
+            "markings": {
+                "sprite_name": "cat",
+                "overfur": "bat_maneoverfur",
+                "underfur": "bat_maneunderfur"
+            }
+        }
+    },
+    "feathering": {},
+    "leg_fluff": {}
+}
