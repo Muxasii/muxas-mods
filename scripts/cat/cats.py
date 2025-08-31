@@ -3483,6 +3483,7 @@ class Cat:
         if make_clan:
             wing_display = f"{self.wing_count} wing" if self.wing_count == 1 else f"{self.wing_count} wings"
             print(self.species)
+            print(f"{self.pelt.tint}, {self.name}, {self.pelt.eye_colour}, {self.pelt.eye_colour2}")
             return "\n".join(
                 [
                     self.genderalign,
@@ -3602,8 +3603,7 @@ class Cat:
                 "white_patches": self.pelt.white_patches,
                 "wing_white_patches": self.pelt.wing_white_patches,
                 "wing_marks": self.pelt.wing_marks,
-                "mane_marks": self.pelt.mane_marks,
-                "mane": self.pelt.mane,
+                "species_traits": self.get_species_traits_dict(),
                 "vitiligo": self.pelt.vitiligo,
                 "points": self.pelt.points,
                 "white_patches_tint": self.pelt.white_patches_tint,
@@ -3636,6 +3636,16 @@ class Cat:
             "body_type": self.pelt.body_type,
             "fur": self.pelt.fur,
             "fur_texture": self.pelt.fur_texture,
+        }
+        
+    def get_species_traits_dict(self):
+        """obtain the species traits."""
+        return {
+            "mane": self.pelt.mane,
+            "mane_marks": self.pelt.mane_marks,
+            #"horns": self.pelt.horns,
+            #"horns_color": self.pelt.horns_color,
+            #"leg_fur": self.pelt.leg_fur,
         }
 
     def determine_next_and_previous_cats(

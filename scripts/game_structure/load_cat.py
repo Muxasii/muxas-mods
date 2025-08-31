@@ -156,8 +156,8 @@ def json_load():
                 white_patches=cat["white_patches"],
                 wing_white_patches=cat["wing_white_patches"] if "wing_white_patches" in cat else None,
                 wing_marks=cat["wing_marks"] if "wing_marks" in cat else "none",
-                mane_marks=cat["mane_marks"] if "mane_marks" in cat else None,
-                mane=cat["mane"] if "mane" in cat else True,
+                mane_marks=cat["species_traits"]["mane_marks"] if "species_traits" in cat else None,
+                mane=cat["species_traits"]["mane"] if "traits" in cat or "mane" in "traits" else None,
                 tortiebase=cat["tortie_base"],
                 tortiecolour=cat["tortie_color"],
                 tortiepattern=cat["tortie_pattern"],
@@ -180,8 +180,16 @@ def json_load():
             else:
                 extra_traits = True
 
+            if None in [new_cat.pelt.mane]:
+                # for converting old mane to new mane system - only applies to bat cats since they were the only ones with manes displayed
+                if "mane" in cat and new_cat.species == "bat cat":
+                    new_cat.pelt.mane = cat["mane"]
+                species_traits = False
+            else:
+                species_traits = True
+
             # Runs a bunch of apperence-related convertion of old stuff. 
-            new_cat.pelt.check_and_convert(convert, extra_traits)
+            new_cat.pelt.check_and_convert(convert, extra_traits, species_traits)
 
              # converting old specialty saves into new scar parameter
             if "specialty" in cat or "specialty2" in cat:

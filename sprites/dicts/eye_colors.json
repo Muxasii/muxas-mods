@@ -101,6 +101,39 @@
         "red_eyes": [
             "CARDINAL", "ROSEWOOD", "SALMON", "DUSK", "DAWN", "LILY", "RUSSET", "CRIMSON"
         ]
+    },
+
+    "natural_colors": {
+        "eye_colors": [
+            "YELLOW", "AMBER", "HAZEL", "PALEGREEN", "GREEN", "BLUE", "DARKBLUE", "GREY", "CYAN", "EMERALD",
+            "PALEBLUE", "PALEYELLOW", "GOLD", "HEATHERBLUE", "COPPER", "SAGE", "COBALT", "SUNLITICE", "GREENYELLOW", "ORANGE",
+            "BRONZE", "SILVER", "DUST", "PEBBLE", "OBSIDIAN", "DARKHAZEL", "OLIVE", "SEAFOAM",
+            "MIRE", "HOLLY", "LICHEN",
+            "MOONSTONE", "CARDINAL", "DUSK", "DAWN", "LILY", "RUSSET", "CRIMSON",
+            "PEACOCK", "HAZELBLUE", "SUNSET"
+        ],
+        "yellow_eyes": [
+            "YELLOW", "AMBER", "PALEYELLOW", "GOLD",
+            "COPPER", "GREENYELLOW", "BRONZE", "SILVER",
+            "DUST", "PEBBLE", "HONEY", "DARKAMBER", "ORANGE", "UMBER", "HAZELBLUE", "SUNSET"
+        ],
+        "blue_eyes": [
+            "BLUE", "DARKBLUE", "CYAN", "PALEBLUE", "HEATHERBLUE",
+            "COBALT", "SUNLITICE", "GREY", "PEACOCK"
+        ],
+        "green_eyes": [
+            "PALEGREEN", "GREEN", "EMERALD", "SAGE",
+            "HAZEL", "OBSIDIAN", "DARKHAZEL", "OLIVE",
+            "SEAFOAM", "LICHEN"
+        ],
+        "purple_eyes": [
+            "GLASS", "INDIGO", "LAVENDER", "PLUM",
+            "VIOLET", "SALMON", "CRYSTAL", "LILAC",
+            "MOONSTONE", "MIRE"
+        ],
+        "red_eyes": [
+            "DUSK", "DAWN", "RUSSET", "CRIMSON"
+        ]
     }
     
 }

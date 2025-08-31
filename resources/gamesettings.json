@@ -95,6 +95,11 @@
 			"Generate earth cats",
 			"Disable this if you do not want earth cats.",
 			true
+		],
+		"natural_colors": [
+			"Only natural colors",
+			"Enable this if you would rather have natural, more vanilla ClanGen-like colors.",
+			false
 		]
     },
     "..": "these are special. they do not have a display name or a tooltip",

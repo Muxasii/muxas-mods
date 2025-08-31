@@ -214,7 +214,7 @@ def generate_sprite(
         # create bat fluff
         #-----------------
 
-        if cat.pelt.mane and cat.species == "bat cat":
+        if cat.pelt.mane:
             bat_mane = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
             bat_mane.blit(create_trait(dead, df, cat.pelt, cat_sprite, cat_colors, "bat_mane", sprites.extra_traits["bat_mane"], cat_traits, True))
 
@@ -308,6 +308,8 @@ def create_base(cat_sprite, colors, markings, cat, tortie_colors=None, tortie_ma
     base_tint.fill(colors["base"])
     finished_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
     for layer_name, layer in markings.items():
+        if layer_name.lower() == "none":
+            return 
         finished_sprite.blit(create_layer(cat_sprite, layer_name, layer, colors))
 
     if (cat.name in ["Tortie", "Calico"] and not tortie):
@@ -477,7 +479,7 @@ def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
     for layer_name, layer in trait_info["layers"].items():
-        if layer_name == "markings" and cat_traits[trait_name] == "NONE":
+        if layer_name == "markings" and cat_traits[trait_name].upper() == "NONE":
             continue
         
         finished_sprite.blit(create_layer(

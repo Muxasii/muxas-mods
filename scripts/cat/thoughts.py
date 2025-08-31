@@ -318,7 +318,6 @@ class Thoughts:
                             for i in main_cat.permanent_condition
                             if i in thought["perm_conditions_restraints"]["m_c"]
                         ]
-                        and "any" not in thought["perm_conditions_restraints"]["m_c"]
                     ):
                         return True
                 else:
@@ -332,7 +331,6 @@ class Thoughts:
                             for i in random_cat.permanent_condition
                             if i in thought["perm_conditions_restraints"]["r_c"]
                         ]
-                        and "any" not in thought["perm_conditions_restraints"]["r_c"]
                     ):
                         return True
                 else:
