@@ -817,11 +817,12 @@
     {
         "id": "bat_kit_shy",
         "thoughts": [
-            "Is hiding behind {PRONOUN/m_c/object} large wings"
+            "Is hiding behind {PRONOUN/m_c/poss} large wings"
         ],
         "main_species_constraint": [
             "bat cat"
-        ]
+        ],
+        "main_wing_c_constraint": [2]
     },
     {
         "id": "kittencough_gen",

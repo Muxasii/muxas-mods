@@ -215,6 +215,20 @@
               "$ref": "common.schema.json#/definitions/backstory"
             }
           },
+          "species":  {
+            "description": "m_c must be a species from this list",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/definitions/species"
+            }
+          },
+          "wing_count":  {
+            "description": "m_c must have a wing count from this list",
+            "type": "array",
+            "items": {
+              "enum": [0,1,2]
+            }
+          },
           "dies": {
             "description": "m_c will die due to this event. Default is False.",
             "type": "boolean",
@@ -339,6 +353,20 @@
             "type": "array",
             "items": {
               "$ref": "common.schema.json#/definitions/backstory"
+            }
+          },
+          "species":  {
+            "description": "r_c must be a species from this list",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/definitions/species"
+            }
+          },
+          "wing_count":  {
+            "description": "r_c must have a wing count from this list",
+            "type": "array",
+            "items": {
+              "enum": [0,1,2]
             }
           },
           "dies": {

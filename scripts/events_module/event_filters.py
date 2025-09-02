@@ -327,7 +327,7 @@ def _check_cat_wing_count(cat, wing_count: list) -> bool:
     if "any" in wing_count or not wing_count:
         return True
 
-    if cat.wing_count in wing_count:
+    if cat.display_wing_count in wing_count:
         return True
     
     return False

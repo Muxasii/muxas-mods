@@ -581,7 +581,7 @@ class Pelt:
                  wing_white_patches:str=None,
                  wing_marks: str = "NONE",
                  mane_marks: str = None,
-                 mane: bool = True,
+                 mane: bool = False,
                  eye_color: str = "BLUE",
                  eye_colour2: str = None,
                  tortiebase: str = None,
@@ -697,7 +697,7 @@ class Pelt:
         new_pelt.init_pattern()
         new_pelt.init_tint()
         new_pelt.init_extra_traits(parents)
-        new_pelt.init_species_traits(parents)
+        new_pelt.init_species_traits(species, parents)
 
         return new_pelt
 
@@ -818,13 +818,13 @@ class Pelt:
         return chosen_count
     
     @staticmethod
-    def init_wing_count(self, parents:tuple=()):
+    def init_wing_count(self, species, parents:tuple=()):
         if self.wing_count is None:
             if parents:
-                chosen_count = Pelt.wing_count_inheritance(self.species, parents)
+                chosen_count = Pelt.wing_count_inheritance(species, parents)
                 return chosen_count
             else:
-                if self.species == "earth cat":
+                if species == "earth cat":
                     chosen_count = 0
                 else:
                     chosen_count = choice(
@@ -836,19 +836,17 @@ class Pelt:
         else:
             return self.wing_count
 
-    def init_species_traits(self, parents:tuple=()):
+    def init_species_traits(self, species, parents:tuple=()):
         if parents:
-            Pelt.species_traits_inheritance(self, parents)
+            Pelt.species_traits_inheritance(self, species, parents)
         else:
-            if self.mane is None:
-                if self.species == "bat cat":
-                    weights = (90, 1)
-                    # if self.sub_species == "moth cat": weights = (100, 1)
-                else: 
-                    weights = (1, 100)
-                self.mane = choice(
-                random.choices([True, False], weights=weights, k=1)
-                )
+            weights = (1, 100)
+            if species == "bat cat":
+                weights = (90, 1)
+                # if self.sub_species == "moth cat": weights = (100, 1)
+            self.mane = choice(
+            random.choices([True, False], weights=weights, k=1)
+            )
                 
             if self.mane_marks is None:
                 # Gather weights depending on pelt group
@@ -868,13 +866,12 @@ class Pelt:
                 self.mane_marks = choice(
                 random.choices(Pelt.mane_marks_list, weights=weight, k=1)
                 )
-    def species_traits_inheritance(self, parents:tuple=()):
-        if self.species == "bat cat":
-            mane_weights = [90, 1]
+    def species_traits_inheritance(self, species, parents:tuple=()):
+        if species == "bat cat":
+            mane_weights = [60, 1]
             # if self.sub_species == "moth cat": weights = (100, 1)
         else: 
-            mane_weights = [1, 100]
-
+            mane_weights = [1, 60]
         
         for p in parents:
             if p.pelt.mane:
@@ -884,6 +881,10 @@ class Pelt:
             
             for x in range(0, len(mane_weights)):
                 mane_weights[x] += add_weights[x]
+
+        self.mane = choice(
+        random.choices([True, False], weights=mane_weights, k=1)
+        )
                 
         if self.mane_marks is None:
             # Gather weights depending on pelt group
@@ -997,10 +998,14 @@ class Pelt:
             print("Missing extra traits")
             Pelt.init_extra_traits(self)
 
-        # make sure the cat doesn't already have a mane
-        if not species_traits and not self.mane:
+        if not species_traits:
+            mane = self.mane
             print("Missing or incomplete species traits")
-            Pelt.init_species_traits(self)
+            Pelt.init_species_traits(self, self.species)
+
+            # make sure the cat doesn't already have a mane to re-set it back
+            if mane:
+                self.mane = mane
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':

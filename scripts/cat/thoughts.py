@@ -111,31 +111,19 @@ class Thoughts:
 
         # Constraints for the species of the main cat
         if 'main_species_constraint' in thought:
-            if (main_cat.species not in thought['main_species_constraint'] and
-                    'any' not in thought['main_species_constraint']):
-                return False
+            main_info_dict["species"] = thought["main_species_constraint"]
 
         # Constraints for the species of the random cat
         if 'random_species_constraint' in thought and random_cat:
-            if (random_cat.species not in thought['random_species_constraint'] and
-                    'any' not in thought['random_species_constraint']):
-                return False
-        elif 'random_species_constraint' in thought and not random_cat:
-            pass
+            random_info_dict["species"] = thought["random_species_constraint"]
 
         # Constraints for the wing count of the main cat
         if 'main_wing_c_constraint' in thought:
-            if (main_cat.wing_count not in thought['main_wing_c_constraint'] and
-                    'any' not in thought['main_wing_c_constraint']):
-                return False
+            main_info_dict["wing_count"] = thought["main_wing_c_constraint"]
 
         # Constraints for the wing count of the random cat
         if 'random_wing_c_constraint' in thought and random_cat:
-            if (random_cat.wing_count not in thought['random_wing_c_constraint'] and
-                    'any' not in thought['random_wing_c_constraint']):
-                return False
-        elif 'random_species_constraint' in thought and not random_cat:
-            pass
+            random_info_dict["wing_count"] = thought["random_wing_c_constraint"]
 
         # main cat age constraint
         if "main_age_constraint" in thought:
@@ -319,7 +307,7 @@ class Thoughts:
                             if i in thought["perm_conditions_restraints"]["m_c"]
                         ]
                     ):
-                        return True
+                        return False
                 else:
                     return False
 
@@ -332,7 +320,7 @@ class Thoughts:
                             if i in thought["perm_conditions_restraints"]["r_c"]
                         ]
                     ):
-                        return True
+                        return False
                 else:
                     return False
 
@@ -416,6 +404,8 @@ class Thoughts:
                 chosen_thought = choice(chosen_thought_group["thoughts"])
         except Exception:
             traceback.print_exc()
+            print("Thoughts failed:")
+            print(f"{main_cat.name}, {other_cat.name}, {game_mode}, {biome}, {season}, {camp}")
             chosen_thought = i18n.t("defaults.thought")
 
         return chosen_thought

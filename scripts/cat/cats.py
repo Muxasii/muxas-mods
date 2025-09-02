@@ -292,7 +292,7 @@ class Cat:
 
         # time to count the kitty wings :3
         if self.wing_count is None:
-            self.wing_count = Pelt.init_wing_count(self, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
+            self.wing_count = Pelt.init_wing_count(self, self.species, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
             
         if self.display_wing_count is None:
             self.display_wing_count = self.wing_count

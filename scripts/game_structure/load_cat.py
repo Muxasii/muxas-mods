@@ -157,7 +157,7 @@ def json_load():
                 wing_white_patches=cat["wing_white_patches"] if "wing_white_patches" in cat else None,
                 wing_marks=cat["wing_marks"] if "wing_marks" in cat else "none",
                 mane_marks=cat["species_traits"]["mane_marks"] if "species_traits" in cat else None,
-                mane=cat["species_traits"]["mane"] if "traits" in cat or "mane" in "traits" else None,
+                mane=cat["species_traits"]["mane"] if "species_traits" in cat or "mane" in "traits" else None,
                 tortiebase=cat["tortie_base"],
                 tortiecolour=cat["tortie_color"],
                 tortiepattern=cat["tortie_pattern"],

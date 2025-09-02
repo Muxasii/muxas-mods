@@ -153,7 +153,7 @@ def generate_sprite(
                     "overfur": cat_layers_tortie["markings"]["overfur"] if "markings" in cat_layers_tortie else False,
                     "underfur": cat_layers_tortie["markings"]["underfur"] if "markings" in cat_layers_tortie else False
                 }
-            print(wing_markings)
+            #print(wing_markings)
         
 
         #-----------------
@@ -422,7 +422,7 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
     return finished_sprite
 
 def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=None, prefix="", disable_suffix=False):
-    print(f"Creating layer: {layer_name} - {layer}")
+    #print(f"Creating layer: {layer_name} - {layer}")
     finished_layer = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
@@ -543,7 +543,7 @@ def create_wings(cat_sprite, colors, markings, cat, species, layer, wing_marks, 
     finished_sprite.blit(marking_sprites)
     
     if wing_marks:
-        print(f"Creating layer: {wing_marks}")
+        #print(f"Creating layer: {wing_marks}")
         finished_sprite.blit(create_layer(cat_sprite, "markings", wing_marks, colors, prefix=species))
 
     if (cat.name in ["Tortie", "Calico"] and not tortie):

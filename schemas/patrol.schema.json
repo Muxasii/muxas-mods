@@ -348,6 +348,29 @@
           }
         }
       },
+      "min_max_species": {
+        "description": "Allows specification of the minimum and maximum number of specific species of cats that are allowed on the patrol.",
+        "type": "object",
+        "propertyNames": {
+          "$ref": "common.schema.json#/definitions/species"
+        }
+      },
+      "min_max_wing_count": {
+        "description": "Allows specification of the minimum and maximum number of specific wing counts of cats that are allowed on the patrol.",
+        "type": "object",
+        "propertyNames": {
+          "enum": [
+            0, 1, 2]
+        },
+        "additionalProperties": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
       "weight": {
         "description": "Controls how common a patrol is. Normal patrols would be around 20. Lower numbers are less common and higher numbers are more common.",
         "type": "integer",

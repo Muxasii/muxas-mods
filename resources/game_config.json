@@ -186,9 +186,9 @@
 		"bug": 0
 	},
 	"cat_generation": {
-		"base_permanent_condition": 90,
-		"base_male_tortie": 1,
-		"base_female_tortie": 2,
+		"base_permanent_condition": 1,
+		"base_male_tortie": 13,
+		"base_female_tortie": 5,
 		"base_heterochromia": 120,
 		"direct_inheritance": 15,
 		"wildcard_tortie": 1,

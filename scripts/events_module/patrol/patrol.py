@@ -192,10 +192,10 @@ class Patrol:
             else:
                 self.patrol_species[cat.species] = 1
 
-            if cat.wing_count in self.patrol_wings:
-                self.patrol_wings[cat.wing_count] += 1
+            if cat.display_wing_count in self.patrol_wings:
+                self.patrol_wings[cat.display_wing_count] += 1
             else:
-                self.patrol_wings[cat.wing_count] = 1
+                self.patrol_wings[cat.display_wing_count] = 1
 
             # Combined patrol_statuses categories
             if cat.status.rank.is_any_medicine_rank():
