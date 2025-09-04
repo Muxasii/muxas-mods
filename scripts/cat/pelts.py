@@ -63,7 +63,7 @@ class Pelt:
     
     # ATTRIBUTES, including non-pelt related
 
-    tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
+    tortiemasks = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
                       'MINIMALFOUR', 'HALF',
                       'OREO', 'SWOOP', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'ORIOLE',
                       'CHIMERA', 'DAUB', 'EMBER', 'BLANKET',
@@ -1712,9 +1712,9 @@ class Pelt:
             if not self.tortiebase:
                 self.tortiebase = choice(Pelt.tortiepatterns)
             if not self.pattern:
-                self.pattern = choice(Pelt.tortiepatterns)
+                self.pattern = choice(Pelt.tortiemasks)
 
-            print(f"Tortie color: {self.colour}")
+            print(f"Tortie color: {self.colour}, Pattern: {self.pattern}\n{Pelt.tortiepatterns}")
             wildcard_chance = constants.CONFIG["cat_generation"]["wildcard_tortie"]
             if self.colour:
                 # The "not wildcard_chance" allows users to set wildcard_tortie to 0
