@@ -32,13 +32,15 @@
         ],
         "herbs": {
             "1": [
-                "juniper",
-                "poppy",
-                "thyme",
-                "ragwort"
+                "poppy"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "thyme"
+            ],
+            "3": [
+                "ragwort",
+                "juniper"
+            ]
         }
     },
     "diarrhea": {
@@ -73,12 +75,14 @@
         "herbs": {
             "1": [
                 "betony",
-                "mullein",
-                "juniper",
-                "mallow"
+                "mullein"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "thyme"
+            ],
+            "3": ["juniper",
+                  "mallow"
+        ]
         }
     },
     "fleas": {
@@ -153,16 +157,18 @@
         ],
         "herbs": {
         "1": [
-            "catmint",
-            "tansy",
-            "mullein",
             "plantain",
             "juniper",
             "poppy",
             "moss"
         ],
-        "2": [],
-        "3": []
+        "2": [
+            "tansy",
+            "mullein"
+    ],
+        "3": [
+            "catmint"
+        ]
         }
     },
     "kittencough": {
@@ -198,16 +204,19 @@
         ],
         "herbs": {
             "1": [
-                "catmint",
-                "tansy",
-                "mullein",
                 "plantain",
                 "juniper",
                 "poppy",
                 "moss"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "catmint",
+                "ragwort"
+            ],
+            "3": [
+                "mullein",
+                "tansy"
+            ]
         }
     },
     "an infected wound": {
@@ -244,12 +253,14 @@
         "herbs": {
             "1": [
                 "marigold",
-                "burdock",
-                "wild_garlic",
                 "poppy"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "wild_garlic"
+            ],
+            "3": [
+                "burdock"
+            ]
         }
     },
     "carrionplace disease": {
@@ -279,12 +290,15 @@
         "herbs": {
             "1": [
                 "marigold",
-                "burdock",
-                "wild_garlic",
                 "poppy"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "burdock"
+            ],
+            "3": [
+                "dandelion",
+                "wild_garlic"
+            ]
         }
     },
     "redcough": {
@@ -314,15 +328,16 @@
         "herbs": {
             "1": [
                 "lungwort",
-                "mullein",
-                "tansy",
                 "plantain",
                 "juniper",
                 "ragwort",
                 "poppy",
                 "moss"
             ],
-            "2": [],
+            "2": [
+                "tansy",
+                "mullein"
+            ],
             "3": []
         }
     },
@@ -360,11 +375,12 @@
         "herbs": {
             "1": [
                 "ragwort",
-                "juniper",
                 "poppy"
             ],
             "2": [],
-            "3": []
+            "3": [
+                "juniper"
+            ]
         }
     },
     "whitecough": {
@@ -400,17 +416,19 @@
         ],
         "herbs": {
             "1": [
-                "catmint",
                 "plantain",
-                "tansy",
-                "mullein",
                 "juniper",
-                "ragwort",
                 "poppy",
                 "moss"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "catmint",
+                "ragwort"
+            ],
+            "3": [
+                "mullein",
+                "tansy"
+            ]
         }
     },
     "yellowcough": {
@@ -446,10 +464,14 @@
         ],
         "herbs": {
             "1": [
-                "lungwort"
+                "mallow"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "tansy"
+            ],
+            "3": [
+                "lungwort"
+            ]
         }
     },
     "a festering wound": {
@@ -482,16 +504,18 @@
             }
         ],
         "herbs": {
-            "1": ["marigold",
-                "burdock",
-                "oak_leaves",
-                "ragwort",
-                "juniper",
+            "1": [
+                "marigold",
                 "poppy",
                 "moss"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "goldenrod",
+                "dandelion"
+            ],
+            "3": [
+                "burdock"
+            ]
         }
     },
     "heat stroke": {
@@ -520,12 +544,14 @@
         "risks": [],
         "herbs": {
             "1": [
-                "juniper",
-                "ragwort",
-                "moss"
+                "ragwort"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "moss"
+            ]
         }
     },
     "heat exhaustion": {
@@ -562,10 +588,12 @@
         "herbs": {
             "1": [
                 "juniper",
-                "ragwort",
-                "moss"],
+                "ragwort"
+            ],
             "2": [],
-            "3": []
+            "3": [
+                "moss"
+            ]
         }
     },
     "stomachache": {
@@ -601,13 +629,14 @@
         ],
         "herbs": {
             "1": [
-                "juniper",
-                "mallow",
-                "ragwort",
-                "poppy"
+                "ragwort"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "mallow"
+            ]
         }
     },
     "constant nightmares": {
@@ -637,13 +666,14 @@
         ],
         "herbs": {
             "1": [
-                "juniper",
-                "thyme",
-                "poppy"
+                "juniper"
 
             ],
             "2": [],
-            "3": []
+            "3": [
+                "thyme",
+                "poppy"
+            ]
         }
     },
     "grief stricken": {
@@ -699,12 +729,14 @@
         ],
         "herbs": {
             "1": [
-                "juniper",
-                "thyme",
                 "poppy"
             ],
-            "2": [],
-            "3": []
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "thyme"
+            ]
         }
     },
     "fatigue": {
@@ -883,8 +915,14 @@
             "moss",
             "plantain"
             ],
-            "2": ["dandelion"],
-            "3": ["goldenrod"]
+            "2": [
+                "dandelion",
+                "plantain"
+            ],
+            "3": [
+                "goldenrod",
+                "mullein"
+            ]
         }
     }
 }
