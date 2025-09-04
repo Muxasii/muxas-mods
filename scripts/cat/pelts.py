@@ -1123,14 +1123,14 @@ class Pelt:
             self.colour = self.tortie_colour
             self.tortie_colour = convert_dict["old_tortie_patches"][old_pattern][0]
 
-        if self.tortie_marking == "MINIMAL1":
-            self.tortie_marking = "MINIMALONE"
-        elif self.tortie_marking == "MINIMAL2":
-            self.tortie_marking = "MINIMALTWO"
-        elif self.tortie_marking == "MINIMAL3":
-            self.tortie_marking = "MINIMALTHREE"
-        elif self.tortie_marking == "MINIMAL4":
-            self.tortie_marking = "MINIMALFOUR"
+        if self.pattern == "MINIMAL1":
+            self.pattern = "MINIMALONE"
+        elif self.pattern == "MINIMAL2":
+            self.pattern = "MINIMALTWO"
+        elif self.pattern == "MINIMAL3":
+            self.pattern = "MINIMALTHREE"
+        elif self.pattern == "MINIMAL4":
+            self.pattern = "MINIMALFOUR"
 
         if self.accessory is None:
             self.accessory = []
@@ -1752,7 +1752,7 @@ class Pelt:
                         self.tortiepattern = random.choices(
                             [self.tortiebase, "SingleColour"], weights=[97, 3], k=1
                         )[0]
-
+                    print(self.tortiepattern)
                     # get pattern
                     if self.tortiepattern in ("TwoColour", "SingleColour", "single"):
                         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
@@ -1793,7 +1793,7 @@ class Pelt:
             self.tortie_base = None
             self.tortie_pattern = None
             self.tortie_colour = None
-            self.tortie_marking = None
+            self.pattern = None
 
     def white_patches_inheritance(self, parents: tuple):
         par_whitepatches = set()

@@ -350,6 +350,11 @@
                     "sprite_name": "markingsSOKOKE",
                     "overfur": false,
                     "underfur": "underfurBASIC"
+                },
+                "markings_inside": {
+                    "sprite_name": "markinsideSOKOKE",
+                    "overfur": false,
+                    "underfur": false
                 }
             }
         },

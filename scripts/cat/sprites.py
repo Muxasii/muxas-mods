@@ -170,20 +170,30 @@ class Sprites:
         del width, height  # unneeded
 
         for x in [
-            'lineart', 'lineartdead', 'winglineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin', 'wingmarks',
+            'lineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin', 'wingmarks',
             'batmane', 'batmanemarkings',
             'whitepatches', 'wingswhitepatches', 'eyesnew', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars', 'medcatherbs', 'wild', 
-            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 'wingstortiemasks',
+            'shadersnewwhite', 'tortiepatchesmasks', 'wingstortiemasks',
             'lightingnew', 'fademask',
-            'fadestarclan', 'fadedarkforest',
+            'fadestarclan', 'fadedarkforest', 'fadeunknownresidence',
             'wingscars',
-            'symbols'
+            'symbols',
+            'winglineart', 'winglineartdead', 'winglineartdf', 'winglineartur',
+            "lineartur", "lineartdf", 'lineartdead',
+            "line_ur_underlay",
+            "line_ur_overlay",
+            "line_sc_overlay",
+            "gradient_ur"
 
         ]:
-            if "lineart" in x and (
-                constants.CONFIG["fun"]["april_fools"]
-                or is_today(SpecialDate.APRIL_FOOLS)
+            if (
+                "lineart" in x
+                and (
+                    constants.CONFIG["fun"]["april_fools"]
+                    or is_today(SpecialDate.APRIL_FOOLS)
+                )
+                and x != "lineartur"
             ):
                 self.spritesheet(f"sprites/aprilfools{x}.png", x)
             else:
@@ -191,17 +201,23 @@ class Sprites:
 
         # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
+
         self.make_group('winglineart', (0, 0), 'bat cat_1_lines')
         self.make_group('winglineart', (1, 0), 'bird cat_1_lines')
         self.make_group('winglineart', (2, 0), 'bat cat_0_lines')
         self.make_group('winglineart', (3, 0), 'bird cat_0_lines')
         for a, i in enumerate(
-                ['df', 'dead']):
-            self.make_group('lineartdead', (a, 0), f'lineart{i}')
-            self.make_group('winglineart', (a, 1), f'bird cat_1_lineart{i}')
-            self.make_group('winglineart', (a, 2), f'bat cat_1_lineart{i}')
-            self.make_group('winglineart', (a+2, 1), f'bird cat_0_lineart{i}')
-            self.make_group('winglineart', (a+2, 2), f'bat cat_0_lineart{i}')
+                ['df', 'dead', 'ur']):
+            self.make_group(f'lineart{i}', (0, 0), f'lineart{i}')
+            self.make_group(f'winglineart{i}', (0, 0), f'bird cat_1_lineart{i}')
+            self.make_group(f'winglineart{i}', (0, 1), f'bat cat_1_lineart{i}')
+            self.make_group(f'winglineart{i}', (1, 0), f'bird cat_0_lineart{i}')
+            self.make_group(f'winglineart{i}', (1, 1), f'bat cat_0_lineart{i}')
+
+        self.make_group("line_sc_overlay", (0, 0), "sc_overlay")
+        self.make_group("line_ur_underlay", (0, 0), "ur_underlay")
+        self.make_group("line_ur_overlay", (0, 0), "ur_overlay")
+        self.make_group("gradient_ur", (0, 0), "gradient_ur")
 
         # Base
         self.make_group('base', (0, 0), 'base')

@@ -172,7 +172,7 @@ def json_load():
                 tortiebase=cat["tortie_base"],
                 tortiecolour=cat["tortie_color"],
                 tortiepattern=cat["tortie_pattern"],
-                pattern=cat["pattern"],
+                pattern=cat["tortie_marking"],
                 skin=cat["skin"],
                 tint=cat["tint"] if "tint" in cat else None,
                 scars=cat["scars"] if "scars" in cat else [],
