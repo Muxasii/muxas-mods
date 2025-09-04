@@ -236,6 +236,12 @@ dev_tools = false
     adult = 0
     "senior adult" = 0
     senior = 0
+	
+[species_generation]
+  earth = 10
+  bird = 100
+  bat = 70
+  bug = 0
 
 [cat_generation]
   # base 1/chance that a cat will generate with a permanent condition. gets modified further in code
