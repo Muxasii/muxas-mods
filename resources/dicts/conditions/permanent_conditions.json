@@ -1,7 +1,7 @@
 {
     "crooked jaw": {
         "severity": "major",
-        "congenital": "never",
+        "congenital": "sometimes",
         "moons_until": 0,
         "mortality": {
             "newborn": 0,
@@ -62,7 +62,8 @@
             "daisy",
             "juniper",
             "marigold",
-            "ragwort"
+            "ragwort",
+            "poppy"
         ],
             "2": [],
             "3": []
@@ -330,7 +331,8 @@
             "daisy",
             "juniper",
             "marigold",
-            "ragwort"
+            "ragwort",
+            "poppy"
         ],
             "2": [],
             "3": []
@@ -370,7 +372,8 @@
             "daisy",
             "juniper",
             "marigold",
-            "ragwort"
+            "ragwort",
+            "poppy"
         ],
             "2": [],
             "3": []
@@ -408,7 +411,8 @@
         "herbs": {
             "1": [
             "juniper",
-            "ragwort"
+            "ragwort",
+            "poppy"
         ],
             "2": [],
             "3": []
@@ -483,7 +487,8 @@
             "daisy",
             "juniper",
             "ragwort",
-            "marigold"
+            "marigold",
+            "poppy"
         ],
             "2": [],
             "3": []
@@ -591,6 +596,58 @@
             "3": []
         }
     },
+    "strange lump": {
+        "severity": "major",
+        "congenital": "sometimes",
+        "moons_until": 40,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 10,
+            "adolescent": 15,
+            "young adult": 35,
+            "adult": 55,
+            "senior adult": 65,
+            "senior": 75
+        },
+        "illness_infectiousness": [
+
+            {
+                "name": "whitecough",
+                "chance": 10
+            },
+            {
+                "name": "greencough",
+                "chance": 15
+            },
+            {
+                "name": "yellowcough",
+                "chance": 13
+            }
+        ],
+        "risks": [
+            {
+                "name": "seizure",
+                "chance": 30
+            },
+            {
+                "name": "paralyzed",
+                "chance": 60
+            },
+            {
+                "name": "redcough",
+                "chance": 50
+            }
+        ],
+        "herbs": {
+            "1": [
+            "juniper",
+            "ragwort",
+            "poppy"
+        ],
+            "2": [],
+            "3": []
+        }
+    },
     "blind": {
         "severity": "major",
         "congenital": "sometimes",
@@ -607,6 +664,36 @@
         "illness_infectiousness": [
         ],
         "risks": [
+        ],
+        "herbs": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "absent": {
+        "severity": "severe",
+        "congenital": "sometimes",
+        "moons_until": 95,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [],
+        "risks": [
+            {
+                "name": "joint pain",
+                "chance": 30
+            },
+            {
+                "name": "torn pelt",
+                "chance": 40
+            }
         ],
         "herbs": {
             "1": [],
@@ -910,17 +997,16 @@
                 "chance": 50
             },
             {
-                "name": "fatigue",
+                "name": "absent",
                 "wing_count": ["any"],
                 "species": ["any"],
-                "chance": 20
+                "chance": 50
             }
         ],
         "herbs": {
             "1": [
             "thyme",
-            "juniper",
-            "poppy"
+            "juniper"
         ],
             "2": [],
             "3": []

@@ -29,7 +29,7 @@
     "OLDLILAC": "ginger"
   },
   "possible_tints": {
-    "basic": ["none", "offwhite", "offwhite"],
+    "basic": ["offwhite", "offwhite"],
     "black": ["gray", "darkcream", "cream"],
     "gray": ["gray"],
     "ginger": ["darkcream", "cream", "pink"],

@@ -8,7 +8,7 @@ import scripts.game_structure.screen_settings
 from scripts.cat.sprites import sprites
 from scripts.game_structure import constants
 from scripts.game_structure.game.settings import game_setting_get
-from scripts.game_structure.game_essentials import game
+from scripts.game_structure import game
 from scripts.clan_package.settings import get_clan_setting
 from scripts.game_structure.game.switches import (
     switch_get_value,
@@ -1117,20 +1117,20 @@ class Pelt:
             self.pattern = convert_dict["old_tortie_patches"][old_pattern][1]
 
             # If the pattern is old, there is also a chance the base color is stored in
-            # tortiecolour. That may be different from the pelt color ("main" for torties)
+            # tortie_colour. That may be different from the pelt color ("main" for torties)
             # generated before the "ginger-on-ginger" update. If it was generated after that update,
-            # tortiecolour and pelt_colour will be the same. Therefore, let's also re-set the pelt color
-            self.colour = self.tortiecolour
-            self.tortiecolour = convert_dict["old_tortie_patches"][old_pattern][0]
+            # tortie_colour and pelt_colour will be the same. Therefore, let's also re-set the pelt color
+            self.colour = self.tortie_colour
+            self.tortie_colour = convert_dict["old_tortie_patches"][old_pattern][0]
 
-        if self.pattern == "MINIMAL1":
-            self.pattern = "MINIMALONE"
-        elif self.pattern == "MINIMAL2":
-            self.pattern = "MINIMALTWO"
-        elif self.pattern == "MINIMAL3":
-            self.pattern = "MINIMALTHREE"
-        elif self.pattern == "MINIMAL4":
-            self.pattern = "MINIMALFOUR"
+        if self.tortie_marking == "MINIMAL1":
+            self.tortie_marking = "MINIMALONE"
+        elif self.tortie_marking == "MINIMAL2":
+            self.tortie_marking = "MINIMALTWO"
+        elif self.tortie_marking == "MINIMAL3":
+            self.tortie_marking = "MINIMALTHREE"
+        elif self.tortie_marking == "MINIMAL4":
+            self.tortie_marking = "MINIMALFOUR"
 
         if self.accessory is None:
             self.accessory = []
@@ -1222,7 +1222,7 @@ class Pelt:
 
                 # Gather pelt name
                 if p.pelt.name in Pelt.torties:
-                    par_peltnames.add(p.pelt.tortiebase.capitalize())
+                    par_peltnames.add(p.pelt.tortie_base.capitalize())
                 else:
                     par_peltnames.add(p.pelt.name)
 
@@ -1256,7 +1256,7 @@ class Pelt:
             self.name = selected.name
             self.length = selected.length
             self.colour = selected.colour
-            self.tortiebase = selected.tortiebase
+            self.tortie_base = selected.tortie_base
             return selected.white
 
         # ------------------------------------------------------------------------------------------------------------#
@@ -1487,7 +1487,7 @@ class Pelt:
         self.wing_marks = chosen_wing_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
-        self.tortiebase = (
+        self.tortie_base = (
             chosen_tortie_base  # This will be none if the cat isn't a tortie.
         )
         return chosen_white
@@ -1629,14 +1629,14 @@ class Pelt:
         self.wing_marks = chosen_wing_marks
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
-        self.tortiebase = (
+        self.tortie_base = (
             chosen_tortie_base  # This will be none if the cat isn't a tortie.
         )
         return chosen_white
 
     def init_pattern_color(self, parents, gender) -> bool:
         """Inits self.name, self.colour, self.length,
-        self.tortiebase and determines if the cat
+        self.tortie_base and determines if the cat
         will have white patche or not.
         Return TRUE is the cat should have white patches,
         false is not."""
@@ -1783,17 +1783,17 @@ class Pelt:
                         possible_colors.extend(
                             colors["black_colors"] + (colors["ginger_colors"] * 2)
                         )
-                        self.tortiecolour = choice(possible_colors)
+                        self.tortie_colour = choice(possible_colors)
                     else:
-                        self.tortiecolour = "GOLDEN"
+                        self.tortie_colour = "GOLDEN"
 
             else:
-                self.tortiecolour = "GOLDEN"
+                self.tortie_colour = "GOLDEN"
         else:
-            self.tortiebase = None
-            self.tortiepattern = None
-            self.tortiecolour = None
-            self.pattern = None
+            self.tortie_base = None
+            self.tortie_pattern = None
+            self.tortie_colour = None
+            self.tortie_marking = None
 
     def white_patches_inheritance(self, parents: tuple):
         par_whitepatches = set()
@@ -2068,9 +2068,9 @@ class Pelt:
             if base_tints or color_tints:
                 self.white_patches_tint = choice(base_tints + color_tints)
             else:
-                self.white_patches_tint = "none"
+                self.white_patches_tint = None
         else:
-            self.white_patches_tint = "none"
+            self.white_patches_tint = None
 
     @property
     def white(self):
@@ -2207,9 +2207,9 @@ def _describe_torties(cat, color_name, short=False) -> [str, str]:
         else:
             return f"cat.pelts.{cat.pelt.name.lower()}", ""
 
-    base = cat.pelt.tortiebase.lower()
+    base = cat.pelt.tortie_base.lower()
 
-    patches_color = f"cat.pelts.{cat.pelt.tortiecolour}"
+    patches_color = f"cat.pelts.{cat.pelt.tortie_colour}"
     color_name.append("/")
     color_name.append(patches_color)
 
@@ -2225,7 +2225,7 @@ def _describe_torties(cat, color_name, short=False) -> [str, str]:
             "rosette",
             "speckled",
         ):
-            base = f"cat.pelts.{cat.pelt.tortiebase.capitalize()}_long"  # the extra space is intentional
+            base = f"cat.pelts.{cat.pelt.tortie_base.capitalize()}_long"  # the extra space is intentional
         else:
             base = ""
         return base, color_name

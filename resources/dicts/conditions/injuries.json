@@ -254,6 +254,7 @@
                 "wing_count": ["any"],
                 "chance": 5
             }
+
         ],
         "also_got": [
             "torn pelt"
@@ -297,6 +298,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 40
+            },
+            {
+                "name": "tick fever",
+                "chance": 60
             }
         ],
         "also_got": [],
@@ -750,11 +755,10 @@
         "herbs": {
             "1": [
             "dandelion",
-            "poppy",
             "raspberry"
         ],
             "2": [],
-            "3": []
+            "3": ["poppy"]
         }
     },
 
@@ -1194,7 +1198,8 @@
         ],
         "also_got": [],
         "cause_permanent": [
-            "recurring shock"
+            "recurring shock",
+            "absent"
         ],
         "herbs": {
             "1": [
@@ -1331,7 +1336,8 @@
             "blind",
             "constantly dizzy",
             "partial hearing loss",
-            "persistent headaches"
+            "persistent headaches",
+            "absent"
         ],
         "herbs": {
             "1": [
@@ -1599,6 +1605,7 @@
         "also_got": [
         ],
         "cause_permanent": [
+            "absent"
         ],
         "herbs": {
             "1": [
