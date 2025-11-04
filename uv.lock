@@ -1312,6 +1312,7 @@ dependencies = [
     { name = "pygame-gui" },
     { name = "requests" },
     { name = "strenum" },
+    { name = "tomli" },
     { name = "ujson" },
 ]
 
@@ -1352,6 +1353,7 @@ requires-dist = [
     { name = "pypresence", marker = "extra == 'discord'", specifier = "~=4.2" },
     { name = "requests", specifier = "~=2.28" },
     { name = "strenum", specifier = "~=0.4" },
+    { name = "tomli", specifier = ">=2.2.1" },
     { name = "ujson", specifier = "~=5.7" },
 ]
 provides-extras = ["discord"]

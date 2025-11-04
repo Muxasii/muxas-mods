@@ -3,7 +3,7 @@ import random
 import i18n
 
 from scripts.cat.skills import SkillPath
-from scripts.game_structure.game_essentials import game
+from scripts.game_structure import game
 from scripts.utility import adjust_list_text
 
 
@@ -527,7 +527,7 @@ class History:
         """
 
         if not self.lead_ceremony:
-            self.add_lead_ceremony()
+            self.cat.generate_lead_ceremony()
         return str(self.lead_ceremony)
 
     def get_possible_history(self, condition=None):

@@ -134,13 +134,20 @@
         "items": {
           "enum": [
             "siblings",
+            "not_siblings",
             "littermates",
+            "not_littermates",
             "mates",
+            "mates_with_pl",
             "not_mates",
             "parent/child",
+            "not_parent",
             "child/parent",
-            "app/mentor",
+            "not_child",
             "mentor/app",
+            "not_mentor",
+            "app/mentor",
+            "not_app",
             "strangers"
           ]
         }
@@ -199,6 +206,33 @@
         "type": "array",
         "items": {
           "$ref": "common.schema.json#/definitions/all_trait"
+        }
+      },
+      "main_species_constraint": {
+        "description": "Constrains the thought to only happen if m_c is a specific species.",
+        "type": "array",
+        "items": {
+          "$ref": "common.schema.json#/definitions/species"
+        }
+      },
+      "random_species_constraint": {
+        "description": "Constrains the thought to only happen if r_c is a specific species.",
+        "type": "array",
+        "items": {
+          "$ref": "common.schema.json#/definitions/species"
+        }
+      },
+      "main_wing_c_constraint": {
+        "description": "Constrains the thought to only happen if m_c has a specific  wing count.",
+        "items": {
+          "enum": [ 0, 1, 2]
+        }
+      },
+      "random_wing_c_constraint": {
+        "description": "Constrains the thought to only happen if r_c has a specific wing count.",
+        "type": "array",
+        "items": {
+          "enum": [ 0, 1, 2]
         }
       },
       "main_skill_constraint": {

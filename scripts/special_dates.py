@@ -109,6 +109,7 @@ def contains_special_date_tag(lst: List[str]) -> bool:
     Returns True if lst contains a special date tag. False otherwise.
     """
     for tag in lst:
+        print(tag)
         for _, date in _date_map.items():
             if date.patrol_tag == tag:
                 return True

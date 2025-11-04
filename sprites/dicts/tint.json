@@ -48,6 +48,25 @@
 "brown": [
 "black","dark","faded","gray","pink","pink2","darkpink","lightpink","magenta","blood","red","palered","richred","orange","paleorange","paleorange2","blaze","gold","yellow","paleyellow","sand","cream","cyan","blue","ghost","paleblue","paleblue2","purple","palepurple","deeppurple","darkpurple","violet","lilac","lavender","brown","none", "dilute", "cooldilute", "purpledilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none", "none", "none"]
   },
+  "natural_possible_tints": {
+"basic": [
+"black","dark","faded","gray","palered","orange","paleorange","paleorange2","blaze","gold","paleyellow","sand","cream","ghost","brown","none", "dilute", "cooldilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none"],
+
+"warm": [
+"black","dark","faded","gray","red","palered","orange","paleorange","paleorange2","blaze","gold","paleyellow","sand","cream","ghost","palepurple","brown","none", "dilute", "cooldilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none"],
+
+"cool": [
+"black","dark","faded","gray","blue","ghost","orange","paleorange","paleorange2","paleblue2","sky","palepurple2","violet","lilac","lilac2","lavender","brown","none", "dilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none"],
+
+"white": [
+"black","dark","faded","gray","palered","orange","paleorange","blaze","gold","paleyellow","sand","cream","ghost","paleblue3","sky","teal","brown", "none"],
+
+"monochrome": [
+"black","dark","faded","gray","red","palered","orange","paleorange","paleorange2","blaze","sand","cream","cyan2","blue2","ghost","paleblue","paleblue2","paleblue3","darkblue","royalblue","sky2","palepurple2","brown","none", "dilute", "cooldilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none"],
+
+"brown": [
+"black","dark","faded","gray","red","palered","orange","paleorange","paleorange2","blaze","gold","paleyellow","sand","cream","cyan","blue","ghost","paleblue","paleblue2","purple","palepurple","lavender","brown","none", "dilute", "cooldilute", "reddilute", "warmdilute", "ghostdilute", "creamdilute", "none"]
+  },
   "tint_colours":
   {
     "black": [200, 200, 200],

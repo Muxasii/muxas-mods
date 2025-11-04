@@ -44,6 +44,7 @@
               "app1",
               "app2",
               "not_pl",
+              "not_rc",
               "not_pl_rc",
               "any",
               "adult",
@@ -188,11 +189,9 @@
                 "type": "array",
                 "items": {
                   "enum": [
-                    "romantic",
-                    "platonic",
-                    "dislike",
+                    "romance",
+                    "like",
                     "comfort",
-                    "jealous",
                     "trust",
                     "respect"
                   ]
@@ -276,7 +275,7 @@
           "anyOf": [
             {
               "enum": [
-                "romantic",
+                "romance",
                 "rom_two_apps",
                 "disaster",
                 "new_cat",
@@ -348,6 +347,29 @@
           }
         }
       },
+      "min_max_species": {
+        "description": "Allows specification of the minimum and maximum number of specific species of cats that are allowed on the patrol.",
+        "type": "object",
+        "propertyNames": {
+          "$ref": "common.schema.json#/definitions/species"
+        }
+      },
+      "min_max_wing_count": {
+        "description": "Allows specification of the minimum and maximum number of specific wing counts of cats that are allowed on the patrol.",
+        "type": "object",
+        "propertyNames": {
+          "enum": [
+            0, 1, 2]
+        },
+        "additionalProperties": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
       "weight": {
         "description": "Controls how common a patrol is. Normal patrols would be around 20. Lower numbers are less common and higher numbers are more common.",
         "type": "integer",
@@ -357,54 +379,13 @@
         "description": "Controls chance to succeed. Higher number is higher chance to succeed.",
         "type": "integer"
       },
-      "relationship_constraint": {
-        "description": "Only allows patrol if cats meet relationship constraint.",
-        "type": "array",
-        "items": {
-          "anyOf": [
-            {
-              "enum": [
-                "siblings",
-                "mates",
-                "not_mates",
-                "mates_with_pl",
-                "parent/child",
-                "child/parent",
-                "mentor/app",
-                "app/mentor"
-              ]
-            },
-            {
-              "type": "string",
-              "pattern": "^romantic_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^platonic_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^dislike_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^comfortable_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^jealousy_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^trust_(0|[1-9][0-9]?|100)$"
-            },
-            {
-              "type": "string",
-              "pattern": "^admiration_(0|[1-9][0-9]?|100)$"
-            }
-          ]
-        }
-      },
+      "relationship_status": {
+      "description": "Dictates what relationships m_c must have towards r_c. Do not use this section if there is no r_c in the event.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/definitions/relationship_status"
+      }
+    },
       "pl_skill_constraint": {
         "description": "Only allow this patrol if the patrol leader (p_l) meets at least one of these skill requirements.",
         "type": "array",

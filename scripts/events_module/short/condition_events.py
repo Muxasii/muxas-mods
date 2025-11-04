@@ -28,7 +28,7 @@ from scripts.game_structure.game.switches import (
     switch_set_value,
     switch_append_list_value,
 )
-from scripts.game_structure.game_essentials import game
+from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
 from scripts.utility import (
     event_text_adjust,
@@ -68,13 +68,6 @@ class Condition_Events:
         "resources/dicts/conditions/illnesses_seasons.json", "r", encoding="utf-8"
     ) as read_file:
         ILLNESSES_SEASON_LIST = ujson.loads(read_file.read())
-
-    with open(
-        "resources/dicts/conditions/event_injuries_distribution.json",
-        "r",
-        encoding="utf-8",
-    ) as read_file:
-        INJURY_DISTRIBUTION = ujson.loads(read_file.read())
 
     # ---------------------------------------------------------------------------- #
     #                                   STRINGS                                    #
@@ -893,7 +886,7 @@ class Condition_Events:
                 triggered = True
                 event_types.append("birth_death")
                 translated_condition = i18n.t(
-                    f"conditions.permanent_condition.{condition}"
+                    f"conditions.permanent_conditions.{condition}"
                 )
                 event = i18n.t(
                     "defaults.complications_death_event", condition=translated_condition
@@ -1063,7 +1056,7 @@ class Condition_Events:
                     if cat.age == CatAge.ADOLESCENT:
                         event += i18n.t(
                             "hardcoded.condition_retire_adolescent_ceremony",
-                            clan=game.clan.name,
+                            clan=game.clan.displayname,
                             newname=cat.name.prefix + cat.name.suffix,
                         )
 

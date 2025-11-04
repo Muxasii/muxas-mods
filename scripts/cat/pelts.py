@@ -8,7 +8,7 @@ import scripts.game_structure.screen_settings
 from scripts.cat.sprites import sprites
 from scripts.game_structure import constants
 from scripts.game_structure.game.settings import game_setting_get
-from scripts.game_structure.game_essentials import game
+from scripts.game_structure import game
 from scripts.clan_package.settings import get_clan_setting
 from scripts.game_structure.game.switches import (
     switch_get_value,
@@ -63,7 +63,7 @@ class Pelt:
     
     # ATTRIBUTES, including non-pelt related
 
-    tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
+    tortiemasks = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
                       'MINIMALFOUR', 'HALF',
                       'OREO', 'SWOOP', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'ORIOLE',
                       'CHIMERA', 'DAUB', 'EMBER', 'BLANKET',
@@ -77,6 +77,14 @@ class Pelt:
     green_eyes = sprites.eye_colors["color_lists"]["green_eyes"]
     purple_eyes = sprites.eye_colors["color_lists"]["purple_eyes"]
     red_eyes = sprites.eye_colors["color_lists"]["red_eyes"]
+    multi_eyes = sprites.eye_colors["color_lists"]["multi_eyes"]
+    no_multi_eyes = yellow_eyes + blue_eyes + green_eyes + purple_eyes + red_eyes
+
+    natural_eye_colours = sprites.eye_colors["natural_colors"]["eye_colors"]
+    natural_yellow_eyes = sprites.eye_colors["natural_colors"]["yellow_eyes"]
+    natural_blue_eyes = sprites.eye_colors["natural_colors"]["blue_eyes"]
+    natural_green_eyes = sprites.eye_colors["natural_colors"]["green_eyes"]
+    natural_red_eyes = sprites.eye_colors["natural_colors"]["red_eyes"]
 
     # bite scars by @wood pank on discord
 
@@ -351,13 +359,14 @@ class Pelt:
     spotted = sprites.pelt_colors["markings_list"]["spotted"]
     plain = sprites.pelt_colors["markings_list"]["plain"]
     exotic = sprites.pelt_colors["markings_list"]["exotic"]
+    all_markings = tabbies + spotted + plain + exotic
     torties = ["Tortie", "Calico"]
     # bird = ["Owl", "Corvid", "Fowl", "Cardinal", "Falcon"]
     # birdexotic = ["Parrot", "Paradise", "Mythical"]
     # bat = ["BatPelt"]
     # bug = ["Butterfly", "Exoticbutterfly"]
     pelt_categories = [tabbies, spotted, plain, exotic, torties] #, bird, bat, bug]
-    tortie_patterns = [tabbies, spotted, plain, exotic]
+    tortiepatterns = [tabbies, spotted, plain, exotic]
     
     # SPRITE NAMES
     eye_sprites = [
@@ -575,7 +584,7 @@ class Pelt:
                  wing_white_patches:str=None,
                  wing_marks: str = "NONE",
                  mane_marks: str = None,
-                 mane: bool = True,
+                 mane: bool = False,
                  eye_color: str = "BLUE",
                  eye_colour2: str = None,
                  tortiebase: str = None,
@@ -691,6 +700,7 @@ class Pelt:
         new_pelt.init_pattern()
         new_pelt.init_tint()
         new_pelt.init_extra_traits(parents)
+        new_pelt.init_species_traits(species, parents)
 
         return new_pelt
 
@@ -704,13 +714,13 @@ class Pelt:
                 species_settings = {
                     "earth": game_setting_get("earth_gen"),
                     "bird": game_setting_get("bird_gen"),
-                    "bat": game_setting_get("bird_gen"),
+                    "bat": game_setting_get("bat_gen"),
                 }
             else:
                 species_settings = {
                     "earth": get_clan_setting("earth_gen__clan"),
                     "bird": get_clan_setting("bird_gen__clan"),
-                    "bat": get_clan_setting("bird_gen__clan"),
+                    "bat": get_clan_setting("bat_gen__clan"),
                 }
 
             for i, value in species_settings.items():
@@ -811,17 +821,17 @@ class Pelt:
         return chosen_count
     
     @staticmethod
-    def init_wing_count(self, parents:tuple=()):
+    def init_wing_count(self, species, parents:tuple=()):
         if self.wing_count is None:
             if parents:
-                chosen_count = Pelt.wing_count_inheritance(self.species, parents)
+                chosen_count = Pelt.wing_count_inheritance(species, parents)
                 return chosen_count
             else:
-                if self.species == "earth cat":
+                if species == "earth cat":
                     chosen_count = 0
                 else:
                     chosen_count = choice(
-                random.choices([2, 1, 0], weights=[90, 2, 0], k = 1)
+                random.choices([2, 1, 0], weights=[100, 1, 0], k = 1)
             )
                 if chosen_count == 1:
                     print("One wing!")
@@ -829,6 +839,74 @@ class Pelt:
         else:
             return self.wing_count
 
+    def init_species_traits(self, species, parents:tuple=()):
+        if parents:
+            Pelt.species_traits_inheritance(self, species, parents)
+        else:
+            weights = (1, 100)
+            if species == "bat cat":
+                weights = (90, 1)
+                # if self.sub_species == "moth cat": weights = (100, 1)
+            self.mane = choice(
+            random.choices([True, False], weights=weights, k=1)
+            )
+                
+            if self.mane_marks is None:
+                # Gather weights depending on pelt group
+                #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+                if self.name in Pelt.tabbies:
+                    weight = [5, 30, 30, 30, 30, 0, 0]
+                elif self.name in Pelt.spotted:
+                    weight = [5, 30, 30, 30, 0, 30, 0]
+                elif self.name is 'Smoke':
+                    weight = [0, 30, 20, 20, 0, 0, 30]
+                elif self.name in Pelt.plain:
+                    weight = [30, 30, 20, 20, 0, 0, 10]
+                elif self.name in Pelt.exotic:
+                    weight = [10, 30, 30, 30, 0, 30, 0]
+                else:
+                    weight = [1, 1, 1, 1, 1, 1, 1]
+                self.mane_marks = choice(
+                random.choices(Pelt.mane_marks_list, weights=weight, k=1)
+                )
+    def species_traits_inheritance(self, species, parents:tuple=()):
+        if species == "bat cat":
+            mane_weights = [60, 1]
+            # if self.sub_species == "moth cat": weights = (100, 1)
+        else: 
+            mane_weights = [1, 60]
+        
+        for p in parents:
+            if p.pelt.mane:
+                add_weights = [50, 1]
+            else:
+                add_weights = [1, 50]
+            
+            for x in range(0, len(mane_weights)):
+                mane_weights[x] += add_weights[x]
+
+        self.mane = choice(
+        random.choices([True, False], weights=mane_weights, k=1)
+        )
+                
+        if self.mane_marks is None:
+            # Gather weights depending on pelt group
+            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
+            if self.name in Pelt.tabbies:
+                weight = [5, 30, 30, 30, 30, 0, 0]
+            elif self.name in Pelt.spotted:
+                weight = [5, 30, 30, 30, 0, 30, 0]
+            elif self.name is 'Smoke':
+                weight = [0, 30, 20, 20, 0, 0, 30]
+            elif self.name in Pelt.plain:
+                weight = [30, 30, 20, 20, 0, 0, 10]
+            elif self.name in Pelt.exotic:
+                weight = [10, 30, 30, 30, 0, 30, 0]
+            else:
+                weight = [1, 1, 1, 1, 1, 1, 1]
+            self.mane_marks = choice(
+            random.choices(Pelt.mane_marks_list, weights=weight, k=1)
+            )
             
     def init_extra_traits(self, parents:tuple=()):
         if parents:
@@ -902,7 +980,7 @@ class Pelt:
         self.fur = random.choice(Pelt.extra_traits_dict["fur"])
         self.scent = random.choice(Pelt.extra_traits_dict["scent"])
     
-    def check_and_convert(self, convert_dict, extra_traits):
+    def check_and_convert(self, convert_dict, extra_traits, species_traits):
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         
@@ -922,6 +1000,15 @@ class Pelt:
         if not extra_traits:
             print("Missing extra traits")
             Pelt.init_extra_traits(self)
+
+        if not species_traits:
+            mane = self.mane
+            print("Missing or incomplete species traits")
+            Pelt.init_species_traits(self, self.species)
+
+            # make sure the cat doesn't already have a mane to re-set it back
+            if mane:
+                self.mane = mane
 
         # First, convert from some old names that may be in white_patches. 
         if self.white_patches == 'POINTMARK':
@@ -962,26 +1049,6 @@ class Pelt:
                 weight = [1, 1, 1, 1, 1, 1, 1, 1]
             self.wing_marks = choice(
             random.choices(Pelt.bird_wing_marks, weights=weight, k=1)
-            )
-
-        # generate mane info
-        if not self.mane_marks:
-            # Gather weights depending on pelt group
-            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
-            if self.name in Pelt.tabbies:
-                weight = [5, 30, 30, 30, 30, 0, 0]
-            elif self.name in Pelt.spotted:
-                weight = [5, 30, 30, 30, 0, 30, 0]
-            elif self.name is 'Smoke':
-                weight = [0, 30, 20, 20, 0, 0, 30]
-            elif self.name in Pelt.plain:
-                weight = [30, 30, 20, 20, 0, 0, 10]
-            elif self.name in Pelt.exotic:
-                weight = [10, 30, 30, 30, 0, 30, 0]
-            else:
-                weight = [1, 1, 1, 1, 1, 1, 1]
-            self.mane_marks = choice(
-            random.choices(Pelt.mane_marks_list, weights=weight, k=1)
             )
         
         if self.tortiepattern and "tortie" in self.tortiepattern:
@@ -1082,12 +1149,29 @@ class Pelt:
 
         :return: None
         """
-        if not parents:
-            self.eye_colour = choice(Pelt.eye_colours)
+        if switch_get_value("cur_screen") == "make clan screen":
+            natural = game_setting_get("natural_colors")
         else:
-            self.eye_colour = choice(
-                [i.pelt.eye_colour for i in parents] + [choice(Pelt.eye_colours)]
-            )
+            natural = get_clan_setting("natural_colors_clan")
+
+        if natural:
+            if not parents:
+                self.eye_colour = choice(Pelt.natural_eye_colours)
+            else:
+                self.eye_colour = choice(
+                    [i.pelt.eye_colour for i in parents] + [choice(Pelt.natural_eye_colours)]
+                )
+        else:
+            if not parents:
+                self.eye_colour = choice(Pelt.eye_colours)
+                if random.randint(0, 10) > 3 and self.eye_colour in Pelt.multi_eyes:
+                    self.eye_colour = choice(Pelt.no_multi_eyes)
+                if self.eye_colour in Pelt.multi_eyes:
+                    print("Sparkle cat")
+            else:
+                self.eye_colour = choice(
+                    [i.pelt.eye_colour for i in parents] + [choice(Pelt.eye_colours)]
+                )
 
         # White patches must be initalized before eye color.
         num = constants.CONFIG["cat_generation"]["base_heterochromia"]
@@ -1108,7 +1192,14 @@ class Pelt:
             num = 1
 
         if not random.randint(0, num):
-            colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes]
+
+            if natural:
+                colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.red_eyes]
+            else:
+                if random.randint(0, 10) > 3:
+                    colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes]
+                else:
+                    colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes, Pelt.multi_eyes]
             for colour in colour_wheel[:]:
                 if self.eye_colour in colour:
                     colour_wheel.remove(
@@ -1126,7 +1217,6 @@ class Pelt:
         par_peltcolours = set()
         par_peltnames = set()
         par_wingmarks = set()
-        par_mane = []
         par_pelts = []
         par_white = []
         for p in parents:
@@ -1149,9 +1239,6 @@ class Pelt:
                 # Gather exact pelts, for direct inheritance.
                 par_pelts.append(p.pelt)
 
-                # Gather bat mane
-                par_mane.append(p.pelt.mane)
-
                 # Gather if they have white in their pelt.
                 par_white.append(p.pelt.white)
             else:
@@ -1164,7 +1251,6 @@ class Pelt:
                 par_peltcolours.add(None)
                 par_peltlength.add(None)
                 par_peltnames.add(None)
-                par_mane.append(True)
                 par_wingmarks.add("unknown")
 
         # If this list is empty, something went wrong.
@@ -1241,13 +1327,13 @@ class Pelt:
         else:
             torbie = random.getrandbits(tortie_chance_m) == 1
 
-        chosen_tortie_base = None
+        chosen_tortiebase = None
         if torbie:
             # If it is tortie, the chosen pelt above becomes the base pelt.
-            chosen_tortie_base = chosen_pelt
-            if chosen_tortie_base in ("TwoColour", "SingleColour"):
-                chosen_tortie_base = "Single"
-            chosen_tortie_base = chosen_tortie_base.lower()
+            chosen_tortiebase = chosen_pelt
+            if chosen_tortiebase.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
+                chosen_tortiebase = "Single"
+            chosen_tortiebase = chosen_tortiebase.lower()
             chosen_pelt = random.choice(Pelt.torties)
 
         # Determine Wing Markings
@@ -1255,13 +1341,13 @@ class Pelt:
 
         # Gather weights depending on pelt group
         if chosen_pelt in Pelt.torties:
-            if chosen_tortie_base in Pelt.tabbies:
+            if chosen_tortiebase in Pelt.tabbies:
                 add_w_weight = (20, 20, 20, 0, 0, 0, 0, 0)
-            elif chosen_tortie_base in Pelt.spotted:
+            elif chosen_tortiebase in Pelt.spotted:
                 add_w_weight = (5, 20, 0, 0, 0, 0, 20, 0)
-            elif chosen_tortie_base in Pelt.plain:
+            elif chosen_tortiebase in Pelt.plain:
                 add_w_weight = (0, 5, 0, 0, 20, 20, 0, 30)
-            elif chosen_tortie_base in Pelt.exotic:
+            elif chosen_tortiebase in Pelt.exotic:
                 add_w_weight = (20, 0, 30, 10, 0, 0, 20, 0)
             else:
                 add_w_weight = (1, 1, 1, 1, 1, 1, 1, 1)
@@ -1310,67 +1396,29 @@ class Pelt:
             random.choices(Pelt.bird_wing_marks, weights=weights, k=1)
         )
 
-        # Gather weights depending on pelt group
-        if chosen_pelt in ["Tortie", "Calico"]:
-            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
-            if chosen_tortie_base in Pelt.tabbies:
-                weight = [5, 30, 30, 30, 30, 0, 0]
-            elif chosen_tortie_base in Pelt.spotted:
-                weight = [5, 30, 30, 30, 0, 30, 0]
-            elif chosen_tortie_base is 'Smoke':
-                weight = [0, 30, 20, 20, 0, 0, 30]
-            elif chosen_tortie_base in Pelt.plain:
-                weight = [30, 30, 20, 20, 0, 0, 10]
-            elif chosen_tortie_base in Pelt.exotic:
-                weight = [10, 30, 30, 30, 0, 30, 0]
-            else:
-                weight = [1, 1, 1, 1, 1, 1, 1]
-        else:
-            #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
-            if chosen_pelt in Pelt.tabbies:
-                weight = [5, 30, 30, 30, 30, 0, 0]
-            elif chosen_pelt in Pelt.spotted:
-                weight = [5, 30, 30, 30, 0, 30, 0]
-            elif chosen_pelt is 'Smoke':
-                weight = [0, 30, 20, 20, 0, 0, 30]
-            elif chosen_pelt in Pelt.plain:
-                weight = [30, 30, 20, 20, 0, 0, 10]
-            elif chosen_pelt in Pelt.exotic:
-                weight = [10, 30, 30, 30, 0, 30, 0]
-            else:
-                weight = [1, 1, 1, 1, 1, 1, 1]
-
-        # select mane markings
-        chosen_mane_marks = choice(
-        random.choices(Pelt.mane_marks_list, weights=weight, k=1)
-        )
-
-        # determine mane
-        chosen_mane = random.choice(par_mane)
-
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
         # Weights for each colour group. It goes: (ginger_colours, black_colours, white_colours, brown_colours)
-        if chosen_pelt in ("TwoColour", "SingleColour"):
+        if chosen_pelt.upper() in ("TWOCOLOUR", "SINGLECOLOUR", "SINGLE"):
             pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
         elif chosen_pelt in ("Calico", "Tortie"):
-            if chosen_tortie_base in ("TwoColour", "SingleColour"):
+            if chosen_tortiebase.upper() in ("TWOCOLOUR", "SINGLECOLOUR", "SINGLE"):
                 pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
             else:
-                pattern = sprites.pelt_colors["pelt_list"][chosen_tortie_base.upper()]["colors"]
+                pattern = sprites.pelt_colors["pelt_list"][chosen_tortiebase.upper()]["colors"]
         else:
             pattern = sprites.pelt_colors["pelt_list"][chosen_pelt.upper()]["colors"]
 
         weights = [0, 0, 0, 0]
         for p_ in par_peltcolours:
-            if p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["ginger_colours"]:
+            if p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["ginger_colors"]:
                 add_weight = (40, 0, 0, 10)
-            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["black_colours"]:
+            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["black_colors"]:
                 add_weight = (0, 40, 2, 5)
-            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["white_colours"]:
+            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["white_colors"]:
                 add_weight = (0, 5, 40, 0)
-            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["brown_colours"]:
+            elif p_ in sprites.pelt_colors["color_list"][pattern]["categories"]["brown_colors"]:
                 add_weight = (10, 5, 0, 35)
             elif p_ is None:
                 add_weight = (40, 40, 40, 40)
@@ -1435,7 +1483,7 @@ class Pelt:
         chosen_white = random.randint(1, 100) <= chance
 
         # Adjustments to pelt chosen based on if the pelt has white in it or not.
-        if chosen_pelt in ("TwoColour", "SingleColour"):
+        if chosen_pelt.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
             if chosen_white:
                 chosen_pelt = "TwoColour"
             else:
@@ -1447,12 +1495,10 @@ class Pelt:
         # SET THE PELT
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
-        self.mane_marks = chosen_mane_marks
-        self.mane = chosen_mane
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = (
-            chosen_tortie_base  # This will be none if the cat isn't a tortie.
+            chosen_tortiebase  # This will be none if the cat isn't a tortie.
         )
         return chosen_white
 
@@ -1475,39 +1521,39 @@ class Pelt:
         else:
             torbie = random.getrandbits(tortie_chance_m) == 1
 
-        chosen_tortie_base = None
+        chosen_tortiebase = None
         if torbie:
             # If it is tortie, the chosen pelt above becomes the base pelt.
-            chosen_tortie_base = chosen_pelt
-            if chosen_tortie_base in ("TwoColour", "SingleColour"):
-                chosen_tortie_base = "SingleColour"
-            chosen_tortie_base = chosen_tortie_base.lower()
+            chosen_tortiebase = chosen_pelt
+            if chosen_tortiebase.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
+                chosen_tortiebase = "SingleColour"
+            chosen_tortiebase = chosen_tortiebase.lower()
             chosen_pelt = random.choice(Pelt.torties)
         
         # Gather weights depending on pelt group
         if chosen_pelt in ["Tortie", "Calico"]:
-            if chosen_tortie_base in Pelt.tabbies:
+            if chosen_tortiebase in Pelt.tabbies:
                 wm_weight = [20, 20, 20, 10, 10, 10, 10, 10]
-            elif chosen_tortie_base in Pelt.spotted:
+            elif chosen_tortiebase in Pelt.spotted:
                 wm_weight = [30, 20, 10, 10, 10, 10, 30, 10]
-            elif chosen_tortie_base in Pelt.plain:
+            elif chosen_tortiebase in Pelt.plain:
                 wm_weight = [10, 15, 10, 10, 20, 20, 10, 30]
-            elif chosen_tortie_base in Pelt.exotic:
+            elif chosen_tortiebase in Pelt.exotic:
                 wm_weight = [30, 10, 20, 15, 10, 10, 30, 10]
             else:
                 wm_weight = [1, 1, 1, 1, 1, 1, 1, 1]
             
             # Gather weights depending on pelt group
             #'NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE'
-            if chosen_tortie_base in Pelt.tabbies:
+            if chosen_tortiebase in Pelt.tabbies:
                 weight = [5, 30, 30, 30, 30, 0, 0]
-            elif chosen_tortie_base in Pelt.spotted:
+            elif chosen_tortiebase in Pelt.spotted:
                 weight = [5, 30, 30, 30, 0, 30, 0]
-            elif chosen_tortie_base is 'Smoke':
+            elif chosen_tortiebase is 'Smoke':
                 weight = [0, 30, 20, 20, 0, 0, 30]
-            elif chosen_tortie_base in Pelt.plain:
+            elif chosen_tortiebase in Pelt.plain:
                 weight = [30, 30, 20, 20, 0, 0, 10]
-            elif chosen_tortie_base in Pelt.exotic:
+            elif chosen_tortiebase in Pelt.exotic:
                 weight = [10, 30, 30, 30, 0, 30, 0]
             else:
                 weight = [1, 1, 1, 1, 1, 1, 1]
@@ -1543,27 +1589,17 @@ class Pelt:
         random.choices(Pelt.bird_wing_marks, weights=wm_weight, k=1)
         )
 
-        chosen_mane_marks = choice(
-        random.choices(Pelt.mane_marks_list, weights=weight, k=1)
-        )
-
-        mane_sel = random.randint(1, 100)
-        if mane_sel < 85:
-            chosen_mane = True
-        else:
-            chosen_mane = False
-
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT COLOUR
         # ------------------------------------------------------------------------------------------------------------#
         
-        if chosen_pelt in ("TwoColour", "SingleColour"):
+        if chosen_pelt.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
             pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
         elif chosen_pelt in ("Calico", "Tortie"):
-            if chosen_tortie_base in ("TwoColour", "SingleColour", "single"):
+            if chosen_tortiebase in ("TwoColour", "SingleColour", "single"):
                 pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
             else:
-                pattern = sprites.pelt_colors["pelt_list"][chosen_tortie_base.upper()]["colors"]
+                pattern = sprites.pelt_colors["pelt_list"][chosen_tortiebase.upper()]["colors"]
         else:
             pattern = sprites.pelt_colors["pelt_list"][chosen_pelt.upper()]["colors"]
 
@@ -1575,7 +1611,6 @@ class Pelt:
             random.choices(
                 pelt_choices, k=1)[0]
                                    )
-        print(chosen_pelt_color)
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT LENGTH
@@ -1590,7 +1625,7 @@ class Pelt:
         chosen_white = random.randint(1, 100) <= 40
 
         # Adjustments to pelt chosen based on if the pelt has white in it or not.
-        if chosen_pelt in ("TwoColour", "SingleColour"):
+        if chosen_pelt.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
             if chosen_white:
                 chosen_pelt = "TwoColour"
             else:
@@ -1601,12 +1636,10 @@ class Pelt:
 
         self.name = chosen_pelt
         self.wing_marks = chosen_wing_marks
-        self.mane_marks = chosen_mane_marks
-        self.mane = chosen_mane
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
         self.tortiebase = (
-            chosen_tortie_base  # This will be none if the cat isn't a tortie.
+            chosen_tortiebase  # This will be none if the cat isn't a tortie.
         )
         return chosen_white
 
@@ -1686,11 +1719,10 @@ class Pelt:
     def init_pattern(self):
         if self.name in Pelt.torties:
             if not self.tortiebase:
-                self.tortiebase = choice(Pelt.tortie_patterns)
+                self.tortiebase = choice(Pelt.tortiepatterns)
             if not self.pattern:
-                self.pattern = choice(Pelt.tortiepatterns)
+                self.pattern = choice(Pelt.tortiemasks)
 
-            print(f"Tortie color: {self.colour}")
             wildcard_chance = constants.CONFIG["cat_generation"]["wildcard_tortie"]
             if self.colour:
                 # The "not wildcard_chance" allows users to set wildcard_tortie to 0
@@ -1701,8 +1733,7 @@ class Pelt:
                     print("Wildcard tortie!")
 
                     # Allow any pattern:
-                    self.tortiepattern = choice(random.choices(Pelt.tortie_patterns, k=1)[0])
-                    print(f"Tortie: {self.tortiepattern}")
+                    self.tortiepattern = choice(random.choices(Pelt.tortiepatterns, k=1)[0])
                     # Allow any colors that aren't the base color.
                     if self.tortiepattern in ("TwoColour", "SingleColour", "single"):
                         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
@@ -1715,7 +1746,6 @@ class Pelt:
                     if self.colour in possible_colors:
                         possible_colors.remove(self.colour)
                     self.tortiecolour = choice(random.choices(possible_colors, k=1)[0])
-                    print(f"what: {self.tortiecolour}")
 
                 else:
                     
@@ -1728,9 +1758,8 @@ class Pelt:
                         self.tortiepattern = random.choices(
                             [self.tortiebase, "SingleColour"], weights=[97, 3], k=1
                         )[0]
-
                     # get pattern
-                    if self.tortiepattern in ("TwoColour", "SingleColour", "single"):
+                    if self.tortiepattern.upper() in ("TwoColour", "SingleColour", "single"):
                         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
                     else:
                         pattern = sprites.pelt_colors["pelt_list"][self.tortiepattern.upper()]["colors"]
@@ -1998,18 +2027,36 @@ class Pelt:
 
         # PELT TINT
         # Basic tints as possible for all colors.
-        base_tints = sprites.cat_tints["possible_tints"]["basic"]
-        print(f"tint: {self.colour}")
-        if self.colour in sprites.cat_tints["colour_groups"]:
-            color_group = sprites.cat_tints["colour_groups"].get(self.colour, "warm")
-            color_tints = sprites.cat_tints["possible_tints"][color_group]
+        if switch_get_value("cur_screen") == "make clan screen":
+            natural = game_setting_get("natural_colors")
         else:
-            color_tints = []
+            natural = get_clan_setting("natural_colors_clan")
+        if natural:
+            base_tints = sprites.cat_tints["natural_possible_tints"]["basic"]
+            if self.colour in sprites.cat_tints["colour_groups"]:
+                color_group = sprites.cat_tints["colour_groups"].get(self.colour, "warm")
+                color_tints = sprites.cat_tints["natural_possible_tints"][color_group]
+            else:
+                color_tints = []
 
-        if base_tints or color_tints:
-            self.tint = choice(base_tints + color_tints)
+            if base_tints or color_tints:
+                self.tint = choice(base_tints + color_tints)
+            else:
+                self.tint = "none"
         else:
-            self.tint = "none"
+            base_tints = sprites.cat_tints["possible_tints"]["basic"]
+            if self.colour in sprites.cat_tints["colour_groups"]:
+                color_group = sprites.cat_tints["colour_groups"].get(self.colour, "warm")
+                color_tints = sprites.cat_tints["possible_tints"][color_group]
+            else:
+                color_tints = []
+
+            if base_tints or color_tints:
+                self.tint = choice(base_tints + color_tints)
+            else:
+                self.tint = "none"
+
+            
 
         # WHITE PATCHES TINT
         if self.white_patches or self.points:
@@ -2026,9 +2073,9 @@ class Pelt:
             if base_tints or color_tints:
                 self.white_patches_tint = choice(base_tints + color_tints)
             else:
-                self.white_patches_tint = "none"
+                self.white_patches_tint = None
         else:
-            self.white_patches_tint = "none"
+            self.white_patches_tint = None
 
     @property
     def white(self):
@@ -2146,7 +2193,7 @@ def _describe_pattern(cat, short=False):
 def _describe_torties(cat, color_name, short=False) -> [str, str]:
     # Calicos and Torties need their own desciptions
     # get pattern
-    if cat.pelt.tortiepattern in ("TwoColour", "SingleColour"):
+    if cat.pelt.tortiepattern.upper() in ("TWOCOLOUR", "SINGLECOLOUR"):
         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
     else:
         pattern = sprites.pelt_colors["pelt_list"][cat.pelt.tortiepattern.upper()]["colors"]

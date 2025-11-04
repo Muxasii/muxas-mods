@@ -68,5 +68,10 @@
         "m_c died of feathercough.",
         "m_c was killed by feathercough.",
         "Feathercough killed m_c.",
-        "Feathercough has taken m_c's life."]
+        "Feathercough has taken m_c's life."
+    ],
+    "tick fever": [
+        "m_c died of tick fever.",
+        "m_c couldn't pull through, and the Clan is harshly reminded how important it is to get every tick."
+    ]
 }

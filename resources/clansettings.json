@@ -40,6 +40,11 @@
             "This will override the game settings.",
             true
         ],
+        "natural_colors_clan": [
+	"Only natural colors",
+	"This will override the game settings. Enable this if you would rather have natural, more vanilla ClanGen-like colors.",
+	false
+        ],
         "disasters": [
             "Allow mass extinction events",
             "This may result in up to 1/3rd of your Clan dying in one moon.",

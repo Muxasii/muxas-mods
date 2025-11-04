@@ -153,7 +153,7 @@ def generate_sprite(
                     "overfur": cat_layers_tortie["markings"]["overfur"] if "markings" in cat_layers_tortie else False,
                     "underfur": cat_layers_tortie["markings"]["underfur"] if "markings" in cat_layers_tortie else False
                 }
-            print(wing_markings)
+            #print(wing_markings)
         
 
         #-----------------
@@ -214,7 +214,7 @@ def generate_sprite(
         # create bat fluff
         #-----------------
 
-        if cat.pelt.mane and cat.species == "bat cat":
+        if cat.pelt.mane:
             bat_mane = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
             bat_mane.blit(create_trait(dead, df, cat.pelt, cat_sprite, cat_colors, "bat_mane", sprites.extra_traits["bat_mane"], cat_traits, True))
 
@@ -308,6 +308,8 @@ def create_base(cat_sprite, colors, markings, cat, tortie_colors=None, tortie_ma
     base_tint.fill(colors["base"])
     finished_sprite.blit(base_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
     for layer_name, layer in markings.items():
+        if layer_name.lower() == "none":
+            return 
         finished_sprite.blit(create_layer(cat_sprite, layer_name, layer, colors))
 
     if (cat.name in ["Tortie", "Calico"] and not tortie):
@@ -420,7 +422,7 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
     return finished_sprite
 
 def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=None, prefix="", disable_suffix=False):
-    print(f"Creating layer: {layer_name} - {layer}")
+    #print(f"Creating layer: {layer_name} - {layer}")
     finished_layer = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
@@ -477,7 +479,7 @@ def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
     for layer_name, layer in trait_info["layers"].items():
-        if layer_name == "markings" and cat_traits[trait_name] == "NONE":
+        if layer_name == "markings" and cat_traits[trait_name].upper() == "NONE":
             continue
         
         finished_sprite.blit(create_layer(
@@ -541,7 +543,7 @@ def create_wings(cat_sprite, colors, markings, cat, species, layer, wing_marks, 
     finished_sprite.blit(marking_sprites)
     
     if wing_marks:
-        print(f"Creating layer: {wing_marks}")
+        #print(f"Creating layer: {wing_marks}")
         finished_sprite.blit(create_layer(cat_sprite, "markings", wing_marks, colors, prefix=species))
 
     if (cat.name in ["Tortie", "Calico"] and not tortie):
@@ -639,13 +641,20 @@ def create_eyes(cat_sprite, colors, num):
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
     eye_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_base.fill(colors[0])
+    eye_base.fill(colors["base"])
 
     eye_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_s.fill(colors[1])
+    eye_s.fill(colors["shade"])
 
     eye_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_p.fill(colors[2])
+    eye_p.fill(colors["pupil"])
+
+    if "shine" in colors:
+        eye_sh = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        eye_sh.fill(colors["shine"])
+    else:
+        eye_sh = False
+
 
     # base
     eyes = sprites.sprites[f'eyes{num}' + 'base' + cat_sprite].copy()
@@ -666,6 +675,14 @@ def create_eyes(cat_sprite, colors, num):
     # combine
     eyes.blit(eye_shade, (0, 0))
     eyes.blit(eye_pupil, (0, 0))
+
+    # draw shine
+    if eye_sh:
+        eye_shine = sprites.sprites[f'eyes{num}' + 'shine' + cat_sprite].copy()
+        eye_shine.blit(eye_sh, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        eye_shine.blit(sprites.sprites[f'eyes{num}' + 'shine' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        
+        eyes.blit(eye_shine, (0, 0))
 
     finished_sprite.blit(eyes, (0, 0))
 
