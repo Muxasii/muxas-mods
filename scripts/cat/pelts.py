@@ -77,6 +77,8 @@ class Pelt:
     green_eyes = sprites.eye_colors["color_lists"]["green_eyes"]
     purple_eyes = sprites.eye_colors["color_lists"]["purple_eyes"]
     red_eyes = sprites.eye_colors["color_lists"]["red_eyes"]
+    multi_eyes = sprites.eye_colors["color_lists"]["multi_eyes"]
+    no_multi_eyes = yellow_eyes + blue_eyes + green_eyes + purple_eyes + red_eyes
 
     natural_eye_colours = sprites.eye_colors["natural_colors"]["eye_colors"]
     natural_yellow_eyes = sprites.eye_colors["natural_colors"]["yellow_eyes"]
@@ -357,6 +359,7 @@ class Pelt:
     spotted = sprites.pelt_colors["markings_list"]["spotted"]
     plain = sprites.pelt_colors["markings_list"]["plain"]
     exotic = sprites.pelt_colors["markings_list"]["exotic"]
+    all_markings = tabbies + spotted + plain + exotic
     torties = ["Tortie", "Calico"]
     # bird = ["Owl", "Corvid", "Fowl", "Cardinal", "Falcon"]
     # birdexotic = ["Parrot", "Paradise", "Mythical"]
@@ -828,7 +831,7 @@ class Pelt:
                     chosen_count = 0
                 else:
                     chosen_count = choice(
-                random.choices([2, 1, 0], weights=[90, 2, 0], k = 1)
+                random.choices([2, 1, 0], weights=[100, 1, 0], k = 1)
             )
                 if chosen_count == 1:
                     print("One wing!")
@@ -1161,6 +1164,10 @@ class Pelt:
         else:
             if not parents:
                 self.eye_colour = choice(Pelt.eye_colours)
+                if random.randint(0, 10) > 3 and self.eye_colour in Pelt.multi_eyes:
+                    self.eye_colour = choice(Pelt.no_multi_eyes)
+                if self.eye_colour in Pelt.multi_eyes:
+                    print("Sparkle cat")
             else:
                 self.eye_colour = choice(
                     [i.pelt.eye_colour for i in parents] + [choice(Pelt.eye_colours)]
@@ -1189,7 +1196,10 @@ class Pelt:
             if natural:
                 colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.red_eyes]
             else:
-                colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes]
+                if random.randint(0, 10) > 3:
+                    colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes]
+                else:
+                    colour_wheel = [Pelt.yellow_eyes, Pelt.blue_eyes, Pelt.green_eyes, Pelt.purple_eyes, Pelt.red_eyes, Pelt.multi_eyes]
             for colour in colour_wheel[:]:
                 if self.eye_colour in colour:
                     colour_wheel.remove(
@@ -1601,7 +1611,6 @@ class Pelt:
             random.choices(
                 pelt_choices, k=1)[0]
                                    )
-        print(chosen_pelt_color)
 
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT LENGTH
@@ -1714,7 +1723,6 @@ class Pelt:
             if not self.pattern:
                 self.pattern = choice(Pelt.tortiemasks)
 
-            print(f"Tortie color: {self.colour}, Pattern: {self.pattern}\n{Pelt.tortiepatterns}")
             wildcard_chance = constants.CONFIG["cat_generation"]["wildcard_tortie"]
             if self.colour:
                 # The "not wildcard_chance" allows users to set wildcard_tortie to 0
@@ -1726,7 +1734,6 @@ class Pelt:
 
                     # Allow any pattern:
                     self.tortiepattern = choice(random.choices(Pelt.tortiepatterns, k=1)[0])
-                    print(f"Tortie: {self.tortiepattern}")
                     # Allow any colors that aren't the base color.
                     if self.tortiepattern in ("TwoColour", "SingleColour", "single"):
                         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
@@ -1739,7 +1746,6 @@ class Pelt:
                     if self.colour in possible_colors:
                         possible_colors.remove(self.colour)
                     self.tortiecolour = choice(random.choices(possible_colors, k=1)[0])
-                    print(f"what: {self.tortiecolour}")
 
                 else:
                     
@@ -1752,7 +1758,6 @@ class Pelt:
                         self.tortiepattern = random.choices(
                             [self.tortiebase, "SingleColour"], weights=[97, 3], k=1
                         )[0]
-                    print(self.tortiepattern)
                     # get pattern
                     if self.tortiepattern.upper() in ("TwoColour", "SingleColour", "single"):
                         pattern = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]

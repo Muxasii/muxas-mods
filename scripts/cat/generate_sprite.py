@@ -641,13 +641,20 @@ def create_eyes(cat_sprite, colors, num):
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
     eye_base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_base.fill(colors[0])
+    eye_base.fill(colors["base"])
 
     eye_s = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_s.fill(colors[1])
+    eye_s.fill(colors["shade"])
 
     eye_p = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-    eye_p.fill(colors[2])
+    eye_p.fill(colors["pupil"])
+
+    if "shine" in colors:
+        eye_sh = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+        eye_sh.fill(colors["shine"])
+    else:
+        eye_sh = False
+
 
     # base
     eyes = sprites.sprites[f'eyes{num}' + 'base' + cat_sprite].copy()
@@ -668,6 +675,14 @@ def create_eyes(cat_sprite, colors, num):
     # combine
     eyes.blit(eye_shade, (0, 0))
     eyes.blit(eye_pupil, (0, 0))
+
+    # draw shine
+    if eye_sh:
+        eye_shine = sprites.sprites[f'eyes{num}' + 'shine' + cat_sprite].copy()
+        eye_shine.blit(eye_sh, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        eye_shine.blit(sprites.sprites[f'eyes{num}' + 'shine' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        
+        eyes.blit(eye_shine, (0, 0))
 
     finished_sprite.blit(eyes, (0, 0))
 

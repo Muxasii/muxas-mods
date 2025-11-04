@@ -231,7 +231,7 @@ class Sprites:
         
         # Eyes
         for a, i in enumerate(
-                ['base', 'shade', 'pupil']):
+                ['base', 'shade', 'pupil', 'shine']):
             self.make_group('eyesnew', (a, 0), f'eyes1{i}')
             self.make_group('eyesnew', (a, 1), f'eyes2{i}')
 

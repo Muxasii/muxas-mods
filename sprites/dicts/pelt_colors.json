@@ -20,10 +20,10 @@
         "GOLDEN-BROWN":{"base":"#A86D59", "underfur":"#D2A686", "overfur":"#836B5B", "markings_overfur":"#432E2C", "markings":"#432E2C", "markings_underfur":"#7B5248", "markings_inside":"#A86F59"},
         "DARKBROWN":{"base":"#754E3C", "underfur":"#B09479", "overfur":"#6C625D", "markings_overfur":"#130B0A", "markings":"#130B0A", "markings_underfur":"#3B2420", "markings_inside":"#5F483C"},
         "CHOCOLATE":{"base":"#704642", "underfur":"#855953", "overfur":"#484145", "markings_overfur":"#1E1719", "markings":"#1E1719", "markings_underfur":"#5A3134", "markings_inside":"#705153"},
-        "LAVENDER":{"base":"#C0B8C8", "underfur":"#F7F6FA", "overfur":"#B2AAB7", "markings_overfur":"#92848E", "markings":"#92848E", "markings_underfur":"#ADA1B2", "markings_inside":"#CDBFC6"},
+        "LAVENDER":{"base":"#C0B8C8", "underfur":"#E4D8D1", "overfur":"#9290A3", "markings_overfur":"#6F6884", "markings":"#6F6884", "markings_underfur":"#ADA1B2", "markings_inside":"#9B96A9"},
         "ASH":{"base":"#272120", "underfur":"#6C5240", "overfur":"#090707", "markings_overfur":"#030202", "markings":"#030202", "markings_underfur":"#231A19", "markings_inside":"#3D312E"},
         "PALECREAM":{"base":"#FFFBF0", "underfur":"#FFFFFF", "overfur":"#FFEED8", "markings_overfur":"#F7D1B5", "markings":"#F7D1B5", "markings_underfur":"#FFF5E6", "markings_inside":"#FFFCF3"},
-        "DARKLAVENDER":{"base":"#837487", "underfur":"#8B7D8E", "overfur":"#5B4F6C", "markings_overfur":"#483E5D", "markings":"#483E5D", "markings_underfur":"#766B83", "markings_inside":"#978C92"},
+        "DARKLAVENDER":{"base":"#837487", "underfur":"#9F8996", "overfur":"#554A6E", "markings_overfur":"#483E5D", "markings":"#483E5D", "markings_underfur":"#645B77", "markings_inside":"#776980"},
         "BEIGE":{"base":"#DDD7D0", "underfur":"#F3EDE8", "overfur":"#D6CAC6", "markings_overfur":"#A29591", "markings":"#A29591", "markings_underfur":"#B3A59D", "markings_inside":"#C3B8B1"},
         "DUST":{"base":"#BCAF9F", "underfur":"#CDC1B7", "overfur":"#9C8F86", "markings_overfur":"#665651", "markings":"#665651", "markings_underfur":"#7D6965", "markings_inside":"#A1918C"},
         "SUNSET":{"base":"#E5A774", "underfur":"#ECB779", "overfur":"#E99063", "markings_overfur":"#B4513A", "markings":"#B4513A", "markings_underfur":"#D27958", "markings_inside":"#C86763"},
@@ -53,10 +53,10 @@
         "GOLDEN-BROWN":{"base":"#A86D59","underfur":"#D2A686","overfur":"#836B5B","markings_overfur":"#432E2C","markings":"#432E2C","markings_underfur":"#7B5248","markings_inside":"#A86F59"},
         "DARKBROWN":{"base":"#754E3C","underfur":"#B09479","overfur":"#6C625D","markings_overfur":"#130B0A","markings":"#130B0A","markings_underfur":"#3B2420","markings_inside":"#5F483C"},
         "CHOCOLATE":{"base":"#704642","underfur":"#855953","overfur":"#484145","markings_overfur":"#1E1719","markings":"#1E1719","markings_underfur":"#5A3134","markings_inside":"#705153"},
-        "LAVENDER":{"base":"#C0B8C8","underfur":"#F7F6FA","overfur":"#B2AAB7","markings_overfur":"#92848E","markings":"#92848E","markings_underfur":"#ADA1B2","markings_inside":"#CDBFC6"},
+        "LAVENDER":{"base":"#C0B8C8", "underfur":"#E4D8D6", "overfur":"#9290A3", "markings_overfur":"#6F6884", "markings":"#6F6884", "markings_underfur":"#ADA1B2", "markings_inside":"#9B96A9"},
         "ASH":{"base":"#272120","underfur":"#6C5240","overfur":"#090707","markings_overfur":"#030202","markings":"#030202","markings_underfur":"#231A19","markings_inside":"#3D312E"},
         "PALECREAM":{"base":"#FFFBF0","underfur":"#FFFFFF","overfur":"#FFEED8","markings_overfur":"#F7D1B5","markings":"#F7D1B5","markings_underfur":"#FFF5E6","markings_inside":"#FFFCF3"},
-        "DARKLAVENDER":{"base":"#837487","underfur":"#8B7D8E","overfur":"#5B4F6C","markings_overfur":"#483E5D","markings":"#483E5D","markings_underfur":"#766B83","markings_inside":"#978C92"},
+        "DARKLAVENDER":{"base":"#837487", "underfur":"#9F8996", "overfur":"#554A6E", "markings_overfur":"#483E5D", "markings":"#483E5D", "markings_underfur":"#645B77", "markings_inside":"#776980"},
         "BEIGE":{"base":"#DDD7D0","underfur":"#F3EDE8","overfur":"#D6CAC6","markings_overfur":"#A29591","markings":"#A29591","markings_underfur":"#B3A59D","markings_inside":"#C3B8B1"},
         "DUST":{"base":"#BCAF9F","underfur":"#CDC1B7","overfur":"#9C8F86","markings_overfur":"#665651","markings":"#665651","markings_underfur":"#7D6965","markings_inside":"#A1918C"},
         "SUNSET":{"base":"#E5A774","underfur":"#ECB779","overfur":"#E99063","markings_overfur":"#B4513A","markings":"#B4513A","markings_underfur":"#D27958","markings_inside":"#C86763"},
@@ -86,10 +86,10 @@
         "GOLDEN-BROWN":{"base":"#a26855","underfur":"#c59577","overfur":"#6c4f45","markings_overfur":"#483230","markings":"#483230","markings_underfur":"#483230","markings_inside":"#483230"},
         "DARKBROWN":{"base":"#745e55","underfur":"#9a8270","overfur":"#745e55","markings_overfur":"#2c201c","markings":"#2c201c","markings_underfur":"#2c201c","markings_inside":"#2c201c"},
         "CHOCOLATE":{"base":"#654241","underfur":"#875b54","overfur":"#4e3e42","markings_overfur":"#352426","markings":"#352426","markings_underfur":"#352426","markings_inside":"#352426"},
-        "LAVENDER":{"base":"#c3bbc7","underfur":"#dcd7df","overfur":"#aea4b2","markings_overfur":"#65617b","markings":"#65617b","markings_underfur":"#65617b","markings_inside":"#65617b"},
+        "LAVENDER":{"base":"#CFC8D1","underfur":"#DADCE0","overfur":"#aea4b2","markings_overfur":"#65617b","markings":"#65617b","markings_underfur":"#65617b","markings_inside":"#65617b"},
         "ASH":{"base":"#32261e","underfur":"#574233","overfur":"#201815","markings_overfur":"#090706","markings":"#090706","markings_underfur":"#090706","markings_inside":"#090706"},
         "PALECREAM":{"base":"#fae7d0","underfur":"#fcf6ef","overfur":"#faddbb","markings_overfur":"#f3ceab","markings":"#f3ceab","markings_underfur":"#f3ceab","markings_inside":"#f3ceab"},
-        "DARKLAVENDER":{"base":"#897b8b","underfur":"#aa979d","overfur":"#665a72","markings_overfur":"#4d4260","markings":"#4d4260","markings_underfur":"#4d4260","markings_inside":"#4d4260"},
+        "DARKLAVENDER":{"base":"#ADA5B1","underfur":"#B4AFBF","overfur":"#665a72","markings_overfur":"#4d4260","markings":"#4d4260","markings_underfur":"#4d4260","markings_inside":"#4d4260"},
         "BEIGE":{"base":"#ded6d2","underfur":"#eee7e1","overfur":"#d6ceca","markings_overfur":"#a99a93","markings":"#a99a93","markings_underfur":"#a99a93","markings_inside":"#a99a93"},
         "DUST":{"base":"#b0a295","underfur":"#cdc1b7","overfur":"#9d8c7d","markings_overfur":"#4c403b","markings":"#4c403b","markings_underfur":"#4c403b","markings_inside":"#4c403b"},
         "SUNSET":{"base":"#dc9564","underfur":"#f1c787","overfur":"#d37854","markings_overfur":"#ad5a46","markings":"#ad5a46","markings_underfur":"#ad5a46","markings_inside":"#ad5a46"},
@@ -119,10 +119,10 @@
         "GOLDEN-BROWN":{"base":"#A76B57","underfur":"#D2A685","overfur":"#886C5D","markings":"#473130","markings_underfur":"#473130","markings_overfur":"#795047","markings_inside":"#A86F59"},
         "DARKBROWN":{"base":"#7A5948","underfur":"#927C6A","overfur":"#6B5C54","markings":"#311910","markings_underfur":"#311910","markings_overfur":"#311910","markings_inside":"#5F483C"},
         "CHOCOLATE":{"base":"#6E4642","underfur":"#875B54","overfur":"#4A3F46","markings":"#281E1F","markings_underfur":"#281E1F","markings_overfur":"#513133","markings_inside":"#705153"},
-        "LAVENDER":{"base":"#C8C2CD","underfur":"#F7F6FA","overfur":"#BEB5C8","markings":"#6C5A6A","markings_underfur":"#6C5A6A","markings_overfur":"#A798AE","markings_inside":"#CDBFC6"},
+        "LAVENDER":{"base":"#C8C2CD","underfur":"#F7F6FA","overfur":"#BEB5C8","markings":"#635A6A","markings_underfur":"#635A6A","markings_overfur":"#5A526A","markings_inside":"#CDBFC6"},
         "ASH":{"base":"#352D2C","underfur":"#8E7156","overfur":"#090707","markings":"#030202","markings_underfur":"#030202","markings_overfur":"#231A1A","markings_inside":"#3D312E"},
         "PALECREAM":{"base":"#FFFBF0","underfur":"#FFFFFF","overfur":"#FFEED8","markings":"#EDB690","markings_underfur":"#EDB690","markings_overfur":"#FFDFB9","markings_inside":"#FFFCF3"},
-        "DARKLAVENDER":{"base":"#837487","underfur":"#767180","overfur":"#6F6576","markings":"#483E5D","markings_underfur":"#483E5D","markings_overfur":"#504B5E","markings_inside":"#978C92"},
+        "DARKLAVENDER":{"base":"#767180","underfur":"#837487","overfur":"#6F6576","markings":"#483E5D","markings_underfur":"#483E5D","markings_overfur":"#504B5E","markings_inside":"#978C92"},
         "BEIGE":{"base":"#EADFD3","underfur":"#F3EDE8","overfur":"#D6CAC6","markings":"#95887E","markings_underfur":"#95887E","markings_overfur":"#9E9284","markings_inside":"#C3B8B1"},
         "DUST":{"base":"#BCAF9F","underfur":"#CDC1B7","overfur":"#9C8F86","markings":"#665651","markings_underfur":"#665651","markings_overfur":"#7D6965","markings_inside":"#A1918C"},
         "SUNSET":{"base":"#DA9E66","underfur":"#ECB779","overfur":"#DF835A","markings":"#B4513A","markings_underfur":"#B4513A","markings_overfur":"#C86758","markings_inside":"#C86763"},
@@ -152,10 +152,10 @@
         "GOLDEN-BROWN":{"base":"#A26655","underfur":"#DECBA5","overfur":"#896C5D","markings_overfur":"#281B17","markings":"#281B17","markings_underfur":"#7F5548","markings_inside":"#65443B","markings_inside_underfur":"#6B473D"},
         "DARKBROWN":{"base":"#685E57","underfur":"#EAE1C9","overfur":"#2F2A27","markings_overfur":"#110B0A","markings":"#110B0A","markings_underfur":"#3B2723","markings_inside":"#110B0A","markings_inside_underfur":"#3B2723"},
         "CHOCOLATE":{"base":"#774D48","underfur":"#C1A79D","overfur":"#473F46","markings_overfur":"#241A1C","markings":"#241A1C","markings_underfur":"#382021","markings_inside":"#523133","markings_inside_underfur":"#523133"},
-        "LAVENDER":{"base":"#E3DFE7","underfur":"#F9FBFF","overfur":"#C0B9C0","markings_overfur":"#6B5F7A","markings":"#6B5F7A","markings_underfur":"#8A829B","markings_inside":"#9D96AB","markings_inside_underfur":"#AE9FB2"},
+        "LAVENDER":{"base":"#EAE8F1","underfur":"#F6ECE7","overfur":"#D8D2EC","markings_overfur":"#6B5F7A","markings":"#6B5F7A","markings_underfur":"#8A829B","markings_inside":"#9D96AB","markings_inside_underfur":"#AE9FB2"},
         "ASH":{"base":"#392F2D","underfur":"#7D5A4C","overfur":"#110D0D","markings_overfur":"#030202","markings":"#030202","markings_underfur":"#231A19","markings_inside":"#060404","markings_inside_underfur":"#231A19"},
         "PALECREAM":{"base":"#FFFBF0","underfur":"#FFFFFF","overfur":"#FFF2E0","markings_overfur":"#F6D1B6","markings":"#F6D1B6","markings_underfur":"#F9DFCD","markings_inside":"#F9DCC8","markings_inside_underfur":"#FCEDE4"},
-        "DARKLAVENDER":{"base":"#998FA4","underfur":"#BDBBC3","overfur":"#5A5167","markings_overfur":"#4B3E5A","markings":"#4B3E5A","markings_underfur":"#837487","markings_inside":"#8E8093","markings_inside_underfur":"#A49CA7"},
+        "DARKLAVENDER":{"base":"#998FA4","underfur":"#BDABBB","overfur":"#585072","markings_overfur":"#3D3656","markings":"#483F5D","markings_underfur":"#635E7E","markings_inside":"#483F5D","markings_inside_underfur":"#635E7E"},
         "BEIGE":{"base":"#F5EDDF","underfur":"#FFF6EE","overfur":"#E7D8C8","markings_overfur":"#A29591","markings":"#A29591","markings_underfur":"#E0CBB8","markings_inside":"#B3A59D","markings_inside_underfur":"#C1AFA1"},
         "DUST":{"base":"#BCAF9F","underfur":"#CDC1B7","overfur":"#9C8F86","markings_overfur":"#665651","markings":"#665651","markings_underfur":"#7D6965","markings_inside":"#837162","markings_inside_underfur":"#A18C81"},
         "SUNSET":{"base":"#F6D899","underfur":"#FFFADB","overfur":"#FBC878","markings_overfur":"#E87154","markings":"#E87154","markings_underfur":"#FFB379","markings_inside":"#F29E46","markings_inside_underfur":"#F7B14C"},
@@ -510,7 +510,7 @@
                 },
                 "markings": {
                     "sprite_name": "markingsBENGAL",
-                    "overfur": false,
+                    "overfur": "overfurBENGAL",
                     "underfur": "underfurBENGAL"
                 }
             }
@@ -536,7 +536,7 @@
                 },
                 "markings": {
                     "sprite_name": "markingsMARBLED",
-                    "overfur": false,
+                    "overfur": "overfurBENGAL",
                     "underfur": "underfurBENGAL"
                 }
             }
@@ -583,7 +583,7 @@
                 },
                 "markings": {
                     "sprite_name": "markingsBRAIDED",
-                    "overfur": false,
+                    "overfur": "overfurBENGAL",
                     "underfur": "underfurBENGAL"
                 }
             }
