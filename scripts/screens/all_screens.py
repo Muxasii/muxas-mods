@@ -7,6 +7,7 @@ from .ChooseMentorScreen import ChooseMentorScreen
 from .ClanScreen import ClanScreen
 from .ClanSettingsScreen import ClanSettingsScreen
 from .ClearingScreen import ClearingScreen
+from .CustomizeCatScreen import CustomizeCatScreen
 from .EventEditScreen import EventEditScreen
 from .EventsScreen import EventsScreen
 from .FamilyTreeScreen import FamilyTreeScreen
@@ -52,6 +53,7 @@ class AllScreens:
     profile_screen = ProfileScreen("profile screen")
     ceremony_screen = CeremonyScreen("ceremony screen")
     role_screen = RoleScreen("role screen")
+    customize_cat_screen = CustomizeCatScreen("customize cat screen")
     sprite_inspect_screen = SpriteInspectScreen("sprite inspect screen")
 
     make_clan_screen = MakeClanScreen("make clan screen")
@@ -90,6 +92,7 @@ class AllScreens:
         cls.profile_screen = ProfileScreen("profile screen")
         cls.ceremony_screen = CeremonyScreen("ceremony screen")
         cls.role_screen = RoleScreen("role screen")
+        cls.customize_cat_screen = CustomizeCatScreen("customize cat screen")
         cls.sprite_inspect_screen = SpriteInspectScreen("sprite inspect screen")
 
         cls.make_clan_screen = MakeClanScreen("make clan screen")
