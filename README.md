@@ -59,7 +59,7 @@ Then, open the Command Palette (Ctrl+Shift+P) and search for `Python: Select Int
 Finally, open the `main.py` file and click the play button in the top right corner to run the game.
 
 ### Bug Reporting
-Please report any bugs in the [forum post in the ClanGen Discord](https://discord.com/channels/1003759225522110524/1117124733083857068) or by opening an [issue](https://github.com/Muxasii/muxas-mods/issues). There is no Discord server for this mod as of right now, may make one by popular demand or if the forum post becomes too full.
+Please report any bugs in the [forum post in the ClanGen Discord](https://discord.com/channels/1003759225522110524/1117124733083857068) or by opening an [issue](https://github.com/Muxasii/muxas-mods/issues/new/choose). There is no Discord server for this mod as of right now, may make one by popular demand or if the forum post becomes too full.
 Note that not all bugs may be related to this mod. This is running off of dev (as latest of dev as possible as well) so there will be dev bugs in this mod that are completely unrelated to the mod additions.
 
 ## Contributing
