@@ -1,0 +1,184 @@
+{
+    "en": {
+        "WHITE": {
+            "one": "pale",
+            "many": "pale"
+        },
+        "FULLWHITE": "white",
+        "PALEGREY": {
+            "one": "gray",
+            "many": "pale gray"
+        },
+        "SILVER": {
+            "one": "silver",
+            "many": "silver"
+        },
+        "GREY": {
+            "one": "gray",
+            "many": "gray"
+        },
+        "DARKGREY": {
+            "one": "gray",
+            "many": "dark gray"
+        },
+        "GHOST": {
+            "one": "black",
+            "many": "black"
+        },
+        "BLACK": {
+            "one": "black",
+            "many": "black"
+        },
+        "CREAM": {
+            "one": "cream",
+            "many": "cream"
+        },
+        "PALEGINGER": {
+            "one": "ginger",
+            "many": "pale ginger"
+        },
+        "GOLDEN": {
+            "one": "golden",
+            "many": "golden"
+        },
+        "GINGER": {
+            "one": "ginger",
+            "many": "ginger"
+        },
+        "DARKGINGER": {
+            "one": "ginger",
+            "many": "dark ginger"
+        },
+        "SIENNA": {
+            "one": "ginger",
+            "many": "dark ginger"
+        },
+        "LIGHTBROWN": {
+            "one": "brown",
+            "many": "light brown"
+        },
+        "LILAC": {
+            "one": "brown",
+            "many": "light brown"
+        },
+        "BROWN": {
+            "one": "brown",
+            "many": "brown"
+        },
+        "GOLDEN-BROWN": {
+            "one": "brown",
+            "many": "golden brown"
+        },
+        "DARKBROWN": {
+            "one": "brown",
+            "many": "dark brown"
+        },
+        "CHOCOLATE": {
+            "one": "brown",
+            "many": "dark brown"
+        },
+        "PALECREAM": {
+            "one": "ginger",
+            "many": "pale ginger"
+        },
+        "GLASS": {
+            "one": "white",
+            "many": "white"
+        },
+        "ASH": {
+            "one": "black",
+            "many": "dark brown"
+        },
+        "LAVENDER": {
+            "one": "gray",
+            "many": "gray"
+        },
+        "BEIGE": {
+            "one": "golden",
+            "many": "pale golden"
+        },
+        "DUST": {
+            "one": "gray",
+            "many": "pale gray"
+        },
+        "DARKLAVENDER": {
+            "one": "gray",
+            "many": "dark gray"
+        },
+        "SUNSET": {
+            "one": "ginger",
+            "many": "light ginger"
+        },
+        "OLDLILAC": {
+            "one": "gray",
+            "many": "dark gray"
+        },
+        "COPPER": {
+            "one": "golden",
+            "many": "dark golden"
+        },
+        "GHOSTBROWN": {
+            "one": "brown",
+            "many": "dark brown"
+        },
+        "GHOSTRED": {
+            "one": "ginger",
+            "many": "dark ginger"
+        },
+        "singlecolour": "single color",
+        "singlecolour_long": "%{color}",
+        "twocolour": "two color",
+        "twocolour_long": "%{color}",
+        "tabby": "tabby",
+        "tabby_long": "%{color} tabby",
+        "speckled": "speckled",
+        "speckled_long": "speckled %{color}",
+        "bengal": "bengal",
+        "bengal_long": "unusually dappled %{color}",
+        "marbled": "marbled",
+        "marbled_long": "%{color} tabby",
+        "ticked": "ticked",
+        "ticked_long": "%{color} ticked",
+        "smoke": "smoke",
+        "smoke_long": "%{color} smoke",
+        "mackerel": "mackerel",
+        "mackerel_long": "%{color} tabby",
+        "classic": "classic",
+        "classic_long": "%{color} tabby",
+        "agouti": "agouti",
+        "agouti_long": "%{color} tabby",
+        "singlestripe": "single-striped",
+        "singlestripe_long": "dorsal-striped %{color}",
+        "rosette": "Rosette",
+        "rosette_long": "unusually spotted %{color}",
+        "sokoke": "Sokoke",
+        "sokoke_long": "%{color} tabby",
+        "masked": "Masked",
+        "masked_long": "masked %{color} tabby",
+        "calico": "calico",
+        "calico_tabby": "calico tabby",
+        "tortie": "tortie",
+        "tortie_tabby": "tortie tabby",
+        "pinstripe": "pinstripe",
+        "pinstripe_long": "unusually spotted %{color}",
+        "braided": "braided",
+        "braided_long": "unusually striped %{color}",
+        "duotone": "duotone",
+        "duotone_long": "unusual %{color} smoke",
+        "mottled": "mottled",
+        "mottled_long": "%{color} mottled",
+        "point": "%{color} point",
+        "NOTAIL": "no tail",
+        "HALFTAIL": "half a tail",
+        "NOPAW": "three legs",
+        "NOLEFTEAR": "a missing ear",
+        "NORIGHTEAR": "a missing ear",
+        "NOEAR": "no ears",
+        "vitiligo": "vitiligo",
+        "long_furred": "long-furred",
+        "scarred": "scarred",
+        "fur_short": "short",
+        "fur_medium": "medium",
+        "fur_long": "long"
+    }
+}

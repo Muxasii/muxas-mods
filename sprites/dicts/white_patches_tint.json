@@ -19,10 +19,17 @@
     "BROWN": "brown",
     "GOLDEN-BROWN": "brown",
     "DARKBROWN": "brown",
-    "CHOCOLATE": "brown"
+    "CHOCOLATE": "brown",
+    "ASH": "black",
+    "PALECREAM": "white",
+    "DARKLAVENDER": "gray",
+    "BEIGE": "white",
+    "DUST": "white",
+    "SUNSET": "ginger",
+    "OLDLILAC": "ginger"
   },
   "possible_tints": {
-    "basic": ["none", "offwhite", "offwhite"],
+    "basic": ["offwhite", "offwhite"],
     "black": ["gray", "darkcream", "cream"],
     "gray": ["gray"],
     "ginger": ["darkcream", "cream", "pink"],
