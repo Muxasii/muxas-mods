@@ -124,21 +124,21 @@ class CustomizeCatScreen(Screens):
         self.pattern_label = None
         self.pattern_dropdown = None
 
-        self.pelt_colors = copy(sprites.pelt_colors["color_list"]["default"]["pelt_colors"])
-        self.pelt_colour_label = None
-        self.pelt_colour_dropdown = None
-
         self.tortie_bases = copy(Pelt.all_markings)
         self.tortie_base_label = None
         self.tortie_base_dropdown = None
 
+        self.tortie_patterns = copy(Pelt.all_markings)
+        self.tortie_pattern_label = None
+        self.tortie_pattern_dropdown = None
+
+        self.pelt_colors = copy(sprites.pelt_colors["color_list"]["default"]["pelt_colors"])
+        self.pelt_colour_label = None
+        self.pelt_colour_dropdown = None
+
         self.tortie_colors = copy(sprites.pelt_colors["color_list"]["default"]["pelt_colors"])
         self.tortie_colour_label = None
         self.tortie_colour_dropdown = None
-
-        self.tortie_patterns = copy(Pelt.tortiemasks)
-        self.tortie_pattern_label = None
-        self.tortie_pattern_dropdown = None
 
         self.white_patches = copy(Pelt.little_white + Pelt.mid_white + Pelt.high_white + Pelt.mostly_white)
         self.white_patches.append(Pelt.white_sprites[6]) # add fullwhite patch
@@ -460,6 +460,30 @@ class CustomizeCatScreen(Screens):
                 setattr(self.the_cat.pelt, attribute, value)
         self.update_ui_elements()
 
+    def update_color_lists(self):
+        if self.the_cat.pelt.name in ["Tortie", "Calico"]: 
+            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortiepattern.upper()]["colors"]
+            self.tortie_colors = copy(sprites.pelt_colors["color_list"][pelt_category]["pelt_colors"])
+
+            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortiebase.upper()]["colors"]
+        elif self.the_cat.pelt.name.upper() == "TWOCOLOUR":
+            pelt_category = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
+        else:
+            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.name.upper()]["colors"]
+        
+        self.pelt_colors = copy(sprites.pelt_colors["color_list"][pelt_category]["pelt_colors"])
+
+    def refresh_color_dropdowns(self):
+        self.tortie_colour_dropdown.kill()
+        self.pelt_colour_dropdown.kill()
+        self.tortie_colour_dropdown = create_dropdown((480, 200), (135, 40),
+                                                      create_options_list(self.tortie_colors, "upper"),
+                                                      get_selected_option(self.the_cat.pelt.tortiecolour, "upper"))
+
+        self.pelt_colour_dropdown = create_dropdown((480, 125), (135, 40),
+                                                    create_options_list(self.pelt_colors, "upper"),
+                                                    get_selected_option(self.the_cat.pelt.colour, "upper"))
+
     def update_ui_elements(self):
         self.kill_cat_elements()
         self.kill_buttons()
@@ -555,6 +579,9 @@ class CustomizeCatScreen(Screens):
         selected_option = dropdown.selected_option[1]
         setattr(self.the_cat.pelt, attribute, selected_option)
         self.make_cat_sprite()
+        if attribute in ["tortiepattern", "tortiebase"]:
+            self.update_color_lists()
+            self.refresh_color_dropdowns()
 
     def handle_back_button(self):
         if self.the_cat.pelt.eye_colour2 == self.the_cat.pelt.eye_colour: # remove second eye colour if same as first
@@ -570,6 +597,8 @@ class CustomizeCatScreen(Screens):
         self.the_cat.pelt.name = new_pelt_name
         self.previous_pelt_name = new_pelt_name
         self.make_cat_sprite()
+        self.update_color_lists()
+        self.refresh_color_dropdowns()
 
     def handle_pelt_length_buttons(self, button):
         direction = -1 if button == self.pelt_length_left_button else 1
@@ -615,9 +644,9 @@ class CustomizeCatScreen(Screens):
     def handle_accessory_dropdown(self):
         selected_option = self.accessory_dropdown.selected_option
         if selected_option[0] == "None":
-            self.the_cat.pelt.accessory = None
+            self.the_cat.pelt.accessory.clear()
         else:
-            self.the_cat.pelt.accessory = selected_option[1]
+            self.the_cat.pelt.accessory.append(selected_option[1])
         self.make_cat_sprite()
 
     def handle_scar_dropdown(self, dropdown):
@@ -689,10 +718,7 @@ class CustomizeCatScreen(Screens):
                     dropdown.kill()
 
                 self.the_cat.pelt.pattern = self.patterns[0]
-                if previous_pelt_name in ['SingleColour', 'TwoColour']:
-                    self.the_cat.pelt.tortiebase = "single"
-                else:
-                    self.the_cat.pelt.tortiebase = previous_pelt_name.lower()
+                self.the_cat.pelt.tortiebase = previous_pelt_name.lower()
                 self.the_cat.pelt.tortiecolour = self.tortie_colors[0]
                 self.the_cat.pelt.tortiepattern = self.tortie_bases[0]
 
