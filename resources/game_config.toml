@@ -243,6 +243,12 @@ dev_tools = false
   bat = 70
   bug = 0
 
+[species_inheritance]
+  earth = 25
+  bird = 150
+  bat = 100
+  bug = 0
+
 [cat_generation]
   # base 1/chance that a cat will generate with a permanent condition. gets modified further in code
   base_permanent_condition = 90

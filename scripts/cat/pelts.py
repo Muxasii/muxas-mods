@@ -752,11 +752,13 @@ class Pelt:
         return chosen_species
     
     @staticmethod
-    def species_inheritance(species_list, parents:tuple=(), species_weights:list=[]): # guys I cried while making this because what the hell-
+    def species_inheritance(species_list, parents:tuple=(), species_weights:list=[]):
         par_species = []
+        weight = []
         for p in parents:
             if p:
                 if p.species:
+                    weight.append(game.get_config_value("species_inheritance", p.species))
                     par_species.append(p.species)
         
         if not par_species:
@@ -764,7 +766,7 @@ class Pelt:
             chosen_species = Pelt.randomize_species(species_list, species_weights)
             return chosen_species
 
-        chosen_species = random.choice(par_species)
+        chosen_species = choice(random.choices(par_species, weights=weight, k = 1))
         return chosen_species
     
     @staticmethod 

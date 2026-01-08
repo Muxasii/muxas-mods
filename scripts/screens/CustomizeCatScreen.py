@@ -120,7 +120,7 @@ class CustomizeCatScreen(Screens):
         self.pelt_name_label = None
         self.pelt_name_dropdown = None
 
-        self.patterns = copy(Pelt.all_markings)
+        self.patterns = copy(Pelt.tortiemasks)
         self.pattern_label = None
         self.pattern_dropdown = None
 
@@ -128,7 +128,7 @@ class CustomizeCatScreen(Screens):
         self.pelt_colour_label = None
         self.pelt_colour_dropdown = None
 
-        self.tortie_bases = copy(Pelt.tortiemasks)
+        self.tortie_bases = copy(Pelt.all_markings)
         self.tortie_base_label = None
         self.tortie_base_dropdown = None
 
@@ -136,7 +136,7 @@ class CustomizeCatScreen(Screens):
         self.tortie_colour_label = None
         self.tortie_colour_dropdown = None
 
-        self.tortie_patterns = copy(Pelt.all_markings)
+        self.tortie_patterns = copy(Pelt.tortiemasks)
         self.tortie_pattern_label = None
         self.tortie_pattern_dropdown = None
 
