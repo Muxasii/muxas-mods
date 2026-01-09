@@ -8,15 +8,15 @@ from typing import List, Dict, Union, TYPE_CHECKING, Optional, Tuple
 import i18n
 import pygame
 
+from scripts.cat.personality import Personality
+from scripts.events_module.future.prep_and_trigger import prep_future_event
 from scripts.clan_package.settings import get_clan_setting
 from scripts.game_structure import constants
 from scripts.game_structure.game.settings import game_setting_get
-from scripts.events_module.future.future_event import prep_event
 
 if TYPE_CHECKING:
     from scripts.events_module.patrol.patrol import Patrol
 
-from scripts.cat.history import History
 from scripts.utility import (
     change_clan_relations,
     change_clan_reputation,
@@ -29,7 +29,7 @@ from scripts.utility import (
 from scripts.game_structure import game
 from scripts.cat.skills import SkillPath
 from scripts.cat.cats import Cat, ILLNESSES, INJURIES, PERMANENT
-from scripts.cat.enums import CatAge, CatRank
+from scripts.cat.enums import CatRank, CatAge
 from scripts.cat.pelts import Pelt
 from scripts.cat_relations.relationship import Relationship
 from scripts.clan_resources.freshkill import (
@@ -44,12 +44,17 @@ from scripts.clan_resources.freshkill import (
 class PatrolOutcome:
     """Holds all info on patrol outcomes, and methods to handle that outcome"""
 
+    NUM_OF_TRAITS = len(Personality.trait_ranges["normal_traits"].keys()) + len(
+        Personality.trait_ranges["kit_traits"].keys()
+    )
+    NUM_OF_SKILLS = len(SkillPath)
+
     def __init__(
         self,
         success: bool = True,
         antagonize: bool = False,
         text: str = None,
-        weight: int = 20,
+        frequency: int = 4,
         exp: int = 0,
         stat_trait: List[str] = None,
         stat_skill: List[str] = None,
@@ -72,21 +77,33 @@ class PatrolOutcome:
         stat_cat: Cat = None,
         future_event: Dict = None,
     ):
+        self.weight = 1
+
         self.success = success
         self.antagonize = antagonize
-        self.text = text if text is not None else ""
-        self.weight = weight
+        self.text = text if text else ""
+        self.frequency = frequency
         self.exp = exp
-        self.stat_trait = stat_trait if stat_trait is not None else []
-        self.stat_skill = stat_skill if stat_skill is not None else []
-        self.can_have_stat = can_have_stat if can_have_stat is not None else []
-        self.dead_cats = dead_cats if dead_cats is not None else []
-        self.lost_cats = lost_cats if lost_cats is not None else []
-        self.injury = injury if injury is not None else []
+
+        self.relationship_constraints = (
+            relationship_constraints if relationship_constraints else []
+        )
+        if relationship_constraints:
+            self.weight += len(relationship_constraints) * 2
+        self.stat_trait = stat_trait if stat_trait else []
+        if self.stat_trait:
+            self.weight += int((self.NUM_OF_TRAITS - len(self.stat_trait)) / 10)
+        self.stat_skill = stat_skill if stat_skill else []
+        if self.stat_skill:
+            self.weight += int((self.NUM_OF_SKILLS - len(self.stat_skill)) / 5)
+        self.can_have_stat = can_have_stat if can_have_stat else []
+
+        self.dead_cats = dead_cats if dead_cats else []
+        self.lost_cats = lost_cats if lost_cats else []
+        self.injury = injury if injury else []
+
         self.history_reg_death = (
-            history_reg_death
-            if history_reg_death is not None
-            else "m_c died on patrol."
+            history_reg_death if history_reg_death else "m_c died on patrol."
         )
         self.history_leader_death = (
             history_leader_death
@@ -96,6 +113,7 @@ class PatrolOutcome:
         self.history_scar = (
             history_scar if history_scar is not None else "m_c was scarred on patrol."
         )
+
         self.new_cat = new_cat if new_cat is not None else []
         self.herbs = herbs if herbs is not None else []
         self.prey = prey if prey is not None else []
@@ -104,9 +122,7 @@ class PatrolOutcome:
         self.relationship_effects = (
             relationship_effects if relationship_effects is not None else []
         )
-        self.relationship_constraints = (
-            relationship_constraints if relationship_constraints is not None else []
-        )
+
         self.outcome_art = outcome_art
         self.outcome_art_clean = outcome_art_clean
 
@@ -176,7 +192,7 @@ class PatrolOutcome:
                     success=success,
                     antagonize=antagonize,
                     text=_d.get("text"),
-                    weight=_d.get("weight"),
+                    frequency=_d.get("frequency"),
                     exp=_d.get("exp"),
                     stat_skill=_d.get("stat_skill"),
                     stat_trait=_d.get("stat_trait"),
@@ -243,12 +259,11 @@ class PatrolOutcome:
 
         # pronounify the relationship log
         for block in self.relationship_effects:
-            if block.get("log"):
-                log = block.get("log") + " "
-                if isinstance(log, str):
-                    block["log"] = event_text_adjust(
+            if "log" in block:
+                for group in block["log"]:
+                    block["log"][group] = event_text_adjust(
                         Cat,
-                        log,
+                        block["log"][group],
                         patrol_leader=patrol.patrol_leader,
                         random_cat=patrol.random_cat,
                         stat_cat=self.stat_cat,
@@ -258,20 +273,6 @@ class PatrolOutcome:
                         clan=game.clan,
                         other_clan=patrol.other_clan,
                     )
-                elif isinstance(log, list):
-                    for i in range(1, len(log)):
-                        block["log"][i] = event_text_adjust(
-                            Cat,
-                            block["log"][i] + " ",
-                            patrol_leader=patrol.patrol_leader,
-                            random_cat=patrol.random_cat,
-                            stat_cat=self.stat_cat,
-                            patrol_cats=patrol.patrol_cats,
-                            patrol_apprentices=patrol.patrol_apprentices,
-                            new_cats=patrol.new_cats,
-                            clan=game.clan,
-                            other_clan=patrol.other_clan,
-                        )
 
         results.append(
             unpack_rel_block(
@@ -313,7 +314,7 @@ class PatrolOutcome:
         for x, newbie in enumerate(self.new_cat):
             possible_cats[f"n_c:{x}"] = newbie
 
-        prep_event(
+        prep_future_event(
             event=self,
             event_id=patrol.patrol_event.patrol_id,
             possible_cats=possible_cats,
@@ -970,9 +971,7 @@ class PatrolOutcome:
             return None
 
         scar_list = [
-            x
-            for x in scar_list
-            if x in Pelt.scars1 + Pelt.scars2 + Pelt.scars3 and x not in cat.pelt.scars
+            x for x in scar_list if x in Pelt.all_scars and x not in cat.pelt.scars
         ]
 
         if not scar_list:

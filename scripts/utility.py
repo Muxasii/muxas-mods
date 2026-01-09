@@ -9,6 +9,7 @@ TODO: Docs
 import logging
 import os
 import re
+import traceback
 from itertools import combinations
 from math import floor
 from random import choice, choices, randint, random, sample, randrange, getrandbits
@@ -32,7 +33,14 @@ from scripts.game_structure.localization import (
 
 logger = logging.getLogger(__name__)
 from scripts.game_structure import image_cache, localization, constants
-from scripts.cat.enums import CatAge, CatRank, CatSocial, CatGroup, CatStanding
+from scripts.cat.enums import (
+    CatAge,
+    CatRank,
+    CatSocial,
+    CatGroup,
+    CatStanding,
+    CatCompatibility,
+)
 from scripts.cat.names import names
 from scripts.cat.sprites import sprites
 from scripts.game_structure import game
@@ -336,17 +344,6 @@ def create_new_cat_block(
 
                 give_mates.append(in_event_cats[index])
 
-            try:
-                index = int(index)
-            except ValueError:
-                print(f"mate-index not correct: {index}")
-                continue
-
-            if index >= i:
-                continue
-
-            give_mates.extend(event.new_cats[index])
-
     # determine gender
     if "male" in attribute_list:
         gender = "male"
@@ -492,22 +489,25 @@ def create_new_cat_block(
             break
     if bs_override:
         chosen_backstory = choice(stor)
-
-        if (
-            chosen_backstory
-            in BACKSTORIES["backstory_categories"]["baby_clancat_backstories"]
+        if chosen_backstory in (
+            BACKSTORIES["backstory_categories"]["baby_clancat_backstories"]
+            + BACKSTORIES["backstory_categories"]["former_clancat_backstories"]
         ):
             cat_social = CatSocial.CLANCAT
-        elif (
-            chosen_backstory
-            in BACKSTORIES["backstory_categories"]["baby_loner_backstories"]
+        elif chosen_backstory in (
+            BACKSTORIES["backstory_categories"]["baby_loner_backstories"]
+            + BACKSTORIES["backstory_categories"]["loner_backstories"]
         ):
             cat_social = CatSocial.LONER
-        elif (
-            chosen_backstory
-            in BACKSTORIES["backstory_categories"]["baby_kittypet_backstories"]
+        elif chosen_backstory in (
+            BACKSTORIES["backstory_categories"]["baby_kittypet_backstories"]
+            + BACKSTORIES["backstory_categories"]["kittypet_backstories"]
         ):
             cat_social = CatSocial.KITTYPET
+        elif (
+            chosen_backstory in BACKSTORIES["backstory_categories"]["rogue_backstories"]
+        ):
+            cat_social = CatSocial.ROGUE
 
     # KITTEN THOUGHT
     if rank in (CatRank.KITTEN, CatRank.NEWBORN):
@@ -713,7 +713,7 @@ def create_new_cat(
     kit: bool = False,
     litter: bool = False,
     backstory: bool = None,
-    rank: CatRank = None,
+    rank: Optional[CatRank] = None,
     original_social: CatSocial = CatSocial.CLANCAT,
     original_group: CatGroup = None,
     moons: int = None,
@@ -757,10 +757,10 @@ def create_new_cat(
         backstory
         in (
             BACKSTORIES["backstory_categories"]["former_clancat_backstories"]
-            or BACKSTORIES["backstory_categories"]["otherclan_categories"]
+            + BACKSTORIES["backstory_categories"]["baby_clancat_backstories"]
         )
-        and not original_group
-    ):
+        or original_social == "former Clancat"
+    ) and not original_group:
         original_group = choice([x.group_ID for x in game.clan.all_other_clans])
 
     created_cats = []
@@ -864,7 +864,7 @@ def create_new_cat(
                     # TODO: refactor this entire function to remove this call amongst other things
                     from scripts.cat.pelts import Pelt
 
-                    new_cat.pelt.accessory.append(choice(Pelt.collars))
+                    new_cat.pelt.accessory.append(choice(Pelt.collar_accessories))
 
             # try to give name from full loner name list
             elif original_social in (CatSocial.LONER, CatSocial.ROGUE) and bool(
@@ -1034,18 +1034,18 @@ def check_relationship_value(cat_from, cat_to, rel_value=None):
 
 
 def get_personality_compatibility(cat1, cat2):
-    """Returns:
-    True - if personalities have a positive compatibility
-    False - if personalities have a negative compatibility
-    None - if personalities have a neutral compatibility
+    """
+    Returns matching CatCompatibility enum according to personalitiesof given cat objects.
+    :param cat1: Cat object of first cat
+    :param cat2: Cat object of second cat
     """
     personality1 = cat1.personality.trait
     personality2 = cat2.personality.trait
 
     if personality1 == personality2:
         if personality1 is None:
-            return None
-        return True
+            return CatCompatibility.NEUTRAL
+        return CatCompatibility.POSITIVE
 
     lawfulness_diff = abs(cat1.personality.lawfulness - cat2.personality.lawfulness)
     sociability_diff = abs(cat1.personality.sociability - cat2.personality.sociability)
@@ -1066,11 +1066,11 @@ def get_personality_compatibility(cat1, cat2):
             running_total -= 1
 
     if running_total >= 2:
-        return True
+        return CatCompatibility.POSITIVE
     if running_total <= -2:
-        return False
+        return CatCompatibility.NEGATIVE
 
-    return None
+    return CatCompatibility.NEUTRAL
 
 
 def get_cats_of_romantic_interest(cat):
@@ -1526,8 +1526,16 @@ def unpack_rel_block(
         to_log = None
         from_log = None
         if "log" in block:
-            to_log = block["log"].get("cats_to") + effect
-            from_log = block["log"].get("cats_from") + effect
+            to_log = (
+                block["log"].get("cats_to", "") + effect
+                if "cats_to" in block["log"]
+                else None
+            )
+            from_log = (
+                block["log"].get("cats_from", "") + effect
+                if "cats_from" in block["log"]
+                else None
+            )
             if not to_log and not from_log:
                 print(f"something is wrong with relationship log: {block['log']}")
 
@@ -1539,11 +1547,12 @@ def unpack_rel_block(
         )
 
         if block.get("mutual"):
+            # we'll default to the other log if no unique log was written
             change_relationship_values(
                 cats_from_ob,
                 cats_to_ob,
                 **value_changes,
-                log=to_log,
+                log=to_log if to_log else from_log,
             )
 
 
@@ -1615,9 +1624,26 @@ def change_relationship_values(
                   " /Respect: " + str(respect) +
                   " /Comfort: " + str(comfort) +
                   " /Trust: " + str(trust)) if changed else print("No relationship change")"""
-
+            if not log:
+                log = i18n.t("relationships.relationship_log")
             if log and isinstance(log, str):
-                log_text = log + i18n.t(
+                replace_dict = {}
+                if "from_cat" in log:
+                    replace_dict["from_cat"] = (
+                        str(single_cat_from.name),
+                        choice(single_cat_from.pronouns),
+                    )
+                if "to_cat" in log:
+                    replace_dict["to_cat"] = (
+                        str(single_cat_to.name),
+                        choice(single_cat_to.pronouns),
+                    )
+                if replace_dict:
+                    processed_log = process_text(log, replace_dict)
+                else:
+                    processed_log = log
+
+                log_text = processed_log + i18n.t(
                     "relationships.age_postscript",
                     name=str(single_cat_to.name),
                     count=single_cat_to.moons,
@@ -1962,7 +1988,7 @@ def history_text_adjust(text, other_clan_name, clan, other_cat_rc=None):
         text = text.replace("o_c_n", str(other_clan_name))
 
     if "c_n" in text:
-        text = text.replace("c_n", clan.displayname)
+        text = text.replace("c_n", clan.displayname + "Clan")
     if "r_c" in text and other_cat_rc:
         text = selective_replace(text, "r_c", str(other_cat_rc.name))
     return text
@@ -2245,9 +2271,18 @@ def event_text_adjust(
 
         # acc_singular (only works for main_cat's acc)
         if "acc_singular" in text:
+            accessory_name = main_cat.pelt.accessory[-1]
+            if sprites.COLLAR_DATA["palette_map"]:
+                potential_collar = "".join(
+                    [x for x in accessory_name if not x.islower()]
+                ).strip("_")
+                for style in main_cat.pelt.collar_styles:
+                    if style == potential_collar:
+                        accessory_name = potential_collar
+                        break
             text = text.replace(
                 "acc_singular",
-                i18n.t(f"cat.accessories.{main_cat.pelt.accessory[-1]}", count=1),
+                i18n.t(f"cat.accessories.{accessory_name}", count=1),
             )
 
         if "given_herb" in text:

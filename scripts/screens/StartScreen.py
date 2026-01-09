@@ -32,6 +32,7 @@ from scripts.game_structure.windows import UpdateAvailablePopup, ChangelogPopup
 from scripts.housekeeping.datadir import open_data_dir, open_url
 from scripts.utility import ui_scale, quit, ui_scale_dimensions
 from .Screens import Screens
+from .enums import GameScreen
 from ..game_structure.screen_settings import MANAGER
 from ..game_structure.game.switches import switch_get_value, Switch
 from ..housekeeping.datadir import get_data_dir, get_cache_dir
@@ -70,10 +71,10 @@ class StartScreen(Screens):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
             self.mute_button_pressed(event)
             screens = {
-                self.continue_button: "camp screen",
-                self.switch_clan_button: "switch clan screen",
-                self.new_clan_button: "make clan screen",
-                self.settings_button: "settings screen",
+                self.continue_button: GameScreen.CAMP,
+                self.switch_clan_button: GameScreen.SWITCH_CLAN,
+                self.new_clan_button: GameScreen.MAKE_CLAN,
+                self.settings_button: GameScreen.SETTINGS,
             }
             if event.ui_element in screens and not self.error_open:
                 self.change_screen(screens[event.ui_element])
@@ -92,7 +93,7 @@ class StartScreen(Screens):
             elif event.ui_element == self.quit:
                 quit(savesettings=False, clearevents=False)
             elif event.ui_element == self.event_edit:
-                self.change_screen("event edit screen")
+                self.change_screen(GameScreen.EVENT_EDIT)
             elif event.ui_element == self.social_buttons["discord_button"]:
                 open_url("https://discord.gg/clangen")
             elif event.ui_element == self.social_buttons["tumblr_button"]:
@@ -103,7 +104,7 @@ class StartScreen(Screens):
             if (
                 event.key == pygame.K_RETURN or event.key == pygame.K_SPACE
             ) and self.continue_button.is_enabled:
-                self.change_screen("camp screen")
+                self.change_screen(GameScreen.CAMP)
 
     # def on_use(self):
     #     """
@@ -145,7 +146,7 @@ class StartScreen(Screens):
 
         # start menu music if it isn't already playing
         # this is the only screen that has to check its own music, other screens handle that in the screen change
-        music_manager.check_music("start screen")
+        music_manager.check_music(GameScreen.START)
 
         bg = pygame.image.load(f"resources/images/menu_{light_dark}.png").convert()
         if game_setting_get("dark mode"):

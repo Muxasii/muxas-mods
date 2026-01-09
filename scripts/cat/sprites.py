@@ -60,6 +60,7 @@ class Sprites:
                 self.eye_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading eye_colors.json")
+
         # open pelt colors
         try:
             with open(
@@ -68,24 +69,38 @@ class Sprites:
                 self.pelt_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading pelt_colors.json")
+
         # open skin colors
         try:
             with open("sprites/dicts/skin_colors.json", "r", encoding="utf-8") as read_file:
                 self.skin_colors = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading skin_colors.json")
+
         # open accessories
         try:
             with open("sprites/dicts/accessories.json", "r", encoding="utf-8") as read_file:
                 self.accessories = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading accessories.json")
+
         # open extra traits
         try:
             with open("sprites/dicts/extra_traits.json", "r", encoding="utf-8") as read_file:
                 self.extra_traits = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading extra_traits.json")
+
+    def load_spritesheet_jsons(self):
+        # open modded sprites
+        try:
+            with open(
+                "sprites/dicts/pelt_colors.json", "r", encoding="utf-8"
+            ) as read_file:
+                self.pelt_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading pelt_colors.json")
+
 
     def spritesheet(self, a_file, name):
         """
@@ -103,7 +118,8 @@ class Sprites:
                    name,
                    sprites_x=3,
                    sprites_y=8,
-                   no_index=False):  # pos = ex. (2, 3), no single pixels
+                   no_index=False,
+                    palettes: list = None):  # pos = ex. (2, 3), no single pixels
 
         """
         Divide sprites on a spritesheet into groups of sprites that are easily accessible
@@ -111,9 +127,15 @@ class Sprites:
         :param pos: (x,y) tuple of offsets. NOT pixel offset, but offset of other sprites
         :param name: Name of group being made
         :param sprites_x: default 3, number of sprites horizontally
-        :param sprites_y: default 3, number of sprites vertically
-        :param no_index: default False, set True if sprite name does not require cat pose index
+        :param sprites_y: default 7, number of sprites vertically
+        :param no_index: default False, set True if sprite name does not require cat pose index:
+        :param palettes: list of palette names
         """
+        # pulls the defaults from the pose_sprite_data.json file
+        if not sprites_x:
+            sprites_x = self.sheet_layout[0]
+        if not sprites_y:
+            sprites_y = self.sheet_layout[1]
 
         group_x_ofs = pos[0] * sprites_x * self.size
         group_y_ofs = pos[1] * sprites_y * self.size
@@ -145,8 +167,55 @@ class Sprites:
                         )
                     new_sprite = self.blank_sprite
 
-                self.sprites[full_name] = new_sprite
+                if palettes:
+                    self.apply_palettes(i, name, new_sprite, palettes)
+                else:
+                    self.sprites[full_name] = new_sprite
                 i += 1
+
+    def apply_palettes(
+        self, sprite_index: int, name: str, new_sprite, palette_names: list
+    ):
+        """
+        Creates sprites for each color palette variation
+        :param sprite_index: index of sprite
+        :param name: name of sprite
+        :param new_sprite: the sprite object to create variations of
+        :param palette_names: list of palette names
+        """
+        # first we create an array of our palette map
+        full_map = pygame.image.load(f"sprites/palettes/{name}_palette.png")
+        map_array = pygame.PixelArray(full_map)
+        # then create a dictionary associating the palette name with its row of the array
+        color_palettes = {}
+        palette_names = palette_names.copy()
+        palette_names.insert(0, "BASE")
+        for row in range(
+            0, map_array.shape[1]  # pylint: disable=unsubscriptable-object
+        ):
+            color_name = palette_names[row]
+            color_palettes.update(
+                {color_name: [full_map.unmap_rgb(px) for px in map_array[::, row]]}
+            )
+
+        base_palette = color_palettes["BASE"]
+
+        # now we recolor the sprite
+        for color_name, palette in color_palettes.items():
+            if color_name == "BASE":
+                continue
+            recolor_sprite = pygame.PixelArray(new_sprite.copy())
+            # we replace each base_palette color with it's matching index from the color_palette
+            for color_i, color in enumerate(palette):
+                recolor_sprite.replace(base_palette[color_i], color)
+            # convert back into a surface
+            _sprite = recolor_sprite.make_surface()
+            # add it to our sprite dict!
+            self.sprites[f"{name}_{color_name}{sprite_index}"] = _sprite
+            # close the pixel array now that we're done
+            recolor_sprite.close()
+
+        map_array.close()
 
     def load_all(self):
         # get the width and height of the spritesheet
@@ -161,10 +230,11 @@ class Sprites:
             self.size = width / 3
         else:
             self.size = 50  # default, what base clangen uses
-            print(f"lineart.png is not 3x7, falling back to {self.size}")
             print(
-                f"if you are a modder, please update scripts/cat/sprites.py and "
-                f"do a search for 'if width / 3 == height / 7:'"
+                f"lineart.png is not {self.sheet_layout}, falling back to {self.size}"
+            )
+            print(
+                f"if you are a modder, please update sheet_layout in sprites/dicts/pose_sprite_data.json"
             )
 
         del width, height  # unneeded
@@ -195,7 +265,7 @@ class Sprites:
                 )
                 and x != "lineartur"
             ):
-                self.spritesheet(f"sprites/aprilfools{x}.png", x)
+                self.spritesheet(f"sprites/{x}_aprilfools.png", x)
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
 
@@ -425,12 +495,10 @@ class Sprites:
                 self.make_group("skin", (col, row), f"skin{color}")
 
         self.load_scars()
+        self.load_accessories()
         self.load_symbols()
 
     def load_scars(self):
-        """
-        Loads scar sprites and puts them into groups.
-        """
 
         # Define scars
         scars_data = [
@@ -520,6 +588,7 @@ class Sprites:
             self.make_group('wingscars', (a, 2), f'bat catbackscar{i}')
             self.make_group('wingscars', (a, 3), f'bird catbackscar{i}')
 
+    def load_accessories(self):
         # accessories
         # to my beloved modders, im very sorry for reordering everything <333 -clay
         medcatherbs_data = [
@@ -664,6 +733,14 @@ class Sprites:
         for row, nyloncollars in enumerate(nyloncollars_data):
             for col, nyloncollar in enumerate(nyloncollars):
                 self.make_group("nyloncollars", (col, row), f"collars{nyloncollar}")
+
+    def load_sheet(self, data):
+        # get sheet row
+
+        # create chunks from data to depict each row
+
+        # create sprites
+        return
 
     def load_symbols(self):
         """

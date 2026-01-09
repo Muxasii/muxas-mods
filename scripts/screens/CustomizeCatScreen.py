@@ -13,7 +13,8 @@ from scripts.cat.generate_sprite import generate_sprite
 from scripts.game_structure.screen_settings import MANAGER
 from scripts.game_structure.ui_elements import UISurfaceImageButton, UIImageButton
 from scripts.game_structure.game.switches import switch_set_value, switch_get_value, Switch
-from scripts.screens.Screens import Screens
+from .Screens import Screens
+from .enums import GameScreen
 from scripts.ui.generate_box import get_box, BoxStyles
 from scripts.ui.generate_button import get_button_dict, ButtonStyles
 from scripts.ui.icon import Icon
@@ -589,7 +590,7 @@ class CustomizeCatScreen(Screens):
 
         self.the_cat.pelt.scars = list(set(self.the_cat.pelt.scars)) # deduplicate scars
 
-        self.change_screen("profile screen")
+        self.change_screen(GameScreen.PROFILE)
 
     def handle_pelt_name_dropdown(self):
         new_pelt_name = self.pelt_name_dropdown.selected_option[1]

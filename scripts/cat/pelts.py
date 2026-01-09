@@ -153,6 +153,8 @@ class Pelt:
         "SNAKETWO",
     ]
 
+    all_scars = scars1 + scars2 + scars3
+
     # make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely
 
     plant_accessories = [

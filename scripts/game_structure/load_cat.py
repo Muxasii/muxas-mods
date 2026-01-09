@@ -325,6 +325,9 @@ def json_load():
                     cat["scar_event"] if "scar_event" in cat else [],
                 )
 
+            new_cat.starclan_affinity = cat.get("starclan_affinity", 0)
+            new_cat.dark_forest_affinity = cat.get("dark_forest_affinity", 0)
+
             all_cats.append(new_cat)
 
         except KeyError as e:
@@ -341,6 +344,12 @@ def json_load():
     # replace cat ids with cat objects and add other needed variables
     other_clan_cats = [c for c in Cat.all_cats_list if c.status.is_other_clancat]
     for cat in all_cats:
+        if cat.status.rank in (CatRank.LEADER, CatRank.DEPUTY, CatRank.MEDICINE_CAT):
+            if cat.status.group == CatGroup.STARCLAN:
+                game.starclan.adjust_facets_by_cat(cat)
+            elif cat.status.group == CatGroup.DARK_FOREST:
+                game.dark_forest.adjust_facets_by_cat(cat)
+
         cat.load_conditions()
 
         # this is here to handle paralyzed cats in old saves
