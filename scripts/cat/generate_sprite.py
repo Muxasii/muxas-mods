@@ -165,6 +165,18 @@ def generate_sprite(
         for num, eye in enumerate(eye_colors, start=1):
             new_sprite.blit(create_eyes(cat_sprite, eye_colors[eye], num))
 
+        # draw scars
+        if not scars_hidden:
+            for scar in cat.pelt.scars:
+                if scar in cat.pelt.scars1:
+                    new_sprite.blit(
+                        sprites.sprites["scars" + scar + cat_sprite], (0, 0)
+                    )
+                if scar in cat.pelt.scars3:
+                    new_sprite.blit(
+                        sprites.sprites["scars" + scar + cat_sprite], (0, 0)
+                    )
+
         # draw lineart & shading
         if game_setting_get("shaders") and not dead:
             new_sprite.blit(
@@ -199,7 +211,7 @@ def generate_sprite(
         #-----------------
         # create back wing
         #-----------------
-        if cat.display_wing_count == 2 and not wing_hidden:
+        if cat.display_wing_count == 2 and not wing_hidden and not cat.species == "earth cat":
             back_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
             back_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 0, wing_markings, wing_markings_tortie, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
 
@@ -229,7 +241,7 @@ def generate_sprite(
         #-----------------
         # create front wing
         #-----------------
-        if cat.display_wing_count in [1, 2] and not wing_hidden:
+        if cat.display_wing_count in [1, 2] and not wing_hidden and not cat.species == "earth cat":
             front_wing = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
             front_wing.blit(create_wings(cat_sprite, cat_colors, cat_layers, cat.pelt, cat.species, 1, wing_markings, wing_markings_tortie, cat_colors_tortie, cat_layers_tortie, dead=dead, df=df))
             
@@ -397,24 +409,24 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
     # draw accessories
-    from scripts.cat.pelts import Pelt
+    from scripts.cat.pelts import plant_accessories, wild_accessories, collars
 
     if not acc_hidden and accessories:
         categories = ["collars", "tail_accessories", "body_accessories", "head_accessories"]
         for category in categories:
             for accessory in accessories:
-                if (accessory in getattr(Pelt, category)) and (accessory in sprites.accessories["accessory_layers"][layer]):
-                    if accessory in Pelt.plant_accessories:
+                if (accessory in sprites.accessories["accessory_layers"][layer]):
+                    if accessory in plant_accessories:
                         finished_sprite.blit(
                             sprites.sprites["acc_herbs" + accessory + cat_sprite],
                             (0, 0),
                         )
-                    elif accessory in Pelt.wild_accessories:
+                    elif accessory in wild_accessories:
                         finished_sprite.blit(
                             sprites.sprites["acc_wild" + accessory + cat_sprite],
                             (0, 0),
                         )
-                    elif accessory in Pelt.collars:
+                    elif accessory in collars:
                         finished_sprite.blit(
                             sprites.sprites["collars" + accessory + cat_sprite], (0, 0)
                         )

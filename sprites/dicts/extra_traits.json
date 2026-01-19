@@ -1,4 +1,9 @@
 {
+    "lists": {
+        "bird_wing_markings": ["FLECKS", "TIPS", "STRIPES", "STREAKS", "COVERTS", "PRIMARIES", "SPOTS", "NONE"],
+        "mane_markings": ["NONE", "FULL", "FADE", "INVERTFADE", "STRIPES", "SPOTS", "SMOKE"]
+    },
+
     "bat_mane": {
         "lineart_overfade": false,
         "lineart_underfade": false,

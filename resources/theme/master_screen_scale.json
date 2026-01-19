@@ -242,6 +242,34 @@
         },
         "colours": {"normal_border": "#2F2918", "dark_bg": "#AC9D72"}
     },
+    "drop_down_menu.button": {
+        "colours": {
+            "hovered_bg": "#1E1809",
+            "normal_text": "#EFE5CE",
+            "hovered_text": "#EFE5CE",
+            "selected_text": "#453c20",
+            "disabled_text": "#EFE5CE"
+        }
+    },
+    "drop_down_menu.#drop_down_options_list": {
+        "misc": {
+            "shadow_width": "3",
+            "list_item_height": "20"
+        }
+    },
+    "drop_down_menu.#drop_down_options_list.button": {
+        "colours": {
+            "hovered_bg": "#1E1809",
+            "normal_text": "#EFE5CE",
+            "hovered_text": "#EFE5CE",
+            "selected_text": "#1E1809"
+        }
+    },
+    "#dropup": {
+        "misc": {
+            "expand_direction": "up"
+        }
+    },
     "#game_over_window": {"prototype": "#window_base_theme"},
     "#save_check_window": {"prototype": "#window_base_theme"},
     "#editor_save_check_window": {"prototype": "#window_base_theme"},

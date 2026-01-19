@@ -14,34 +14,19 @@ from scripts.game_structure.game.switches import (
     switch_get_value,
 )
 from scripts.game_structure.localization import get_lang_config
+from scripts.screens.enums import GameScreen
 from scripts.utility import adjust_list_text
 
 
-class Pelt:
-    sprites_names = {
-        "SingleColour": 'single',
-        'TwoColour': 'single',
-        'Tabby': 'tabby',
-        'Marbled': 'marbled',
-        'Rosette': 'rosette',
-        'Smoke': 'smoke',
-        'Ticked': 'ticked',
-        'Speckled': 'speckled',
-        'Bengal': 'bengal',
-        'Mackerel': 'mackerel',
-        'Duotone': 'duotone',
-        'Braided': 'braided',
-        'Pinstripe': 'pinstripe',
-        'Classic': 'classic',
-        'Sokoke': 'sokoke',
-        'Agouti': 'agouti',
-        'Singlestripe': 'singlestripe',
-        'Masked': 'masked',
-        'Tortie': None,
-        'Calico': None,
-    }
+# make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely
+plant_accessories = sprites.accessories["accessories"]["plant"]
+wild_accessories = sprites.accessories["accessories"]["wild"]
+collars = sprites.accessories["accessories"]["collars"]
 
-    species = ['bird cat', 'earth cat']
+class Pelt:
+    sprites_names = sprites.pelt_colors["sprites_names"]
+
+    species = ["bird cat", "bat cat", "earth cat"]
 
     extra_traits_dict = {
     "wing_shape": ["elliptical", "high-speed", "hovering", "passive soaring", "active soaring"],
@@ -57,19 +42,13 @@ class Pelt:
     "fur_texture": ["coarse", "smooth", "soft", "feathery", "thin", "thick", "wiry", "double coated", "fine", "prickly", "rough", "sleek", "silky"]
     }
 
-    bird_wing_marks = ['FLECKS', 'TIPS', 'STRIPES', 'STREAKS', 'COVERTS', 'PRIMARIES', 'SPOTS', 'NONE']
+    bird_wing_marks = sprites.extra_traits["lists"]["bird_wing_markings"]
 
-    mane_marks_list = ['NONE', 'FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']
+    mane_marks_list = sprites.extra_traits["lists"]["mane_markings"]
     
     # ATTRIBUTES, including non-pelt related
 
-    tortiemasks = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
-                      'MINIMALFOUR', 'HALF',
-                      'OREO', 'SWOOP', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'ORIOLE',
-                      'CHIMERA', 'DAUB', 'EMBER', 'BLANKET',
-                      'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'SMUDGED', 'DAPPLENIGHT', 'STREAK', 'MASK',
-                      'CHEST', 'ARMTAIL', 'SMOKE', 'GRUMPYFACE',
-                      'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
+    tortiemasks = sprites.tortie["tortie_masks"]
     pelt_length = ["short", "medium", "long"]
     eye_colours = sprites.eye_colors["color_lists"]["eye_colors"]
     yellow_eyes = sprites.eye_colors["color_lists"]["yellow_eyes"]
@@ -89,199 +68,16 @@ class Pelt:
     # bite scars by @wood pank on discord
 
     # scars from other cats, other animals
-    scars1 = [
-        "ONE",
-        "TWO",
-        "THREE",
-        "TAILSCAR",
-        "SNOUT",
-        "CHEEK",
-        "SIDE",
-        "THROAT",
-        "TAILBASE",
-        "BELLY",
-        "LEGBITE",
-        "NECKBITE",
-        "FACE",
-        "MANLEG",
-        "BRIGHTHEART",
-        "MANTAIL",
-        "BRIDGE",
-        "RIGHTBLIND",
-        "LEFTBLIND",
-        "BOTHBLIND",
-        "BEAKCHEEK",
-        "BEAKLOWER",
-        "CATBITE",
-        "RATBITE",
-        "QUILLCHUNK",
-        "QUILLSCRATCH",
-        "HINDLEG",
-        "BACK",
-        "QUILLSIDE",
-        "SCRATCHSIDE",
-        "BEAKSIDE",
-        "CATBITETWO",
-        "FOUR",
-    ]
+    scars1 = sprites.scars["scars"]
 
     # missing parts
-    scars2 = [
-        "LEFTEAR",
-        "RIGHTEAR",
-        "NOTAIL",
-        "HALFTAIL",
-        "NOPAW",
-        "NOLEFTEAR",
-        "NORIGHTEAR",
-        "NOEAR",
-    ]
+    scars2 = sprites.scars["missing_parts"]
 
     # "special" scars that could only happen in a special event
-    scars3 = [
-        "SNAKE",
-        "TOETRAP",
-        "BURNPAWS",
-        "BURNTAIL",
-        "BURNBELLY",
-        "BURNRUMP",
-        "FROSTFACE",
-        "FROSTTAIL",
-        "FROSTMITT",
-        "FROSTSOCK",
-        "TOE",
-        "SNAKETWO",
-    ]
+    scars3 = sprites.scars["special_event"]
 
     all_scars = scars1 + scars2 + scars3
-
-    # make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely
-
-    plant_accessories = [
-        "MAPLE LEAF",
-        "HOLLY",
-        "BLUE BERRIES",
-        "FORGET ME NOTS",
-        "RYE STALK",
-        "CATTAIL",
-        "POPPY",
-        "ORANGE POPPY",
-        "CYAN POPPY",
-        "WHITE POPPY",
-        "PINK POPPY",
-        "BLUEBELLS",
-        "LILY OF THE VALLEY",
-        "SNAPDRAGON",
-        "HERBS",
-        "PETALS",
-        "NETTLE",
-        "HEATHER",
-        "GORSE",
-        "JUNIPER",
-        "RASPBERRY",
-        "LAVENDER",
-        "OAK LEAVES",
-        "CATMINT",
-        "MAPLE SEED",
-        "LAUREL",
-        "BULB WHITE",
-        "BULB YELLOW",
-        "BULB ORANGE",
-        "BULB PINK",
-        "BULB BLUE",
-        "CLOVER",
-        "DAISY",
-        "DRY HERBS",
-        "DRY CATMINT",
-        "DRY NETTLES",
-        "DRY LAURELS",
-        "WISTERIA",
-        "ROSE MALLOW",
-        "PICKLEWEED",
-        "GOLDEN CREEPING JENNY",
-        "DESERT WILLOW",
-        "CACTUS FLOWER",
-        "PRAIRIE FIRE",
-        "VERBENA EAR",
-        "VERBENA PELT",
-    ]
-    wild_accessories = [
-        "RED FEATHERS",
-        "BLUE FEATHERS",
-        "JAY FEATHERS",
-        "GULL FEATHERS",
-        "SPARROW FEATHERS",
-        "MOTH WINGS",
-        "ROSY MOTH WINGS",
-        "MORPHO BUTTERFLY",
-        "MONARCH BUTTERFLY",
-        "CICADA WINGS",
-        "BLACK CICADA",
-        "ROAD RUNNER FEATHER",
-    ]
-    collars = [
-        "CRIMSON",
-        "BLUE",
-        "YELLOW",
-        "CYAN",
-        "RED",
-        "LIME",
-        "GREEN",
-        "RAINBOW",
-        "BLACK",
-        "SPIKES",
-        "WHITE",
-        "PINK",
-        "PURPLE",
-        "MULTI",
-        "INDIGO",
-        "CRIMSONBELL",
-        "BLUEBELL",
-        "YELLOWBELL",
-        "CYANBELL",
-        "REDBELL",
-        "LIMEBELL",
-        "GREENBELL",
-        "RAINBOWBELL",
-        "BLACKBELL",
-        "SPIKESBELL",
-        "WHITEBELL",
-        "PINKBELL",
-        "PURPLEBELL",
-        "MULTIBELL",
-        "INDIGOBELL",
-        "CRIMSONBOW",
-        "BLUEBOW",
-        "YELLOWBOW",
-        "CYANBOW",
-        "REDBOW",
-        "LIMEBOW",
-        "GREENBOW",
-        "RAINBOWBOW",
-        "BLACKBOW",
-        "SPIKESBOW",
-        "WHITEBOW",
-        "PINKBOW",
-        "PURPLEBOW",
-        "MULTIBOW",
-        "INDIGOBOW",
-        "CRIMSONNYLON",
-        "BLUENYLON",
-        "YELLOWNYLON",
-        "CYANNYLON",
-        "REDNYLON",
-        "LIMENYLON",
-        "GREENNYLON",
-        "RAINBOWNYLON",
-        "BLACKNYLON",
-        "SPIKESNYLON",
-        "WHITENYLON",
-        "PINKNYLON",
-        "PURPLENYLON",
-        "MULTINYLON",
-        "INDIGONYLON",
-    ]
-
+    
     # this is used for acc-giving events, only change if you're adding a new category tag to the event filter
     # adding a category here will automatically update the event editor's options
     acc_categories = {
@@ -290,73 +86,11 @@ class Pelt:
         "COLLAR": collars,
     }
 
-    tail_accessories = [
-        "RED FEATHERS",
-        "BLUE FEATHERS",
-        "JAY FEATHERS",
-        "GULL FEATHERS",
-        "SPARROW FEATHERS",
-        "CLOVER",
-        "DAISY",
-        "WISTERIA",
-        "GOLDEN CREEPING JENNY",
-    ]
-
-    head_accessories = [
-        "MOTH WINGS",
-        "ROSY MOTH WINGS",
-        "MORPHO BUTTERFLY",
-        "MONARCH BUTTERFLY",
-        "CICADA WINGS",
-        "BLACK CICADA",
-        "MAPLE LEAF",
-        "HOLLY",
-        "BLUE BERRIES",
-        "FORGET ME NOTS",
-        "RYE STALK",
-        "CATTAIL",
-        "POPPY",
-        "ORANGE POPPY",
-        "CYAN POPPY",
-        "WHITE POPPY",
-        "PINK POPPY",
-        "BLUEBELLS",
-        "LILY OF THE VALLEY",
-        "SNAPDRAGON",
-        "NETTLE",
-        "HEATHER",
-        "GORSE",
-        "JUNIPER",
-        "RASPBERRY",
-        "LAVENDER",
-        "OAK LEAVES",
-        "CATMINT",
-        "MAPLE SEED",
-        "LAUREL",
-        "BULB WHITE",
-        "BULB YELLOW",
-        "BULB ORANGE",
-        "BULB PINK",
-        "BULB BLUE",
-        "DRY CATMINT",
-        "DRY NETTLES",
-        "DRY LAURELS",
-        "ROSE MALLOW",
-        "PICKLEWEED",
-        "DESERT WILLOW",
-        "CACTUS FLOWER",
-        "PRAIRIE FIRE",
-        "VERBENA EAR",
-    ]
-
-    body_accessories = [
-        "HERBS",
-        "PETALS",
-        "DRY HERBS",
-        "VERBENA PELT",
-        "ROAD RUNNER FEATHER",
-    ]
-
+    # accessory locations
+    tail_accessories = sprites.accessories["accessory_locations"]["tail"]
+    head_accessories = sprites.accessories["accessory_locations"]["head"]
+    body_accessories = sprites.accessories["accessory_locations"]["body"]
+    
     tabbies = sprites.pelt_colors["markings_list"]["tabbies"]
     spotted = sprites.pelt_colors["markings_list"]["spotted"]
     plain = sprites.pelt_colors["markings_list"]["plain"]
@@ -371,210 +105,36 @@ class Pelt:
     tortiepatterns = [tabbies, spotted, plain, exotic]
     
     # SPRITE NAMES
-    eye_sprites = [
-        "YELLOW",
-        "AMBER",
-        "HAZEL",
-        "PALEGREEN",
-        "GREEN",
-        "BLUE",
-        "DARKBLUE",
-        "BLUEYELLOW",
-        "BLUEGREEN",
-        "GREY",
-        "CYAN",
-        "EMERALD",
-        "PALEBLUE",
-        "PALEYELLOW",
-        "GOLD",
-        "HEATHERBLUE",
-        "COPPER",
-        "SAGE",
-        "COBALT",
-        "SUNLITICE",
-        "GREENYELLOW",
-        "BRONZE",
-        "SILVER",
-        "ORANGE",
-    ]
-    little_white = [
-        "LITTLE",
-        "LIGHTTUXEDO",
-        "BUZZARDFANG",
-        "TIP",
-        "BLAZE",
-        "BIB",
-        "VEE",
-        "PAWS",
-        "BELLY",
-        "TAILTIP",
-        "TOES",
-        "BROKENBLAZE",
-        "LILTWO",
-        "SCOURGE",
-        "TOESTAIL",
-        "RAVENPAW",
-        "HONEY",
-        "LUNA",
-        "EXTRA",
-        "MUSTACHE",
-        "REVERSEHEART",
-        "SPARKLE",
-        "RIGHTEAR",
-        "LEFTEAR",
-        "ESTRELLA",
-        "REVERSEEYE",
-        "BACKSPOT",
-        "EYEBAGS",
-        "LOCKET",
-        "BLAZEMASK",
-        "TEARS",
-    ]
-    mid_white = [
-        "TUXEDO",
-        "FANCY",
-        "UNDERS",
-        "DAMIEN",
-        "SKUNK",
-        "MITAINE",
-        "SQUEAKS",
-        "STAR",
-        "WINGS",
-        "DIVA",
-        "SAVANNAH",
-        "FADESPOTS",
-        "BEARD",
-        "DAPPLEPAW",
-        "TOPCOVER",
-        "WOODPECKER",
-        "MISS",
-        "BOWTIE",
-        "VEST",
-        "FADEBELLY",
-        "DIGIT",
-        "FCTWO",
-        "FCONE",
-        "MIA",
-        "ROSINA",
-        "PRINCESS",
-        "DOUGIE",
-    ]
-    high_white = [
-        "ANY",
-        "ANYTWO",
-        "BROKEN",
-        "FRECKLES",
-        "RINGTAIL",
-        "HALFFACE",
-        "PANTSTWO",
-        "GOATEE",
-        "PRINCE",
-        "FAROFA",
-        "MISTER",
-        "PANTS",
-        "REVERSEPANTS",
-        "HALFWHITE",
-        "APPALOOSA",
-        "PIEBALD",
-        "CURVED",
-        "GLASS",
-        "MASKMANTLE",
-        "MAO",
-        "PAINTED",
-        "SHIBAINU",
-        "OWL",
-        "BUB",
-        "SPARROW",
-        "TRIXIE",
-        "SAMMY",
-        "FRONT",
-        "BLOSSOMSTEP",
-        "BULLSEYE",
-        "FINN",
-        "SCAR",
-        "BUSTER",
-        "HAWKBLAZE",
-        "CAKE",
-    ]
-    mostly_white = [
-        "VAN",
-        "ONEEAR",
-        "LIGHTSONG",
-        "TAIL",
-        "HEART",
-        "MOORISH",
-        "APRON",
-        "CAPSADDLE",
-        "CHESTSPECK",
-        "BLACKSTAR",
-        "PETAL",
-        "HEARTTWO",
-        "PEBBLESHINE",
-        "BOOTS",
-        "COW",
-        "COWTWO",
-        "LOVEBUG",
-        "SHOOTINGSTAR",
-        "EYESPOT",
-        "PEBBLE",
-        "TAILTWO",
-        "BUDDY",
-        "KROPKA",
-    ]
-    point_markings = ["COLOURPOINT", "RAGDOLL", "SEPIAPOINT", "MINKPOINT", "SEALPOINT"]
-    vit = [
-        "VITILIGO",
-        "VITILIGOTWO",
-        "MOON",
-        "PHANTOM",
-        "KARPATI",
-        "POWDER",
-        "BLEACHED",
-        "SMOKEY",
-    ]
+    little_white = sprites.white_patches["base"]["little_white"]
+    mid_white = sprites.white_patches["base"]["mid_white"]
+    high_white = sprites.white_patches["base"]["high_white"]
+    mostly_white = sprites.white_patches["base"]["mostly_white"]
+    point_markings = sprites.white_patches["base"]["point_markings"]
+    vit = sprites.white_patches["base"]["vit"]
     white_sprites = [
         little_white, mid_white, high_white, mostly_white, point_markings, vit, 'FULLWHITE']
-    
-    # list of all non-unique
-    wing_white_list = ['FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'PEBBLESHINE', 'CAKE', 'KROPKA', 'HALFWHITE', 'GOATEE', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'PAINTED', 'SKUNK', 'STRIPES','UNDER', 'WOODPECKER', 'PAINTED', 'HAWKBLAZE', 'FINN', 'BULLSEYE', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'MISTER', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'PEBBLE']
 
     # special patches that just look weird with other patches
-    special_wing_white = ['WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'FULLWHITE', 'SAMMY']
+    special_wing_white = sprites.white_patches["wings"]["special"]
 
     # selection dict - crying? not today
     # i love dicts
     wing_white_sel = {
-        "little": ['little'],
-        "mid": ['little', 'mid', 'high'],
-        "high": ['high', 'mid'],
-        "mostly": ['high', 'mostly'],
-
-        "little_white": ['FADESPOTS', 'WINGTIPS', 'MITAINE', 'MISTER'],
-        "mid_white": ['SKUNK', 'STRIPES', 'UNDER', 'WOODPECKER', 'PAINTED', 'HAWKBLAZE', 'FINN', 'BULLSEYE'],
-        "high_white": ['HALFWHITE', 'GOATEE', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'PAINTED'],
-        "mostly_white": ['FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'PEBBLESHINE', 'CAKE', 'KROPKA', 'PEBBLE']
+        "little": ["little"],
+        "mid": ["little", "mid", "high"],
+        "high": ["high", "mid"],
+        "mostly": ["high", "mostly"],
+        
+        "little_white": sprites.white_patches["wings"]["little_white"],
+        "mid_white": sprites.white_patches["wings"]["mid_white"],
+        "high_white": sprites.white_patches["wings"]["high_white"],
+        "mostly_white": sprites.white_patches["wings"]["mostly_white"],
     }
+    
+    # list of all non-unique
+    wing_white_sprites = [wing_white_sel["little_white"], wing_white_sel["mid_white"], wing_white_sel["high_white"], wing_white_sel["mostly_white"]]
 
-    skin_sprites = [
-        "BLACK",
-        "PINK",
-        "DARKBROWN",
-        "BROWN",
-        "LIGHTBROWN",
-        "DARK",
-        "DARKGREY",
-        "GREY",
-        "DARKSALMON",
-        "SALMON",
-        "PEACH",
-        "DARKMARBLED",
-        "MARBLED",
-        "LIGHTMARBLED",
-        "DARKBLUE",
-        "BLUE",
-        "LIGHTBLUE",
-        "RED",
-    ]
+    skin_sprites = sprites.skin["skin_sprites"]
 
     """Holds all appearance information for a cat. """
 
@@ -710,9 +270,8 @@ class Pelt:
     def init_species(self, parents:tuple=()):
         species_list = []
         weight = []
-        
         try:
-            if switch_get_value("cur_screen") == "make clan screen":
+            if switch_get_value("cur_screen") == GameScreen.MAKE_CLAN:
                 species_settings = {
                     "earth": game_setting_get("earth_gen"),
                     "bird": game_setting_get("bird_gen"),
@@ -1715,7 +1274,7 @@ class Pelt:
 
         if acc_display_choice == 1:
             self.accessory = [
-                choice([choice(Pelt.plant_accessories), choice(Pelt.wild_accessories)])
+                choice([choice(plant_accessories), choice(wild_accessories)])
             ]
         else:
             self.accessory = []
@@ -1998,7 +1557,7 @@ class Pelt:
             patch_amount = "none"
 
         # check if it exists
-        if self.white_patches in Pelt.wing_white_list:
+        if self.white_patches in Pelt.wing_white_sprites:
 
             # check for special
             if self.white_patches not in Pelt.special_wing_white:

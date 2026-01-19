@@ -36,6 +36,7 @@ class Sprites:
         self.blank_sprite = None
 
         self.load_tints()
+        self.load_spritesheet_json()
         self.load_pelt_jsons()
 
     def load_tints(self):
@@ -61,6 +62,13 @@ class Sprites:
         except IOError:
             print("ERROR: Reading eye_colors.json")
 
+        # open white patches
+        try:
+            with open("sprites/dicts/white_patches.json", "r", encoding="utf-8") as read_file:
+                self.white_patches = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading white_patches.json")
+
         # open pelt colors
         try:
             with open(
@@ -77,6 +85,13 @@ class Sprites:
         except IOError:
             print("ERROR: Reading skin_colors.json")
 
+        # open skin
+        try:
+            with open("sprites/dicts/skin.json", "r", encoding="utf-8") as read_file:
+                self.skin = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading skin.json")
+
         # open accessories
         try:
             with open("sprites/dicts/accessories.json", "r", encoding="utf-8") as read_file:
@@ -91,16 +106,29 @@ class Sprites:
         except IOError:
             print("ERROR: Reading extra_traits.json")
 
-    def load_spritesheet_jsons(self):
+        # open scars
+        try:
+            with open("sprites/dicts/scars.json", "r", encoding="utf-8") as read_file:
+                self.scars = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading scars.json")
+
+        # open tortie
+        try:
+            with open("sprites/dicts/tortie.json", "r", encoding="utf-8") as read_file:
+                self.tortie = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading tortie.json")
+
+    def load_spritesheet_json(self):
         # open modded sprites
         try:
             with open(
-                "sprites/dicts/pelt_colors.json", "r", encoding="utf-8"
+                "sprites/dicts/spritesheets.json", "r", encoding="utf-8"
             ) as read_file:
-                self.pelt_colors = ujson.loads(read_file.read())
+                self.spritesheets_json = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading pelt_colors.json")
-
 
     def spritesheet(self, a_file, name):
         """
@@ -132,11 +160,6 @@ class Sprites:
         :param palettes: list of palette names
         """
         # pulls the defaults from the pose_sprite_data.json file
-        if not sprites_x:
-            sprites_x = self.sheet_layout[0]
-        if not sprites_y:
-            sprites_y = self.sheet_layout[1]
-
         group_x_ofs = pos[0] * sprites_x * self.size
         group_y_ofs = pos[1] * sprites_y * self.size
         i = 0
@@ -231,7 +254,7 @@ class Sprites:
         else:
             self.size = 50  # default, what base clangen uses
             print(
-                f"lineart.png is not {self.sheet_layout}, falling back to {self.size}"
+                f"lineart.png is strange, falling back to {self.size}"
             )
             print(
                 f"if you are a modder, please update sheet_layout in sprites/dicts/pose_sprite_data.json"
@@ -239,12 +262,15 @@ class Sprites:
 
         del width, height  # unneeded
 
+        for key, sheet in self.spritesheets_json.items():
+            self.load_sheet(sheet, key)
+
         for x in [
-            'lineart', 'base', 'wingsbase', 'markings', 'overlays', 'batskin', 'wingmarks',
+            'lineart', 'base', 'wingsbase', 'batskin', 'wingmarks',
             'batmane', 'batmanemarkings',
-            'whitepatches', 'wingswhitepatches', 'eyesnew', 'skin', 'scars', 'missingscars',
+            'eyesnew', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars', 'medcatherbs', 'wild', 
-            'shadersnewwhite', 'tortiepatchesmasks', 'wingstortiemasks',
+            'shadersnewwhite',
             'lightingnew', 'fademask',
             'fadestarclan', 'fadedarkforest', 'fadeunknownresidence',
             'wingscars',
@@ -268,6 +294,7 @@ class Sprites:
                 self.spritesheet(f"sprites/{x}_aprilfools.png", x)
             else:
                 self.spritesheet(f"sprites/{x}.png", x)
+
 
         # Lineart - this looks bad I'm too tired to make this neater
         self.make_group('lineart', (0, 0), 'lines')
@@ -329,7 +356,6 @@ class Sprites:
         for a, i in enumerate(['FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']):
             self.make_group('batmanemarkings', (a, 0), f'bat_manemarkings{i}')
 
-
         # Fading Fog
         for i in range(0, 3):
             self.make_group("fademask", (i, 0), f"fademask{i}")
@@ -337,151 +363,6 @@ class Sprites:
             self.make_group("fadedarkforest", (i, 0), f"fadedf{i}")
             self.make_group("fadeunknownresidence", (i, 0), f"fadeur{i}")
 
-        # Define white patches
-        white_patches = [
-            ['FULLWHITE', 'ANY', 'TUXEDO', 'LITTLE', 'COLOURPOINT', 'VAN', 'ANYTWO', 'MOON', 'PHANTOM', 'POWDER',
-             'BLEACHED', 'SAVANNAH', 'FADESPOTS', 'PEBBLESHINE'],
-            ['EXTRA', 'ONEEAR', 'BROKEN', 'LIGHTTUXEDO', 'BUZZARDFANG', 'RAGDOLL', 'LIGHTSONG', 'VITILIGO', 'BLACKSTAR',
-             'PIEBALD', 'CURVED', 'PETAL', 'SHIBAINU', 'OWL'],
-            ['TIP', 'FANCY', 'FRECKLES', 'RINGTAIL', 'HALFFACE', 'PANTSTWO', 'GOATEE', 'VITILIGOTWO', 'PAWS', 'MITAINE',
-             'BROKENBLAZE', 'SCOURGE', 'DIVA', 'BEARD'],
-            ['TAIL', 'BLAZE', 'PRINCE', 'BIB', 'VEE', 'UNDERS', 'HONEY', 'FAROFA', 'DAMIEN', 'MISTER', 'BELLY',
-             'TAILTIP', 'TOES', 'TOPCOVER'],
-            ['APRON', 'CAPSADDLE', 'MASKMANTLE', 'SQUEAKS', 'STAR', 'TOESTAIL', 'RAVENPAW', 'PANTS', 'REVERSEPANTS',
-             'SKUNK', 'KARPATI', 'HALFWHITE', 'APPALOOSA', 'DAPPLEPAW'],
-            ['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'MAO', 'LUNA', 'CHESTSPECK',
-             'WINGS', 'PAINTED', 'HEARTTWO', 'WOODPECKER'],
-            ['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST',
-             'LOVEBUG', 'TRIXIE', 'SAMMY', 'SPARKLE'],
-            ['RIGHTEAR', 'LEFTEAR', 'ESTRELLA', 'SHOOTINGSTAR', 'EYESPOT', 'REVERSEEYE', 'FADEBELLY', 'FRONT',
-             'BLOSSOMSTEP', 'PEBBLE', 'TAILTWO', 'BUDDY', 'BACKSPOT', 'EYEBAGS'],
-            ['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR', 'BUSTER', 'SMOKEY', 'HAWKBLAZE',
-             'CAKE', 'ROSINA', 'PRINCESS'],
-            ['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE','WISP','INVERTEDWINGS']
-        ]
-
-        for row, patches in enumerate(white_patches):
-            for col, patch in enumerate(patches):
-                self.make_group("whitepatches", (col, row), f"white{patch}")
-
-        # wing white patches
-        for a, i in enumerate(['NONE', 'FULLWHITE', 'WINGS', 'FRECKLES', 'TAIL', 'HALFWHITE', 'GOATEE',
-            'PEBBLESHINE', 'MISTER', 'PRINCE', 'PANTS', 'REVERSEPANTS', 'GLASS', 'SKUNK', 'STRIPES']):
-            self.make_group('wingswhitepatches', (a, 0), f'bat catwhite{i}')
-            self.make_group('wingswhitepatches', (a, 1), f'bird catwhite{i}')
-        for a, i in enumerate(['UNDER', 'WOODPECKER', 'PAINTED', 'FADESPOTS', 'WINGTIPS', 'MITAINE', 'WISP', 'APPALOOSA', 'INVERTEDWINGS', 'HEARTTWO', 'VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI']):
-            self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
-            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
-        for a, i in enumerate(['POWDER', 'BLEACHED', 'SMOKEY', 'COLOURPOINT', 'RAGDOLL', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'PEBBLE', 'SAMMY', 'HAWKBLAZE', 'CAKE', 'BULLSEYE', 'FINN', 'KROPKA']):
-            self.make_group('wingswhitepatches', (a, 2), f'bat catwhite{i}')
-            self.make_group('wingswhitepatches', (a, 3), f'bird catwhite{i}')
-
-        # markings
-        for a, i in enumerate(
-                ['TABBY', 'MASKED', 'MACKEREL', 'AGOUTI', 'SPECKLED', 'CLASSIC', 'SOKOKE', 'SINGLESTRIPE', 'TICKED', 'MARBLED', 'BENGAL', 'SMOKE', 'ROSETTE', 'BRAIDED', 'PINSTRIPE', 'DUOTONE']):
-            self.make_group('markings', (a, 0), f'markings{i}')
-            self.make_group('markings', (a, 2), f'bird catmarkings{i}')
-            self.make_group('markings', (a, 4), f'bat catmarkings{i}')
-        for a, i in enumerate(
-                ['MASKED', 'SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']):
-            self.make_group('markings', (a, 1), f'markinside{i}')
-        for a, i in enumerate(
-                ['SOKOKE', 'MARBLED', 'BENGAL', 'ROSETTE', 'BRAIDED']):
-            self.make_group('markings', (a, 3), f'bird catmarkinside{i}')
-            self.make_group('markings', (a, 5), f'bat catmarkinside{i}')
-        
-        # overlays
-        for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID', 'TABBY', 'SMOKE']):
-            self.make_group('overlays', (a, 0), f'underfur{i}')
-        for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
-            self.make_group('overlays', (a, 1), f'overfur{i}')
-
-        # wing overlays
-        for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID', 'TABBY', 'SMOKE']):
-            self.make_group('overlays', (a, 2), f'bird catunderfur{i}')
-            self.make_group('overlays', (a, 4), f'bat catunderfur{i}')
-        for a, i in enumerate(
-                ['BASIC', 'BENGAL', 'SOLID', 'TABBY']):
-            self.make_group('overlays', (a, 3), f'bird catoverfur{i}')
-            self.make_group('overlays', (a, 5), f'bat catoverfur{i}')
-
-        # tortiepatchesmasks
-        tortiepatchesmasks = [
-            [
-                "ONE",
-                "TWO",
-                "THREE",
-                "FOUR",
-                "REDTAIL",
-                "DELILAH",
-                "HALF",
-                "STREAK",
-                "MASK",
-                "SMOKE",
-            ],
-            [
-                "MINIMALONE",
-                "MINIMALTWO",
-                "MINIMALTHREE",
-                "MINIMALFOUR",
-                "OREO",
-                "SWOOP",
-                "CHIMERA",
-                "CHEST",
-                "ARMTAIL",
-                "GRUMPYFACE",
-            ],
-            [
-                "MOTTLED",
-                "SIDEMASK",
-                "EYEDOT",
-                "BANDANA",
-                "PACMAN",
-                "STREAMSTRIKE",
-                "SMUDGED",
-                "DAUB",
-                "EMBER",
-                "BRIE",
-            ],
-            [
-                "ORIOLE",
-                "ROBIN",
-                "BRINDLE",
-                "PAIGE",
-                "ROSETAIL",
-                "SAFI",
-                "DAPPLENIGHT",
-                "BLANKET",
-                "BELOVED",
-                "BODY",
-            ],
-            ["SHILOH", "FRECKLED", "HEARTBEAT"],
-        ]
-
-        for row, masks in enumerate(tortiepatchesmasks):
-            for col, mask in enumerate(masks):
-                self.make_group("tortiepatchesmasks", (col, row), f"tortiemask{mask}")
-
-        # wing tortie masks
-        for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE']):
-            self.make_group('wingstortiemasks', (a, 0), f"bat cattortiemask{i}")
-            self.make_group('wingstortiemasks', (a, 1), f"bird cattortiemask{i}")
-        for a, i in enumerate(['MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO', 'SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL',
-             'GRUMPYFACE']):
-            self.make_group('wingstortiemasks', (a, 2), f"bat cattortiemask{i}")
-            self.make_group('wingstortiemasks', (a, 3), f"bird cattortiemask{i}")
-        for a, i in enumerate(['MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE']):
-            self.make_group('wingstortiemasks', (a, 4), f"bat cattortiemask{i}")
-            self.make_group('wingstortiemasks', (a, 5), f"bird cattortiemask{i}")
-        for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
-            self.make_group('wingstortiemasks', (a, 6), f"bat cattortiemask{i}")
-            self.make_group('wingstortiemasks', (a, 7), f"bird cattortiemask{i}")
-        for a, i in enumerate(['SHILOH', 'FRECKLED', 'HEARTBEAT']):
-            self.make_group('wingstortiemasks', (a, 8), f"bat cattortiemask{i}")
-            self.make_group('wingstortiemasks', (a, 9), f"bird cattortiemask{i}")
 
         # Define skin colors 
         skin_colors = [
@@ -734,13 +615,19 @@ class Sprites:
             for col, nyloncollar in enumerate(nyloncollars):
                 self.make_group("nyloncollars", (col, row), f"collars{nyloncollar}")
 
-    def load_sheet(self, data):
-        # get sheet row
-
-        # create chunks from data to depict each row
+    def load_sheet(self, data, file):
+        # load file as sheet
+        self.spritesheet(f"sprites/{file}.png", file)
 
         # create sprites
-        return
+        for row, items in enumerate(data["sprite_names"]):
+            for col, item in enumerate(items):
+                if "types" in data:
+                    self.make_group(file, (col, row), f"{data['types'][row]}{item}")
+                    print(f"Loaded: {item}, {file} - {data['types'][row]}{item}")
+                else:
+                    self.make_group(file, (col, row), f"{data['type']}{item}")
+                    print(f"Loaded: {item}, {file} - {data['type']}{item}")
 
     def load_symbols(self):
         """

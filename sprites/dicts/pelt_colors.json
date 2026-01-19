@@ -231,6 +231,29 @@
         "exotic": ["Bengal", "Marbled", "Masked", "Braided", "Duotone"]
     },
 
+    "sprites_names": {
+        "SingleColour": "single",
+        "TwoColour": "single",
+        "Tabby": "tabby",
+        "Marbled": "marbled",
+        "Rosette": "rosette",
+        "Smoke": "smoke",
+        "Ticked": "ticked",
+        "Speckled": "speckled",
+        "Bengal": "bengal",
+        "Mackerel": "mackerel",
+        "Duotone": "duotone",
+        "Braided": "braided",
+        "Pinstripe": "pinstripe",
+        "Classic": "classic",
+        "Sokoke": "sokoke",
+        "Agouti": "agouti",
+        "Singlestripe": "singlestripe",
+        "Masked": "masked",
+        "Tortie": null,
+        "Calico": null
+    },
+
     "pelt_list": {
         "SINGLECOLOUR": {
             "color_type": "singlecolor",

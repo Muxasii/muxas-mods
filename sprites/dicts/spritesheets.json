@@ -1,0 +1,112 @@
+{
+    "white_patches": {
+        "sprite_names": [
+            ["FULLWHITE", "ANY", "TUXEDO", "LITTLE", "COLOURPOINT", "VAN", "ANYTWO", "MOON", "PHANTOM", "POWDER",
+             "BLEACHED", "SAVANNAH", "FADESPOTS", "PEBBLESHINE"],
+            ["EXTRA", "ONEEAR", "BROKEN", "LIGHTTUXEDO", "BUZZARDFANG", "RAGDOLL", "LIGHTSONG", "VITILIGO", "BLACKSTAR",
+             "PIEBALD", "CURVED", "PETAL", "SHIBAINU", "OWL"],
+            ["TIP", "FANCY", "FRECKLES", "RINGTAIL", "HALFFACE", "PANTSTWO", "GOATEE", "VITILIGOTWO", "PAWS", "MITAINE",
+             "BROKENBLAZE", "SCOURGE", "DIVA", "BEARD"],
+            ["TAIL", "BLAZE", "PRINCE", "BIB", "VEE", "UNDERS", "HONEY", "FAROFA", "DAMIEN", "MISTER", "BELLY",
+             "TAILTIP", "TOES", "TOPCOVER"],
+            ["APRON", "CAPSADDLE", "MASKMANTLE", "SQUEAKS", "STAR", "TOESTAIL", "RAVENPAW", "PANTS", "REVERSEPANTS",
+             "SKUNK", "KARPATI", "HALFWHITE", "APPALOOSA", "DAPPLEPAW"],
+            ["HEART", "LILTWO", "GLASS", "MOORISH", "SEPIAPOINT", "MINKPOINT", "SEALPOINT", "MAO", "LUNA", "CHESTSPECK",
+             "WINGS", "PAINTED", "HEARTTWO", "WOODPECKER"],
+            ["BOOTS", "MISS", "COW", "COWTWO", "BUB", "BOWTIE", "MUSTACHE", "REVERSEHEART", "SPARROW", "VEST",
+             "LOVEBUG", "TRIXIE", "SAMMY", "SPARKLE"],
+            ["RIGHTEAR", "LEFTEAR", "ESTRELLA", "SHOOTINGSTAR", "EYESPOT", "REVERSEEYE", "FADEBELLY", "FRONT",
+             "BLOSSOMSTEP", "PEBBLE", "TAILTWO", "BUDDY", "BACKSPOT", "EYEBAGS"],
+            ["BULLSEYE", "FINN", "DIGIT", "KROPKA", "FCTWO", "FCONE", "MIA", "SCAR", "BUSTER", "SMOKEY", "HAWKBLAZE",
+             "CAKE", "ROSINA", "PRINCESS"],
+            ["LOCKET", "BLAZEMASK", "TEARS", "DOUGIE","WISP","INVERTEDWINGS"]
+        ],
+        "type": "white"
+    },
+    "wing_white_patches": {
+        "sprite_names": [
+            ["NONE", "FULLWHITE", "WINGS", "FRECKLES", "TAIL", "HALFWHITE", "GOATEE", "PEBBLESHINE", "MISTER", "PRINCE", "PANTS", "REVERSEPANTS", "GLASS", "SKUNK", "STRIPES"],
+            ["NONE", "FULLWHITE", "WINGS", "FRECKLES", "TAIL", "HALFWHITE", "GOATEE", "PEBBLESHINE", "MISTER", "PRINCE", "PANTS", "REVERSEPANTS", "GLASS", "SKUNK", "STRIPES"],
+            ["UNDER", "WOODPECKER", "PAINTED", "FADESPOTS", "WINGTIPS", "MITAINE", "WISP", "APPALOOSA", "INVERTEDWINGS", "HEARTTWO", "VITILIGO", "VITILIGOTWO", "MOON", "PHANTOM", "KARPATI"],
+            ["UNDER", "WOODPECKER", "PAINTED", "FADESPOTS", "WINGTIPS", "MITAINE", "WISP", "APPALOOSA", "INVERTEDWINGS", "HEARTTWO", "VITILIGO", "VITILIGOTWO", "MOON", "PHANTOM", "KARPATI"],
+            ["POWDER", "BLEACHED", "SMOKEY", "COLOURPOINT", "RAGDOLL", "SEPIAPOINT", "MINKPOINT", "SEALPOINT", "PEBBLE", "SAMMY", "HAWKBLAZE", "CAKE", "BULLSEYE", "FINN", "KROPKA"],
+            ["POWDER", "BLEACHED", "SMOKEY", "COLOURPOINT", "RAGDOLL", "SEPIAPOINT", "MINKPOINT", "SEALPOINT", "PEBBLE", "SAMMY", "HAWKBLAZE", "CAKE", "BULLSEYE", "FINN", "KROPKA"]
+        ],
+        "types": ["bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite"]
+    },
+    "markings": {
+        "sprite_names": [
+            ["TABBY", "MASKED", "MACKEREL", "AGOUTI", "SPECKLED", "CLASSIC", "SOKOKE", "SINGLESTRIPE", "TICKED", "MARBLED", "BENGAL", "SMOKE", "ROSETTE", "BRAIDED", "PINSTRIPE", "DUOTONE"],
+            ["MASKED", "SOKOKE", "MARBLED", "BENGAL", "ROSETTE", "BRAIDED"],
+            ["TABBY", "MASKED", "MACKEREL", "AGOUTI", "SPECKLED", "CLASSIC", "SOKOKE", "SINGLESTRIPE", "TICKED", "MARBLED", "BENGAL", "SMOKE", "ROSETTE", "BRAIDED", "PINSTRIPE", "DUOTONE"],
+            ["SOKOKE", "MARBLED", "BENGAL", "ROSETTE", "BRAIDED"],
+            ["TABBY", "MASKED", "MACKEREL", "AGOUTI", "SPECKLED", "CLASSIC", "SOKOKE", "SINGLESTRIPE", "TICKED", "MARBLED", "BENGAL", "SMOKE", "ROSETTE", "BRAIDED", "PINSTRIPE", "DUOTONE"],
+            ["SOKOKE", "MARBLED", "BENGAL", "ROSETTE", "BRAIDED"]
+        ],
+        "types": [
+            "markings",
+            "markinside",
+            "bird catmarkings",
+            "bird catmarkinside",
+            "bat catmarkings",
+            "bat catmarkinside"
+        ]
+    },
+    "overlays": {
+        "sprite_names": [
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"],
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"]
+        ],
+        "types": [
+            "underfur",
+            "overfur"
+        ]
+    },
+    "wing_overlays": {
+        "sprite_names": [
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"],
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"],
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"],
+            ["BASIC", "BENGAL", "SOLID", "TABBY", "SMOKE"]
+        ],
+        "types": [
+            "bird catunderfur",
+            "bird catoverfur",
+            "bat catunderfur",
+            "bat catoverfur"
+        ]
+    },
+    "tortie_patches": {
+        "sprite_names": [
+            ["ONE", "TWO", "THREE", "FOUR", "REDTAIL", "DELILAH", "HALF", "STREAK", "MASK", "SMOKE"],
+            ["MINIMALONE", "MINIMALTWO", "MINIMALTHREE", "MINIMALFOUR", "OREO", "SWOOP", "CHIMERA", "CHEST", "ARMTAIL", "GRUMPYFACE"],
+            ["MOTTLED", "SIDEMASK", "EYEDOT", "BANDANA", "PACMAN", "STREAMSTRIKE", "SMUDGED", "DAUB", "EMBER", "BRIE"],
+            ["ORIOLE", "ROBIN", "BRINDLE", "PAIGE", "ROSETAIL", "SAFI", "DAPPLENIGHT", "BLANKET", "BELOVED", "BODY"],
+            ["SHILOH", "FRECKLED", "HEARTBEAT"]
+        ],
+        "type": "tortiemask"
+    },
+    "wing_tortie_patches": {
+        "sprite_names": [
+            ["ONE", "TWO", "THREE", "FOUR", "REDTAIL", "DELILAH", "HALF", "STREAK", "MASK", "SMOKE"],
+            ["ONE", "TWO", "THREE", "FOUR", "REDTAIL", "DELILAH", "HALF", "STREAK", "MASK", "SMOKE"],
+            ["MINIMALONE", "MINIMALTWO", "MINIMALTHREE", "MINIMALFOUR", "OREO", "SWOOP", "CHIMERA", "CHEST", "ARMTAIL", "GRUMPYFACE"],
+            ["MINIMALONE", "MINIMALTWO", "MINIMALTHREE", "MINIMALFOUR", "OREO", "SWOOP", "CHIMERA", "CHEST", "ARMTAIL", "GRUMPYFACE"],
+            ["MOTTLED", "SIDEMASK", "EYEDOT", "BANDANA", "PACMAN", "STREAMSTRIKE", "SMUDGED", "DAUB", "EMBER", "BRIE"],
+            ["MOTTLED", "SIDEMASK", "EYEDOT", "BANDANA", "PACMAN", "STREAMSTRIKE", "SMUDGED", "DAUB", "EMBER", "BRIE"],
+            ["ORIOLE", "ROBIN", "BRINDLE", "PAIGE", "ROSETAIL", "SAFI", "DAPPLENIGHT", "BLANKET", "BELOVED", "BODY"],
+            ["ORIOLE", "ROBIN", "BRINDLE", "PAIGE", "ROSETAIL", "SAFI", "DAPPLENIGHT", "BLANKET", "BELOVED", "BODY"],
+            ["SHILOH", "FRECKLED", "HEARTBEAT"],
+            ["SHILOH", "FRECKLED", "HEARTBEAT"]
+        ],
+        "types": ["bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite", "bat catwhite", "bird catwhite"]
+    },
+    "skin": {
+        "sprite_names": [
+            ["BLACK", "RED", "PINK", "DARKBROWN", "BROWN", "LIGHTBROWN"],
+            ["DARK", "DARKGREY", "GREY", "DARKSALMON", "SALMON", "PEACH"],
+            ["DARKMARBLED", "MARBLED", "LIGHTMARBLED", "DARKBLUE", "BLUE", "LIGHTBLUE"]
+        ],
+        "type": "skin"
+    }
+}
