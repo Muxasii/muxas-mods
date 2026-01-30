@@ -310,7 +310,6 @@ def generate_sprite(
     return new_sprite
 
 def create_base(cat_sprite, colors, markings, cat, tortie_colors=None, tortie_markings=None, tortie=False):
-    # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )

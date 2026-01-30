@@ -676,7 +676,7 @@ class CustomizeCatScreen(Screens):
                 self.handle_pelt_length_buttons(event.ui_element)
             elif event.ui_element == self.heterochromia_checkbox:
                 self.handle_heterochromia_checkbox()
-            elif event.ui_element == self.mane_checkbox:
+            elif event.ui_element == self.mane_button:
                 self.handle_mane_checkbox()
             elif event.ui_element in [self.pose_left_button, self.pose_right_button]:
                 self.handle_pose_buttons(event.ui_element)
@@ -953,13 +953,13 @@ class CustomizeCatScreen(Screens):
         self.kill_cat_element("mane_checkbox")
         if self.page == 2:
             checkbox_id = "@checked_checkbox" if self.mane else "@unchecked_checkbox"
-            self.mane_checkbox = UIImageButton(
+            self.mane_button = UIImageButton(
                 ui_scale(pygame.Rect((635, 204), (30, 30))),
                 "",
                 object_id=checkbox_id,
                 starting_height=2
             )
-            self.cat_elements["mane_checkbox"] = self.mane_checkbox
+            self.cat_elements["mane_checkbox"] = self.mane_button
 
     def handle_heterochromia_checkbox(self):
         self.heterochromia = not self.heterochromia
