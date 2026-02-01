@@ -209,10 +209,11 @@ class Patrol:
                     self.patrol_statuses["healer cats"] = 1
 
             if cat.status.rank.is_any_apprentice_rank():
-                if "winged apprentices" in self.patrol_statuses:
-                    self.patrol_statuses["winged apprentices"] += 1
-                else:
-                    self.patrol_statuses["all apprentices"] = 1
+                if cat.display_wing_count == 2:
+                    if "winged apprentices" in self.patrol_statuses:
+                        self.patrol_statuses["winged apprentices"] += 1
+                    else:
+                        self.patrol_statuses["winged apprentices"] = 1
                 if "all apprentices" in self.patrol_statuses:
                     self.patrol_statuses["all apprentices"] += 1
                 else:
@@ -624,166 +625,128 @@ class Patrol:
                 if not self._check_constraints(patrol):
                     continue
 
-                if not (num[0] <= self.patrol_statuses.get(sta, -1) <= num[1]):
-                    flag = True
-                    break
+                # Don't check for repeat patrols if ensure_patrol_id is being used.
+                if (
+                    constants.CONFIG["patrol_generation"]["debug_ensure_patrol_id"]
+                    == ""
+                    and patrol.patrol_id in self.used_patrols
+                ):
+                    continue
 
-            flag = False
+                if not (patrol.min_cats <= len(self.patrol_cats) <= patrol.max_cats):
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (min or max cats range)"
+                        )
+                    continue
 
-            if flag:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (min max status)"
-                    )
-                continue
-
-            if patrol.min_max_species:
-                for sta, num in patrol.min_max_species.items():
+                flag = False
+                for sta, num in patrol.min_max_status.items():
                     if len(num) != 2:
                         print(f"Issue with status limits: {patrol.patrol_id}")
                         continue
 
-                    if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
+                    if not (num[0] <= self.patrol_statuses.get(sta, -1) <= num[1]):
                         flag = True
                         break
                 if flag:
-                    continue
-
-                flag = False
-
-                if flag:
                     if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
                         print(
-                            "DEBUG: requested patrol does not meet constraints (min max species)"
+                            "DEBUG: requested patrol does not meet constraints (min max status)"
                         )
                     continue
 
-            if patrol.min_max_wings:
-                for sta, num in patrol.min_max_wings.items():
-                    if len(num) != 2:
-                        print(f"Issue with status limits: {patrol.patrol_id}")
+                flag = False
+                if patrol.min_max_species:
+                    for sta, num in patrol.min_max_species.items():
+                        if len(num) != 2:
+                            print(f"Issue with species limits: {patrol.patrol_id}")
+                            continue
+
+                        if not (num[0] <= self.patrol_species.get(sta, -1) <= num[1]):
+                            flag = True
+                            break
+                    if flag:
+                        if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                            print(
+                                "DEBUG: requested patrol does not meet constraints (min max species)"
+                            )
                         continue
 
-                    if not (num[0] <= self.patrol_wings.get(sta, -1) <= num[1]):
-                        flag = True
-                        break
-                if flag:
-                    continue
-
                 flag = False
+                if patrol.min_max_wings:
+                    for sta, num in patrol.min_max_wings.items():
+                        if len(num) != 2:
+                            print(f"Issue with wings limits: {patrol.patrol_id}")
+                            continue
 
-                if flag:
+                        if not (num[0] <= self.patrol_wings.get(sta, -1) <= num[1]):
+                            flag = True
+                            break
+                    if flag:
+                        if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                            print(
+                                "DEBUG: requested patrol does not meet constraints (min max wings)"
+                            )
+                        continue
+
+                if not event_for_tags(
+                    patrol.tags, Cat, mentor_tags_fulfilled=has_mentor
+                ):
                     if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
                         print(
-                            "DEBUG: requested patrol does not meet constraints (min max wings)"
+                            "DEBUG: requested patrol does not meet constraints (tags)"
                         )
                     continue
-            
-            if not event_for_tags(patrol.tags, Cat):
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print("DEBUG: requested patrol does not meet constraints (tags)")
-                
-            if biome not in patrol.biome and "any" not in patrol.biome:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print("DEBUG: requested patrol does not meet constraints (biome)")
-                continue
-            if camp not in patrol.camp and "any" not in patrol.camp:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print("DEBUG: requested patrol does not meet constraints (camp)")
-                continue
-            if current_season not in patrol.season and "any" not in patrol.season:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print("DEBUG: requested patrol does not meet constraints (season)")
-                continue
-            
-            # Don't check for repeat patrols if ensure_patrol_id is being used.
-            if (
-                constants.CONFIG["patrol_generation"]["debug_ensure_patrol_id"]
-                == ""
-                and patrol.patrol_id in self.used_patrols
-            ):
-                continue
 
-            if not (patrol.min_cats <= len(self.patrol_cats) <= patrol.max_cats):
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (min or max cats range)"
-                    )
-                continue
-
-            flag = False
-            for sta, num in patrol.min_max_status.items():
-                if len(num) != 2:
-                    print(f"Issue with status limits: {patrol.patrol_id}")
+                if biome not in patrol.biome and "any" not in patrol.biome:
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (biome)"
+                        )
+                    continue
+                if camp not in patrol.camp and "any" not in patrol.camp:
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (camp)"
+                        )
+                    continue
+                if current_season not in patrol.season and "any" not in patrol.season:
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (season)"
+                        )
                     continue
 
-                if not (num[0] <= self.patrol_statuses.get(sta, -1) <= num[1]):
-                    flag = True
-                    break
-            if flag:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (min max status)"
-                    )
-                continue
+                if "hunting" not in patrol.types and patrol_type == "hunting":
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (patrol type)"
+                        )
+                    continue
+                elif "border" not in patrol.types and patrol_type == "border":
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (patrol type)"
+                        )
+                    continue
+                elif "training" not in patrol.types and patrol_type == "training":
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (patrol type)"
+                        )
+                    continue
+                elif "herb_gathering" not in patrol.types and patrol_type == "med":
+                    if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
+                        print(
+                            "DEBUG: requested patrol does not meet constraints (patrol type)"
+                        )
+                    continue
 
-            if not event_for_tags(
-                patrol.tags, Cat, mentor_tags_fulfilled=has_mentor
-            ):
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (tags)"
-                    )
-                continue
-
-            if biome not in patrol.biome and "any" not in patrol.biome:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (biome)"
-                    )
-                continue
-            if camp not in patrol.camp and "any" not in patrol.camp:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (camp)"
-                    )
-                continue
-            if current_season not in patrol.season and "any" not in patrol.season:
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (season)"
-                    )
-                continue
-
-            if "hunting" not in patrol.types and patrol_type == "hunting":
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (patrol type)"
-                    )
-                continue
-            elif "border" not in patrol.types and patrol_type == "border":
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (patrol type)"
-                    )
-                continue
-            elif "training" not in patrol.types and patrol_type == "training":
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (patrol type)"
-                    )
-                continue
-            elif "herb_gathering" not in patrol.types and patrol_type == "med":
-                if self.debug_patrol and self.debug_patrol == patrol.patrol_id:
-                    print(
-                        "DEBUG: requested patrol does not meet constraints (patrol type)"
-                    )
-                continue
-
-            if "romance" in patrol.tags:
-                romantic_patrols.append(patrol)
-            else:
-                filtered_patrols.append(patrol)
+                if "romance" in patrol.tags:
+                    romantic_patrols.append(patrol)
+                else:
+                    filtered_patrols.append(patrol)
 
             if not filtered_patrols:
                 # if we've circled back around to 4 then we need to reset the used patrols
@@ -1065,7 +1028,7 @@ class Patrol:
                     self, patrol_property, load_lang_resource(f"patrols/{location}")
                 )
             except:
-                raise Exception("Something went wrong loading patrols!")
+                raise Exception(f"Something went wrong loading patrols! {location}")
 
     def balance_hunting(self, possible_patrols: list):
         """Filter the incoming hunting patrol list to balance the different kinds of hunting patrols.
