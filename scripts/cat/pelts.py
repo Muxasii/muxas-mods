@@ -5,7 +5,8 @@ from re import sub
 import i18n
 
 import scripts.game_structure.screen_settings
-from scripts.cat.sprites import sprites
+from scripts.cat.sprites.load_sprites import sprites
+from scripts.cat.enums import CatAge
 from scripts.game_structure import constants
 from scripts.game_structure.game.settings import game_setting_get
 from scripts.game_structure import game
@@ -15,7 +16,7 @@ from scripts.game_structure.game.switches import (
 )
 from scripts.game_structure.localization import get_lang_config
 from scripts.screens.enums import GameScreen
-from scripts.utility import adjust_list_text
+from scripts.events_module.text_adjust import adjust_list_text
 
 
 # make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely

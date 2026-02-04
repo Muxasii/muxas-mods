@@ -8,9 +8,7 @@ from .ChooseMateScreen import ChooseMateScreen
 from .ChooseMentorScreen import ChooseMentorScreen
 from .ClanScreen import ClanScreen
 from .ClanSettingsScreen import ClanSettingsScreen
-from .ClearingScreen import ClearingScreen
 from .CustomizeCatScreen import CustomizeCatScreen
-from .EventEditScreen import EventEditScreen
 from .EventsScreen import EventsScreen
 from .FamilyTreeScreen import FamilyTreeScreen
 from .LeaderDenScreen import LeaderDenScreen
@@ -67,7 +65,6 @@ def rebuild_all_screens():
         GameScreen.CAMP: ClanScreen,
         GameScreen.LIST: ListScreen,
         GameScreen.MED_DEN: MedDenScreen,
-        GameScreen.CLEARING: ClearingScreen,
         GameScreen.WARRIOR_DEN: WarriorDenScreen,
         GameScreen.LEADER_DEN: LeaderDenScreen,
         GameScreen.EVENTS: EventsScreen,
@@ -83,7 +80,6 @@ def rebuild_all_screens():
         GameScreen.FAMILY_TREE: FamilyTreeScreen,
         GameScreen.MEDIATION: MediationScreen,
         GameScreen.CHANGE_GENDER: ChangeGenderScreen,
-        GameScreen.EVENT_EDIT: EventEditScreen,
         GameScreen.CUSTOMIZE_CAT: CustomizeCatScreen,
     }
 
