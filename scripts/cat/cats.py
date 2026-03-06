@@ -48,7 +48,7 @@ from scripts.game_structure.game.switches import switch_get_value, Switch
 from scripts.game_structure.localization import load_lang_resource
 from scripts.game_structure.screen_settings import screen
 from scripts.housekeeping.datadir import get_save_dir
-from scripts.cat.sprites.display_sprites import update_sprite, update_mask
+from scripts.cat.sprites.generate_sprite import generate_sprite
 from scripts.events_module.text_adjust import (
     event_text_adjust,
     leader_ceremony_text_adjust,
@@ -3269,8 +3269,7 @@ class Cat:
         if self.pelt.rebuild_sprite or self.not_working() != self._sprite_working:
             self.pelt.rebuild_sprite = False
             self._sprite_working = self.not_working()
-            update_sprite(self)
-            update_mask(self)
+            generate_sprite(self)
         return self._sprite
 
     @sprite.setter

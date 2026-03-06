@@ -8,7 +8,7 @@ from scripts.game_structure import image_cache, constants
 
 from scripts.game_structure.game.settings.settings import game_setting_get
 from scripts.game_structure.game.switches import switch_get_value, Switch
-from scripts.cat.sprites import sprites
+from scripts.cat.sprites.load_sprites import sprites
 
 logger = logging.getLogger(__name__)
 

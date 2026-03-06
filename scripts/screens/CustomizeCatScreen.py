@@ -8,8 +8,8 @@ from pygame_gui.elements import UIDropDownMenu, UITextBox
 
 from scripts.cat.cats import Cat
 from scripts.cat.pelts import Pelt, plant_accessories, wild_accessories, collars
-from scripts.cat.sprites import sprites
-from scripts.cat.generate_sprite import generate_sprite
+from scripts.cat.sprites.load_sprites import sprites
+from scripts.cat.sprites.generate_sprite import generate_sprite
 from scripts.game_structure.screen_settings import MANAGER
 from scripts.game_structure.ui_elements import UISurfaceImageButton, UIImageButton
 from scripts.game_structure.game.switches import switch_set_value, switch_get_value, Switch
@@ -18,8 +18,8 @@ from .enums import GameScreen
 from scripts.ui.generate_box import get_box, BoxStyles
 from scripts.ui.generate_button import get_button_dict, ButtonStyles
 from scripts.ui.icon import Icon
-from scripts.utility import ui_scale, ui_scale_dimensions, get_text_box_theme
-
+from ..ui.theme import get_text_box_theme
+from ..ui.scale import ui_scale, ui_scale_dimensions
 
 
 """ Cat customization UI """

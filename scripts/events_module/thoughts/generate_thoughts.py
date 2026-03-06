@@ -250,6 +250,22 @@ def _constraints_fulfilled(
 
     if "random_backstory_constraint" in thought:
         random_info_dict["backstory"] = thought["random_backstory_constraint"]
+        
+    # Constraints for the species of the main cat
+    if 'main_species_constraint' in thought:
+        main_info_dict["species"] = thought["main_species_constraint"]
+
+    # Constraints for the species of the random cat
+    if 'random_species_constraint' in thought and random_cat:
+        random_info_dict["species"] = thought["random_species_constraint"]
+
+    # Constraints for the wing count of the main cat
+    if 'main_wing_c_constraint' in thought:
+        main_info_dict["wing_count"] = thought["main_wing_c_constraint"]
+
+    # Constraints for the wing count of the random cat
+    if 'random_wing_c_constraint' in thought and random_cat:
+        random_info_dict["wing_count"] = thought["random_wing_c_constraint"]
 
     if not event_for_cat(main_info_dict, main_cat):
         return False

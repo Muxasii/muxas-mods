@@ -224,6 +224,11 @@ class Patrol:
                 cat.status.rank.is_any_adult_warrior_like_rank()
                 and cat.age != CatAge.ADOLESCENT
             ):
+                if cat.display_wing_count == 2:
+                    if "winged apprentices" in self.patrol_statuses:
+                        self.patrol_statuses["winged adult"] += 1
+                    else:
+                        self.patrol_statuses["winged adult"] = 1
                 if "normal adult" in self.patrol_statuses:
                     self.patrol_statuses["normal adult"] += 1
                 else:

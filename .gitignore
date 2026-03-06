@@ -184,3 +184,5 @@ download.tmp
 version.ini
 *.xml
 /docs
+/docs
+/docs/dev
