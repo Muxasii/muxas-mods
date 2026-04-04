@@ -82,6 +82,16 @@
         "BOG": {"base": "#809848", "shade": "#442220", "pupil": "#16010A"},
         "IRIS": {"base": "#B2B2ED", "shade": "#8D8299", "pupil": "#15001A"},
 
+        "WILLOW": {"base": "#AFDE7C", "shade": "#AFDE7C", "pupil": "#5B507A"},
+        "STEEL": {"base": "#AFBFC0", "shade": "#847E89", "pupil": "#56494C"},
+        "ULTRAMARINE": {"base": "#708DFF", "shade": "#1B2CC1", "pupil": "#100540"},
+        "SPECTRUM": {"base": "#CE6D8B", "shade": "#CE2D4F", "pupil": "#430BEA", "shine": "#4056F4"},
+        "SULFUR": {"base": "#4056F4", "shade": "#430BEA", "pupil": "#CE2D4F", "shine": "#CE6D8B"},
+        "TORNADO": {"base": "#BACBA9", "shade": "#747A68", "pupil": "#3F4739"},
+        "STORM": {"base": "#586F7C", "shade": "#302F4F", "pupil": "#121014"},
+        "KINDLE": {"base": "#D8973C", "shade": "#BD632F", "pupil": "#273E47"},
+        "GRANITE": {"base": "#AD9B9A", "shade": "#C76D7E", "pupil": "#6A444D"},
+
         "COFFEE COLORS": "colors by CoffeeCats!",
 
         "IRIDESCENT": {"base": "#E2F9A2", "shade": "#7EBAE4", "pupil": "#5e347d"},
@@ -107,6 +117,8 @@
     },
 
     "color_lists": {
+        "categories": ["red_eyes", "yellow_eyes", "blue_eyes", "green_eyes", "purple_eyes", "multi_eyes"],
+        "weights": [10, 20, 15, 25, 10, 1],
         "eye_colors": [
             "YELLOW", "AMBER", "PALEYELLOW", "GOLD",
             "COPPER", "GREENYELLOW", "BRONZE", "SILVER",
@@ -182,6 +194,8 @@
     },
 
     "natural_colors": {
+        "categories": ["red_eyes", "yellow_eyes", "blue_eyes", "green_eyes", "purple_eyes", "multi_eyes"],
+        "weights": [1, 20, 15, 25, 0, 0],
         "eye_colors": [
             "YELLOW", "AMBER", "PALEYELLOW", "GOLD",
             "COPPER", "GREENYELLOW", "BRONZE", "SILVER",

@@ -14,7 +14,6 @@ from ..ui.scale import ui_scale, ui_scale_dimensions, ui_scale_offset
 from .Screens import Screens
 from .enums import GameScreen
 from ..cat.sprites.load_sprites import sprites
-from scripts.cat.sprites.generate_sprite import generate_sprite
 from .enums import GameScreen
 from ..clan_package.settings import get_clan_setting
 from ..game_structure.game.switches import switch_set_value, switch_get_value, Switch

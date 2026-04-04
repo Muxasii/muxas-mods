@@ -169,10 +169,10 @@ def json_load():
                 wing_marks=cat["wing_marks"] if "wing_marks" in cat else "none",
                 mane_marks=cat["species_traits"]["mane_marks"] if "species_traits" in cat else None,
                 mane=cat["species_traits"]["mane"] if "species_traits" in cat or "mane" in "traits" else None,
-                tortiebase=cat["tortie_base"],
-                tortiecolour=cat["tortie_color"],
-                tortiepattern=cat["tortie_pattern"],
-                pattern=cat["tortie_marking"],
+                tortie_base=cat["tortie_base"],
+                tortie_colour=cat["tortie_color"],
+                tortie_pattern=cat["tortie_pattern"],
+                tortie_marking=cat["tortie_marking"],
                 skin=cat["skin"],
                 tint=cat["tint"] if "tint" in cat else None,
                 scars=cat["scars"] if "scars" in cat else [],
@@ -440,7 +440,7 @@ def csv_load(all_cats):
             # CAT: ID(0) - prefix:suffix(1) - gender(2) - status(3) - age(4) - trait(5) - parent1(6) - parent2(7) - mentor(8)
             # PELT: pelt(9) - colour(10) - white(11) - length(12)
             # SPRITE: kitten(13) - apprentice(14) - warrior(15) - elder(16) - eye colour(17) - reverse(18)
-            # - white patches(19) - pattern(20) - tortiebase(21) - tortiepattern(22) - tortiecolour(23) - skin(24) - skill(25) - NONE(26) - spec(27) - accessory(28) -
+            # - white patches(19) - tortie_marking(20) - tortie_base(21) - tortie_pattern(22) - tortie_colour(23) - skin(24) - skill(25) - NONE(26) - spec(27) - accessory(28) -
             # spec2(29) - moons(30) - mate(31)
             # dead(32) - SPRITE:dead(33) - exp(34) - dead for _ moons(35) - current apprentice(36)
             # (BOOLS, either TRUE OR FALSE) paralyzed(37) - no kits(38) - exiled(39)
@@ -644,7 +644,6 @@ def csv_load(all_cats):
                 Switch.error_message,
                 f"There was an error loading a cat's sprite info. Last cat read was {inter_cat}",
             )
-            # update_sprite(inter_cat)
         # generate the relationship if some is missing
         if not the_cat.dead:
             switch_set_value(

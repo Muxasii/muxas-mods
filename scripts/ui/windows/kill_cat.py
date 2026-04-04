@@ -14,7 +14,7 @@ from scripts.game_structure.ui_elements import (
 from scripts.screens.enums import GameScreen
 from scripts.ui.generate_button import get_button_dict, ButtonStyles
 from scripts.ui.windows.window_base_class import GameWindow
-from scripts.cat.sprites.generate_sprite import generate_sprite
+from scripts.cat.sprites.generate_sprite import update_sprite
 from scripts.events_module.text_adjust import process_text
 from scripts.ui.scale import ui_scale
 
@@ -105,7 +105,7 @@ class KillCat(GameWindow):
 
                 self.the_cat.die()
                 self.the_cat.history.add_death(death_message)
-                generate_sprite(self.the_cat)
+                update_sprite(self.the_cat)
                 game.all_screens[GameScreen.PROFILE].exit_screen()
                 game.all_screens[GameScreen.PROFILE].screen_switches()
                 self.kill()

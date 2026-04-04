@@ -8,7 +8,7 @@ import pygame_gui
 import ujson
 
 from scripts.cat.cats import Cat, BACKSTORIES, create_option_preview_cat
-from scripts.cat.sprites.generate_sprite import generate_sprite
+from scripts.cat.sprites.generate_sprite import update_sprite
 from scripts.cat.pelts import Pelt
 from scripts.cat.personality import Personality
 from scripts.cat.skills import SkillPath
@@ -41,7 +41,7 @@ from scripts.ui.generate_box import get_box, BoxStyles
 from scripts.ui.generate_button import get_button_dict, ButtonStyles
 from scripts.ui.icon import Icon
 from scripts.ui.theme import get_text_box_theme
-from scripts.cat.sprites.load_sprites import generate_sprite
+from scripts.cat.sprites.generate_sprite import generate_sprite
 from scripts.events_module.text_adjust import process_text
 from scripts.ui.scale import ui_scale, ui_scale_dimensions
 
@@ -5410,7 +5410,7 @@ class EventEditScreen(Screens):
 
     def get_scar_example(self, scar):
         return pygame.transform.scale(
-            generate_sprite(create_option_preview_cat(scar=scar)),
+            update_sprite(create_option_preview_cat(scar=scar)),
             ui_scale_dimensions((100, 100)),
         )
 

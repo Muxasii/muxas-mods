@@ -273,10 +273,10 @@ class CustomizeCatScreen(Screens):
         if self.page == 1:
             self.pelt_name_label = create_text_box("pelt name", (320, 100), (135, 40), "#text_box_22_horizleft")
             self.pelt_colour_label = create_text_box("pelt colour", (480, 100), (135, 40), "#text_box_22_horizleft")
-            self.pattern_label = create_text_box("pattern", (640, 100), (135, 40), "#text_box_22_horizleft")
+            self.pattern_label = create_text_box("tortie_marking", (640, 100), (135, 40), "#text_box_22_horizleft")
             self.tortie_base_label = create_text_box("tortie base", (320, 175), (135, 40), "#text_box_22_horizleft")
             self.tortie_colour_label = create_text_box("tortie colour", (480, 175), (135, 40), "#text_box_22_horizleft")
-            self.tortie_pattern_label = create_text_box("tortie pattern", (640, 175), (135, 40), "#text_box_22_horizleft")
+            self.tortie_pattern_label = create_text_box("tortie tortie_marking", (640, 175), (135, 40), "#text_box_22_horizleft")
             self.white_patches_label = create_text_box("white patches", (320, 260), (135, 40), "#text_box_22_horizleft")
             self.vitiligo_label = create_text_box("vitiligo", (480, 260), (135, 40), "#text_box_22_horizleft")
             self.points_label = create_text_box("point", (640, 260), (135, 40), "#text_box_22_horizleft")
@@ -345,16 +345,16 @@ class CustomizeCatScreen(Screens):
                                                         create_options_list(self.pelt_colors, "upper"),
                                                         get_selected_option(self.the_cat.pelt.colour, "upper"))
             self.pattern_dropdown = create_dropdown((640, 125), (135, 40), create_options_list(self.patterns, "upper"),
-                                                    get_selected_option(self.the_cat.pelt.pattern, "upper"))
+                                                    get_selected_option(self.the_cat.pelt.tortie_marking, "upper"))
             self.tortie_base_dropdown = create_dropdown((320, 200), (135, 40),
                                                         create_options_list(self.tortie_bases, "lower"),
-                                                        get_selected_option(self.the_cat.pelt.tortiebase, "lower"))
+                                                        get_selected_option(self.the_cat.pelt.tortie_base, "lower"))
             self.tortie_colour_dropdown = create_dropdown((480, 200), (135, 40),
                                                         create_options_list(self.tortie_colors, "upper"),
-                                                        get_selected_option(self.the_cat.pelt.tortiecolour, "upper"))
+                                                        get_selected_option(self.the_cat.pelt.tortie_colour, "upper"))
             self.tortie_pattern_dropdown = create_dropdown((640, 200), (135, 40),
                                                         create_options_list(self.tortie_bases, "lower"),
-                                                        get_selected_option(self.the_cat.pelt.tortiepattern, "lower"))
+                                                        get_selected_option(self.the_cat.pelt.tortie_pattern, "lower"))
             self.white_patches_dropdown = create_dropdown((320, 285), (135, 40),
                                                         create_options_list(self.white_patches, "upper"),
                                                         get_selected_option(self.the_cat.pelt.white_patches, "upper"), "smaller_font")
@@ -523,10 +523,10 @@ class CustomizeCatScreen(Screens):
             "display_wing_count": self.the_cat.display_wing_count,
             "colour": self.the_cat.pelt.colour,
             "length": self.the_cat.pelt.length,
-            "pattern": self.the_cat.pelt.pattern,
-            "tortiebase": self.the_cat.pelt.tortiebase,
-            "tortiecolour": self.the_cat.pelt.tortiecolour,
-            "tortiepattern": self.the_cat.pelt.tortiepattern,
+            "tortie_marking": self.the_cat.pelt.tortie_marking,
+            "tortie_base": self.the_cat.pelt.tortie_base,
+            "tortie_colour": self.the_cat.pelt.tortie_colour,
+            "tortie_pattern": self.the_cat.pelt.tortie_pattern,
             "white_patches": self.the_cat.pelt.white_patches,
             "wing_white_patches": self.the_cat.pelt.wing_white_patches,
             "wing_marks": self.the_cat.pelt.wing_marks,
@@ -567,10 +567,10 @@ class CustomizeCatScreen(Screens):
 
     def update_color_lists(self):
         if self.the_cat.pelt.name in ["Tortie", "Calico"]: 
-            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortiepattern.upper()]["colors"]
+            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortie_pattern.upper()]["colors"]
             self.tortie_colors = copy(sprites.pelt_colors["color_list"][pelt_category]["pelt_colors"])
 
-            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortiebase.upper()]["colors"]
+            pelt_category = sprites.pelt_colors["pelt_list"][self.the_cat.pelt.tortie_base.upper()]["colors"]
         elif self.the_cat.pelt.name.upper() == "TWOCOLOUR":
             pelt_category = sprites.pelt_colors["pelt_list"]["SINGLECOLOUR"]["colors"]
         else:
@@ -597,7 +597,7 @@ class CustomizeCatScreen(Screens):
         self.pelt_colour_dropdown.kill()
         self.tortie_colour_dropdown = create_dropdown((480, 200), (135, 40),
                                                       create_options_list(self.tortie_colors, "upper"),
-                                                      get_selected_option(self.the_cat.pelt.tortiecolour, "upper"))
+                                                      get_selected_option(self.the_cat.pelt.tortie_colour, "upper"))
 
         self.pelt_colour_dropdown = create_dropdown((480, 125), (135, 40),
                                                     create_options_list(self.pelt_colors, "upper"),
@@ -691,13 +691,13 @@ class CustomizeCatScreen(Screens):
             elif event.ui_element == self.pelt_colour_dropdown:
                 self.handle_dropdown_change(self.pelt_colour_dropdown, "colour")
             elif event.ui_element == self.pattern_dropdown:
-                self.handle_dropdown_change(self.pattern_dropdown, "pattern")
+                self.handle_dropdown_change(self.pattern_dropdown, "tortie_marking")
             elif event.ui_element == self.tortie_base_dropdown:
-                self.handle_dropdown_change(self.tortie_base_dropdown, "tortiebase")
+                self.handle_dropdown_change(self.tortie_base_dropdown, "tortie_base")
             elif event.ui_element == self.tortie_colour_dropdown:
-                self.handle_dropdown_change(self.tortie_colour_dropdown, "tortiecolour")
+                self.handle_dropdown_change(self.tortie_colour_dropdown, "tortie_colour")
             elif event.ui_element == self.tortie_pattern_dropdown:
-                self.handle_dropdown_change(self.tortie_pattern_dropdown, "tortiepattern")
+                self.handle_dropdown_change(self.tortie_pattern_dropdown, "tortie_pattern")
             elif event.ui_element == self.white_patches_dropdown:
                 self.handle_white_patches_dropdown()
             elif event.ui_element == self.vitiligo_dropdown:
@@ -731,7 +731,7 @@ class CustomizeCatScreen(Screens):
         selected_option = dropdown.selected_option[1]
         setattr(self.the_cat.pelt, attribute, selected_option)
         self.make_cat_sprite()
-        if attribute in ["tortiepattern", "tortiebase"]:
+        if attribute in ["tortie_pattern", "tortie_base"]:
             self.update_color_lists()
             self.refresh_color_dropdowns()
 
@@ -885,24 +885,24 @@ class CustomizeCatScreen(Screens):
                 for dropdown in dropdowns:
                     dropdown.kill()
 
-                self.the_cat.pelt.pattern = self.patterns[0]
-                self.the_cat.pelt.tortiebase = previous_pelt_name.lower()
-                self.the_cat.pelt.tortiecolour = self.tortie_colors[0]
-                self.the_cat.pelt.tortiepattern = self.tortie_bases[0]
+                self.the_cat.pelt.tortie_marking = self.patterns[0]
+                self.the_cat.pelt.tortie_base = previous_pelt_name.lower()
+                self.the_cat.pelt.tortie_colour = self.tortie_colors[0]
+                self.the_cat.pelt.tortie_pattern = self.tortie_bases[0]
 
                 self.pattern_dropdown = create_dropdown((640, 125), (135, 40),
                                                         create_options_list(self.patterns, "upper"),
-                                                        get_selected_option(self.the_cat.pelt.pattern, "upper"))
+                                                        get_selected_option(self.the_cat.pelt.tortie_marking, "upper"))
                 self.tortie_base_dropdown = create_dropdown((320, 200), (135, 40),
                                                             create_options_list(self.tortie_bases, "lower"),
-                                                            get_selected_option(self.the_cat.pelt.tortiebase, "lower"))
+                                                            get_selected_option(self.the_cat.pelt.tortie_base, "lower"))
                 self.tortie_colour_dropdown = create_dropdown((480, 200), (135, 40),
                                                               create_options_list(self.tortie_colors, "upper"),
-                                                              get_selected_option(self.the_cat.pelt.tortiecolour,
+                                                              get_selected_option(self.the_cat.pelt.tortie_colour,
                                                                                   "upper"))
                 self.tortie_pattern_dropdown = create_dropdown((640, 200), (135, 40),
                                                                create_options_list(self.tortie_bases, "lower"),
-                                                               get_selected_option(self.the_cat.pelt.tortiepattern,
+                                                               get_selected_option(self.the_cat.pelt.tortie_pattern,
                                                                                    "lower"))
 
                 for dropdown in dropdowns:
@@ -916,10 +916,10 @@ class CustomizeCatScreen(Screens):
             self.tortie_colour_dropdown = create_dropdown((480, 200), (135, 40), "None", "None")
             self.tortie_pattern_dropdown = create_dropdown((640, 200), (135, 40), "None", "None")
 
-            self.the_cat.pelt.pattern = None
-            self.the_cat.pelt.tortiebase = None
-            self.the_cat.pelt.tortiecolour = None
-            self.the_cat.pelt.tortiepattern = None
+            self.the_cat.pelt.tortie_marking = None
+            self.the_cat.pelt.tortie_base = None
+            self.the_cat.pelt.tortie_colour = None
+            self.the_cat.pelt.tortie_pattern = None
 
             for dropdown in [self.pattern_dropdown, self.tortie_base_dropdown, self.tortie_colour_dropdown,
                              self.tortie_pattern_dropdown]:

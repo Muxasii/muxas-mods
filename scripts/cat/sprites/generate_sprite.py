@@ -9,6 +9,7 @@ from scripts.game_structure import image_cache, constants
 from scripts.game_structure.game.settings.settings import game_setting_get
 from scripts.game_structure.game.switches import switch_get_value, Switch
 from scripts.cat.sprites.load_sprites import sprites
+from scripts.ui.scale import ui_scale_dimensions
 
 logger = logging.getLogger(__name__)
 
@@ -122,21 +123,21 @@ def generate_sprite(
 
             cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
         else:
-            if cat.pelt.tortiebase.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+            if cat.pelt.tortie_base.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 cat_marking = "SINGLECOLOUR"
             else:
-                cat_marking = cat.pelt.tortiebase.upper()
+                cat_marking = cat.pelt.tortie_base.upper()
             
-            if cat.pelt.tortiepattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
+            if cat.pelt.tortie_pattern.upper() in ['SINGLECOLOUR', 'TWOCOLOUR', 'SINGLE']:
                 tortie_pattern = "SINGLECOLOUR"
             else:
-                tortie_pattern = cat.pelt.tortiepattern.upper()
+                tortie_pattern = cat.pelt.tortie_pattern.upper()
             
             color_type = sprites.pelt_colors["pelt_list"][cat_marking]["color_type"]
             cat_colors = sprites.pelt_colors["pelt_colors_list"][color_type][cat.pelt.colour]
 
             color_type = sprites.pelt_colors["pelt_list"][tortie_pattern]["color_type"]
-            cat_colors_tortie = sprites.pelt_colors["pelt_colors_list"][color_type][cat.pelt.tortiecolour]
+            cat_colors_tortie = sprites.pelt_colors["pelt_colors_list"][color_type][cat.pelt.tortie_colour]
 
             cat_layers = sprites.pelt_colors["pelt_list"][cat_marking]["layers"]
             cat_layers_tortie = sprites.pelt_colors["pelt_list"][tortie_pattern]["layers"]
@@ -328,7 +329,7 @@ def create_base(cat_sprite, colors, markings, cat, tortie_colors=None, tortie_ma
             (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
         )
         tortie_sprite.blit(create_base(cat_sprite, tortie_colors, tortie_markings, cat, tortie=True))
-        tortie_sprite.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
+        tortie_sprite.blit(sprites.sprites["tortiemask" + cat.tortie_marking + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
 
         finished_sprite.blit(tortie_sprite)
 
@@ -562,7 +563,7 @@ def create_wings(cat_sprite, colors, markings, cat, species, layer, wing_marks, 
             (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
         )
         tortie_sprite.blit(create_wings(cat_sprite, tortie_colors, tortie_markings, cat, species, layer, tortie_wing_marks, tortie=True))
-        tortie_sprite.blit(sprites.sprites[species + "tortiemask" + cat.pattern + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
+        tortie_sprite.blit(sprites.sprites[species + "tortiemask" + cat.tortie_marking + cat_sprite], (0, 0),  special_flags=pygame.BLEND_RGBA_MULT)
 
         finished_sprite.blit(tortie_sprite)
 
@@ -698,3 +699,43 @@ def create_eyes(cat_sprite, colors, num):
     finished_sprite.blit(eyes, (0, 0))
 
     return finished_sprite
+
+def update_sprite(cat):
+    # First, check if the cat is faded.
+    if cat.faded:
+        # Don't update the sprite if the cat is faded.
+        return
+
+    # apply
+    cat.sprite = generate_sprite(cat)
+    # update class dictionary
+    cat.all_cats[cat.ID] = cat
+
+
+def update_mask(cat):
+    if cat.faded or cat.dead:
+        # should never need a mask since they can't appear on the Clan screen
+        cat.sprite_mask = None
+        return
+
+    val = pygame.mask.from_surface(
+        pygame.transform.scale(cat.sprite, ui_scale_dimensions((50, 50))), threshold=250
+    )
+
+    inflated_mask = pygame.Mask(
+        (
+            val.get_size()[0] + 10,
+            val.get_size()[1] + 10,
+        )
+    )
+    inflated_mask.draw(val, (5, 5))
+    for _ in range(3):
+        outline = inflated_mask.outline()
+        for point in outline:
+            for dx in range(-1, 2):
+                for dy in range(-1, 2):
+                    try:
+                        inflated_mask.set_at((point[0] + dx, point[1] + dy), 1)
+                    except IndexError:
+                        continue
+    cat.sprite_mask = inflated_mask

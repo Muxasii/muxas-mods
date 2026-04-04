@@ -659,7 +659,7 @@ class Clan:
                     "group": CatGroup.STARCLAN,
                 }
             )
-            # update_sprite(game.clan.instructor)
+            update_sprite(game.clan.instructor)
             game.clan.instructor.dead = True
             game.clan.add_cat(game.clan.instructor)
         if other_clans != [""]:
@@ -787,7 +787,7 @@ class Clan:
                     "group": CatGroup.STARCLAN,
                 }
             )
-            # update_sprite(game.clan.instructor)
+            update_sprite(game.clan.instructor)
             game.clan.instructor.dead = True
             game.clan.add_cat(game.clan.instructor)
 

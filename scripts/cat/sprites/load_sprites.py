@@ -256,9 +256,6 @@ class Sprites:
             print(
                 f"lineart.png is strange, falling back to {self.size}"
             )
-            print(
-                f"if you are a modder, please update sheet_layout in sprites/dicts/pose_sprite_data.json"
-            )
 
         del width, height  # unneeded
 

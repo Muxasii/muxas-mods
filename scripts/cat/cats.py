@@ -48,7 +48,7 @@ from scripts.game_structure.game.switches import switch_get_value, Switch
 from scripts.game_structure.localization import load_lang_resource
 from scripts.game_structure.screen_settings import screen
 from scripts.housekeeping.datadir import get_save_dir
-from scripts.cat.sprites.generate_sprite import generate_sprite
+from scripts.cat.sprites.generate_sprite import update_sprite, update_mask
 from scripts.events_module.text_adjust import (
     event_text_adjust,
     leader_ceremony_text_adjust,
@@ -3269,7 +3269,7 @@ class Cat:
         if self.pelt.rebuild_sprite or self.not_working() != self._sprite_working:
             self.pelt.rebuild_sprite = False
             self._sprite_working = self.not_working()
-            generate_sprite(self)
+            update_sprite(self)
         return self._sprite
 
     @sprite.setter
@@ -3421,10 +3421,10 @@ class Cat:
                 "vitiligo": self.pelt.vitiligo,
                 "points": self.pelt.points,
                 "white_patches_tint": self.pelt.white_patches_tint,
-                "pattern": self.pelt.pattern,
-                "tortie_base": self.pelt.tortiebase,
-                "tortie_color": self.pelt.tortiecolour,
-                "tortie_pattern": self.pelt.tortiepattern,
+                "tortie_marking": self.pelt.tortie_marking,
+                "tortie_base": self.pelt.tortie_base,
+                "tortie_color": self.pelt.tortie_colour,
+                "tortie_pattern": self.pelt.tortie_pattern,
                 "skin": self.pelt.skin,
                 "tint": self.pelt.tint,
                 "skill_dict": self.skills.get_skill_dict(),
