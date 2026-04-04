@@ -22,6 +22,10 @@
         special_dates = true
         "random relation" = true
         "they them default" = false
+        bat_gen = false
+        bird_gen = false
+        earth_gen = false
+        natural_colors = false
 
     [game.other]
         language = [
@@ -55,6 +59,10 @@
         fading = true
         save_faded_copy = false
         backgrounds = true
+        bird_gen__clan = true
+        earth_gen__clan = true
+        bat_gen__clan = true
+        natural_colors_clan = false
     
     [clan.role]
         deputy = false
