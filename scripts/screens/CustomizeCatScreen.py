@@ -11,7 +11,8 @@ from scripts.cat.pelts import Pelt, plant_accessories, wild_accessories, collars
 from scripts.cat.sprites.load_sprites import sprites
 from scripts.cat.sprites.generate_sprite import generate_sprite
 from scripts.game_structure.screen_settings import MANAGER
-from scripts.game_structure.ui_elements import UISurfaceImageButton, UIImageButton
+from ..ui.elements.image_button import UIImageButton
+from ..ui.elements.surface_image_button import UISurfaceImageButton
 from scripts.game_structure.game.switches import switch_set_value, switch_get_value, Switch
 from .Screens import Screens
 from .enums import GameScreen

@@ -22,9 +22,9 @@
         special_dates = true
         "random relation" = true
         "they them default" = false
-        bat_gen = false
-        bird_gen = false
-        earth_gen = false
+        bat_gen = true
+        bird_gen = true
+        earth_gen = true
         natural_colors = false
 
     [game.other]
