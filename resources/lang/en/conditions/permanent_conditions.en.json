@@ -26,11 +26,13 @@
         "strange lump": "strange lump",
         "absent": "absent",
         "persistent headaches": "persistent headaches",
-        "unknown_condition_risk_given": "m_c's condition has gotten worse.",
         "born with small wings": "born with small wings",
         "born with one wing": "born with one wing",
         "lost their wings": "lost their wings",
         "lost a wing": "lost a wing",
-        "born with no wings": "born with no wings"
+        "born with no wings": "born with no wings",
+        "selective mutism": "selective mutism",
+        "damaged throat": "damaged throat",
+        "unknown_condition_risk_given": "m_c's condition has gotten worse."
     }
 }

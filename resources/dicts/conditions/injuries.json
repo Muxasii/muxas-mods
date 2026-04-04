@@ -26,7 +26,8 @@
             "torn ear",
             "blood loss"
         ],
-        "cause_permanent": [],
+        "cause_permanent": [
+        ],
         "herbs": {
             "1": [
             "cobwebs",
@@ -73,7 +74,8 @@
             "torn pelt",
             "blood loss"
         ],
-        "cause_permanent": [],
+        "cause_permanent": [
+        ],
         "herbs": {
             "1": [
             "cobwebs",
@@ -398,7 +400,8 @@
             "bruises"
         ],
         "cause_permanent": [
-            "crooked jaw"
+            "crooked jaw",
+            "damaged throat"
         ],
         "herbs": {
             "1": [
@@ -1265,7 +1268,8 @@
         "also_got": [],
         "cause_permanent": [
             "recurring shock",
-            "absent"
+            "absent",
+            "selective mutism"
         ],
         "herbs": {
             "1": [
@@ -1350,6 +1354,10 @@
                 "name": "heat exhaustion",
                 "species": ["any"],
                 "wing_count": ["any"],
+                "chance": 10
+            },
+            {
+                "name": "sore throat",
                 "chance": 10
             }
         ],
@@ -1693,7 +1701,6 @@
         "also_got": [
         ],
         "cause_permanent": [
-            "absent"
         ],
         "herbs": {
             "1": [
@@ -1705,6 +1712,38 @@
             "3": [
                 "poppy"
             ]
+        }
+    },
+
+    "sore throat": {
+        "duration": 1,
+        "severity": "minor",
+        "medicine_duration": 1,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [
+        ],
+        "risks": [
+        ],
+        "also_got": [
+        ],
+        "cause_permanent": [
+            "damaged throat"
+        ],
+             "herbs": {
+            "1": [
+            "poppy",
+            "juniper"
+        ],
+            "2": [],
+            "3": []
         }
     },
     

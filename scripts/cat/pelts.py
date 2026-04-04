@@ -199,7 +199,13 @@ class Pelt:
         self._accessory = accessory
         self._paralyzed = paralyzed
         self.opacity = opacity
-        self.scars = scars if isinstance(scars, list) else []
+        self._scars = (
+            tuple(scars)
+            if isinstance(scars, list)
+            else scars
+            if isinstance(scars, tuple)
+            else tuple()
+        )
         self.tint = tint
         self.species = species
         self.wing_count = wing_count
@@ -239,6 +245,15 @@ class Pelt:
     def accessory(self, val):
         self.rebuild_sprite = True
         self._accessory = val
+
+    @property
+    def scars(self):
+        return self._scars
+
+    @scars.setter
+    def scars(self, val):
+        self.rebuild_sprite = True
+        self._scars = val
 
     @property
     def paralyzed(self):
@@ -700,9 +715,9 @@ class Pelt:
             self.tortie_marking = "MINIMALFOUR"
 
         if self.accessory is None:
-            self.accessory = []
+            self.accessory = tuple()
         elif isinstance(self.accessory, str):
-            self.accessory = [self.accessory]
+            self.accessory = tuple([self.accessory])
 
     def init_eyes(self, parents):
         """Sets eye color for this cat's pelt. Takes parents' eye colors into account.
@@ -1257,14 +1272,14 @@ class Pelt:
             scar_choice = random.randint(0, 15)  # 6.67%
 
         if scar_choice == 1:
-            self.scars.append(choice([choice(Pelt.scars1), choice(Pelt.scars3)]))
+            self.scars = (*self.scars, choice([choice(Pelt.scars1), choice(Pelt.scars3)]))
 
         if "NOTAIL" in self.scars and "HALFTAIL" in self.scars:
-            self.scars.remove("HALFTAIL")
+            self.scars = tuple(scar for scar in self.scars if scar != "HALFTAIL")
 
     def init_accessories(self, age):
         if age == "newborn":
-            self.accessory = []
+            self.accessory = tuple()
             return
 
         acc_display_choice = random.randint(0, 80)
@@ -1278,7 +1293,7 @@ class Pelt:
                 choice([choice(plant_accessories), choice(wild_accessories)])
             ]
         else:
-            self.accessory = []
+            self.accessory = tuple()
 
     def init_pattern(self):
         if self.name in Pelt.torties:
@@ -1796,7 +1811,7 @@ def _describe_torties(cat, color_name, short=False) -> [str, str]:
         ):
             base = f"cat.pelts.{cat.pelt.tortie_base.capitalize()}_long"  # the extra space is intentional
         else:
-            base = ""
+            base = "cat.pelts.TwoColour_long"
         return base, color_name
 
 

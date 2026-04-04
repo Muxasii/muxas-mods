@@ -353,6 +353,9 @@ class Sprites:
         for a, i in enumerate(['FULL', 'FADE', 'INVERTFADE', 'STRIPES', 'SPOTS', 'SMOKE']):
             self.make_group('batmanemarkings', (a, 0), f'bat_manemarkings{i}')
 
+        # Heterochromia mask
+        self.make_group("heterochromiamask", (0, 0), f"heterochromiamask")
+
         # Fading Fog
         for i in range(0, 3):
             self.make_group("fademask", (i, 0), f"fademask{i}")

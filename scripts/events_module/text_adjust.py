@@ -49,6 +49,12 @@ def pronoun_repl(m, cat_pronouns_dict, raise_exception=False):
     inner_details = m.group(1).split("/")
     out = None
 
+    # if the cat that the pronoun is assigned to wasn't passed with the dict, then we just return
+    # it's assumed that the text is going to be processed at some other point with that cat's info
+    # (for example, this is required for rel log processing to be done correctly)
+    if inner_details[1] != "PLURAL" and inner_details[1] not in cat_pronouns_dict:
+        return m.group(0)
+
     try:
         if inner_details[1].upper() == "PLURAL":
             inner_details.pop(1)  # remove plural tag so it can be processed as normal
@@ -169,9 +175,14 @@ def get_special_snippet_list(
     (i.e. ["hate", "fear", "dread"] becomes "hate, fear, and dread") - Default is True
     :return: a list of the chosen items from chosen_list or a formatted string if format is True
     """
-    biome = (
-        game.clan.biome if not game.clan.override_biome else game.clan.override_biome
-    ).casefold()
+    if not game.clan:
+        biome = None
+    else:
+        biome = (
+            game.clan.biome
+            if not game.clan.override_biome
+            else game.clan.override_biome
+        ).casefold()
     global SNIPPETS
     if langs["snippet"] != i18n.config.get("locale"):
         langs["snippet"] = i18n.config.get("locale")
@@ -183,7 +194,8 @@ def get_special_snippet_list(
             chosen_list == "story_list"
         ):  # story list has some biome specific things to collect
             snippets = SNIPPETS[chosen_list]["general"]
-            snippets.extend(SNIPPETS[chosen_list][biome])
+            if biome:
+                snippets.extend(SNIPPETS[chosen_list][biome])
         elif (
             chosen_list == "clair_list"
         ):  # the clair list also pulls from the dream list
@@ -205,7 +217,8 @@ def get_special_snippet_list(
         for sense in sense_groups:
             snippet_group = SNIPPETS[chosen_list][sense]
             snippets.extend(snippet_group["general"])
-            snippets.extend(snippet_group[biome])
+            if biome:
+                snippets.extend(snippet_group[biome])
 
     # now choose a unique snippet from each snip list
     unique_snippets = []
@@ -213,7 +226,7 @@ def get_special_snippet_list(
         unique_snippets.append(choice(snip_list))
 
     # pick out our final snippets
-    final_snippets = sample(unique_snippets, k=amount)
+    final_snippets = sample(unique_snippets, k=min(amount, len(unique_snippets)))
 
     if return_string:
         text = adjust_list_text(final_snippets)
@@ -491,7 +504,10 @@ def event_text_adjust(
             clan_name = clan.displayname
         except AttributeError:
             # todo can this be Switch.clan_name ?
-            clan_name = switch_get_value(Switch.clan_list)[0]
+            try:
+                clan_name = switch_get_value(Switch.clan_list)[0]
+            except IndexError:
+                clan_name = "Test"
 
         text = _replace_clan_name(text, "c_n", str(clan_name) + "Clan")
 

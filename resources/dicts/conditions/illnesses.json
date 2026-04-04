@@ -153,6 +153,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 60
+            },
+            {
+                "name": "sore throat",
+                "chance": 20
             }
         ],
         "herbs": {
@@ -200,6 +204,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 10
+            },
+            {
+                "name": "sore throat",
+                "chance": 20
             }
         ],
         "herbs": {
@@ -370,6 +378,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 15
+            },
+            {
+                "name": "sore throat",
+                "chance": 20
             }
         ],
         "herbs": {
@@ -412,6 +424,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 18
+            },
+            {
+                "name": "sore throat",
+                "chance": 20
             }
         ],
         "herbs": {
@@ -460,6 +476,10 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 80
+            },
+            {
+                "name": "sore throat",
+                "chance": 20
             }
         ],
         "herbs": {
@@ -724,7 +744,12 @@
                 "species": ["any"],
                 "wing_count": ["any"],
                 "chance": 10
-
+            },
+            {
+                "name": "selective mutism",
+                "species": ["any"],
+                "wing_count": ["any"],
+                "chance": 150
             }
         ],
         "herbs": {

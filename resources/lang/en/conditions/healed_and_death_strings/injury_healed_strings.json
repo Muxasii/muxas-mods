@@ -240,5 +240,10 @@
     ],
     "torn membrane": [
         "m_c's torn membrane has finally healed itself over."
+    ],
+    "sore throat": [
+        "m_c's throat is no longer sore.",
+        "m_c's throat has healed."
     ]
+    
 }

@@ -4,8 +4,13 @@ from typing import TYPE_CHECKING, Optional
 
 import i18n
 
-from scripts.cat.enums import CatGroup
-from scripts.events_module.event_filters import event_for_cat
+from scripts.cat.enums import CatGroup, CatThought, CatAge
+from scripts.events_module.event_filters import (
+    event_for_cat,
+    event_for_location,
+    event_for_season,
+)
+from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
 from scripts.events_module.event_filters import filter_relationship_type
 
@@ -48,8 +53,19 @@ def get_other_cat_for_thought(
         # count and give up if we don't find a suitable cat within 100 checks
         i = 0
         while cat_list and (
-            (other_cat.dead and not thinking_of_dead_cat)
-            or other_cat.ID not in main_cat.relationships
+            (
+                other_cat.dead and not thinking_of_dead_cat
+            )  # dead and thought isn't about dead cat
+            or not main_cat.relationships.get(
+                other_cat.ID
+            )  # no existing relationship at all
+            or (
+                main_cat.relationships.get(other_cat.ID)
+                and main_cat.relationships[other_cat.ID].total_relationship_value == 0
+            )  # the main_cat has an empty relationship toward other_cat
+            or other_cat.status.is_lost()  # other cat is lost
+            or other_cat.status.group_ID
+            != main_cat.status.group_ID  # must have matching group
         ):
             cat_list.remove(other_cat)
 
@@ -63,66 +79,153 @@ def get_other_cat_for_thought(
     return other_cat
 
 
-def _filter_list(
-    inter_list: list, main_cat: "Cat", other_cat: "Cat", biome, season, camp
-) -> list:
+def _filter_list(inter_list: list, main_cat: "Cat", other_cat: "Cat") -> list:
     """
     Filters thoughts in the inter_list per their constraints and returns a list of allowed thoughts.
     """
     created_list = []
     for inter in inter_list:
-        if _constraints_fulfilled(main_cat, other_cat, inter, biome, season, camp):
+        if _constraints_fulfilled(main_cat, other_cat, inter):
             created_list.append(inter)
     return created_list
 
 
-def _load_group(main_cat: "Cat", other_cat: "Cat", biome, season, camp):
+def _load_group(thought_type: CatThought, main_cat: "Cat", other_cat: "Cat"):
     """
     Loads and returns thoughts appropriate for the given args.
     """
+    # get rank
     rank = main_cat.status.rank
     rank = rank.replace(" ", "_")
 
-    if not main_cat.dead:
-        life_dir = "alive"
-    else:
-        life_dir = "dead"
+    start_path = f"thoughts/{thought_type}"
+    new_path = start_path
+    thoughts = []
 
-    if main_cat.dead:
-        if main_cat.status.group == CatGroup.UNKNOWN_RESIDENCE:
-            spec_dir = "/unknownresidence"
-        elif main_cat.status.group == CatGroup.DARK_FOREST:
-            spec_dir = "/darkforest"
-        else:
-            spec_dir = "/starclan"
-    elif main_cat.status.is_outsider:
-        spec_dir = "/alive_outside"
-    else:
-        spec_dir = ""
+    # GUIDES
+    if thought_type == CatThought.IS_GUIDE:
+        thoughts = load_lang_resource(f"{start_path}/{main_cat.status.group}.json")
 
-    try:
-        # newborns only pull from their status thoughts. this is done for convenience
-        if main_cat.age == "newborn":
-            loaded_thoughts = load_lang_resource(
-                f"thoughts/{life_dir}{spec_dir}/newborn.json"
+    # DEAD CATS
+    elif thought_type == CatThought.WHILE_DEAD:
+        new_path = f"{start_path}/{main_cat.status.group}"
+        thoughts = load_lang_resource(f"{new_path}/{rank}.json")
+        thoughts.extend(_load_exiled_and_former(main_cat, new_path))
+        thoughts.extend(_load_general(main_cat, new_path))
+
+    # LIVING CATS
+    elif thought_type == CatThought.WHILE_ALIVE:
+        thoughts = load_lang_resource(f"{new_path}/{rank}.json")
+
+        # make sure lost thoughts are included
+        if main_cat.status.is_lost(CatGroup.PLAYER_CLAN_ID):
+            prior_rank = main_cat.status.find_prior_clan_rank(
+                CatGroup.PLAYER_CLAN_ID
+            ).replace(" ", "_")
+            thoughts.extend(
+                load_lang_resource(f"{start_path}/while_lost/{prior_rank}.json")
             )
+
         else:
-            thoughts = load_lang_resource(f"thoughts/{life_dir}{spec_dir}/{rank}.json")
-            genthoughts = load_lang_resource(
-                f"thoughts/{life_dir}{spec_dir}/general.json"
-            )
-            loaded_thoughts = thoughts + genthoughts
+            thoughts.extend(_load_general(main_cat, new_path))
+            thoughts.extend(_load_exiled_and_former(main_cat, new_path))
+            thoughts.extend(_load_clancat(main_cat, new_path))
 
-        final_thoughts = _filter_list(
-            loaded_thoughts, main_cat, other_cat, biome, season, camp
-        )
+    # CATS WHO JUST CHANGED RANK
+    elif thought_type == CatThought.ON_RANK_CHANGE:
+        thoughts = load_lang_resource(f"{new_path}/{rank}.json")
+        thoughts.extend(_load_general(main_cat, new_path))
 
-        return final_thoughts
-    except IOError:
-        print("ERROR: loading thoughts")
+    # CATS WHO JUST DIED
+    elif thought_type == CatThought.ON_DEATH:
+        is_leader = main_cat.status.is_leader
+        leader_death = main_cat.dead
+
+        if is_leader and not leader_death:
+            new_path = f"{new_path}/{game.clan.instructor.status.group}"
+        else:
+            new_path = f"{start_path}/{main_cat.status.group}"
+
+        if not is_leader:
+            thoughts = load_lang_resource(f"{new_path}/general.json")
+        else:
+            # leader dies fully
+            if leader_death:
+                thoughts = load_lang_resource(f"{new_path}/leader_death.json")
+            # leader only loses a life
+            else:
+                thoughts = load_lang_resource(f"{new_path}/leader_life.json")
+
+    # PARENTAL REACTION TO BIRTH
+    elif thought_type == CatThought.ON_BIRTH:
+        thoughts = load_lang_resource(f"{new_path}/parent.json")
+
+    # ON NEW CAT ENCOUNTER
+    elif thought_type == CatThought.ON_MEETING:
+        if main_cat.status.is_clancat:
+            thoughts = load_lang_resource(f"{new_path}/clancat.json")
+        else:
+            thoughts = load_lang_resource(f"{new_path}/outsider.json")
+
+    # thought types with just a general path
+    elif thought_type in (
+        CatThought.ON_JOIN,
+        CatThought.ON_EXILE,
+        CatThought.ON_LOST,
+        CatThought.ON_GRIEF_TOWARD_BODY,
+        CatThought.ON_GRIEF_NO_BODY,
+    ):
+        thoughts = load_lang_resource(f"{new_path}/general.json")
+
+    # ON CHANGING AFTERLIFE
+    elif thought_type == CatThought.ON_AFTERLIFE_CHANGE:
+        thoughts = load_lang_resource(f"{new_path}/{main_cat.status.group}.json")
+        pass
+
+    final_thoughts = _filter_list(thoughts, main_cat, other_cat)
+
+    return final_thoughts
 
 
-def new_thought(main_cat: "Cat", other_cat: "Cat", biome, season, camp):
+def _load_exiled_and_former(main_cat: "Cat", path) -> list:
+    """
+    Checks if cat needs exiled or former clancat thoughts and returns loaded resources
+    """
+    thoughts = []
+    # make sure exiled thoughts are included
+    if main_cat.status.is_exiled(CatGroup.PLAYER_CLAN):
+        thoughts.extend(load_lang_resource(f"{path}/exiled.json"))
+
+    # former clancat thoughts
+    if main_cat.status.is_former_clancat:
+        thoughts.extend(load_lang_resource(f"{path}/former_clancat.json"))
+
+    return thoughts
+
+
+def _load_general(main_cat: "Cat", path) -> list:
+    """
+    Returns general thoughts if the cat is not a newborn
+    """
+    # newborns don't receive general thoughts
+    if main_cat.age != CatAge.NEWBORN:
+        return load_lang_resource(f"{path}/general.json")
+
+    return []
+
+
+def _load_clancat(main_cat: "Cat", path) -> list:
+    """
+    Returns clancat thoughts if the cat is a clancat
+    """
+    # newborns don't receive general thoughts
+    if main_cat.status.is_clancat and main_cat.age != CatAge.NEWBORN:
+        return load_lang_resource(f"{path}/clancat.json")
+
+    return []
+
+
+def new_thought(thought_type: CatThought, main_cat: "Cat", other_cat: "Cat"):
     """
     Finds a thought appropriate for the given args.
     """
@@ -135,8 +238,9 @@ def new_thought(main_cat: "Cat", other_cat: "Cat", biome, season, camp):
             return i18n.t("defaults.rickroll")
         else:
             chosen_thought_group = choice(
-                _load_group(main_cat, other_cat, biome, season, camp)
+                _load_group(thought_type, main_cat, other_cat)
             )
+
             chosen_thought = choice(chosen_thought_group["thoughts"])
     except IndexError:
         traceback.print_exc()
@@ -148,9 +252,6 @@ def new_thought(main_cat: "Cat", other_cat: "Cat", biome, season, camp):
 def new_death_thought(
     main_cat: "Cat",
     other_cat: "Cat",
-    biome,
-    season,
-    camp,
     afterlife,
     lives_left,
 ):
@@ -171,9 +272,7 @@ def new_death_thought(
             loaded_thoughts = load_lang_resource(
                 f"thoughts/on_death/{afterlife}/general.json"
             )
-        thought_group = choice(
-            _filter_list(loaded_thoughts, main_cat, other_cat, biome, season, camp)
-        )
+        thought_group = choice(_filter_list(loaded_thoughts, main_cat, other_cat))
         chosen_thought = choice(thought_group["thoughts"])
         return chosen_thought
 
@@ -182,21 +281,15 @@ def new_death_thought(
         return i18n.t("defaults.thought")
 
 
-def _constraints_fulfilled(
-    main_cat: "Cat", random_cat: "Cat", thought, biome, season, camp
-) -> bool:
+def _constraints_fulfilled(main_cat: "Cat", random_cat: "Cat", thought) -> bool:
     """Check if thought constraints are fulfilled"""
 
     if "biome" in thought:
-        if biome not in thought["biome"]:
+        if not event_for_location(thought["biome"]):
             return False
 
     if "season" in thought:
-        if season not in thought["season"]:
-            return False
-
-    if "camp" in thought:
-        if camp not in thought["camp"]:
+        if not event_for_season(thought["season"]):
             return False
 
     if "not_working" in thought:
@@ -226,6 +319,12 @@ def _constraints_fulfilled(
 
     if "random_status_constraint" in thought and random_cat:
         random_info_dict["status"] = thought["random_status_constraint"]
+
+    if "main_status_history" in thought:
+        main_info_dict["status_history"] = thought["main_status_history"]
+
+    if "random_status_history" in thought and random_cat:
+        random_info_dict["status_history"] = thought["random_status_history"]
 
     if "main_age_constraint" in thought:
         main_info_dict["age"] = thought["main_age_constraint"]
