@@ -274,10 +274,10 @@ class CustomizeCatScreen(Screens):
         if self.page == 1:
             self.pelt_name_label = create_text_box("pelt name", (320, 100), (135, 40), "#text_box_22_horizleft")
             self.pelt_colour_label = create_text_box("pelt colour", (480, 100), (135, 40), "#text_box_22_horizleft")
-            self.pattern_label = create_text_box("tortie_marking", (640, 100), (135, 40), "#text_box_22_horizleft")
+            self.pattern_label = create_text_box("tortie pattern", (640, 100), (135, 40), "#text_box_22_horizleft")
             self.tortie_base_label = create_text_box("tortie base", (320, 175), (135, 40), "#text_box_22_horizleft")
             self.tortie_colour_label = create_text_box("tortie colour", (480, 175), (135, 40), "#text_box_22_horizleft")
-            self.tortie_pattern_label = create_text_box("tortie tortie_marking", (640, 175), (135, 40), "#text_box_22_horizleft")
+            self.tortie_pattern_label = create_text_box("tortie marking", (640, 175), (135, 40), "#text_box_22_horizleft")
             self.white_patches_label = create_text_box("white patches", (320, 260), (135, 40), "#text_box_22_horizleft")
             self.vitiligo_label = create_text_box("vitiligo", (480, 260), (135, 40), "#text_box_22_horizleft")
             self.points_label = create_text_box("point", (640, 260), (135, 40), "#text_box_22_horizleft")
@@ -541,7 +541,7 @@ class CustomizeCatScreen(Screens):
             "eye_colour": self.the_cat.pelt.eye_colour,
             "eye_colour2": self.the_cat.pelt.eye_colour2,
             "accessory": self.the_cat.pelt.accessory,
-            "scars": self.the_cat.pelt.scars.copy(),
+            "scars": self.the_cat.pelt.scars,
             "reverse": self.the_cat.pelt.reverse,
             "pose": self.cat_elements["current_pose"],
             "cat_sprites": {
@@ -822,11 +822,16 @@ class CustomizeCatScreen(Screens):
         selected_option = dropdown.selected_option[1]
         previous_selection = self.previous_scar_selection.get(dropdown, self.initial_scar_selection[dropdown])
 
-        if previous_selection != "NONE" and previous_selection in self.the_cat.pelt.scars:
-            self.the_cat.pelt.scars.remove(previous_selection) # remove previous selection
+        scars = list(self.the_cat.pelt.scars) # i have to cheese this sigh
 
-        if selected_option != "NONE":
-            self.the_cat.pelt.scars.append(selected_option) # add new selection
+        if previous_selection != "NONE" and previous_selection in self.the_cat.pelt.scars:
+            scars.remove(previous_selection) # remove previous selection
+
+        if selected_option != "NONE" and selected_option not in self.the_cat.pelt.scars:
+            scars.append(selected_option) # add new selection
+        
+        # retuple
+        self.the_cat.pelt.scars = tuple(scars)
 
         self.previous_scar_selection[dropdown] = selected_option
 
