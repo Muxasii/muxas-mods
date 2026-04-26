@@ -1998,7 +1998,6 @@
         ],
         "frequency": 1,
         "event_text": "m_c tries to convince r_c to run away with {PRONOUN/m_c/object}.",
-        "relationship_status": ["trusts", "understands"],
         "m_c": {
             "age": [
                 "young adult",
@@ -2008,7 +2007,8 @@
             ],
             "status": [
                 "any"
-            ]
+            ],
+            "relationship_status": ["trusts", "understands"]
         },
         "r_c": {
             "age": [
@@ -4720,7 +4720,7 @@
         "season": [
             "any"
         ],
-        "frequency": 3,
+        "frequency": 2,
         "event_text": "A stranger limped into camp this moon, knowing c_n was friendly, and requested a few nights of shelter while {PRONOUN/n_c:0/poss} wounds healed. c_n obliged.",
         "m_c": {
             "age": [
@@ -4733,6 +4733,7 @@
         },
         "new_cat": [
             [
+	     "exists",
                 "meeting",
                 "loner",
                 "rogue"
@@ -4756,7 +4757,7 @@
         "season": [
             "any"
         ],
-        "frequency": 4,
+        "frequency": 2,
         "event_text": "A wandering healer was found on the border, hoping to learn from Clan medicine cats. {PRONOUN/n_c:0/subject/CAP} left a moon later, grateful and armed with new knowledge.",
         "m_c": {
             "status": [
@@ -4765,6 +4766,7 @@
         },
         "new_cat": [
             [
+	     "exists",
                 "meeting",
                 "loner",
                 "rogue",
@@ -4810,7 +4812,7 @@
         "season": [
             "any"
         ],
-        "frequency": 3,
+        "frequency": 2,
         "event_text": "A stranger requested a few days of shelter in c_n's sturdy camp while the incoming storm blew over. c_n obliged.",
         "m_c": {
             "age": [
@@ -4823,6 +4825,7 @@
         },
         "new_cat": [
             [
+	     "exists",
                 "meeting",
                 "loner",
                 "rogue"
@@ -4847,7 +4850,7 @@
         "season": [
             "any"
         ],
-        "frequency": 2,
+        "frequency": 1,
         "event_text": "A o_c_n apprentice asked to join c_n after having apparently forsaken {PRONOUN/n_c:0/poss} original Clan loyalties. {PRONOUN/n_c:0/subject/CAP} {VERB/n_c:0/stay/stays} for only a few days before sheepishly requesting to return home.",
         "m_c": {
             "age": [
@@ -4884,7 +4887,7 @@
         "season": [
             "any"
         ],
-        "frequency": 3,
+        "frequency": 2,
         "event_text": "A kittypet asked to join c_n but returned to Twolegplace after only a few days, realizing {PRONOUN/n_c:0/poss} distaste for outdoor living.",
         "m_c": {
             "age": [
@@ -4897,6 +4900,7 @@
         },
         "new_cat": [
             [
+	     "exists",
                 "meeting",
                 "kittypet"
             ]
@@ -4975,11 +4979,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": -5
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": -5
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_kittypet2",
@@ -5043,11 +5048,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 5
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 5
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_kittypet3",
@@ -5112,11 +5118,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 7
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 7
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_kittypet4",
@@ -5561,14 +5568,18 @@
                     "respect",
                     "trust"
                 ],
-                "amount": -5
+                "amount": -5,
+                "log": {
+                    "cats_from": "cat_from was disappointed to hear m_c was fraternizing with another Clan."
+                }
             }
         ],
-        "other_clan": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 1
+        "other_clan": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 1
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_other_clan2",
@@ -5951,11 +5962,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 5
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 5
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_loner3",
@@ -6132,11 +6144,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 5
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 5
+        }
     },
     {
         "event_id": "gen_misc_any_scandalous_rogue2",
@@ -6199,11 +6212,12 @@
                 }
             }
         ],
-        "outsider": {},
-        "current_rep": [
-            "any"
-        ],
-        "changed": 5
+        "outsider": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": 5
+        }
     },
     {
         "event_id": "multi_misc_any_scandalous_rogue3",
@@ -8936,7 +8950,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent border disputes.",
         "m_c": {
             "age": [
@@ -8962,7 +8976,7 @@
         "season": [
             "any"
         ],
-        "weight": 2,
+        "frequency": 2,
         "event_text": "m_c travels to o_c_n to resolve some recent border disputes. The meeting goes better than expected, and m_c returns with a plan to solve the issue for good.",
         "m_c": {
             "age": [
@@ -9000,7 +9014,7 @@
         "season": [
             "any"
         ],
-        "weight": 2,
+        "frequency": 2,
         "event_text": "m_c travels to o_c_n to resolve some recent border disputes. However, no progress was made.",
         "m_c": {
             "age": [
@@ -9026,7 +9040,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent border disputes. However, it seems m_c only made o_c_n more upset.",
         "m_c": {
             "age": [
@@ -9064,7 +9078,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent hunting disputes.",
         "m_c": {
             "age": [
@@ -9090,7 +9104,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent hunting disputes. The meeting goes better than expected, and m_c returns with a plan to solve the issue for good.",
         "m_c": {
             "age": [
@@ -9128,7 +9142,7 @@
         "season": [
             "any"
         ],
-        "weight": 2,
+        "frequency": 2,
         "event_text": "m_c travels to o_c_n to resolve some recent hunting disputes. However, no progress was made.",
         "m_c": {
             "age": [
@@ -9154,7 +9168,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent hunting disputes. However, it seems m_c only made o_c_n more upset.",
         "m_c": {
             "age": [
@@ -9192,7 +9206,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent herb-gathering disputes.",
         "m_c": {
             "age": [
@@ -9218,7 +9232,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent herb-gathering disputes. The meeting goes better than expected, and m_c returns with a plan to solve the issue for good.",
         "m_c": {
             "age": [
@@ -9256,7 +9270,7 @@
         "season": [
             "any"
         ],
-        "weight": 2,
+        "frequency": 2,
         "event_text": "m_c travels to o_c_n to resolve some recent herb-gathering disputes. However, no progress was made.",
         "m_c": {
             "age": [
@@ -9282,7 +9296,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent herb-gathering disputes. However, it seems m_c only made o_c_n more upset.",
         "m_c": {
             "age": [
@@ -9320,7 +9334,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent personal disputes.",
         "m_c": {
             "age": [
@@ -9346,7 +9360,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent personal disputes. The meeting goes better than expected, and m_c returns with a plan to solve the issue for good.",
         "m_c": {
             "age": [
@@ -9384,7 +9398,7 @@
         "season": [
             "any"
         ],
-        "weight": 2,
+        "frequency": 2,
         "event_text": "m_c travels to o_c_n to resolve some recent personal disputes. However, no progress was made.",
         "m_c": {
             "age": [
@@ -9410,7 +9424,7 @@
         "season": [
             "any"
         ],
-        "weight": 4,
+        "frequency": 4,
         "event_text": "m_c travels to o_c_n to resolve some recent personal disputes. However, it seems m_c only made o_c_n more upset.",
         "m_c": {
             "age": [
@@ -10050,7 +10064,7 @@
         }
     },
     {
-        "event_id": "gen_misc_war_kill",
+        "event_id": "gen_misc_war_kill1",
         "location": [
             "any"
         ],
@@ -10089,7 +10103,7 @@
         }
     },
     {
-        "event_id": "gen_misc_war_kill",
+        "event_id": "gen_misc_war_kill2",
         "location": [
             "any"
         ],
@@ -10564,7 +10578,9 @@
         "m_c": {
             "status": [
                 "mediator",
-                "mediator apprentice"
+                "mediator apprentice",
+                "deputy",
+                "elder"
             ]
         },
         "r_c": {
@@ -10874,7 +10890,11 @@
             "trait": [
                 "insecure",
                 "lonesome",
-                "nervous"
+                "nervous",
+                "wise",
+                "thoughtful",
+                "sincere",
+                "responsible"
             ]
         },
         "r_c": {
@@ -10883,8 +10903,8 @@
             ],
             "skill": [
                 "INSIGHTFUL,1",
-                "TEACHER,3",
-                "CLEVER,3",
+                "TEACHER,1",
+                "CLEVER,2",
                 "CAMP,3"
             ]
         },
@@ -11088,7 +11108,7 @@
         },
         "relationships": [
             {
-                "cats_from": ["clan", "high_stable"],
+                "cats_from": ["clan", "high_stable", "high_lawful"],
                 "cats_to": ["m_c"],
                 "values": ["respect"],
                 "amount": -20,
@@ -12178,7 +12198,7 @@
         }
     ]
     },
-      {
+    {
     "event_id": "gen_misc_guardasleep",
     "location": [
       "any"
@@ -12242,5 +12262,61 @@
                 "adjust": "reduce_half"
             }
         ]
+    },
+    {
+        "event_id": "gen_misc_war_pitcaught",
+        "location": ["any"],
+        "season": ["any"],
+        "sub_type": ["war"],
+        "frequency": 1,
+        "event_text": "c_n catches o_c_n digging a pit trap.",
+        "other_clan": {
+            "current_rep": [
+                "any"
+            ],
+            "changed": -1
+        },
+        "exclude_involved": ["m_c"]
+    },
+      {
+    "event_id": "gen_misc_war_skirmishvictory",
+    "location": ["any"],
+    "season": ["any"],
+    "sub_type": ["war"],
+    "frequency": 4,
+    "event_text": "c_n drove off o_c_n in their most recent skirmish with no notable injuries.",
+    "other_clan": {
+        "current_rep": ["any"],
+        "changed": -1
+    },
+     "exclude_involved": ["m_c"]
+},
+      {
+    "event_id": "multi_misc_war_ambush",
+    "location": ["forest", "wetlands"],
+    "season": ["any"],
+    "sub_type": ["war"],
+    "frequency": 3,
+    "event_text": "c_n uses the dense foliage to their favor by ambushing o_c_n from the undergrowth and forcing their scouting patrol to scatter.",
+    "other_clan": {
+        "current_rep": ["any"],
+        "changed": -1
+    },
+     "exclude_involved": ["m_c"]
+},
+      {
+    "event_id": "gen_misc_war_ocnleaddeath",
+    "location": ["any"],
+    "season": ["any"],
+    "sub_type": ["war"],
+    "frequency": 2,
+    "event_text": "m_c is confident that o_c_n's leader lost a life during the last battle.",
+    "m_c": {
+        "status": ["leader", "deputy"]
+    },
+    "other_clan": {
+        "current_rep": ["any"],
+        "changed": -1
     }
+}
 ]
