@@ -434,7 +434,6 @@ def create_accessories(cat_sprite, accessories, acc_hidden, layer):
     return finished_sprite
 
 def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=None, prefix="", disable_suffix=False):
-    #print(f"Creating layer: {layer_name} - {layer}")
     finished_layer = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
@@ -486,7 +485,6 @@ def create_layer(cat_sprite, layer_name, layer, colors, layer_sprite_override=No
     return finished_layer
 
 def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_traits, add_tint=False):
-    # TODO: make function work in most scenarios, at least with things like antlers, horns, etc
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA
     )
@@ -534,7 +532,6 @@ def create_trait(dead, df, cat, cat_sprite, colors, trait_name, trait_info, cat_
     return finished_sprite
 
 def create_wings(cat_sprite, colors, markings, cat, species, layer, wing_marks, tortie_wing_marks=None, tortie_colors=None, tortie_markings=None, tortie=False, dead=False, df=False):
-    # TODO: implement torties
     finished_sprite = pygame.Surface(
         (sprites.size, sprites.size), pygame.SRCALPHA
     )
