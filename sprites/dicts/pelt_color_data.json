@@ -1,0 +1,1931 @@
+{
+    "solid": {
+        "WHITE": {
+            "default": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "PALEGREY": {
+            "default": {
+                "base": "#c1d5d3",
+                "underfur": "#D7E0D1",
+                "overfur": "#C2D5D3",
+                "markings_overfur": "#788B8B",
+                "markings": "#788B8B",
+                "markings_underfur": "#8FA6A6",
+                "markings_inside": "#A2B1B0"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "SILVER": {
+            "default": {
+                "base": "#B6C8CA",
+                "underfur": "#d8e1d4",
+                "overfur": "#c1d5d3",
+                "markings_overfur": "#6f8181",
+                "markings": "#6f8181",
+                "markings_underfur": "#90a7a7",
+                "markings_inside": "#859A9D"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "GREY": {
+            "default": {
+                "base": "#92a1a1",
+                "underfur": "#AFB8AE",
+                "overfur": "#92A1A1",
+                "markings_overfur": "#3F514F",
+                "markings": "#3F514F",
+                "markings_underfur": "#677a78",
+                "markings_inside": "#B1AEB0"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "DARKGREY": {
+            "default": {
+                "base": "#5b6c6f",
+                "underfur": "#838d87",
+                "overfur": "#5b6c6f",
+                "markings_overfur": "#152220",
+                "markings": "#152220",
+                "markings_underfur": "#253e3a",
+                "markings_inside": "#39484B"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "GHOST": {
+            "default": {
+                "base": "#3a3f4b",
+                "underfur": "#5c5e64",
+                "overfur": "#4D5056",
+                "markings_overfur": "#66747a",
+                "markings": "#66747a",
+                "markings_underfur": "#515e62",
+                "markings_inside": "#4D4E59"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "BLACK": {
+            "default": {
+                "base": "#2f353a",
+                "underfur": "#4a4d52",
+                "overfur": "#2f353a",
+                "markings_overfur": "#0f121b",
+                "markings": "#0f121b",
+                "markings_underfur": "#151922",
+                "markings_inside": "#202427"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "CREAM": {
+            "default": {
+                "base": "#f3d7b4",
+                "underfur": "#f4e7c9",
+                "overfur": "#f3d6b2",
+                "markings_overfur": "#d6a981",
+                "markings": "#d6a981",
+                "markings_underfur": "#efbc8e",
+                "markings_inside": "#F5CE9A"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "PALEGINGER": {
+            "default": {
+                "base": "#E7C498",
+                "underfur": "#E7C69A",
+                "overfur": "#E5BD92",
+                "markings_overfur": "#C68B5B",
+                "markings": "#C68B5B",
+                "markings_underfur": "#DA9C68",
+                "markings_inside": "#E8B479"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "GOLDEN": {
+            "default": {
+                "base": "#EECB84",
+                "underfur": "#ECD69F",
+                "overfur": "#E5B374",
+                "markings_overfur": "#775441",
+                "markings": "#775441",
+                "markings_underfur": "#CB906F",
+                "markings_inside": "#D9A859"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "GINGER": {
+            "default": {
+                "base": "#F2AE71",
+                "underfur": "#F4C391",
+                "overfur": "#F0AC73",
+                "markings_overfur": "#AC5A2C",
+                "markings": "#AC5A2C",
+                "markings_underfur": "#DB7338",
+                "markings_inside": "#DB9355"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "DARKGINGER": {
+            "default": {
+                "base": "#D2713D",
+                "underfur": "#E0A67A",
+                "overfur": "#D1703C",
+                "markings_overfur": "#6F2E18",
+                "markings": "#6F2E18",
+                "markings_underfur": "#A34323",
+                "markings_inside": "#BC5D2A"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "SIENNA": {
+            "default": {
+                "base": "#AA583E",
+                "underfur": "#B36F50",
+                "overfur": "#A9563D",
+                "markings_overfur": "#502A2D",
+                "markings": "#502A2D",
+                "markings_underfur": "#87413C",
+                "markings_inside": "#BA6D4C"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "LIGHTBROWN": {
+            "default": {
+                "base": "#DAC7A4",
+                "underfur": "#E6D7B6",
+                "overfur": "#CEC6B8",
+                "markings_overfur": "#6F5D46",
+                "markings": "#6F5D46",
+                "markings_underfur": "#BCA07B",
+                "markings_inside": "#C2AF8C"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "LILAC": {
+            "default": {
+                "base": "#B49890",
+                "underfur": "#D0BBAC",
+                "overfur": "#A6A4A5",
+                "markings_overfur": "#655252",
+                "markings": "#655252",
+                "markings_underfur": "#8B696B",
+                "markings_inside": "#AD898A"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "BROWN": {
+            "default": {
+                "base": "#A4856C",
+                "underfur": "#BEAA8D",
+                "overfur": "#93887E",
+                "markings_overfur": "#2D221D",
+                "markings": "#2D221D",
+                "markings_underfur": "#674F43",
+                "markings_inside": "#957961"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "GOLDEN-BROWN": {
+            "default": {
+                "base": "#A86D59",
+                "underfur": "#D2A686",
+                "overfur": "#836B5B",
+                "markings_overfur": "#432E2C",
+                "markings": "#432E2C",
+                "markings_underfur": "#7B5248",
+                "markings_inside": "#A86F59"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "DARKBROWN": {
+            "default": {
+                "base": "#754E3C",
+                "underfur": "#B09479",
+                "overfur": "#6C625D",
+                "markings_overfur": "#130B0A",
+                "markings": "#130B0A",
+                "markings_underfur": "#3B2420",
+                "markings_inside": "#5F483C"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "CHOCOLATE": {
+            "default": {
+                "base": "#704642",
+                "underfur": "#855953",
+                "overfur": "#484145",
+                "markings_overfur": "#1E1719",
+                "markings": "#1E1719",
+                "markings_underfur": "#5A3134",
+                "markings_inside": "#705153"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        }
+    },
+    "singlecolor": {
+        "WHITE": {
+            "default": {
+                "base": "#EFFAFC",
+                "underfur": "#F6FBF9",
+                "overfur": "#EEF9FC",
+                "markings_overfur": "#A7B9BF",
+                "markings": "#A7B9BF",
+                "markings_underfur": "#C6D6DB",
+                "markings_inside": "#D0DEE1"
+            },
+            "newborn": {
+                "base": "#eef9fc",
+                "underfur": "#f6fcf2",
+                "overfur": "#eef9fc",
+                "markings_overfur": "#b3c0c4",
+                "markings": "#b3c0c4",
+                "markings_underfur": "#ccdadc",
+                "markings_inside": "#D0DEE1"
+            }
+        },
+        "PALEGREY": {
+            "default": {
+                "base": "#C6D7D3",
+                "underfur": "#D7E0D1",
+                "overfur": "#C2D5D3",
+                "markings_overfur": "#788B8B",
+                "markings": "#788B8B",
+                "markings_underfur": "#8FA6A6",
+                "markings_inside": "#A2B1B0"
+            },
+            "newborn": {
+                "base": "#C6D7D3",
+                "underfur": "#D7E0D1",
+                "overfur": "#C2D5D3",
+                "markings_overfur": "#788B8B",
+                "markings": "#788B8B",
+                "markings_underfur": "#8FA6A6",
+                "markings_inside": "#A2B1B0"
+            }
+        },
+        "SILVER": {
+            "default": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GREY": {
+            "default": {
+                "base": "#92A1A1",
+                "underfur": "#AFB8AE",
+                "overfur": "#92A1A1",
+                "markings_overfur": "#3F514F",
+                "markings": "#3F514F",
+                "markings_underfur": "#637674",
+                "markings_inside": "#B1AEB0"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGREY": {
+            "default": {
+                "base": "#697879",
+                "underfur": "#8F978F",
+                "overfur": "#5B6C6F",
+                "markings_overfur": "#0B1110",
+                "markings": "#0B1110",
+                "markings_underfur": "#223734",
+                "markings_inside": "#39484B"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GHOST": {
+            "default": {
+                "base": "#3C404C",
+                "underfur": "#3A3F4B",
+                "overfur": "#4D5056",
+                "markings_overfur": "#5D6B6F",
+                "markings": "#5D6B6F",
+                "markings_underfur": "#515E64",
+                "markings_inside": "#4D4E59"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BLACK": {
+            "default": {
+                "base": "#353A42",
+                "underfur": "#46494E",
+                "overfur": "#31383F",
+                "markings_overfur": "#0A0D15",
+                "markings": "#0A0D15",
+                "markings_underfur": "#141720",
+                "markings_inside": "#202427"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CREAM": {
+            "default": {
+                "base": "#F4DAB5",
+                "underfur": "#F4E8CB",
+                "overfur": "#F3D7B4",
+                "markings_overfur": "#D4A57D",
+                "markings": "#D4A57D",
+                "markings_underfur": "#E9B68B",
+                "markings_inside": "#F5CE9A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGINGER": {
+            "default": {
+                "base": "#E7C498",
+                "underfur": "#E7C69A",
+                "overfur": "#E5BD92",
+                "markings_overfur": "#C68B5B",
+                "markings": "#C68B5B",
+                "markings_underfur": "#DA9C68",
+                "markings_inside": "#E8B479"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN": {
+            "default": {
+                "base": "#EECB84",
+                "underfur": "#ECD69F",
+                "overfur": "#E5B374",
+                "markings_overfur": "#775441",
+                "markings": "#775441",
+                "markings_underfur": "#CB906F",
+                "markings_inside": "#D9A859"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GINGER": {
+            "default": {
+                "base": "#F2AE71",
+                "underfur": "#F4C391",
+                "overfur": "#F0AC73",
+                "markings_overfur": "#AC5A2C",
+                "markings": "#AC5A2C",
+                "markings_underfur": "#DB7338",
+                "markings_inside": "#DB9355"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGINGER": {
+            "default": {
+                "base": "#D2713D",
+                "underfur": "#E0A67A",
+                "overfur": "#D1703C",
+                "markings_overfur": "#6F2E18",
+                "markings": "#6F2E18",
+                "markings_underfur": "#A34323",
+                "markings_inside": "#BC5D2A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SIENNA": {
+            "default": {
+                "base": "#AA583E",
+                "underfur": "#B36F50",
+                "overfur": "#A9563D",
+                "markings_overfur": "#502A2D",
+                "markings": "#502A2D",
+                "markings_underfur": "#87413C",
+                "markings_inside": "#BA6D4C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LIGHTBROWN": {
+            "default": {
+                "base": "#DAC7A4",
+                "underfur": "#E6D7B6",
+                "overfur": "#CEC6B8",
+                "markings_overfur": "#6F5D46",
+                "markings": "#6F5D46",
+                "markings_underfur": "#BCA07B",
+                "markings_inside": "#C2AF8C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LILAC": {
+            "default": {
+                "base": "#B49890",
+                "underfur": "#D0BBAC",
+                "overfur": "#A6A4A5",
+                "markings_overfur": "#655252",
+                "markings": "#655252",
+                "markings_underfur": "#8B696B",
+                "markings_inside": "#AD898A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BROWN": {
+            "default": {
+                "base": "#A4856C",
+                "underfur": "#BEAA8D",
+                "overfur": "#93887E",
+                "markings_overfur": "#2D221D",
+                "markings": "#2D221D",
+                "markings_underfur": "#674F43",
+                "markings_inside": "#957961"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN-BROWN": {
+            "default": {
+                "base": "#A86D59",
+                "underfur": "#D2A686",
+                "overfur": "#836B5B",
+                "markings_overfur": "#432E2C",
+                "markings": "#432E2C",
+                "markings_underfur": "#7B5248",
+                "markings_inside": "#A86F59"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKBROWN": {
+            "default": {
+                "base": "#754E3C",
+                "underfur": "#B09479",
+                "overfur": "#6C625D",
+                "markings_overfur": "#130B0A",
+                "markings": "#130B0A",
+                "markings_underfur": "#3B2420",
+                "markings_inside": "#5F483C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CHOCOLATE": {
+            "default": {
+                "base": "#704642",
+                "underfur": "#855953",
+                "overfur": "#484145",
+                "markings_overfur": "#1E1719",
+                "markings": "#1E1719",
+                "markings_underfur": "#5A3134",
+                "markings_inside": "#705153"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        }
+    },
+    "smoke": {
+        "WHITE": {
+            "default": {
+                "base": "#ECF4F6",
+                "underfur": "#F4FBF3",
+                "overfur": "#ECF4F6",
+                "markings_overfur": "#C1CDD1",
+                "markings": "#C1CDD1",
+                "markings_underfur": "#C1CDD1",
+                "markings_inside": "#C1CDD1"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGREY": {
+            "default": {
+                "base": "#C4D4D1",
+                "underfur": "#D9E1D1",
+                "overfur": "#C4D4D1",
+                "markings_overfur": "#8FA1A1",
+                "markings": "#8FA1A1",
+                "markings_underfur": "#8FA1A1",
+                "markings_inside": "#8FA1A1"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SILVER": {
+            "default": {
+                "base": "#ABC0C3",
+                "underfur": "#D0D7C9",
+                "overfur": "#ABC0C3",
+                "markings_overfur": "#4D5256",
+                "markings": "#4D5256",
+                "markings_underfur": "#4D5256",
+                "markings_inside": "#4D5256"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GREY": {
+            "default": {
+                "base": "#99A5A4",
+                "underfur": "#BFC4B5",
+                "overfur": "#99A5A4",
+                "markings_overfur": "#5B6967",
+                "markings": "#5B6967",
+                "markings_underfur": "#5B6967",
+                "markings_inside": "#5B6967"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGREY": {
+            "default": {
+                "base": "#687577",
+                "underfur": "#8F978F",
+                "overfur": "#687577",
+                "markings_overfur": "#273534",
+                "markings": "#273534",
+                "markings_underfur": "#273534",
+                "markings_inside": "#273534"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GHOST": {
+            "default": {
+                "base": "#3A3F4B",
+                "underfur": "#464952",
+                "overfur": "#3A3F4B",
+                "markings_overfur": "#6A7E85",
+                "markings": "#6A7E85",
+                "markings_underfur": "#6A7E85",
+                "markings_inside": "#6A7E85"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BLACK": {
+            "default": {
+                "base": "#2F353A",
+                "underfur": "#4D5055",
+                "overfur": "#2F353A",
+                "markings_overfur": "#171B24",
+                "markings": "#171B24",
+                "markings_underfur": "#171B24",
+                "markings_inside": "#171B24"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CREAM": {
+            "default": {
+                "base": "#F3D7B3",
+                "underfur": "#F4E8CB",
+                "overfur": "#F3D7B3",
+                "markings_overfur": "#DFB68E",
+                "markings": "#DFB68E",
+                "markings_underfur": "#DFB68E",
+                "markings_inside": "#DFB68E"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGINGER": {
+            "default": {
+                "base": "#E3BC93",
+                "underfur": "#E7CEAA",
+                "overfur": "#E3BC93",
+                "markings_overfur": "#D39D6E",
+                "markings": "#D39D6E",
+                "markings_underfur": "#D39D6E",
+                "markings_inside": "#D39D6E"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN": {
+            "default": {
+                "base": "#EDC881",
+                "underfur": "#ECD49C",
+                "overfur": "#E4B072",
+                "markings_overfur": "#906A4C",
+                "markings": "#906A4C",
+                "markings_underfur": "#906A4C",
+                "markings_inside": "#906A4C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GINGER": {
+            "default": {
+                "base": "#F2AD70",
+                "underfur": "#F3CEA3",
+                "overfur": "#F2AD70",
+                "markings_overfur": "#C67340",
+                "markings": "#C67340",
+                "markings_underfur": "#C67340",
+                "markings_inside": "#C67340"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGINGER": {
+            "default": {
+                "base": "#D1703C",
+                "underfur": "#E0A67C",
+                "overfur": "#D1703C",
+                "markings_overfur": "#994625",
+                "markings": "#994625",
+                "markings_underfur": "#994625",
+                "markings_inside": "#994625"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SIENNA": {
+            "default": {
+                "base": "#A6563E",
+                "underfur": "#B26E4F",
+                "overfur": "#9C503B",
+                "markings_overfur": "#643739",
+                "markings": "#643739",
+                "markings_underfur": "#643739",
+                "markings_inside": "#643739"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LIGHTBROWN": {
+            "default": {
+                "base": "#d3c6ad",
+                "underfur": "#eadfc0",
+                "overfur": "#d3c6ad",
+                "markings_overfur": "#9f9078",
+                "markings": "#9f9078",
+                "markings_underfur": "#9f9078",
+                "markings_inside": "#9f9078"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LILAC": {
+            "default": {
+                "base": "#b1968f",
+                "underfur": "#cfbaab",
+                "overfur": "#a09a9c",
+                "markings_overfur": "#785f61",
+                "markings": "#785f61",
+                "markings_underfur": "#785f61",
+                "markings_inside": "#785f61"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BROWN": {
+            "default": {
+                "base": "#a58f7e",
+                "underfur": "#af9981",
+                "overfur": "#998c7d",
+                "markings_overfur": "#4c3d35",
+                "markings": "#4c3d35",
+                "markings_underfur": "#4c3d35",
+                "markings_inside": "#4c3d35"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN-BROWN": {
+            "default": {
+                "base": "#a26855",
+                "underfur": "#c59577",
+                "overfur": "#6c4f45",
+                "markings_overfur": "#483230",
+                "markings": "#483230",
+                "markings_underfur": "#483230",
+                "markings_inside": "#483230"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKBROWN": {
+            "default": {
+                "base": "#745e55",
+                "underfur": "#9a8270",
+                "overfur": "#745e55",
+                "markings_overfur": "#2c201c",
+                "markings": "#2c201c",
+                "markings_underfur": "#2c201c",
+                "markings_inside": "#2c201c"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CHOCOLATE": {
+            "default": {
+                "base": "#654241",
+                "underfur": "#875b54",
+                "overfur": "#4e3e42",
+                "markings_overfur": "#352426",
+                "markings": "#352426",
+                "markings_underfur": "#352426",
+                "markings_inside": "#352426"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        }
+    },
+    "singlestripe": {
+        "WHITE": {
+            "default": {
+                "base": "#EEF9FC",
+                "underfur": "#F4FBF4",
+                "overfur": "#EEF9FC",
+                "markings": "#B4D1DB",
+                "markings_underfur": "#B4D1DB",
+                "markings_overfur": "#B4D1DB",
+                "markings_inside": "#D0DEE1"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGREY": {
+            "default": {
+                "base": "#C2D5D3",
+                "underfur": "#D9E1D1",
+                "overfur": "#C1D5D3",
+                "markings": "#89A9A2",
+                "markings_underfur": "#89A9A2",
+                "markings_overfur": "#89A9A2",
+                "markings_inside": "#A2B1B0"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SILVER": {
+            "default": {
+                "base": "#A6BFC1",
+                "underfur": "#C5D3C6",
+                "overfur": "#9FBBC0",
+                "markings": "#436A6F",
+                "markings_underfur": "#436A6F",
+                "markings_overfur": "#436A6F",
+                "markings_inside": "#859A9D"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GREY": {
+            "default": {
+                "base": "#94A3A2",
+                "underfur": "#92A1A1",
+                "overfur": "#92A1A1",
+                "markings": "#324242",
+                "markings_underfur": "#324242",
+                "markings_overfur": "#324242",
+                "markings_inside": "#B1AEB0"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGREY": {
+            "default": {
+                "base": "#5E6D70",
+                "underfur": "#828E8C",
+                "overfur": "#5B6C6F",
+                "markings": "#0C1315",
+                "markings_underfur": "#0C1315",
+                "markings_overfur": "#0C1315",
+                "markings_inside": "#39484B"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GHOST": {
+            "default": {
+                "base": "#3E424E",
+                "underfur": "#5C5E63",
+                "overfur": "#3A3F4B",
+                "markings": "#8B93A5",
+                "markings_underfur": "#8B93A5",
+                "markings_overfur": "#8B93A5",
+                "markings_inside": "#4D4E59"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BLACK": {
+            "default": {
+                "base": "#2F353A",
+                "underfur": "#3D4247",
+                "overfur": "#2F353A",
+                "markings": "#050708",
+                "markings_underfur": "#050708",
+                "markings_overfur": "#050708",
+                "markings_inside": "#202427"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CREAM": {
+            "default": {
+                "base": "#F3D6B2",
+                "underfur": "#F4E8CB",
+                "overfur": "#F3D6B2",
+                "markings": "#E1A568",
+                "markings_underfur": "#E1A568",
+                "markings_overfur": "#E1A568",
+                "markings_inside": "#F5CE9A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGINGER": {
+            "default": {
+                "base": "#E7C498",
+                "underfur": "#E7C69A",
+                "overfur": "#E5BD92",
+                "markings": "#C1763E",
+                "markings_underfur": "#C1763E",
+                "markings_overfur": "#C1763E",
+                "markings_inside": "#E8B479"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN": {
+            "default": {
+                "base": "#EBC27D",
+                "underfur": "#ECD49B",
+                "overfur": "#E6B576",
+                "markings": "#C16A27",
+                "markings_underfur": "#C16A27",
+                "markings_overfur": "#C16A27",
+                "markings_inside": "#D9A859"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GINGER": {
+            "default": {
+                "base": "#F2A96B",
+                "underfur": "#F4C594",
+                "overfur": "#F0AC73",
+                "markings": "#DB6126",
+                "markings_underfur": "#DB6126",
+                "markings_overfur": "#DB6126",
+                "markings_inside": "#DB9355"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGINGER": {
+            "default": {
+                "base": "#D57D4B",
+                "underfur": "#E0A67A",
+                "overfur": "#D1703C",
+                "markings": "#9A230A",
+                "markings_underfur": "#9A230A",
+                "markings_overfur": "#9A230A",
+                "markings_inside": "#BC5D2A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SIENNA": {
+            "default": {
+                "base": "#A9563D",
+                "underfur": "#B47353",
+                "overfur": "#A9563D",
+                "markings": "#3F2529",
+                "markings_underfur": "#3F2529",
+                "markings_overfur": "#743A38",
+                "markings_inside": "#BA6D4C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LIGHTBROWN": {
+            "default": {
+                "base": "#DDCCAE",
+                "underfur": "#E6D7B7",
+                "overfur": "#D0C6B5",
+                "markings": "#9E8867",
+                "markings_underfur": "#9E8867",
+                "markings_overfur": "#9E8867",
+                "markings_inside": "#C2AF8C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LILAC": {
+            "default": {
+                "base": "#B3968F",
+                "underfur": "#D0BCAD",
+                "overfur": "#A6A4A5",
+                "markings": "#6E5859",
+                "markings_underfur": "#6E5859",
+                "markings_overfur": "#8D6B6C",
+                "markings_inside": "#AD898A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BROWN": {
+            "default": {
+                "base": "#AA9682",
+                "underfur": "#BDA78E",
+                "overfur": "#93887E",
+                "markings": "#4D3625",
+                "markings_underfur": "#4D3625",
+                "markings_overfur": "#4D3625",
+                "markings_inside": "#957961"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN-BROWN": {
+            "default": {
+                "base": "#A76B57",
+                "underfur": "#D2A685",
+                "overfur": "#886C5D",
+                "markings": "#473130",
+                "markings_underfur": "#473130",
+                "markings_overfur": "#795047",
+                "markings_inside": "#A86F59"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKBROWN": {
+            "default": {
+                "base": "#7A5948",
+                "underfur": "#927C6A",
+                "overfur": "#6B5C54",
+                "markings": "#311910",
+                "markings_underfur": "#311910",
+                "markings_overfur": "#311910",
+                "markings_inside": "#5F483C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CHOCOLATE": {
+            "default": {
+                "base": "#6E4642",
+                "underfur": "#875B54",
+                "overfur": "#4A3F46",
+                "markings": "#281E1F",
+                "markings_underfur": "#281E1F",
+                "markings_overfur": "#513133",
+                "markings_inside": "#705153"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        }
+    },
+    "bengal": {
+        "WHITE": {
+            "default": {
+                "base": "#F5F5F5",
+                "underfur": "#FFFFFF",
+                "overfur": "#E7E6EB",
+                "markings_overfur": "#BEBDBE",
+                "markings": "#BEBDBE",
+                "markings_underfur": "#D4D3D3",
+                "markings_inside": "#CDCCCE"
+            },
+            "markings_inside_underfur": "#D7D6D6",
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGREY": {
+            "default": {
+                "base": "#C4C9CE",
+                "underfur": "#F8F8F5",
+                "overfur": "#959AA0",
+                "markings_overfur": "#1A1A20",
+                "markings": "#1A1A20",
+                "markings_underfur": "#403F4A",
+                "markings_inside": "#47494F",
+                "markings_inside_underfur": "#7D7C81"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SILVER": {
+            "default": {
+                "base": "#C0C6CF",
+                "underfur": "#F8F8F5",
+                "overfur": "#7D828A",
+                "markings_overfur": "#43464D",
+                "markings": "#43464D",
+                "markings_underfur": "#5F6571",
+                "markings_inside": "#595C64",
+                "markings_inside_underfur": "#92969C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GREY": {
+            "default": {
+                "base": "#8B919C",
+                "underfur": "#F2F2DB",
+                "overfur": "#6B7078",
+                "markings_overfur": "#43464D",
+                "markings": "#43464D",
+                "markings_underfur": "#666B75",
+                "markings_inside": "#53565E",
+                "markings_inside_underfur": "#939594"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGREY": {
+            "default": {
+                "base": "#A0A2A9",
+                "underfur": "#F8F8F5",
+                "overfur": "#4F5155",
+                "markings_overfur": "#1E1E24",
+                "markings": "#1E1E24",
+                "markings_underfur": "#403F4A",
+                "markings_inside": "#1E1E24",
+                "markings_inside_underfur": "#403F4A"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GHOST": {
+            "default": {
+                "base": "#525D65",
+                "underfur": "#8899A9",
+                "overfur": "#2F353A",
+                "markings_overfur": "#0A0D15",
+                "markings": "#0A0D15",
+                "markings_underfur": "#0F0F12",
+                "markings_inside": "#171B24",
+                "markings_inside_underfur": "#171B24"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BLACK": {
+            "default": {
+                "base": "#7E7878",
+                "underfur": "#C7C3BA",
+                "overfur": "#35353A",
+                "markings_overfur": "#0E0E11",
+                "markings": "#0E0E11",
+                "markings_underfur": "#1E1E24",
+                "markings_inside": "#0E0E11",
+                "markings_inside_underfur": "#1E1E24"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CREAM": {
+            "default": {
+                "base": "#F3D6B2",
+                "underfur": "#FEFDFD",
+                "overfur": "#EFBC8E",
+                "markings_overfur": "#D3A17A",
+                "markings": "#D3A17A",
+                "markings_underfur": "#EFBC8E",
+                "markings_inside": "#DCAA82",
+                "markings_inside_underfur": "#F0CEAF"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "PALEGINGER": {
+            "default": {
+                "base": "#C4C9CE",
+                "underfur": "#EBDDD3",
+                "overfur": "#E2A36F",
+                "markings_overfur": "#C5875A",
+                "markings": "#C5875A",
+                "markings_underfur": "#E2A36F",
+                "markings_inside": "#CF9162",
+                "markings_inside_underfur": "#E3B590"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN": {
+            "default": {
+                "base": "#EECB83",
+                "underfur": "#F3ECD9",
+                "overfur": "#E6B575",
+                "markings_overfur": "#6C4C3A",
+                "markings": "#6C4C3A",
+                "markings_underfur": "#CD9170",
+                "markings_inside": "#98724F",
+                "markings_inside_underfur": "#D2AB90"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GINGER": {
+            "default": {
+                "base": "#F2A96B",
+                "underfur": "#FFF0B6",
+                "overfur": "#DB8A51",
+                "markings_overfur": "#A8582B",
+                "markings": "#A8582B",
+                "markings_underfur": "#EF884C",
+                "markings_inside": "#BA6A38",
+                "markings_inside_underfur": "#EEA76D"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKGINGER": {
+            "default": {
+                "base": "#D37642",
+                "underfur": "#FFEFB6",
+                "overfur": "#BD5629",
+                "markings_overfur": "#6F2E17",
+                "markings": "#6F2E17",
+                "markings_underfur": "#AC4825",
+                "markings_inside": "#8B3C1E",
+                "markings_inside_underfur": "#9B5837"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "SIENNA": {
+            "default": {
+                "base": "#AC5D43",
+                "underfur": "#D4C498",
+                "overfur": "#A9563D",
+                "markings_overfur": "#482628",
+                "markings": "#482628",
+                "markings_underfur": "#743839",
+                "markings_inside": "#89433C",
+                "markings_inside_underfur": "#89433C"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LIGHTBROWN": {
+            "default": {
+                "base": "#E0CFAD",
+                "underfur": "#F8F7F4",
+                "overfur": "#B4A07E",
+                "markings_overfur": "#877358",
+                "markings": "#877358",
+                "markings_underfur": "#BCA07B",
+                "markings_inside": "#978366",
+                "markings_inside_underfur": "#BEA887"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "LILAC": {
+            "default": {
+                "base": "#B79088",
+                "underfur": "#DEC3A6",
+                "overfur": "#AA9F9E",
+                "markings_overfur": "#654749",
+                "markings": "#654749",
+                "markings_underfur": "#876162",
+                "markings_inside": "#8C7475",
+                "markings_inside_underfur": "#8C7475"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "BROWN": {
+            "default": {
+                "base": "#A5856B",
+                "underfur": "#F3ECDA",
+                "overfur": "#8D6A4E",
+                "markings_overfur": "#46362E",
+                "markings": "#46362E",
+                "markings_underfur": "#644C41",
+                "markings_inside": "#604839",
+                "markings_inside_underfur": "#938173"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "GOLDEN-BROWN": {
+            "default": {
+                "base": "#A26655",
+                "underfur": "#DECBA5",
+                "overfur": "#896C5D",
+                "markings_overfur": "#281B17",
+                "markings": "#281B17",
+                "markings_underfur": "#7F5548",
+                "markings_inside": "#65443B",
+                "markings_inside_underfur": "#6B473D"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "DARKBROWN": {
+            "default": {
+                "base": "#685E57",
+                "underfur": "#EAE1C9",
+                "overfur": "#2F2A27",
+                "markings_overfur": "#110B0A",
+                "markings": "#110B0A",
+                "markings_underfur": "#3B2723",
+                "markings_inside": "#110B0A",
+                "markings_inside_underfur": "#3B2723"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        },
+        "CHOCOLATE": {
+            "default": {
+                "base": "#774D48",
+                "underfur": "#C1A79D",
+                "overfur": "#473F46",
+                "markings_overfur": "#241A1C",
+                "markings": "#241A1C",
+                "markings_underfur": "#382021",
+                "markings_inside": "#523133",
+                "markings_inside_underfur": "#523133"
+            },
+            "newborn": {
+                "base": "#B6C8CA",
+                "underfur": "#CAD6C7",
+                "overfur": "#9FB8BD",
+                "markings_overfur": "#2C383F",
+                "markings": "#2C383F",
+                "markings_underfur": "#4C626D",
+                "markings_inside": "#859A9D"
+            }
+        }
+    }
+}

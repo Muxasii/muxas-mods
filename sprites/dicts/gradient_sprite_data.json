@@ -1,0 +1,17 @@
+{
+    "spritesheet": [
+        "gradient"
+    ],
+    "sprite_list": [
+        [
+            "_topSINGLE",
+            "_topSMOKE",
+            "_topBENGAL"
+        ],
+        [
+            "_bottomSINGLE",
+            "_bottomSMOKE",
+            "_bottomBENGAL"
+        ]
+    ]
+}

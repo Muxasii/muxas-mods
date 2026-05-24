@@ -112,7 +112,7 @@ class Pelt:
     yellow_eyes: list = []
     green_eyes: list = []
     blue_eyes: list = []
-    for sprite_list in sprites.EYE_DATA["sprite_list"]:
+    for sprite_list in sprites.eye_colors["eye_color_list"]:
         all_eye_colours.extend(sprite_list.keys())
         for colour in sprite_list:
             if sprite_list[colour] == "yellow":

@@ -1,0 +1,192 @@
+{
+    "eye_colors": {
+        "YELLOW": {
+            "base": "#FFF571",
+            "shade": "#E6D64E",
+            "pupil": "#AE8A4D"
+        },
+        "AMBER": {
+            "base": "#F2E085",
+            "shade": "#DD9D55",
+            "pupil": "#BA6932"
+        },
+        "HAZEL": {
+            "base": "#C9A479",
+            "shade": "#8F9B5B",
+            "pupil": "#535B33"
+        },
+        "PALEGREEN": {
+            "base": "#DDE895",
+            "shade": "#87BA65",
+            "pupil": "#447F4B"
+        },
+        "GREEN": {
+            "base": "#76DF66",
+            "shade": "#5A9B6C",
+            "pupil": "#35665A"
+        },
+        "BLUE": {
+            "base": "#ADEEF0",
+            "shade": "#70BBD9",
+            "pupil": "#375AA7"
+        },
+        "DARKBLUE": {
+            "base": "#6C94DB",
+            "shade": "#3747A1",
+            "pupil": "#1F365F"
+        },
+        "GREY": {
+            "base": "#A9A7A3",
+            "shade": "#7C8273",
+            "pupil": "#3A3D35"
+        },
+        "CYAN": {
+            "base": "#CDFFF6",
+            "shade": "#75E1CE",
+            "pupil": "#4C97A5"
+        },
+        "EMERALD": {
+            "base": "#46B16E",
+            "shade": "#3A7F79",
+            "pupil": "#243D49"
+        },
+        "HEATHERBLUE": {
+            "base": "#7F9CD2",
+            "shade": "#9F67C2",
+            "pupil": "#602593"
+        },
+        "SUNLITICE": {
+            "base": "#9AF9FF",
+            "shade": "#DDD66B",
+            "pupil": "#6E582C"
+        },
+        "COPPER": {
+            "base": "#D87C36",
+            "shade": "#A6530F",
+            "pupil": "#642508"
+        },
+        "SAGE": {
+            "base": "#869A56",
+            "shade": "#667640",
+            "pupil": "#2E351E"
+        },
+        "COBALT": {
+            "base": "#4EA8FF",
+            "shade": "#2E43C7",
+            "pupil": "#072B4E"
+        },
+        "PALEBLUE": {
+            "base": "#ABDAE1",
+            "shade": "#72B0F2",
+            "pupil": "#4A73C1"
+        },
+        "BRONZE": {
+            "base": "#9C652C",
+            "shade": "#6F4419",
+            "pupil": "#492F3A"
+        },
+        "SILVER": {
+            "base": "#DCCAB4",
+            "shade": "#B3A798",
+            "pupil": "#7D6E5B"
+        },
+        "PALEYELLOW": {
+            "base": "#FFF8B8",
+            "shade": "#E5D09A",
+            "pupil": "#B79E48"
+        },
+        "GOLD": {
+            "base": "#FFF8B8",
+            "shade": "#CCA44F",
+            "pupil": "#6D5730"
+        },
+        "GREENYELLOW": {
+            "base": "#F3E47E",
+            "shade": "#B0BE6E",
+            "pupil": "#868043"
+        },
+        "ORANGE": {
+            "base": "#FFAB41",
+            "shade": "#FF6F15",
+            "pupil": "#AE2B08"
+        },
+        "DAWN": {
+            "base": "#E18957",
+            "shade": "#B24342",
+            "pupil": "#341A3A"
+        },
+        "DUSK": {
+            "base": "#925961",
+            "shade": "#4B3C44",
+            "pupil": "#261E26"
+        },
+        "AURORA": {
+            "base": "#43BD8E",
+            "shade": "#134D74",
+            "pupil": "#300032"
+        },
+        "FOREST": {
+            "base": "#E2FECB",
+            "shade": "#64B688",
+            "pupil": "#06524E"
+        },
+        "MUSTARD": {
+            "base": "#FEA74B",
+            "shade": "#BA7E3B",
+            "pupil": "#744412"
+        },
+        "EARTHY": {
+            "base": "#B57630",
+            "shade": "#6F4E25",
+            "pupil": "#282A18"
+        },
+        "SEA": {
+            "base": "#7AABB8",
+            "shade": "#2B6F7A",
+            "pupil": "#0A3045"
+        },
+        "BLUEBELL": {
+            "base": "#6077CA",
+            "shade": "#4E3D8A",
+            "pupil": "#1B0F45"
+        }
+    },
+    "eye_color_list": [
+        {
+            "YELLOW": "yellow",
+            "AMBER": "yellow",
+            "HAZEL": "green",
+            "PALEGREEN": "green",
+            "GREEN": "green",
+            "BLUE": "blue",
+            "DARKBLUE": "blue",
+            "GREY": "blue",
+            "CYAN": "blue",
+            "EMERALD": "green",
+            "HEATHERBLUE": "blue",
+            "SUNLITICE": "blue"
+        },
+        {
+            "COPPER": "yellow",
+            "SAGE": "green",
+            "COBALT": "blue",
+            "PALEBLUE": "blue",
+            "BRONZE": "yellow",
+            "SILVER": "yellow",
+            "PALEYELLOW": "yellow",
+            "GOLD": "yellow",
+            "GREENYELLOW": "yellow",
+            "ORANGE": "yellow",
+            "DAWN": "yellow",
+            "DUSK": "yellow"
+        },
+        {
+            "AURORA": "blue",
+            "FOREST": "green",
+            "MUSTARD": "yellow",
+            "EARTHY": "yellow",
+            "SEA": "blue",
+            "BLUEBELL": "blue"
+        }
+    ]
+}

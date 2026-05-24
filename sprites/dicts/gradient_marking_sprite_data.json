@@ -1,0 +1,16 @@
+{
+    "spritesheet": [
+        "gradient_marking"
+    ],
+    "sprite_list": [
+        [
+            "_topSINGLE",
+            "_topSOKOKE",
+            "_topSMOKE",
+            "_topBENGAL"
+        ],
+        [
+            "_bottomBENGAL"
+        ]
+    ]
+}

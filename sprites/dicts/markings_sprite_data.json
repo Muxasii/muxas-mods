@@ -1,0 +1,28 @@
+{
+    "spritesheet": [
+        "markings"
+    ],
+    "sprite_list": [
+        [
+            "TABBY",
+            "TICKED",
+            "MACKEREL",
+            "CLASSIC",
+            "SOKOKE",
+            "AGOUTI",
+            "SPECKLED",
+            "ROSETTE",
+            "SMOKE",
+            "SINGLESTRIPE",
+            "MASKED",
+            "BENGAL",
+            "MARBLED"
+        ],
+        [
+            "_insideROSETTE",
+            "_insideBENGAL",
+            "_insideMARBLED",
+            "_insideMASKED"
+        ]
+    ]
+}

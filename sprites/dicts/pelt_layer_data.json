@@ -1,0 +1,287 @@
+{
+    "SINGLECOLOUR": {
+        "color_type": "singlecolor",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            }
+        }
+    },
+    "TABBY": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsTABBY",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "TICKED": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsTICKED",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "MACKEREL": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsMACKEREL",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "CLASSIC": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsCLASSIC",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "SOKOKE": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSOKOKE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSOKOKE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsSOKOKE",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "AGOUTI": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsAGOUTI",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "SPECKLED": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsSPECKLED",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "ROSETTE": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsROSETTE",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            },
+            "markings_inside": {
+                "sprite_name": "markings_insideROSETTE",
+                "overfur": false,
+                "underfur": false
+            }
+        }
+    },
+    "SMOKE": {
+        "color_type": "smoke",
+        "layers": {
+            "underfur": {
+                "sprite_name": "gradient_bottomSMOKE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsSMOKE",
+                "overfur": "gradient_topSMOKE",
+                "underfur": false
+            }
+        }
+    },
+    "SINGLESTRIPE": {
+        "color_type": "singlestripe",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsSINGLESTRIPE",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    },
+    "BENGAL": {
+        "color_type": "bengal",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topBENGAL",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomBENGAL",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings_inside": {
+                "sprite_name": "markings_insideBENGAL",
+                "overfur": false,
+                "underfur": "gradient_bottomBENGAL"
+            },
+            "markings": {
+                "sprite_name": "markingsBENGAL",
+                "overfur": "gradient_topBENGAL",
+                "underfur": "gradient_bottomBENGAL"
+            }
+        }
+    },
+    "MARBLED": {
+        "color_type": "bengal",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topBENGAL",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomBENGAL",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings_inside": {
+                "sprite_name": "markings_insideMARBLED",
+                "overfur": false,
+                "underfur": "gradient_bottomBENGAL"
+            },
+            "markings": {
+                "sprite_name": "markingsMARBLED",
+                "overfur": "gradient_topBENGAL",
+                "underfur": "gradient_bottomBENGAL"
+            }
+        }
+    },
+    "MASKED": {
+        "color_type": "solid",
+        "layers": {
+            "overfur": {
+                "sprite_name": "gradient_topSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "underfur": {
+                "sprite_name": "gradient_bottomSINGLE",
+                "overfur": false,
+                "underfur": false
+            },
+            "markings": {
+                "sprite_name": "markingsMASKED",
+                "overfur": "gradient_topSINGLE",
+                "underfur": false
+            }
+        }
+    }
+}

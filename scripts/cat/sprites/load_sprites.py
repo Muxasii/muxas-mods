@@ -15,6 +15,9 @@ logger = logging.getLogger(__name__)
 
 class Sprites:
     cat_tints = {}
+    pelt_colors = {}
+    pelt_layers = {}
+    eye_colors = {}
     white_patches_tints = {}
     clan_symbols = []
 
@@ -63,6 +66,21 @@ class Sprites:
     ) as read_file:
         PELT_DATA = ujson.loads(read_file.read())
 
+    with open(
+        "sprites/dicts/gradient_sprite_data.json", "r", encoding="utf-8"
+    ) as read_file:
+        GRADIENT_DATA = ujson.loads(read_file.read())
+
+    with open(
+        "sprites/dicts/gradient_marking_sprite_data.json", "r", encoding="utf-8"
+    ) as read_file:
+        GRADIENT_MARKING_DATA = ujson.loads(read_file.read())
+        
+    with open(
+        "sprites/dicts/markings_sprite_data.json", "r", encoding="utf-8"
+    ) as read_file:
+        MARKING_DATA = ujson.loads(read_file.read())
+
     with open("sprites/dicts/eye_sprite_data.json", "r", encoding="utf-8") as read_file:
         EYE_DATA = ujson.loads(read_file.read())
 
@@ -106,6 +124,7 @@ class Sprites:
         self.blank_sprite = None
 
         self.load_tints()
+        self.load_colors()
 
         self.sheet_layout = self.POSE_DATA["sheet_layout"]
 
@@ -123,6 +142,24 @@ class Sprites:
                 self.white_patches_tints = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading White Patches Tints")
+        
+    def load_colors(self):
+        try:
+            with open("sprites/dicts/pelt_color_data.json", "r", encoding="utf-8") as read_file:
+                self.pelt_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading Pelt Colors")
+        try:
+            with open("sprites/dicts/pelt_layer_data.json", "r", encoding="utf-8") as read_file:
+                self.pelt_layers = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading Pelt Layers")
+        try:
+            with open("sprites/dicts/eye_color_data.json", "r", encoding="utf-8") as read_file:
+                self.eye_colors = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading Eye Colors")
+
 
     def spritesheet(self, a_file, name):
         """
@@ -265,6 +302,9 @@ class Sprites:
         data_jsons = (
             self.EYE_DATA,
             self.PELT_DATA,
+            self.GRADIENT_DATA,
+            self.GRADIENT_MARKING_DATA,
+            self.MARKING_DATA,
             self.WHITE_MOSTLY_DATA,
             self.WHITE_HIGH_DATA,
             self.WHITE_MID_DATA,
@@ -293,6 +333,7 @@ class Sprites:
             "fadeunknownresidence",
             "symbols",
             "heterochromiamask",
+            "base"
         ]
 
         # separate from data_json list bc we need to handle it differently later
@@ -316,6 +357,9 @@ class Sprites:
         # Line art
         for sheet in self.POSE_DATA["spritesheet"]:
             self.make_group(sheet, (0, 0), sheet)
+
+        # Base mask
+        self.make_group("base", (0, 0), "base")
 
         # Heterochromia mask
         self.make_group("heterochromiamask", (0, 0), f"heterochromiamask")
