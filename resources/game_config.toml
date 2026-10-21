@@ -284,10 +284,10 @@ dev_tools = true
   bug = 0
 
 [species_inheritance]
-  earth = 25
-  bird = 150
-  bat = 100
-  bug = 0
+  "earth cat" = 25
+  "bird cat" = 150
+  "bat cat" = 100
+  "bug cat" = 0
 
 [cat_generation]
   # base 1/chance that a cat will generate with a permanent condition. gets modified further in code
